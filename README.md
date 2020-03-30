@@ -373,6 +373,7 @@ version.micro.enable = true
 [virtualenv]
 enable = true
 symbol = "\uf10c"
+involved = "()"
 color = "yellow"
 prefix.color = "green"
 prefix.text = "via"
@@ -380,6 +381,7 @@ prefix.text = "via"
 
 * **enable** - If `true` displays the virtual machine information. `Default:` *true*
 * **symbol** - Must receive an icon, whether in unicode or not. `Default:` \uf10c
+* **involved** - Element that will involve the name of the virtual environment. By default, you should receive two single elements. `Default:` ()
 * **color** - Changes the color of the virtual machine information. `Default:` yellow
 * **prefix.color** - Changes the color of the prefix.   `Default:` *green*
 * **prefix.text** - Before showing the virtual machine information, it will have a prefixed text. In this option, you can change the text you want. `Default:` `via`
