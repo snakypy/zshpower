@@ -78,6 +78,7 @@ version.micro.enable = false
 [virtualenv]
 enable = true
 symbol = "\\uf10c"
+involved = "()"
 color = "yellow"
 prefix.color = "green"
 prefix.text = "via "
