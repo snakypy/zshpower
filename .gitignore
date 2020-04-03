@@ -139,6 +139,9 @@ docs/zshpower*.rst
 tmp/
 temp/
 
+# Ignore Poetry lock
+poetry.lock
+
 # Allow sections.lib folder
-!zshpower/sections/lib
+!zshpower/**/*/lib
 
