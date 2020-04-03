@@ -2,16 +2,16 @@ import sys
 import snakypy
 import tomlkit
 from zshpower import HOME
-from zshpower.zshpower import ZSHPower
 from zshpower.sections.command import Command
-from zshpower.sections.username import Username
-from zshpower.sections.hostname import Hostname
 from zshpower.sections.directory import Directory
+from zshpower.sections.git import Git
+from zshpower.sections.hostname import Hostname
 from zshpower.sections.package import PyProject
 from zshpower.sections.python import Python
-from zshpower.sections.virtualenv import Virtualenv
 from zshpower.sections.timer import Timer
-from zshpower.sections.git import Git
+from zshpower.sections.username import Username
+from zshpower.sections.virtualenv import Virtualenv
+from zshpower.zshpower import ZSHPower
 
 
 class Prompt:
@@ -27,9 +27,15 @@ class Prompt:
             parsed = tomlkit.parse(read_conf)
             return parsed
         except FileNotFoundError:
+            self.zp.init_command()
+            read_conf = snakypy.file.read(self.zp.config)
+            parsed = tomlkit.parse(read_conf)
             snakypy.printer(
-                f"Configuration file does not exist.", foreground=snakypy.FG.ERROR
+                f"[ZSHPower Warning] A new configuration file for that version "
+                f'has been created in "{snakypy.FG.GREEN}{self.zp.config_root}{snakypy.ansi.NONE}".',
+                foreground=snakypy.FG.YELLOW,
             )
+            return parsed
 
     def left(self, jump_line="\n"):
         if not self.config["general"]["jump_line"]["enable"]:

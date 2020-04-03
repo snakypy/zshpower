@@ -10,7 +10,7 @@ zp = ZSHPower(HOME)
 
 @decorators.assign_cli(zp.arguments(), "init")
 def init():
-    zp.init_command()
+    zp.init_command(reload=True, message=True)
 
 
 @decorators.assign_cli(zp.arguments(), "config")

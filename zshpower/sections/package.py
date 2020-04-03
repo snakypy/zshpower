@@ -1,9 +1,10 @@
 import os
+from os.path import isfile
+
 import snakypy
 import tomlkit
-from os.path import isfile
-from .lib.utils import Color
-from .lib.utils import choice_symbol, separator
+
+from .lib.utils import Color, choice_symbol, separator
 
 
 class PyProject(Color):
@@ -20,19 +21,10 @@ class PyProject(Color):
     def get_version(self, space_elem=" "):
         if isfile(self.pyproject_f):
             read_f = snakypy.file.read(self.pyproject_f)
-            parsed = tomlkit.parse(read_f)
-            for keys in parsed.values():
-                for data in keys.values():
+            parsed = dict(tomlkit.parse(read_f))
+            for item in parsed.values():
+                for data in item.values():
                     return f"{data['version']}{space_elem}"
-        return ""
-
-    def get_version_old(self, space_elem=" "):
-        if isfile(self.pyproject_f):
-            lst = snakypy.file.read(self.pyproject_f).split("\n")
-            for item in lst:
-                if "version" in item:
-                    elem = item.split("=")[1].replace('"', "").strip()
-                    return f"{elem}{space_elem}"
         return ""
 
     def __str__(self):
