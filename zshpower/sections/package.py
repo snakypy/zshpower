@@ -4,7 +4,7 @@ from os.path import isfile
 import snakypy
 import tomlkit
 
-from .lib.utils import Color, choice_symbol, separator
+from .lib.utils import Color, choice_symbol, separator, prefix_text_formatting
 
 
 class PyProject(Color):
@@ -16,7 +16,7 @@ class PyProject(Color):
         self.pyproject_symbol = choice_symbol(config["pyproject"]["symbol"], "pkg-")
         self.pyproject_color = config["pyproject"]["color"]
         self.pyproject_prefix_color = config["pyproject"]["prefix"]["color"]
-        self.pyproject_prefix_text = config["pyproject"]["prefix"]["text"]
+        self.pyproject_prefix_text = prefix_text_formatting(config["pyproject"]["prefix"]["text"])
 
     def get_version(self, space_elem=" "):
         if isfile(self.pyproject_f):

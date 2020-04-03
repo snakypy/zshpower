@@ -46,14 +46,13 @@ class Color:
         return self.color
 
 
-def choice_symbol(config, extra):
+def choice_symbol(config, extra, spacing=" "):
     # TODO: Add icon in SSH by options true/false - Next version
-    obj = config
-    if obj != "":
-        obj = config + " "
+    if config != "":
+        config += spacing
     if "SSH_CONNECTION" in os.environ:
-        obj = extra
-    return obj
+        config = extra
+    return config
 
 
 def abspath_link():
@@ -80,6 +79,14 @@ def git_status(*, porcelain=False, branch=False):
     return status
 
 
-def separator(config):
+def separator(config, spacing=" "):
     data = config["general"]["separator"]
+    if data != "":
+        data += spacing
     return data
+
+
+def prefix_text_formatting(obj, spacing=" "):
+    if obj != "":
+        obj += spacing
+    return obj

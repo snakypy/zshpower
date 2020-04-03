@@ -11,14 +11,14 @@ class Timer(Color):
         self.timer_color = config["timer"]["color"]
         self.timer_seconds_enable = config["timer"]["seconds"]["enable"]
 
-    def __str__(self, spacing=" "):
+    def __str__(self):
         if self.timer_enable:
             c = Color()
             get_timer = str(strftime("%H:%M"))
             if self.timer_seconds_enable:
                 get_timer = str(strftime("%H:%M:%S"))
             timer = (
-                f"{Color(self.timer_color)}{self.timer_symbol}{spacing}"
+                f"{Color(self.timer_color)}{self.timer_symbol}"
                 f"{get_timer}{c.NONE}"
             )
             return f"{timer.strip()}"

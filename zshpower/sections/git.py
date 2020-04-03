@@ -1,6 +1,6 @@
 import os
 from .lib.utils import Color
-from .lib.utils import choice_symbol, git_status, separator
+from .lib.utils import choice_symbol, git_status, separator, prefix_text_formatting
 
 
 class Git(Color):
@@ -12,78 +12,78 @@ class Git(Color):
         self.git_color_symbol = config["git"]["color"]["symbol"]
         self.git_branch_color = config["git"]["branch"]["color"]
         self.git_prefix_color = config["git"]["prefix"]["color"]
-        self.git_prefix_text = config["git"]["prefix"]["text"]
+        self.git_prefix_text = prefix_text_formatting(config["git"]["prefix"]["text"])
         self.git_symbol_enable = config["git"]["status"]["symbols"]["enable"]
         self.icons = {
             "A": [
                 f"{Color('green')}"
-                f"{config['git']['status']['symbol']['added']}"
+                f"{choice_symbol(config['git']['status']['symbol']['added'], '')}"
                 f"{Color().NONE}",
                 f"{Color('green')}+{icon_space}{Color().NONE}",
             ],
             "M": [
                 f"{Color('blue')}"
-                f"{config['git']['status']['symbol']['modified']}"
+                f"{choice_symbol(config['git']['status']['symbol']['modified'], '')}"
                 f"{Color().NONE}",
                 f"{Color('blue')}#{icon_space}{Color().NONE}",
             ],
             "D": [
                 f"{Color('red')}"
-                f"{config['git']['status']['symbol']['deleted']}"
+                f"{choice_symbol(config['git']['status']['symbol']['deleted'], '')}"
                 f"{Color().NONE}",
                 f"{Color('red')}x{icon_space}{Color().NONE}",
             ],
             "??": [
                 f"{Color('yellow')}"
-                f"{config['git']['status']['symbol']['untracked']}"
+                f"{choice_symbol(config['git']['status']['symbol']['untracked'], '')}"
                 f"{Color().NONE}",
                 f"{Color('yellow')}?{icon_space}{Color().NONE}",
             ],
             "R": [
                 f"{Color('magenta')}"
-                f"{config['git']['status']['symbol']['renamed']}"
+                f"{choice_symbol(config['git']['status']['symbol']['renamed'], '')}"
                 f"{Color().NONE}",
                 f"{Color('magenta')}->{icon_space}{Color().NONE}",
             ],
             "UU": [
                 f"{Color('red')}"
-                f"{config['git']['status']['symbol']['conflicts']}"
+                f"{choice_symbol(config['git']['status']['symbol']['conflicts'], '')}"
                 f"{Color().NONE}",
                 f"{Color('red')}!={icon_space}{Color().NONE}",
             ],
             "AH": [
                 f"{Color('blue')}"
-                f"{config['git']['status']['symbol']['ahead']}"
+                f"{choice_symbol(config['git']['status']['symbol']['ahead'], '')}"
                 f"{Color().NONE}",
                 f"{Color('blue')}^{icon_space}{Color().NONE}",
             ],
             "BH": [
                 f"{Color('magenta')}"
-                f"{config['git']['status']['symbol']['behind']}"
+                f"{choice_symbol(config['git']['status']['symbol']['behind'], '')}"
                 f"{Color().NONE}",
                 f"{Color('magenta')}_{icon_space}{Color().NONE}",
             ],
             "DG": [
                 f"{Color('yellow')}"
-                f"{config['git']['status']['symbol']['diverged']}"
+                f"{choice_symbol(config['git']['status']['symbol']['diverged'], '')}"
                 f"{Color().NONE}",
                 f"{Color('yellow')}<->{icon_space}{Color().NONE}",
             ],
             "C": [
                 f"{Color('yellow')}"
-                f"{config['git']['status']['symbol']['copied']}"
+                f"{choice_symbol(config['git']['status']['symbol']['copied'], '')}"
                 f"{Color().NONE}",
                 f"{Color('yellow')}**{icon_space}{Color().NONE}",
             ],
             "U": [
                 f"{Color('magenta')}"
-                f"{config['git']['status']['symbol']['unmerged']}"
+                f"{choice_symbol(config['git']['status']['symbol']['unmerged'], '')}"
                 f"{Color().NONE}",
                 f"{Color('magenta')}={icon_space}{Color().NONE}",
             ],
             "CL": [
                 f"{Color('green')}"
-                f"{config['git']['status']['symbol']['clean']}"
+                f"{choice_symbol(config['git']['status']['symbol']['clean'], '')}"
                 f"{Color().NONE}",
                 f"{Color('green')}~{icon_space}{Color().NONE}",
             ],

@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 from .lib.utils import Color, abspath_link
-from .lib.utils import choice_symbol
+from .lib.utils import choice_symbol, prefix_text_formatting
 
 
 def shorten_path(file_path, length):
@@ -17,7 +17,7 @@ class Directory(Color):
         self.directory_symbol = choice_symbol(config["directory"]["symbol"], "")
         self.directory_color = config["directory"]["color"]
         self.directory_prefix_color = config["directory"]["prefix"]["color"]
-        self.directory_prefix_text = config["directory"]["prefix"]["text"]
+        self.directory_prefix_text = prefix_text_formatting(config["directory"]["prefix"]["text"])
 
     def __str__(self, prefix="", space_elem=" "):
         if (
