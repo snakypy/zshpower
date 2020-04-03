@@ -32,7 +32,11 @@ class Directory(Color):
             )
 
         directory = shorten_path(abspath_link(), int(self.directory_truncate_value))
-        if str(directory) == str(Path.home()):
+        if (
+            str(directory) == str(Path.home())
+            or str(directory) == str(Path.home())[1:]
+            or str(directory) == str(Path.home()).split("/")[2].strip()
+        ):
             directory = "~"
 
         directory_export = (
