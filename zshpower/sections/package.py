@@ -1,5 +1,6 @@
 import os
 import snakypy
+import tomlkit
 from os.path import isfile
 from .lib.utils import Color
 from .lib.utils import choice_symbol, separator
@@ -17,6 +18,15 @@ class PyProject(Color):
         self.pyproject_prefix_text = config["pyproject"]["prefix"]["text"]
 
     def get_version(self, space_elem=" "):
+        if isfile(self.pyproject_f):
+            read_f = snakypy.file.read(self.pyproject_f)
+            parsed = tomlkit.parse(read_f)
+            for keys in parsed.values():
+                for data in keys.values():
+                    return f"{data['version']}{space_elem}"
+        return ""
+
+    def get_version_old(self, space_elem=" "):
         if isfile(self.pyproject_f):
             lst = snakypy.file.read(self.pyproject_f).split("\n")
             for item in lst:
