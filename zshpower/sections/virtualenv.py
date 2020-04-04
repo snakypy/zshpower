@@ -1,5 +1,5 @@
 import os
-from .lib.utils import Color, separator, choice_symbol, prefix_text_formatting
+from .lib.utils import Color, separator, symbol_ssh, element_spacing
 
 
 def get_virtualenv_name():
@@ -16,11 +16,11 @@ class Virtualenv(Color):
         super().__init__()
         self.config = config
         self.venv_enable = config["virtualenv"]["enable"]
-        self.venv_symbol = choice_symbol(config["virtualenv"]["symbol"], "")
+        self.venv_symbol = symbol_ssh(config["virtualenv"]["symbol"], "")
         self.venv_involved = config["virtualenv"]["involved"]
         self.venv_color = config["virtualenv"]["color"]
         self.venv_prefix_color = config["virtualenv"]["prefix"]["color"]
-        self.venv_prefix_text = prefix_text_formatting(config["virtualenv"]["prefix"]["text"])
+        self.venv_prefix_text = element_spacing(config["virtualenv"]["prefix"]["text"])
         self.venv_name_enable = config["virtualenv"]["name"]["normal"]["enable"]
         self.venv_name_text = config["virtualenv"]["name"]["text"]
 

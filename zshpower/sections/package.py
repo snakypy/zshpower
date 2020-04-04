@@ -4,7 +4,7 @@ from os.path import isfile
 import snakypy
 import tomlkit
 
-from .lib.utils import Color, choice_symbol, separator, prefix_text_formatting
+from .lib.utils import Color, symbol_ssh, separator, element_spacing
 
 
 class PyProject(Color):
@@ -13,10 +13,10 @@ class PyProject(Color):
         self.config = config
         self.pyproject_f = os.path.join(os.getcwd(), "pyproject.toml")
         self.pyproject_enable = config["pyproject"]["enable"]
-        self.pyproject_symbol = choice_symbol(config["pyproject"]["symbol"], "pkg-")
+        self.pyproject_symbol = symbol_ssh(config["pyproject"]["symbol"], "pkg-")
         self.pyproject_color = config["pyproject"]["color"]
         self.pyproject_prefix_color = config["pyproject"]["prefix"]["color"]
-        self.pyproject_prefix_text = prefix_text_formatting(config["pyproject"]["prefix"]["text"])
+        self.pyproject_prefix_text = element_spacing(config["pyproject"]["prefix"]["text"])
 
     def get_version(self, space_elem=" "):
         if isfile(self.pyproject_f):

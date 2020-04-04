@@ -1,7 +1,7 @@
 import os
 import sys
 from os.path import exists, join
-from .lib.utils import Color, choice_symbol, separator, prefix_text_formatting
+from .lib.utils import Color, symbol_ssh, separator, element_spacing
 
 
 class Python(Color):
@@ -18,10 +18,10 @@ class Python(Color):
             "pyproject.toml",
         )
         self.py_symbol = config["python"]["symbol"]
-        self.py_symbol = choice_symbol(config["python"]["symbol"], "py-")
+        self.py_symbol = symbol_ssh(config["python"]["symbol"], "py-")
         self.py_color = config["python"]["color"]
         self.py_prefix_color = config["python"]["prefix"]["color"]
-        self.py_prefix_text = prefix_text_formatting(config["python"]["prefix"]["text"])
+        self.py_prefix_text = element_spacing(config["python"]["prefix"]["text"])
         self.py_version_enable = config["python"]["version"]["enable"]
         self.pyv_micro_enable = config["python"]["version"]["micro"]["enable"]
 

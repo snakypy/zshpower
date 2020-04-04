@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 from .lib.utils import Color, abspath_link
-from .lib.utils import choice_symbol, prefix_text_formatting
+from .lib.utils import symbol_ssh, element_spacing
 
 
 def shorten_path(file_path, length):
@@ -14,10 +14,10 @@ class Directory(Color):
         self.username_enable = config["username"]["enable"]
         self.hostname_enable = config["hostname"]["enable"]
         self.directory_truncate_value = config["directory"]["truncation_length"]
-        self.directory_symbol = choice_symbol(config["directory"]["symbol"], "")
+        self.directory_symbol = symbol_ssh(config["directory"]["symbol"], "")
         self.directory_color = config["directory"]["color"]
         self.directory_prefix_color = config["directory"]["prefix"]["color"]
-        self.directory_prefix_text = prefix_text_formatting(config["directory"]["prefix"]["text"])
+        self.directory_prefix_text = element_spacing(config["directory"]["prefix"]["text"])
 
     def __str__(self, prefix="", space_elem=" "):
         if (

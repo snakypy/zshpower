@@ -1,13 +1,13 @@
 from time import strftime
 from .lib.utils import Color
-from .lib.utils import choice_symbol
+from .lib.utils import symbol_ssh
 
 
 class Timer(Color):
     def __init__(self, config):
         super().__init__()
         self.timer_enable = config["timer"]["enable"]
-        self.timer_symbol = choice_symbol(config["timer"]["symbol"], "T:")
+        self.timer_symbol = symbol_ssh(config["timer"]["symbol"], "T:")
         self.timer_color = config["timer"]["color"]
         self.timer_seconds_enable = config["timer"]["seconds"]["enable"]
 

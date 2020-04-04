@@ -1,6 +1,9 @@
 import os
 from .lib.utils import Color
-from .lib.utils import choice_symbol, git_status, separator, prefix_text_formatting
+from .lib.utils import (symbol_ssh,
+                        git_status,
+                        element_spacing,
+                        separator)
 
 
 class Git(Color):
@@ -8,82 +11,82 @@ class Git(Color):
         super().__init__()
         self.config = config
         self.git_enable = config["git"]["enable"]
-        self.git_symbol = choice_symbol(config["git"]["symbol"], "git:")
+        self.git_symbol = symbol_ssh(config["git"]["symbol"], "git:")
         self.git_color_symbol = config["git"]["color"]["symbol"]
         self.git_branch_color = config["git"]["branch"]["color"]
         self.git_prefix_color = config["git"]["prefix"]["color"]
-        self.git_prefix_text = prefix_text_formatting(config["git"]["prefix"]["text"])
+        self.git_prefix_text = element_spacing(config["git"]["prefix"]["text"])
         self.git_symbol_enable = config["git"]["status"]["symbols"]["enable"]
         self.icons = {
             "A": [
                 f"{Color('green')}"
-                f"{choice_symbol(config['git']['status']['symbol']['added'], '')}"
+                f"{symbol_ssh(config['git']['status']['symbol']['added'], '')}"
                 f"{Color().NONE}",
                 f"{Color('green')}+{icon_space}{Color().NONE}",
             ],
             "M": [
                 f"{Color('blue')}"
-                f"{choice_symbol(config['git']['status']['symbol']['modified'], '')}"
+                f"{symbol_ssh(config['git']['status']['symbol']['modified'], '')}"
                 f"{Color().NONE}",
                 f"{Color('blue')}#{icon_space}{Color().NONE}",
             ],
             "D": [
                 f"{Color('red')}"
-                f"{choice_symbol(config['git']['status']['symbol']['deleted'], '')}"
+                f"{symbol_ssh(config['git']['status']['symbol']['deleted'], '')}"
                 f"{Color().NONE}",
                 f"{Color('red')}x{icon_space}{Color().NONE}",
             ],
             "??": [
                 f"{Color('yellow')}"
-                f"{choice_symbol(config['git']['status']['symbol']['untracked'], '')}"
+                f"{symbol_ssh(config['git']['status']['symbol']['untracked'], '')}"
                 f"{Color().NONE}",
                 f"{Color('yellow')}?{icon_space}{Color().NONE}",
             ],
             "R": [
                 f"{Color('magenta')}"
-                f"{choice_symbol(config['git']['status']['symbol']['renamed'], '')}"
+                f"{symbol_ssh(config['git']['status']['symbol']['renamed'], '')}"
                 f"{Color().NONE}",
                 f"{Color('magenta')}->{icon_space}{Color().NONE}",
             ],
             "UU": [
                 f"{Color('red')}"
-                f"{choice_symbol(config['git']['status']['symbol']['conflicts'], '')}"
+                f"{symbol_ssh(config['git']['status']['symbol']['conflicts'], '')}"
                 f"{Color().NONE}",
                 f"{Color('red')}!={icon_space}{Color().NONE}",
             ],
             "AH": [
                 f"{Color('blue')}"
-                f"{choice_symbol(config['git']['status']['symbol']['ahead'], '')}"
+                f"{symbol_ssh(config['git']['status']['symbol']['ahead'], '')}"
                 f"{Color().NONE}",
                 f"{Color('blue')}^{icon_space}{Color().NONE}",
             ],
             "BH": [
                 f"{Color('magenta')}"
-                f"{choice_symbol(config['git']['status']['symbol']['behind'], '')}"
+                f"{symbol_ssh(config['git']['status']['symbol']['behind'], '')}"
                 f"{Color().NONE}",
                 f"{Color('magenta')}_{icon_space}{Color().NONE}",
             ],
             "DG": [
                 f"{Color('yellow')}"
-                f"{choice_symbol(config['git']['status']['symbol']['diverged'], '')}"
+                f"{symbol_ssh(config['git']['status']['symbol']['diverged'], '')}"
                 f"{Color().NONE}",
                 f"{Color('yellow')}<->{icon_space}{Color().NONE}",
             ],
             "C": [
                 f"{Color('yellow')}"
-                f"{choice_symbol(config['git']['status']['symbol']['copied'], '')}"
+                f"{symbol_ssh(config['git']['status']['symbol']['copied'], '')}"
                 f"{Color().NONE}",
                 f"{Color('yellow')}**{icon_space}{Color().NONE}",
             ],
             "U": [
                 f"{Color('magenta')}"
-                f"{choice_symbol(config['git']['status']['symbol']['unmerged'], '')}"
+                f"{symbol_ssh(config['git']['status']['symbol']['unmerged'], '')}"
                 f"{Color().NONE}",
                 f"{Color('magenta')}={icon_space}{Color().NONE}",
             ],
             "CL": [
                 f"{Color('green')}"
-                f"{choice_symbol(config['git']['status']['symbol']['clean'], '')}"
+                f"{symbol_ssh(config['git']['status']['symbol']['clean'], '')}"
                 f"{Color().NONE}",
                 f"{Color('green')}~{icon_space}{Color().NONE}",
             ],
