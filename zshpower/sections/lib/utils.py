@@ -39,8 +39,10 @@ class Color:
     """Color application compatible only ZSH."""
     NONE = "%f"
 
-    def __init__(self, set_color=None):
+    def __init__(self, set_color=""):
         self.color = f"%F{{{set_color}}}"
+        if set_color == "white":
+            self.color = ""
 
     def __str__(self):
         return self.color

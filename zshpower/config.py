@@ -12,7 +12,8 @@ def config_content():
 
 [general]
 jump_line.enable = true
-separator = "-"
+separator.element = "-"
+separator.color = "white"
 position = ["package", "virtualenv", "python", "git"]
 
 [username]
@@ -92,7 +93,7 @@ enable = true
 symbol = "\\uf43a"
 color = "blue"
 seconds.enable = false
-    """
+"""
     return data
 
 
