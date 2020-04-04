@@ -15,7 +15,7 @@ from . import __name__
 from pathlib import Path
 
 HOME = str(Path.home())
-__version__ = "0.2.4"
+__version__ = "0.2.5"
 __pkginfo__ = {
     "name": "ZSHPower",
     "description": "ZSHPower is a theme with a manager for the Oh My ZSH framework.",
