@@ -195,13 +195,16 @@ Know the file and its settings:
 ```toml
 [general]
 jump_line.enable = true
-separator = "- "
+separator.element = "-"
+separator.color = "white"
 position = ["package", "virtualenv", "python", "git"]
 ```
 
 * **jump_line.enable** - If this option is `true`, you will skip a line each time you execute a command. `Default:` *true*
 
-* __separator__ - Add separators to each information shown by ZSHPower. *Requires a space at the end.*   `Default:` *"- "*
+* **separator.element** - Add separators to each information shown by ZSHPower. `Default:` *"- "*
+
+* **separator.color** - Changes the color of the separator. `Default:` *white*
 
 * **position** -  This option changes the position of certain sections. *Default:* ["package", "virtualenv", "python", "git"]
 
@@ -215,9 +218,9 @@ enable = false
 color = "cyan"
 ```
 
-* **enable** - If it is active, it will show the username of the machine. When using SSH, even with the value `false` the username will be shown.  `Default:` *false*
+* **enable** - If it is active, it will show the username of the machine. When using SSH, even with the value `false` the username will be shown. `Default:` *false*
 
-* **color** - Changes the color of the username.   `Default:` *cyan*
+* **color** - Changes the color of the username. `Default:` *cyan*
 
 
 
@@ -285,23 +288,21 @@ prefix.text = "on"
 
 **Git Status:**
 
-> Note: The values of **symbol. <status>** must be given a space at the end.
-
 ```toml
 [git.status]
 symbols.enable = true
-symbol.clean = "\uf62c "
-symbol.added = "\ufc03 "
-symbol.modified = "\ufba8 "
-symbol.deleted = "\ufbc7 "
-symbol.renamed = "\uf101 "
-symbol.unmerged = "\uf6fb "
-symbol.untracked = "\uf41e "
-symbol.copied = "\ufab1 "
-symbol.ahead = "\uf55c "
-symbol.behind = "\uf544 "
-symbol.diverged = "\ufb15 "
-symbol.conflicts = "\uf0e7 "
+symbol.clean = "\uf62c"
+symbol.added = "\ufc03"
+symbol.modified = "\ufba8"
+symbol.deleted = "\ufbc7"
+symbol.renamed = "\uf101"
+symbol.unmerged = "\uf6fb"
+symbol.untracked = "\uf41e"
+symbol.copied = "\ufab1"
+symbol.ahead = "\uf55c"
+symbol.behind = "\uf544"
+symbol.diverged = "\ufb15"
+symbol.conflicts = "\uf0e7"
 ```
 
 * **symbols.enable** -  Receives `true` or` false`. If `true`, shows the git status icons through each defined value. Remember that these icons will not be shown if you are via SSH. `Default:` *true*
