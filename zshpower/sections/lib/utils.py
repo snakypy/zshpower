@@ -1,7 +1,7 @@
 import os
+from subprocess import check_output
 # from snakypy import FG
 # from snakypy.ansi import NONE as s_none
-from subprocess import check_output
 
 
 # class Color:
@@ -48,13 +48,13 @@ class Color:
         return self.color
 
 
-def choice_symbol(config, extra, spacing=" "):
+def symbol_ssh(symbol1, symbol2, spacing=" "):
     # TODO: Add icon in SSH by options true/false - Next version
-    if config != "":
-        config += spacing
+    if symbol1 != "":
+        symbol1 += spacing
     if "SSH_CONNECTION" in os.environ:
-        config = extra
-    return config
+        symbol1 = symbol2
+    return symbol1
 
 
 def abspath_link():
@@ -82,13 +82,14 @@ def git_status(*, porcelain=False, branch=False):
 
 
 def separator(config, spacing=" "):
-    data = config["general"]["separator"]
-    if data != "":
-        data += spacing
-    return data
+    sep = config["general"]["separator"]["element"]
+    sep += spacing if sep != "" else sep
+    sep_color = config["general"]["separator"]["color"]
+    separator_style = f"{Color(sep_color)}{sep}{Color().NONE}"
+    return separator_style
 
 
-def prefix_text_formatting(obj, spacing=" "):
-    if obj != "":
-        obj += spacing
-    return obj
+def element_spacing(element, spacing=" "):
+    if element != "":
+        element += spacing
+    return element
