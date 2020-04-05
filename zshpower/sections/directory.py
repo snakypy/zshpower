@@ -37,7 +37,8 @@ class Directory(Color):
         if (
             str(directory) == str(Path.home())
             or str(directory) == str(Path.home())[1:]
-            or str(directory) == str(Path.home()).split("/")[2].strip()
+            # TODO: Error in user "root". Bugfix.
+            # or str(directory) == str(Path.home()).split("/")[2].strip()
         ):
             directory = "~"
 
