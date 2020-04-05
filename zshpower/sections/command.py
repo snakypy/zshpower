@@ -12,7 +12,6 @@ class Command:
         if not self.cmd_new_line:
             jump_line = ""
         cmd_export = (
-            f"{jump_line}{Color(self.cmd_color)}"
-            f"{self.cmd_symbol}{Color().NONE}"
+            f"{jump_line}{Color(self.cmd_color)}" f"{self.cmd_symbol}{Color().NONE}"
         )
         return str(cmd_export)

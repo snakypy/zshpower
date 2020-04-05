@@ -16,7 +16,9 @@ class PyProject(Color):
         self.pyproject_symbol = symbol_ssh(config["pyproject"]["symbol"], "pkg-")
         self.pyproject_color = config["pyproject"]["color"]
         self.pyproject_prefix_color = config["pyproject"]["prefix"]["color"]
-        self.pyproject_prefix_text = element_spacing(config["pyproject"]["prefix"]["text"])
+        self.pyproject_prefix_text = element_spacing(
+            config["pyproject"]["prefix"]["text"]
+        )
 
     def get_version(self, space_elem=" "):
         if isfile(self.pyproject_f):

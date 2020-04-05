@@ -17,7 +17,9 @@ class Directory(Color):
         self.directory_symbol = symbol_ssh(config["directory"]["symbol"], "")
         self.directory_color = config["directory"]["color"]
         self.directory_prefix_color = config["directory"]["prefix"]["color"]
-        self.directory_prefix_text = element_spacing(config["directory"]["prefix"]["text"])
+        self.directory_prefix_text = element_spacing(
+            config["directory"]["prefix"]["text"]
+        )
 
     def __str__(self, prefix="", space_elem=" "):
         if (

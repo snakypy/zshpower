@@ -1,9 +1,6 @@
 import os
 from .lib.utils import Color
-from .lib.utils import (symbol_ssh,
-                        git_status,
-                        element_spacing,
-                        separator)
+from .lib.utils import symbol_ssh, git_status, element_spacing, separator
 
 
 class Git(Color):

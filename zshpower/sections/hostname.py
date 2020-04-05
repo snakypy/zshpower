@@ -10,7 +10,9 @@ class Hostname(Color):
         self.hostname_enable = self.config["hostname"]["enable"]
         self.hostname_color = self.config["hostname"]["color"]
         self.hostname_prefix_color = self.config["hostname"]["prefix"]["color"]
-        self.hostname_prefix_text = element_spacing(self.config["hostname"]["prefix"]["text"])
+        self.hostname_prefix_text = element_spacing(
+            self.config["hostname"]["prefix"]["text"]
+        )
 
     def __str__(self, prefix="", space_elem=" "):
         if self.config["username"]["enable"] or "SSH_CONNECTION" in os.environ:
