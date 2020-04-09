@@ -15,9 +15,7 @@ except ImportError:
 
 
 def arguments(argv=None):
-    formatted_version = (
-        f"{package.info['name']} version: {FG.CYAN}{__version__}{NONE}"
-    )
+    formatted_version = f"{package.info['name']} version: {FG.CYAN}{__version__}{NONE}"
     data = docopt(menu.options, argv=argv, version=formatted_version)
     return data
 

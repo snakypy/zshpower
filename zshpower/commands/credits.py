@@ -6,7 +6,6 @@ from zshpower import __version__
 
 
 class CreditsCommand:
-
     @staticmethod
     def main():
         print("\n")

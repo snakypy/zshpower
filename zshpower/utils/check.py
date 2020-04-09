@@ -18,7 +18,8 @@ def checking_init(root):
     the repository was not created."""
     if not exists(join(root, f"{package.info['pkg_name']}.zsh-theme")):
         printer(
-            f'Command "{package.info["pkg_name"]} init" has not been started.' "Aborted",
+            f'Command "{package.info["pkg_name"]} init" has not been started.'
+            "Aborted",
             foreground=FG.WARNING,
         )
         exit(1)
