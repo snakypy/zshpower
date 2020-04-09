@@ -2,5 +2,5 @@
 exclude = .git,*migrations*
 max-line-length = 120
 ; F401: imported but unused
-; F403: used; unable to detect undefined names
-ignore = F401
+; W503: line break before binary operator
+ignore = F401, W503
