@@ -1,4 +1,5 @@
-import os
+from os import geteuid as os_geteuid
+from os import environ
 from pathlib import Path
 from .lib.utils import Color, abspath_link
 from .lib.utils import symbol_ssh, element_spacing
@@ -24,9 +25,9 @@ class Directory(Color):
     def __str__(self, prefix="", space_elem=" "):
         if (
             self.username_enable
-            or os.geteuid() == 0
+            or os_geteuid() == 0
             or self.hostname_enable
-            or "SSH_CONNECTION" in os.environ
+            or "SSH_CONNECTION" in environ
         ):
             prefix = (
                 f"{Color(self.directory_prefix_color)}"

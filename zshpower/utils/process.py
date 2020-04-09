@@ -1,6 +1,6 @@
 from subprocess import call as subprocess_call
 from subprocess import Popen as subprocess_popen
-from zshpower.cli.utils.catch import current_user, current_shell
+from zshpower.utils.catch import current_user, current_shell
 from snakypy import printer
 from snakypy.ansi import FG
 

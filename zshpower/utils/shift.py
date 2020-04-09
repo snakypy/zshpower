@@ -10,7 +10,7 @@ from os.path import join, exists, isdir, isfile
 from sys import platform
 from tomlkit import parse as toml_parse, dumps as toml_dumps
 from snakypy import printer, FG
-from zshpower.cli.utils.catch import read_zshrc, plugins_current_zshrc
+from zshpower.utils.catch import read_zshrc, plugins_current_zshrc
 
 
 def create_config(content, file_path, force=False):

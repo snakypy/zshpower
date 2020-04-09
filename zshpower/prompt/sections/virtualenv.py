@@ -1,10 +1,10 @@
-import os
+from os import environ as os_environ
 from .lib.utils import Color, separator, symbol_ssh, element_spacing
 
 
 def get_virtualenv_name():
-    if "VIRTUAL_ENV" in os.environ:
-        venv_name = os.environ["VIRTUAL_ENV"].split("/")[-1]
+    if "VIRTUAL_ENV" in os_environ:
+        venv_name = os_environ["VIRTUAL_ENV"].split("/")[-1]
         # Treatment for virtual machines created with Poetry
         venv_name = "-".join(venv_name.split("-")[:-2])
         return venv_name
@@ -28,7 +28,7 @@ class Virtualenv(Color):
         involved_prefix = ""
         involved_suffix = ""
 
-        if "VIRTUAL_ENV" in os.environ and self.venv_enable:
+        if "VIRTUAL_ENV" in os_environ and self.venv_enable:
             env_prefix = (
                 f"{Color(self.venv_prefix_color)}"
                 f"{self.venv_prefix_text}{Color().NONE}"

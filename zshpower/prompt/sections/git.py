@@ -1,4 +1,5 @@
-import os
+from os.path import join, isdir
+from os import getcwd, environ
 from .lib.utils import Color
 from .lib.utils import symbol_ssh, git_status, element_spacing, separator
 
@@ -21,6 +22,12 @@ class Git(Color):
                 f"{Color().NONE}",
                 f"{Color('green')}+{icon_space}{Color().NONE}",
             ],
+            # "AM": [
+            #     f"{Color('white')}"
+            #     f"{symbol_ssh(config['git']['status']['symbol']['changed'], '')}"
+            #     f"{Color().NONE}",
+            #     f"{Color('white')}#{icon_space}{Color().NONE}",
+            # ],
             "M": [
                 f"{Color('blue')}"
                 f"{symbol_ssh(config['git']['status']['symbol']['modified'], '')}"
@@ -88,11 +95,10 @@ class Git(Color):
                 f"{Color('green')}~{icon_space}{Color().NONE}",
             ],
         }
-        self.icons["AM"] = self.icons["M"]
         self.icons["UD"] = self.icons["UU"]
 
     def __str__(self):
-        if os.path.isdir(os.path.join(os.getcwd(), ".git")):
+        if isdir(join(getcwd(), ".git")):
             status_git = git_status(porcelain=True)
             status_git_text = git_status()
             branch_current = git_status(branch=True)
@@ -115,8 +121,8 @@ class Git(Color):
                 status_current.append("R")
             if "A" in status_git:
                 status_current.append("A")
-            if "AM" in status_git:
-                status_current.append("AM")
+            # if "AM" in status_git:
+            #     status_current.append("AM")
             if "M" in status_git:
                 status_current.append("M")
             if "UU" in status_git:
@@ -137,7 +143,7 @@ class Git(Color):
                 status_current.append("CL")
 
             for item in status_current:
-                if "SSH_CONNECTION" not in os.environ:
+                if "SSH_CONNECTION" not in environ:
                     if self.git_symbol_enable:
                         status_icons.append(f"{self.icons[item][0]}")
                     else:

@@ -1,5 +1,5 @@
-import os
-import sys
+from sys import version_info as sys_version_info
+from os import environ as os_environ, getcwd as os_getcwd
 from os.path import exists, join
 from .lib.utils import Color, symbol_ssh, separator, element_spacing
 
@@ -27,17 +27,17 @@ class Python(Color):
 
     def get_version(self, space_elem=" "):
         if not self.pyv_micro_enable:
-            version = "{0[0]}.{0[1]}".format(sys.version_info)
+            version = "{0[0]}.{0[1]}".format(sys_version_info)
             return f"{version}{space_elem}"
         else:
-            version = "{0[0]}.{0[1]}.{0[2]}".format(sys.version_info)
+            version = "{0[0]}.{0[1]}.{0[2]}".format(sys_version_info)
             return f"{version}{space_elem}"
 
     def __str__(self):
         py_prefix1 = f"{Color(self.py_prefix_color)}{self.py_prefix_text}{Color().NONE}"
         if self.py_version_enable:
             for item in self.search_f:
-                if exists(join(os.getcwd(), item)) or "VIRTUAL_ENV" in os.environ:
+                if exists(join(os_getcwd(), item)) or "VIRTUAL_ENV" in os_environ:
                     return str(
                         (
                             f"{separator(self.config)}{py_prefix1}"
