@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "zshpower"
-version = "0.2.6"
+version = "0.2.7"
 description = "ZSHPower is a theme with a manager for the Oh My ZSH framework."
 readme = "README.rst"
 authors = ["William C. Canin <william.costa.canin@gmail.com>"]
@@ -25,14 +25,14 @@ packages = [
 
 [tool.poetry.scripts]
 zshpower = "zshpower.cli:main"
-zshpower-shell = "zshpower.prompt:main"
+zshpower-shell = "zshpower.shell:main"
 
 [tool.poetry.urls]
 "Bug Tracker" = "https://github.com/snakypy/zshpower/issues"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-snakypy = "^0.3.5"
+snakypy = "^0.3.6"
 docopt = "^0.6.2"
 tomlkit = "^0.5.11"
 fastentrypoints = "^0.12"
@@ -45,6 +45,33 @@ black = "^19.10b0"
 tox = "^3.14.5"
 pytest = "^5.3.5"
 eqversion = "^0.1.3"
+pre-commit = "^2.2.0"
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+exclude = '''
+
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+    | docs
+    | tmp
+  )/
+  | foo.py           # also separately exclude a file named foo.py in
+                     # the root of the project
+)
+'''
 
 [build-system]
 requires = ["poetry>=0.12", "fastentrypoints"]
