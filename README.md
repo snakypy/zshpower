@@ -17,7 +17,7 @@
     <a href="#theme-configuration">Theme configuration</a> |
     <a href="#reset-settings">Reset settings</a> |
     <a href="#upgrading">Upgrade</a> |
-    <a href="#disable-and-enable-for-oh-my-zsh">Disable/Enable for Oh My ZSH</a> |
+    <a href="#disable-and-enable-theme-for-oh-my-zsh">Disable/Enable for Oh My ZSH</a> |
     <a href="#uninstalling">Uninstall</a> |
     <a href="#donation">Donation</a> |
   </h4>
