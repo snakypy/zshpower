@@ -1,6 +1,7 @@
 from sys import argv as sys_argv, stdout
 from tomlkit import parse as toml_parse
 from snakypy.file import read as snakypy_file_red
+from snakypy.utils.decorators import only_for_linux
 from snakypy.path import create as snakypy_path_create
 from zshpower import HOME
 from zshpower.utils.shift import create_config
@@ -71,6 +72,7 @@ class Prompt(Base):
         return timer
 
 
+@only_for_linux
 def main():
     if len(sys_argv) >= 1 and sys_argv[1] == "prompt":
         stdout.write(Prompt().left())
