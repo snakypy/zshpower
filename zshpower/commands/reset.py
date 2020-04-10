@@ -12,7 +12,7 @@ class ResetCommand(Base):
         Base.__init__(self, home)
 
     def main(self):
-        checking_init(self.themes_folder)
-        create_config(config_content, self.config, force=True)
+        checking_init(self.HOME)
+        create_config(config_content, self.config_file, force=True)
         printer("Reset process finished.", foreground=FG.FINISH)
         reload_zsh()

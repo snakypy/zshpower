@@ -24,7 +24,7 @@ class Git(Color):
             ],
             # "AM": [
             #     f"{Color('white')}"
-            #     f"{symbol_ssh(config['git']['status']['symbol']['changed'], '')}"
+            #     f"{symbol_ssh(config_file['git']['status']['symbol']['changed'], '')}"
             #     f"{Color().NONE}",
             #     f"{Color('white')}#{icon_space}{Color().NONE}",
             # ],

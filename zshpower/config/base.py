@@ -7,7 +7,7 @@ class Base:
     def __init__(self, home):
         self.HOME = home
         self.config_root = join(self.HOME, f".config/snakypy/zshpower/{__version__}")
-        self.config = join(self.config_root, "config.toml")
+        self.config_file = join(self.config_root, "config.toml")
         self.zsh_rc = join(self.HOME, ".zshrc")
         self.omz_root = join(self.HOME, ".oh-my-zsh")
         self.themes_folder = join(self.omz_root, "custom/themes")

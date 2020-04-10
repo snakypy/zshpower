@@ -10,7 +10,7 @@ from os.path import join, exists, isdir, isfile
 from sys import platform
 from tomlkit import parse as toml_parse, dumps as toml_dumps
 from snakypy import printer, FG
-from zshpower.utils.catch import read_zshrc, plugins_current_zshrc
+from zshpower.utils.catch import read_zshrc_omz, plugins_current_zshrc, read_zshrc
 
 
 def create_config(content, file_path, force=False):
@@ -22,26 +22,25 @@ def create_config(content, file_path, force=False):
     return
 
 
-def create_zshrc(content_, zsh_rc):
-    if exists(zsh_rc):
-        if not read_zshrc(zsh_rc):
-            shutil_copyfile(zsh_rc, f"{zsh_rc}-D{datetime.today().isoformat()}")
-            snakypy_file_create(content_, zsh_rc, force=True)
+def create_zshrc(content, zshrc):
+    if exists(zshrc):
+        if not read_zshrc_omz(zshrc):
+            shutil_copyfile(zshrc, f"{zshrc}-{datetime.today().isoformat()}")
+            snakypy_file_create(content, zshrc, force=True)
             return True
-    elif not exists(zsh_rc):
-        snakypy_file_create(content_, zsh_rc)
+    elif not exists(zshrc):
+        snakypy_file_create(content, zshrc)
         return True
     return
 
 
-def change_theme_in_zshrc(zsh_rc, theme_name):
-    if read_zshrc(zsh_rc):
-        current_theme = read_zshrc(zsh_rc)[2]
+def change_theme_in_zshrc(zshrc, theme_name):
+    if read_zshrc_omz(zshrc):
+        current_zshrc = read_zshrc(zshrc)
+        current_theme = read_zshrc_omz(zshrc)[1]
         new_theme = f'ZSH_THEME="{theme_name}"'
-        new_zsh_rc = re_sub(
-            rf"{current_theme}", new_theme, read_zshrc(zsh_rc)[1], flags=re_m
-        )
-        snakypy_file_create(new_zsh_rc, zsh_rc, force=True)
+        new_zsh_rc = re_sub(rf"{current_theme}", new_theme, current_zshrc, flags=re_m)
+        snakypy_file_create(new_zsh_rc, zshrc, force=True)
         return True
     return
 
@@ -108,7 +107,7 @@ def install_fonts(home, force=False):
     return
 
 
-def add_plugins_zshrc(zsh_rc):
+def add_plugins_zshrc(zshrc):
     plugins = (
         "python",
         "django",
@@ -118,17 +117,23 @@ def add_plugins_zshrc(zsh_rc):
         "zsh-syntax-highlighting",
         "zsh-autosuggestions",
     )
-    current = plugins_current_zshrc(zsh_rc)
+    current = plugins_current_zshrc(zshrc)
     new_plugins = []
     for plugin in plugins:
         if plugin not in current:
             new_plugins.append(plugin)
 
     if len(new_plugins) > 0:
+        current_zshrc = read_zshrc(zshrc)
         plugins = f'plugins=({" ".join(current)} {" ".join(new_plugins)})'
-        new_zsh_rc = re_sub(
-            rf"^plugins=\(.*", plugins, read_zshrc(zsh_rc)[1], flags=re_m
-        )
-        snakypy_file_create(new_zsh_rc, zsh_rc, force=True)
+        new_zsh_rc = re_sub(rf"^plugins=\(.*", plugins, current_zshrc, flags=re_m)
+        snakypy_file_create(new_zsh_rc, zshrc, force=True)
         return new_zsh_rc
     return
+
+
+def rm_source_zshrc(zshrc):
+    current_zshrc = read_zshrc(zshrc)
+    line_rm = "source\\ \\$HOME/.zshpower"
+    new_zshrc = re_sub(rf"{line_rm}", "", current_zshrc, flags=re_m)
+    snakypy_file_create(new_zshrc, zshrc, force=True)

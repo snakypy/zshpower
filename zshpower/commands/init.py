@@ -1,12 +1,15 @@
 from snakypy import printer
-from snakypy.ansi import FG
+from zshpower.config import package
+from os.path import join as os_join, isfile
+from snakypy.ansi import FG, NONE
 from zshpower.config.base import Base
 from snakypy.path import create as snakypy_path_create
 from snakypy.file import create as snakypy_file_create
 from zshpower.utils.check import tools_requirements
+from zshpower.utils.catch import get_line_source
 from zshpower.config.config import content as config_content
 from zshpower.config.zshrc import content as zshrc_content
-from zshpower.config.zsh_theme import content as zshpower_theme_content
+from zshpower.config.set_zshpower import content as set_zshpower_content
 from zshpower.utils.process import change_shell, reload_zsh
 from zshpower.utils.shift import (
     create_config,
@@ -18,22 +21,48 @@ from zshpower.utils.shift import (
     add_plugins_zshrc,
 )
 
+instruction_not_omz = f"""{FG.YELLOW}
+********************** WARNING **********************
+Add the following code to the {FG.MAGENTA}$HOME/.zshrc{NONE} {FG.YELLOW}file:
+
+CODE: {FG.CYAN}source $HOME/.zshpower {NONE}
+{FG.YELLOW}*****************************************************{NONE}
+"""
+
 
 class InitCommand(Base):
     def __init__(self, home):
         Base.__init__(self, home)
 
-    def main(self, reload=False, message=False):
+    def main(self, arguments, *, reload=False, message=False):
+
         tools_requirements("git", "vim", "zsh")
+
         snakypy_path_create(self.config_root)
-        create_config(config_content, self.config)
-        omz_install(self.omz_root)
-        omz_install_plugins(self.omz_root, self.plugins)
+
+        create_config(config_content, self.config_file)
+
+        snakypy_file_create(
+            set_zshpower_content,
+            os_join(self.HOME, f".{package.info['pkg_name']}"),
+            force=True,
+        )
+
+        if arguments["--omz"]:
+            omz_install(self.omz_root)
+            omz_install_plugins(self.omz_root, self.plugins)
+            create_zshrc(zshrc_content, self.zsh_rc)
+            change_theme_in_zshrc(self.zsh_rc, f"{package.info['pkg_name']}")
+            add_plugins_zshrc(self.zsh_rc)
+            snakypy_file_create(set_zshpower_content, self.theme_file, force=True)
+
         install_fonts(self.HOME)
-        create_zshrc(zshrc_content(self.omz_root), self.zsh_rc)
-        change_theme_in_zshrc(self.zsh_rc, "zshpower")
-        add_plugins_zshrc(self.zsh_rc)
-        snakypy_file_create(zshpower_theme_content, self.theme_file, force=True)
+
         change_shell()
+
         printer("Done!", foreground=FG.FINISH) if message else None
+
+        if not arguments["--omz"] and not get_line_source(self.zsh_rc):
+            printer(instruction_not_omz, foreground=FG.YELLOW)
+
         reload_zsh() if reload else None

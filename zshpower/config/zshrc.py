@@ -1,13 +1,11 @@
 from zshpower.config import package
 
-
-def content(omz_root):
-    return f"""# Generate by: ZSHPower
+content = f"""# Generate by: ZSHPower
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="{omz_root}"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,

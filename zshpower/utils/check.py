@@ -13,10 +13,10 @@ def tools_requirements(*args):
             )
 
 
-def checking_init(root):
+def checking_init(home):
     """Function that ends commands that depend on the created repository, but
     the repository was not created."""
-    if not exists(join(root, f"{package.info['pkg_name']}.zsh-theme")):
+    if not exists(join(home, f".{package.info['pkg_name']}")):
         printer(
             f'Command "{package.info["pkg_name"]} init" has not been started.'
             "Aborted",

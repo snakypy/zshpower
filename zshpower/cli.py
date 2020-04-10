@@ -18,7 +18,7 @@ args = arguments()
 
 @assign_cli(args, "init")
 def run_init():
-    InitCommand(HOME).main(reload=True, message=True)
+    InitCommand(HOME).main(args, reload=True, message=True)
 
 
 @assign_cli(args, "config")

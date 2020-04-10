@@ -13,17 +13,17 @@ class ConfigCommand(Base):
 
     def main(self, arguments):
 
-        checking_init(self.themes_folder)
+        checking_init(self.HOME)
 
         if arguments["--open"]:
             editors = ("vim", "nano", "emacs")
             for editor in editors:
                 if shutil_which(editor):
                     get_editor = environ.get("EDITOR", editor)
-                    with open(self.config) as f:
+                    with open(self.config_file) as f:
                         subprocess_call([get_editor, f.name])
                     return True
         elif arguments["--view"]:
-            read_config = snakypy_file_read(self.config)
+            read_config = snakypy_file_read(self.config_file)
             pydoc_pager(read_config)
             return True
