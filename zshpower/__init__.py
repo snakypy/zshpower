@@ -15,4 +15,4 @@ from pathlib import Path
 
 HOME = str(Path.home())
 
-__version__ = "0.2.7"
+__version__ = "0.3.0"
