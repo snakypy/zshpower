@@ -2,7 +2,7 @@
   <a href="https://github.com/snakypy/zshpower">
     <img alt="ZSHPower" src="https://raw.githubusercontent.com/snakypy/snakypy-static/master/zshpower/logo/png/zshpower.png" width="505">
   </a>
-  <br> ZSHPower - A powerful theme for <a href="https://ohmyz.sh" target="_blank"><code>Oh My ZSH</code></a><br>
+  <br> ZSHPower - A powerful theme for <code>ZSH</code><br>
 </h1>
 
 ![Python package](https://github.com/snakypy/zshpower/workflows/Python%20package/badge.svg) [![Build Status](https://travis-ci.com/snakypy/zshpower.svg?branch=master)](https://travis-ci.com/snakypy/zshpower) [![Updates](https://pyup.io/repos/github/snakypy/zshpower/shield.svg)](https://pyup.io/repos/github/snakypy/zshpower/) [![Python 3](https://pyup.io/repos/github/snakypy/zshpower/python-3-shield.svg)](https://pyup.io/repos/github/snakypy/zshpower/) ![PyPI - Wheel](https://img.shields.io/pypi/wheel/zshpower) ![PyPI](https://img.shields.io/pypi/v/zshpower) ![PyPI - Implementation](https://img.shields.io/pypi/implementation/zshpower) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) ![PyPI - Downloads](https://img.shields.io/pypi/dm/zshpower) [![GitHub license](https://img.shields.io/github/license/snakypy/zshpower)](https://github.com/snakypy/zshpower/blob/master/LICENSE)
@@ -17,7 +17,7 @@
     <a href="#theme-configuration">Theme configuration</a> |
     <a href="#reset-settings">Reset settings</a> |
     <a href="#upgrading">Upgrade</a> |
-    <a href="#disable-and-enable">Disable/Enable</a> |
+    <a href="#disable-and-enable-for-oh-my-zsh">Disable/Enable for Oh My ZSH</a> |
     <a href="#uninstalling">Uninstall</a> |
     <a href="#donation">Donation</a> |
   </h4>
@@ -34,13 +34,14 @@
 <br>
 <br>
 
-`ZSHPower` is a theme for [Oh My Zsh](https://ohmyz.sh) framework; especially for the [Python](https://www.python.org/) developer. Pleasant to look at, the **ZSHPower**comforts you with its colors and icons vibrant.
+`ZSHPower` is a theme for ZSH; especially for the [Python](https://www.python.org/) developer. Pleasant to look at, the **ZSHPower** comforts you with its colors and icons vibrant.
 
-Installing **ZSHPower** is the easiest thing you will see in any existing theme for Oh My Zsh,
-because ZSHPower has its own manager. With **ZSHPower**,
-changes to the theme become more dynamic through a configuration file, where the user can make various combinations
-of changes, such as: **enable**, **disable**, **open settings**, **reset settings**, **uninstall** and more;
-all in a simplified command line, without opening any files or creating symbolic links.
+Installing ** ZSHPower ** is the easiest thing you will see in any existing theme for ZSH, because there is a manager.
+
+The changes in the theme become more dynamic through a configuration file, where the user can make various combinations for the style of ** ZSHPower **.
+
+The ** ZSHPower ** supports installation along with [Oh My ZSH](https://ohmyz.sh/), where changes to: ** enable ** and ** disable ** an [Oh My ZSH](https://ohmyz.sh/) theme are easier, all in a simplified command line, without opening any files or creating symbolic links.
+
 In addition, the **ZSHPower** manager downloads **Oh My Zsh** and the
 [`zsh-autosuggestions`](https://github.com/zsh-users/zsh-autosuggestions) and [`zsh-syntax-highlighting`](https://github.com/zsh-users/zsh-syntax-highlighting) plugins automatically, everything to make your ZSH very power.
 
@@ -56,10 +57,10 @@ Here is an example of the installed **ZSHPower**:
 
 ## Features
 
-- [Oh My Zsh](https://ohmyz.sh) Installation Automatically;
-- Automatically install [`zsh-autosuggestions`](https://github.com/zsh-users/zsh-autosuggestions) and [`zsh-syntax-highlighting`](https://github.com/zsh-users/zsh-syntax-highlighting);
+- [Oh My Zsh](https://ohmyz.sh) installation automatically;*
+- Automatically install [`zsh-autosuggestions`](https://github.com/zsh-users/zsh-autosuggestions) and [`zsh-syntax-highlighting`](https://github.com/zsh-users/zsh-syntax-highlighting);*
 - Automated installation and uninstallation;
-- Enable and disable `ZSHPower` anytime;
+- Enable and disable `ZSHPower` anytime;*
 - Open configuration file in the terminal itself;
 - Reset the settings with one command only;
 - Current Git branch and rich repo status;
@@ -72,6 +73,8 @@ Here is an example of the installed **ZSHPower**:
 - Shows the version of the project if you use "**pyproject.toml**" (E.g: [package_logo] 0.1.0);
 - Enables **username** and **hostname** when connecting with SSH. (can change in the settings to show permanently);
 - and, many other dynamic settings in ```$HOME/.config/snakypy/zshpower/<version>/config.toml```.
+
+**features if used with __Oh My ZSH__.*
 
 ## Requirements
 
@@ -108,10 +111,22 @@ $ pip install zshpower --user -U
 
 > NOTE: If you are installing to the user's local environment, be sure to add the environment variables to the `zshrc` file.
 
-**2** - After installing the package, you need to install the theme (`zshpower`) on the machine and its dependencies, for that do:
+
+**2** - After installing **ZSHPower**, you need to generate the configuration files, how you will use **ZSHPower**. You basically have two ways to use **ZSHPower**. The first is to use independently, and the second is to use with **Oh My ZSH**.
+
+To use independently, without any framework, do:
 
 ```shell
 $ zshpower init
+```
+
+> **NOTE**:  This option you will have to add the following code to the .zshrc file. 
+> `source $HOME/.zshpower`
+
+If you want to use it with **Oh My ZSH** and, to make **ZSHPower** more powerfull, do:
+
+```shell
+$ zshpower init --omz
 ```
 
 ## Post-Install
@@ -202,7 +217,7 @@ position = ["package", "virtualenv", "python", "git"]
 
 * **jump_line.enable** - If this option is `true`, you will skip a line each time you execute a command. `Default:` *true*
 
-* **separator.element** - Add separators to each information shown by ZSHPower. `Default:` *"- "*
+* **separator.element** - Add separators to each information shown by ZSHPower. `Default:` *-*
 
 * **separator.color** - Changes the color of the separator. `Default:` *white*
 
@@ -423,20 +438,20 @@ Globally:
 
 ```shell
 # pip install zshpower -U
-$ zshpower init
+$ zshpower init [--omz]
 ```
 
 or
 
 ```shell
 $ sudo pip install zshpower -U
-$ zshpower init
+$ zshpower init [--omz]
 ```
 For the user:
 
 ```shell
 $ pip install zshpower -U --user
-$ zshpower init
+$ zshpower init [--omz]
 ```
 
 ## Reset settings
@@ -447,9 +462,9 @@ If you made any changes to the configuration file and regretted it, you can rese
 $ zshpower reset
 ```
 
-## Disable and Enable
+## Disable and Enable theme for Oh My ZSH
 
-You can enable and disable `ZSHPower` anytime you want without opening any files. To do this, follow the steps below:
+You can activate and deactivate **ZSHPower ** at any time, without opening any files, if using with Oh My ZH. To do this, follow the steps below:
 
 * Disable
 
@@ -472,15 +487,13 @@ $ zshpower enable
 
 ## Uninstalling
 
-We will be sad if you want to stop using `ZSHPower`, but for easier uninstallation we also have the command:
+We will be sad if you want to stop using **ZSHPower**, but for an easier and more effective uninstall, we also have the command:
 
 ```shell
 $ zshpower uninstall
 ```
 
-> NOTE:
-
-If you installed "**ZSHPower**" with 'sudo', use 'sudo' to uninstall as well.
+> NOTE: If you installed "**ZSHPower**" with 'sudo', use 'sudo' to uninstall as well.
 
 ```shell
 $ sudo zshpower uninstall
@@ -490,7 +503,7 @@ $ sudo zshpower uninstall
 
 For more command information, use:
 
-```
+```shell
 $ zshpower --help
 ```
 
