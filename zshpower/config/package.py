@@ -2,7 +2,7 @@ from zshpower import __name__
 
 info = {
     "name": "ZSHPower",
-    "description": "ZSHPower is a theme with a manager for the Oh My ZSH framework.",
+    "description": "ZSHPower is a theme for ZSH with a manager.",
     "pkg_name": __name__,
     "executable": __name__,
     "home_page": "https://github.com/snakypy/zshpower",
