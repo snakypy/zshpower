@@ -1,5 +1,5 @@
 """CLI - Command Line Interface"""
-from snakypy.utils.decorators import only_for_linux
+from snakypy.utils.decorators import denying_os
 from zshpower.commands.init import InitCommand
 from zshpower.commands.activate import ActivateCommand
 from zshpower.commands.config import ConfigCommand
@@ -51,7 +51,7 @@ def run_credits():
     CreditsCommand().main()
 
 
-@only_for_linux
+@denying_os("nt")
 def main():
     run_init()
     run_config()
