@@ -9,6 +9,7 @@ content = f"""# Generate by: ZSHPower - D{datetime.today().isoformat()}
 
 [general]
 jump_line.enable = true
+config.editor = "vim"
 separator.element = "-"
 separator.color = "white"
 position = ["package", "virtualenv", "python", "git"]
@@ -75,7 +76,7 @@ version.micro.enable = true
 
 [virtualenv]
 enable = true
-symbol = "\\uf10c"
+symbol = "\\ufcc2"
 involved = "()"
 color = "yellow"
 prefix.color = "green"
