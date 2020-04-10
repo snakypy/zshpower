@@ -2,7 +2,7 @@
 ZSHPower
 ~~~~~~~~
 
-ZSHPower is a theme with a manager for the Oh My ZSH framework.
+ZSHPower is a theme for ZSH with a manager.
 
 
 For more information, access: 'https://github.com/snakypy/zshpower'

@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "zshpower"
 version = "0.3.0"
-description = "ZSHPower is a theme with a manager for the Oh My ZSH framework."
+description = "ZSHPower is a theme for ZSH with a manager."
 readme = "README.rst"
 authors = ["William C. Canin <william.costa.canin@gmail.com>"]
 license = "MIT"
