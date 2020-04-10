@@ -14,9 +14,10 @@ class ActivateCommand(Base):
     def main(self):
         checking_init(self.themes_folder)
 
-        if read_zshrc(self.zsh_rc)[0] == "zshpower":
-            printer("Already activated. Nothing to do.", foreground=FG.GREEN)
-            exit(0)
-        change_theme_in_zshrc(self.zsh_rc, "zshpower")
-        printer("Activation process finish.", foreground=FG.FINISH)
-        reload_zsh()
+        if read_zshrc(self.zsh_rc):
+            if read_zshrc(self.zsh_rc)[0] == "zshpower":
+                printer("Already activated. Nothing to do.", foreground=FG.GREEN)
+                exit(0)
+            change_theme_in_zshrc(self.zsh_rc, "zshpower")
+            printer("Activation process finish.", foreground=FG.FINISH)
+            reload_zsh()
