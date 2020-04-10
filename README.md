@@ -120,7 +120,7 @@ To use independently, without any framework, do:
 $ zshpower init
 ```
 
-> **NOTE**:  This option you will have to add the following code to the .zshrc file. 
+> **NOTE**:  This option you will have to add the following code to the .zshrc file.
 > `source $HOME/.zshpower`
 
 If you want to use it with **Oh My ZSH** and, to make **ZSHPower** more powerfull, do:
@@ -211,6 +211,7 @@ Know the file and its settings:
 [general]
 jump_line.enable = true
 separator.element = "-"
+config.editor = "vim"
 separator.color = "white"
 position = ["package", "virtualenv", "python", "git"]
 ```
@@ -218,6 +219,8 @@ position = ["package", "virtualenv", "python", "git"]
 * **jump_line.enable** - If this option is `true`, you will skip a line each time you execute a command. `Default:` *true*
 
 * **separator.element** - Add separators to each information shown by ZSHPower. `Default:` *-*
+
+* **config.editor** - Choose of terminal editor that will open the configuration file. `Default:` *vim*
 
 * **separator.color** - Changes the color of the separator. `Default:` *white*
 
