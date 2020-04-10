@@ -133,9 +133,7 @@ $ zshpower init --omz
 
 The `ZSHPower` project uses the ["Nerd Font"](https://www.nerdfonts.com/font-downloads). You must install any of these fonts to terminally recognize the symbols.
 
-However, by default, `ZSHPower` already downloads the font [**DejaVuSansMono Nerd Font**](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/DejaVuSansMono) in the folder (`$HOME/.fonts`) of user fonts using **Linux**  system.
-
-If you use **Mac OS X**, consider installing the font  [**manually**](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/DejaVuSansMono)  on your system.
+However, by default, `ZSHPower` already downloads the font [**DejaVuSansMono Nerd Font**](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/DejaVuSansMono) in the folder (`$HOME/.fonts`) of user fonts using **Linux** system.
 
 ### Editors, IDE and Terminal
 
