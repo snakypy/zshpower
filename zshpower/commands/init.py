@@ -1,6 +1,5 @@
 from snakypy import printer
 from zshpower.config import package
-from os.path import join as os_join, isfile
 from snakypy.ansi import FG, NONE
 from zshpower.config.base import Base
 from snakypy.path import create as snakypy_path_create
