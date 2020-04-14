@@ -10,7 +10,7 @@ content = f"""#!/usr/bin/env zsh
 # ******************************************************************************
 # Theme: {package.info["name"]}
 # Description: Call script to start {package.info["name"]}.
-# Author: {author}, {website_author}
+# ******************************************************************************
 
 
 export PATH="$PATH:$HOME/.local/bin"
