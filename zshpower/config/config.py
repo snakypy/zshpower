@@ -1,6 +1,7 @@
 from datetime import datetime
 from zshpower import __version__
 
+
 content = f"""# Generate by: ZSHPower - D{datetime.today().isoformat()}
 # Version: {__version__}
 # ---------------------------------------------------------------------
@@ -12,7 +13,7 @@ jump_line.enable = true
 config.editor = "vim"
 separator.element = "-"
 separator.color = "white"
-position = ["package", "virtualenv", "python", "git"]
+position = ["docker", "package", "virtualenv", "python", "git"]
 
 [username]
 enable = false
@@ -58,6 +59,8 @@ symbol.conflicts = "\\uf0e7"
 new_line.enable = true
 symbol = "\\uf553"
 color = "green"
+error.symbol = "\\uf553"
+error.color = "red"
 
 [pyproject]
 enable = true
@@ -65,6 +68,14 @@ symbol = "\\uf8d6"
 color = "red"
 prefix.color = "green"
 prefix.text = "on"
+
+[docker]
+symbol = "\\uf308"
+color = "blue"
+prefix.color = "green"
+prefix.text = "on"
+version.enable = true
+version.micro.enable = true
 
 [python]
 symbol = "\\uf81f"
