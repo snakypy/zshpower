@@ -4,6 +4,13 @@ from snakypy import printer, FG
 from zshpower.config import package
 
 
+def is_tool(*args):
+    for tool in args:
+        if which(tool) is not None:
+            return True
+        return False
+
+
 def tools_requirements(*args):
     for tool in args:
         if which(tool) is None:
