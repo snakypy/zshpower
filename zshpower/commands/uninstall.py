@@ -3,7 +3,6 @@ from snakypy import printer, pick
 from snakypy.ansi import FG
 from snakypy.file import create as snakypy_file_create
 from os import remove as os_remove
-from os.path import join as os_join
 from zshpower.config import package
 from zshpower.config.base import Base
 from subprocess import check_output
@@ -17,9 +16,9 @@ from zshpower.utils.catch import read_zshrc_omz
 from zshpower.utils.shift import change_theme_in_zshrc, rm_source_zshrc
 
 
-def rm_config_package(home):
+def rm_init_file_package(init_file):
     with contextlib_suppress(Exception):
-        os_remove(os_join(home, f".{package.info['pkg_name']}"))
+        os_remove(init_file)
     if shutil_which("pip") is not None:
         check_output(
             f'pip uninstall {package.info["name"]} -y',
@@ -42,7 +41,7 @@ class UninstallCommand(Base):
             if reply is None or reply[0] == 1:
                 printer("Whew! Thanks! :)", foreground=FG.GREEN)
                 exit(0)
-            rm_config_package(self.HOME)
+            rm_init_file_package(self.init_file)
             rm_source_zshrc(self.zsh_rc)
         else:
             title = f"What did you want to uninstall?"
@@ -60,7 +59,7 @@ class UninstallCommand(Base):
             with contextlib_suppress(Exception):
                 os_remove(self.theme_file)
 
-            rm_config_package(self.HOME)
+            rm_init_file_package(self.init_file)
 
             change_theme_in_zshrc(self.zsh_rc, "robbyrussell")
 
