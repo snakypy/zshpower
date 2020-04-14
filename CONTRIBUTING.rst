@@ -1,5 +1,3 @@
-.. highlight:: shell
-
 ============
 Contributing
 ============
@@ -60,30 +58,29 @@ Get Started!
 Ready to contribute? Here's how to set up `zshpower` for local development.
 
 1. Fork the `zshpower` repo on GitHub.
-2. Clone your fork locally::
+2. Clone your fork locally:
 
     $ git clone git@github.com:your_name_here/zshpower.git
 
-3. Install your local copy into a virtualenv. Assuming you have virtualenvwrapper installed, this is how you set up your fork for local development::
+3. Install your local copy on a virtualenv. Assuming you have poetry installed, this is how you set up your fork for local development:
 
-    $ mkvirtualenv zshpower
     $ cd zshpower/
-    $ python setup.py develop
+    $ poetry shell
+    $ poetry install
 
-4. Create a branch for local development::
+4. Create a branch for local development:
 
     $ git checkout -b name-of-your-bugfix-or-feature
 
    Now you can make your changes locally.
 
-5. When you're done making changes, check that your changes pass flake8 and the
-   tests::
+5. When you're done making changes, check that your changes pass flake8, black and the
+   tests:
 
-    $ python setup.py test or pytest
+    $ poetry run tox
 
-   To get flake8, just pip install them into your virtualenv.
 
-6. Commit your changes and push your branch to GitHub::
+6. Commit your changes and push your branch to GitHub:
 
     $ git add .
     $ git commit -m "Your detailed description of your changes."
@@ -97,30 +94,6 @@ Pull Request Guidelines
 Before you submit a pull request, check that it meets these guidelines:
 
 1. The pull request should include tests.
-2. If the pull request adds functionality, the docs should be updated. Put
-   your new functionality into a function with a docstring, and add the
-   feature to the list in README.rst.
-3. The pull request should work for Python 3.5, 3.6, 3.7 and 3.8, and for PyPy. Check
+2. The pull request should work for Python 3.8, and for PyPy. Check
    https://travis-ci.com/snakypy/zshpower/pull_requests
    and make sure that the tests pass for all supported Python versions.
-
-Tips
-----
-
-To run a subset of tests::
-
-$ pytest tests.test_test_bake_project
-
-
-Deploying
----------
-
-A reminder for the maintainers on how to deploy.
-Make sure all your changes are committed (including an entry in HISTORY.rst).
-Then run::
-
-$ bump2version patch # possible: major / minor / patch
-$ git push
-$ git push --tags
-
-Travis will then deploy to PyPI if tests pass.
