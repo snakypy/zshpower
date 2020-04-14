@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "zshpower"
-version = "0.3.0"
+version = "0.4.0"
 description = "ZSHPower is a theme for ZSH with a manager."
 readme = "README.rst"
 authors = ["William C. Canin <william.costa.canin@gmail.com>"]
@@ -59,16 +59,13 @@ exclude = '''
     | \.hg
     | \.mypy_cache
     | \.tox
-    | \.venv
-    | _build
-    | buck-out
+    | \venv
     | build
+    | venv
     | dist
     | docs
     | tmp
   )/
-  | foo.py           # also separately exclude a file named foo.py in
-                     # the root of the project
 )
 '''
 
