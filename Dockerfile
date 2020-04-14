@@ -3,7 +3,7 @@ USER root
 WORKDIR /zshpower
 ENV LOCAL_BIN=/root/.local/bin
 RUN apt-get update \
-&& apt-get install systemd zsh vim -y \
+&& apt-get install zsh vim -y \
 && export PATH=$PATH:$LOCAL_BIN \
 && pip install poetry \
 && rm -rf /var/cache/apt/*
