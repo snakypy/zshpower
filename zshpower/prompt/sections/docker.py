@@ -13,18 +13,24 @@ class Docker(Color):
         self.dockerfile = join(getcwd(), "Dockerfile")
         self.docker_compose = join(getcwd(), "docker-compose.yml")
         self.docker_version_enable = config["docker"]["version"]["enable"]
-        self.docker_version_micro_enable = config["docker"]["version"]["micro"]["enable"]
+        self.docker_version_micro_enable = config["docker"]["version"]["micro"][
+            "enable"
+        ]
         self.docker_symbol = symbol_ssh(config["docker"]["symbol"], "Dkr-")
         self.docker_color = config["docker"]["color"]
         self.docker_prefix_color = config["docker"]["prefix"]["color"]
         self.docker_prefix_text = element_spacing(config["docker"]["prefix"]["text"])
 
     def get_version(self, space_elem=" "):
-        docker_v = check_output(
-            "docker version --format '{{.Server.Version}}'",
-            shell=True,
-            universal_newlines=True,
-        ).replace("\n", "").split(".")
+        docker_v = (
+            check_output(
+                "docker version --format '{{.Server.Version}}'",
+                shell=True,
+                universal_newlines=True,
+            )
+            .replace("\n", "")
+            .split(".")
+        )
         if not self.docker_version_micro_enable:
             return f"{'.'.join(docker_v[:-1])}{space_elem}"
         return f"{'.'.join(docker_v)}{space_elem}"
