@@ -49,7 +49,6 @@ class Color:
 
 
 def symbol_ssh(symbol1, symbol2, spacing=" "):
-    # TODO: Add icon in SSH by options true/false - Next version
     if symbol1 != "":
         symbol1 += spacing
     if "SSH_CONNECTION" in os.environ:
