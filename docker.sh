@@ -1,7 +1,4 @@
 #!/usr/bin/env zsh
 
-cat << EOF > /root/.zshrc
- source $HOME/.zshpower/init
-EOF
-
-poetry shell
+# Running ZSHPower
+zshpower init
