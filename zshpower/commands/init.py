@@ -40,8 +40,7 @@ class InitCommand(Base):
         tools_requirements("git", "vim", "zsh", "systemctl")
 
         create_zshrc_not_exists(
-            f". $HOME/.{package.info['pkg_name']}/init",
-            self.zsh_rc
+            f". $HOME/.{package.info['pkg_name']}/init", self.zsh_rc
         )
 
         snakypy_path_create(self.config_root)
