@@ -72,7 +72,7 @@ Here is an example of the installed **ZSHPower**:
 - Python version shown (*with pyenv support*) on the active virtual machine (E.g: `[python_logo] 3.x`);
 - Shows the version of the project if you use "**pyproject.toml**" (E.g: [package_logo] 0.1.0);
 - Enables **username** and **hostname** when connecting with SSH. (can change in the settings to show permanently);
-- and, many other dynamic settings in ```$HOME/.config/snakypy/zshpower/<version>/config.toml```.
+- and, many other dynamic settings in ```$HOME/.zshpower/config/<version>/config.toml```.
 
 **features if used with __Oh My ZSH__.*
 
@@ -121,7 +121,7 @@ $ zshpower init
 ```
 
 > **NOTE**:  This option you will have to add the following code to the .zshrc file.
-> `source $HOME/.zshpower`
+> `source $HOME/.zshpower/init`
 
 If you want to use it with **Oh My ZSH** and, to make **ZSHPower** more powerfull, do:
 
@@ -195,7 +195,7 @@ The **symbol** keys, receive icons or their values in `Unicode`. By default, the
 
 ### Configuration file
 
-The configuration file is found in **[HOME USER]/.config/snakypy/zshpower/[VERSION]/config.toml**, where in **VERSION** is the current version of **ZSHPower**.
+The configuration file is found in **[HOME USER]/.zshpower/config/[VERSION]/config.toml**, where in **VERSION** is the current version of **ZSHPower**.
 
 ```shell
 $ zshpower --version
@@ -268,7 +268,7 @@ prefix.color = "green"
 prefix.text = "in"
 ```
 
-* **truncation_length** - This option receives an integer from 1 to 3. You will be responsible for truncating the path levels of the directory. `Default:` *2*
+* **truncation_length** - This option receives an integer from 1 to 3. You will be responsible for truncating the path levels of the directory. `Default:` *2* (Note: Value 0 (zero), show all path.)
 * **symbol** - Must receive an icon, whether in unicode or not. `Default:` \ufc6e
 * **color** - Changes the color of the path.  `Default:` cyan
 * **prefix.color** - Changes the color of the path prefix.   `Default:` *green*
@@ -332,6 +332,8 @@ symbol.conflicts = "\uf0e7"
 new_line.enable = true
 symbol = "\uf553"
 color = "green"
+error.symbol = "\uf553"
+error.color = "red"
 ```
 
 * **new_line.enable** - Receive `true` or` false`. If `true`, skip a line in the command entry. `Default:` *true*
@@ -342,6 +344,9 @@ color = "green"
 
 * **color** - Changes the color of the input. `Default:` *green*
 
+* **error.symbol** - Shows a symbol if the command output is false. `Default:` *\uf553*
+
+* **error.color** - Error exit symbol color. `Default:` *red*
 
 
 **Pyproject:**
@@ -361,6 +366,30 @@ prefix.text = "on"
 * **prefix.color** - Changes the color of the prefix.   `Default:` *green*
 * **prefix.text** - Before showing the package information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *on*
 
+
+**Docker:**
+
+```toml
+[docker]
+symbol = "\uf308"
+color = "blue"
+prefix.color = "green"
+prefix.text = "on"
+version.enable = true
+version.micro.enable = true
+```
+
+* **symbol** -  Must receive an icon, whether in unicode or not. `Default:` \uf308
+
+* **color** - Changes the color of the pyproject. `Default:` blue
+
+* **prefix.color** - Changes the color of the prefix. `Default:` *green*
+
+* **prefix.text** - Before showing the Docker information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *on*
+
+* **version.enable** - Shows the version of Docker. `Default:` *true*
+
+* **version.micro.enable** - Shows the micro version of Docker. `Default:` *true*
 
 
 **Python:**
