@@ -34,6 +34,11 @@ def create_zshrc(content, zshrc):
     return
 
 
+def create_zshrc_not_exists(content, zshrc):
+    if not exists(zshrc):
+        snakypy_file_create(content, zshrc)
+
+
 def change_theme_in_zshrc(zshrc, theme_name):
     if read_zshrc_omz(zshrc):
         current_zshrc = read_zshrc(zshrc)
