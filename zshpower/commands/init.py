@@ -19,13 +19,14 @@ from zshpower.utils.shift import (
     create_zshrc,
     change_theme_in_zshrc,
     add_plugins_zshrc,
+    create_zshrc_not_exists,
 )
 
 instruction_not_omz = f"""{FG.YELLOW}
 ********************** WARNING **********************
 Add the following code to the {FG.MAGENTA}$HOME/.zshrc{NONE} {FG.YELLOW}file:
 
-CODE: {FG.CYAN}source $HOME/.zshpower {NONE}
+CODE: {FG.CYAN}source $HOME/.zshpower/init {NONE}
 {FG.YELLOW}*****************************************************{NONE}
 """
 
@@ -36,17 +37,18 @@ class InitCommand(Base):
 
     def main(self, arguments, *, reload=False, message=False):
 
-        tools_requirements("git", "vim", "zsh")
+        tools_requirements("git", "vim", "zsh", "systemctl")
+
+        create_zshrc_not_exists(
+            f". $HOME/.{package.info['pkg_name']}/init",
+            self.zsh_rc
+        )
 
         snakypy_path_create(self.config_root)
 
         create_config(config_content, self.config_file)
 
-        snakypy_file_create(
-            set_zshpower_content,
-            os_join(self.HOME, f".{package.info['pkg_name']}"),
-            force=True,
-        )
+        snakypy_file_create(set_zshpower_content, self.init_file, force=True)
 
         if arguments["--omz"]:
             omz_install(self.omz_root)
