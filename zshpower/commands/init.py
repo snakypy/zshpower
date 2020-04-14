@@ -37,7 +37,7 @@ class InitCommand(Base):
 
     def main(self, arguments, *, reload=False, message=False):
 
-        tools_requirements("git", "vim", "zsh", "systemctl")
+        tools_requirements("zsh", "vim", "git")
 
         create_zshrc_not_exists(
             f". $HOME/.{package.info['pkg_name']}/init", self.zsh_rc
