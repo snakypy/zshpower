@@ -36,11 +36,11 @@
 
 `ZSHPower` is a theme for ZSH; especially for the [Python](https://www.python.org/) developer. Pleasant to look at, the **ZSHPower** comforts you with its colors and icons vibrant.
 
-Installing ** ZSHPower ** is the easiest thing you will see in any existing theme for ZSH, because there is a manager.
+Installing **ZSHPower** is the easiest thing you will see in any existing theme for **ZSH**, because there is a manager.
 
-The changes in the theme become more dynamic through a configuration file, where the user can make various combinations for the style of ** ZSHPower **.
+The changes in the theme become more dynamic through a configuration file, where the user can make various combinations for the style of **ZSHPower**.
 
-The ** ZSHPower ** supports installation along with [Oh My ZSH](https://ohmyz.sh/), where changes to: ** enable ** and ** disable ** an [Oh My ZSH](https://ohmyz.sh/) theme are easier, all in a simplified command line, without opening any files or creating symbolic links.
+The **ZSHPower** supports installation along with [Oh My ZSH](https://ohmyz.sh/), where changes to: **enable** and **disable** an [Oh My ZSH](https://ohmyz.sh/) theme are easier, all in a simplified command line, without opening any files or creating symbolic links.
 
 In addition, the **ZSHPower** manager downloads **Oh My Zsh** and the
 [`zsh-autosuggestions`](https://github.com/zsh-users/zsh-autosuggestions) and [`zsh-syntax-highlighting`](https://github.com/zsh-users/zsh-syntax-highlighting) plugins automatically, everything to make your ZSH very power.
@@ -71,6 +71,7 @@ Here is an example of the installed **ZSHPower**:
   - commits made;
 - Python version shown (*with pyenv support*) on the active virtual machine (E.g: `[python_logo] 3.x`);
 - Shows the version of the project if you use "**pyproject.toml**" (E.g: [package_logo] 0.1.0);
+- Show version Docker (E.g: [docker_logo] 19.03.10-ce);
 - Enables **username** and **hostname** when connecting with SSH. (can change in the settings to show permanently);
 - and, many other dynamic settings in ```$HOME/.zshpower/config/<version>/config.toml```.
 

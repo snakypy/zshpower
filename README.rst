@@ -30,15 +30,14 @@
     :target: https://github.com/snakypy/zshpower/blob/master/LICENSE
 
 
-`ZSHPower` is a theme for `Oh My Zsh`_ framework; especially
-for the `Python`_ developer. Pleasant to look at, the **ZSHPower**
-comforts you with its colors and icons vibrant.
+`ZSHPower` is a theme for ZSH; especially for the `Python`_ developer. Pleasant to look at, the **ZSHPower** comforts you with its colors and icons vibrant.
 
-Installing **ZSHPower** is the easiest thing you will see in any existing theme for Oh My Zsh,
-because ZSHPower has its own manager. With `ZSHPower`_,
-changes to the theme become more dynamic through a configuration file, where the user can make various combinations
-of changes, such as: **enable**, **disable**, **open settings**, **reset settings**, **uninstall** and more;
-all in a simplified command line, without opening any files or creating symbolic links.
+Installing **ZSHPower** is the easiest thing you will see in any existing theme for **ZSH**, because there is a manager.
+
+The changes in the theme become more dynamic through a configuration file, where the user can make various combinations for the style of **ZSHPower**.
+
+The **ZSHPower** supports installation along with `Oh My ZSH`_, where changes to: **enable** and **disable** an `Oh My ZSH`_ theme are easier, all in a simplified command line, without opening any files or creating symbolic links.
+
 In addition, the **ZSHPower** manager downloads **Oh My Zsh** and the
 `zsh-autosuggestions`_ and `zsh-syntax-highlighting`_ plugins automatically, everything to make your ZSH very power.
 
@@ -58,7 +57,7 @@ To work correctly, you will first need:
 Features
 --------
 
-* `Oh My Zsh`_ Installation Automatically;
+* `Oh My Zsh`_ installation automatically;*
 * Automatically install `zsh-autosuggestions`_ and `zsh-syntax-highlighting`_;
 * Automated installation and uninstallation;
 * Enable and disable `ZSHPower` anytime;
@@ -72,8 +71,13 @@ Features
     *  — commits made;
 * Python version shown (*with pyenv support*) on the active virtual machine (E.g: `[python_icon] py-3.x`);
 * Shows the version of the project if you use "**pyproject.toml**" (E.g: `[pkg_icon] 0.1.0`);
+* Show version Docker (E.g: [docker_logo] 19.03.10-ce);
 * Enables **username** and **hostname** when connecting with SSH. (can change in the settings to show permanently);
-* and, many other dynamic settings in `$HOME/.config/snakypy/zshpower/config.toml`.
+* and, many other dynamic settings in `$HOME/.zshpower/config/<version>/config.toml`.
+
+
+
+\* features if used with **Oh My ZSH**.
 
 
 Installing
@@ -122,12 +126,7 @@ The gem is available as open source under the terms of the `MIT License`_ ©
 Credits
 -------
 
-* Name: William C. Canin
-* Country: Brazil - SP
-* E-Mail: william.costa.canin@gmail.com
-* Personal page: `William Canin`_
-
-This package was created with Cookiecutter_ and the `williamcanin/pypkg-cookiecutter`_ project template.
+See, `AUTHORS`_.
 
 Links
 -----
@@ -137,6 +136,7 @@ Links
 * Releases: https://pypi.org/project/zshpower/#history
 * Issue tracker: https://github.com/snakypy/zshpower/issues
 
+.. _AUTHORS: https://github.com/snakypy/zshpower/blob/master/AUTHORS.rst
 .. _Oh My Zsh: https://ohmyz.sh
 .. _Python: https://python.org
 .. _zsh-autosuggestions: https://github.com/zsh-users/zsh-autosuggestions
@@ -144,7 +144,7 @@ Links
 .. _ZSHPower: https://github.com/snakypy/zshpower
 .. _git: https://git-scm.com/downloads
 .. _zsh: http://www.zsh.org/
-.. _`python`: https://python.org
+.. _python: https://python.org
 .. _pip: https://pip.pypa.io/en/stable/quickstart/
 .. _nerd fonts: https://www.nerdfonts.com/font-downloads
 .. _MIT License: https://github.com/snakypy/zshpower/blob/master/LICENSE
