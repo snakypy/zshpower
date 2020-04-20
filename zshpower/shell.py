@@ -76,7 +76,9 @@ class Prompt(Base):
 
 @only_for_linux
 def main():
-    if len(sys_argv) >= 1 and sys_argv[1] == "prompt":
+    if len(sys_argv) < 2:
+        raise TypeError("missing 1 required positional argument")
+    if len(sys_argv) == 2 and sys_argv[1] == "prompt":
         stdout.write(Prompt().left())
-    elif len(sys_argv) >= 1 and sys_argv[1] == "rprompt":
+    elif len(sys_argv) == 2 and sys_argv[1] == "rprompt":
         stdout.write(Prompt().right())
