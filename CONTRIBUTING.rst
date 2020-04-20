@@ -97,3 +97,23 @@ Before you submit a pull request, check that it meets these guidelines:
 2. The pull request should work for Python 3.8, and for PyPy. Check
    https://travis-ci.com/snakypy/zshpower/pull_requests
    and make sure that the tests pass for all supported Python versions.
+
+
+Developing with Docker
+----------------------
+
+The ZSHPower project contains Dockerfile, so you can see how the development is going using a Python image.
+
+To do this, do:
+
+1 - Build:
+
+    $ docker build -t zshpower:<version> .
+
+2 - Access ZSHPower container in mode interactive:
+
+    $ docker run --rm -it zshpower:<version>
+
+3 - Run the "docker.sh" script to create the ZSHPower configurations:
+
+    $ ./docker.sh
