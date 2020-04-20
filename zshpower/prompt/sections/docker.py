@@ -7,6 +7,7 @@ from zshpower.utils.check import is_tool
 
 def docker_status():
     from subprocess import Popen, PIPE
+
     cmd = """
     state=$(docker info > /dev/null 2 > &1)
     if [[ $? -ne 0 ]]; then
