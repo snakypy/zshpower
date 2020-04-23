@@ -48,6 +48,7 @@ class InitCommand(Base):
 
         snakypy_file_create(set_zshpower_content, self.init_file, force=True)
 
+        # TODO: Invert command to "--no-omz"
         if arguments["--omz"]:
             omz_install(self.omz_root)
             omz_install_plugins(self.omz_root, self.plugins)
