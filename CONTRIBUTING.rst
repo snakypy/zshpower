@@ -117,3 +117,12 @@ To do this, do:
 3 - Run the "docker.sh" script to create the ZSHPower configurations:
 
     $ ./docker.sh
+
+Appear in credits
+------------------
+
+If you contribute over 100 lines of code to the project, your name and some of your data will appear in the ZSHPower credits when run the command:
+
+    $ zshpower --credits
+
+Not only that, but your name will also appear in AUTHORS.rst. How about, huh?

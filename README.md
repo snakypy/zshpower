@@ -495,7 +495,7 @@ $ zshpower reset
 
 ## Disable and Enable theme for Oh My ZSH
 
-You can activate and deactivate **ZSHPower ** at any time, without opening any files, if using with Oh My ZH. To do this, follow the steps below:
+You can activate and deactivate **ZSHPower** at any time, without opening any files, if using with Oh My ZH. To do this, follow the steps below:
 
 * Disable
 
