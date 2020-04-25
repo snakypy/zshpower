@@ -6,7 +6,8 @@ def get_virtualenv_name():
     if "VIRTUAL_ENV" in os_environ:
         venv_name = os_environ["VIRTUAL_ENV"].split("/")[-1]
         # Treatment for virtual machines created with Poetry
-        venv_name = "-".join(venv_name.split("-")[:-2])
+        if "-" in venv_name:
+            venv_name = "-".join(venv_name.split("-")[:-2])
         return venv_name
     return ""
 
