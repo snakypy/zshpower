@@ -24,11 +24,16 @@ class PyProject(Color):
             parsed = dict(toml_parse(read_f))
             for item in parsed.values():
                 for data in item.values():
-                    return f"{data['version']}{space_elem}"
+                    if "version" in data:
+                        return f"{data['version']}{space_elem}"
         return ""
 
     def __str__(self):
-        if self.pyproject_enable and isfile(self.pyproject_f):
+        if (
+                self.pyproject_enable
+                and isfile(self.pyproject_f)
+                and self.get_version() != ""
+        ):
             pyproject_prefix = (
                 f"{Color(self.pyproject_prefix_color)}"
                 f"{self.pyproject_prefix_text}{Color().NONE}"
