@@ -1,4 +1,5 @@
 from tomlkit import parse as toml_parse
+from tomlkit.exceptions import UnexpectedCharError, ParseError
 from snakypy.file import read as snakypy_file_read
 from os import getcwd
 from os.path import isfile, join
@@ -19,14 +20,17 @@ class PyProject(Color):
         )
 
     def get_version(self, space_elem=" "):
-        if isfile(self.pyproject_f):
-            read_f = snakypy_file_read(self.pyproject_f)
-            parsed = dict(toml_parse(read_f))
-            for item in parsed.values():
-                for data in item.values():
-                    if "version" in data:
-                        return f"{data['version']}{space_elem}"
-        return ""
+        try:
+            if isfile(self.pyproject_f):
+                read_f = snakypy_file_read(self.pyproject_f)
+                parsed = dict(toml_parse(read_f))
+                for item in parsed.values():
+                    for data in item.values():
+                        if "version" in data:
+                            return f"{data['version']}{space_elem}"
+            return ""
+        except (UnexpectedCharError, ParseError):
+            return f"Error{space_elem}"
 
     def __str__(self):
         if (
