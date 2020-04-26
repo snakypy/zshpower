@@ -34,9 +34,9 @@ class PyProject(Color):
 
     def __str__(self):
         if (
-                self.pyproject_enable
-                and isfile(self.pyproject_f)
-                and self.get_version() != ""
+            self.pyproject_enable
+            and isfile(self.pyproject_f)
+            and self.get_version() != ""
         ):
             pyproject_prefix = (
                 f"{Color(self.pyproject_prefix_color)}"
