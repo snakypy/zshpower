@@ -11,12 +11,14 @@ class NodeJs(Color):
         self.config = config
         self.package_json = join(getcwd(), "package.json")
         self.node_modules = join(getcwd(), "node_modules")
-        self.node_version_enable = config["nodejs"]["version"]["enable"]
-        self.node_version_micro_enable = config["nodejs"]["version"]["micro"]["enable"]
-        self.node_symbol = symbol_ssh(config["nodejs"]["symbol"], "node-")
-        self.node_color = config["nodejs"]["color"]
-        self.node_prefix_color = config["nodejs"]["prefix"]["color"]
-        self.node_prefix_text = element_spacing(config["nodejs"]["prefix"]["text"])
+        self.node_version_enable = self.config["nodejs"]["version"]["enable"]
+        self.node_version_micro_enable = self.config["nodejs"]["version"]["micro"][
+            "enable"
+        ]
+        self.node_symbol = symbol_ssh(self.config["nodejs"]["symbol"], "node-")
+        self.node_color = self.config["nodejs"]["color"]
+        self.node_prefix_color = self.config["nodejs"]["prefix"]["color"]
+        self.node_prefix_text = element_spacing(self.config["nodejs"]["prefix"]["text"])
 
     def get_version(self, space_elem=" "):
         tool = {
