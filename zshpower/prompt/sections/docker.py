@@ -46,20 +46,17 @@ class Docker(Color):
         return f"{'.'.join(docker_v)}{space_elem}"
 
     def __str__(self):
-        if (
-            is_tool("docker")
-            and self.docker_version_enable
-            and not docker_status() == "disabled"
-        ):
-            if isfile(self.dockerfile) or isfile(self.docker_compose):
-                docker_prefix = (
-                    f"{Color(self.docker_prefix_color)}"
-                    f"{self.docker_prefix_text}{Color().NONE}"
-                )
-                docker_export = (
-                    f"{separator(self.config)}{docker_prefix}"
-                    f"{Color(self.docker_color)}"
-                    f"{self.docker_symbol}{self.get_version()}{Color().NONE}"
-                )
-                return str(docker_export)
+        if self.docker_version_enable:
+            if is_tool("docker") and not docker_status() == "disabled":
+                if isfile(self.dockerfile) or isfile(self.docker_compose):
+                    docker_prefix = (
+                        f"{Color(self.docker_prefix_color)}"
+                        f"{self.docker_prefix_text}{Color().NONE}"
+                    )
+                    docker_export = (
+                        f"{separator(self.config)}{docker_prefix}"
+                        f"{Color(self.docker_color)}"
+                        f"{self.docker_symbol}{self.get_version()}{Color().NONE}"
+                    )
+                    return str(docker_export)
         return ""

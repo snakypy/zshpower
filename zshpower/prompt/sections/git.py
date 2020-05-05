@@ -98,7 +98,7 @@ class Git(Color):
         self.icons["UD"] = self.icons["UU"]
 
     def __str__(self):
-        if isdir(join(getcwd(), ".git")):
+        if self.git_enable and isdir(join(getcwd(), ".git")):
             status_git = git_status(porcelain=True)
             status_git_text = git_status()
             branch_current = git_status(branch=True)

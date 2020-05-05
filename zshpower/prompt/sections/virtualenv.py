@@ -29,7 +29,7 @@ class Virtualenv(Color):
         involved_prefix = ""
         involved_suffix = ""
 
-        if "VIRTUAL_ENV" in os_environ and self.venv_enable:
+        if self.venv_enable and "VIRTUAL_ENV" in os_environ:
             env_prefix = (
                 f"{Color(self.venv_prefix_color)}"
                 f"{self.venv_prefix_text}{Color().NONE}"
