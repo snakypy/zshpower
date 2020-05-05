@@ -247,13 +247,13 @@ color = "cyan"
 [hostname]
 enable = false
 color = "magenta"
-prefix.color = "green"
+prefix.color = "white"
 prefix.text = "at"
 ```
 
 * **enable** -  If it is active, it will show the hostname of the machine. When using SSH, even with the value `false` the hostname will be shown.  `Default:` *false*
 * **color** - Changes the color of the username.   `Default:` *magenta*
-* **prefix.color** - Changes the color of the hostname prefix.  `Default:` *green*
+* **prefix.color** - Changes the color of the hostname prefix.  `Default:` *white*
 * **prefix.text** - Before showing the hostname of the machine, it will have a prefix text. In this option you can change the text you want. `Default:` *at*
 
 
@@ -265,14 +265,14 @@ prefix.text = "at"
 truncation_length = 2
 symbol = "\ufc6e"
 color = "cyan"
-prefix.color = "green"
+prefix.color = "white"
 prefix.text = "in"
 ```
 
 * **truncation_length** - This option receives an integer from 1 to 3. You will be responsible for truncating the path levels of the directory. `Default:` *2* (Note: Value 0 (zero), show all path.)
 * **symbol** - Must receive an icon, whether in unicode or not. `Default:` \ufc6e
 * **color** - Changes the color of the path.  `Default:` cyan
-* **prefix.color** - Changes the color of the path prefix.   `Default:` *green*
+* **prefix.color** - Changes the color of the path prefix.   `Default:` *white*
 * **prefix.text** - Before showing the current path (or folder), it will have prefixed text. In this option you can change the text you want. `Default:` *in*
 
 
@@ -285,7 +285,7 @@ enable = true
 symbol = "\uf418"
 color.symbol = "white"
 branch.color = "cyan"
-prefix.color = "green"
+prefix.color = "white"
 prefix.text = "on"
 ```
 
@@ -297,7 +297,7 @@ prefix.text = "on"
 
 * **branch.color** - Option to change the color of the informed branch. `Default:` *cyan*
 
-* **prefix.color** - Changes the color of the prefix.   `Default:` *green*
+* **prefix.color** - Changes the color of the prefix.   `Default:` *white*
 
 * **prefix.text** - Before showing the git information, it will have prefixed text. In this option you can change the text you want. `Default:` *on*
 
@@ -357,14 +357,14 @@ error.color = "red"
 enable = true
 symbol = "\uf8d6"
 color = "magenta"
-prefix.color = "green"
+prefix.color = "white"
 prefix.text = "on"
 ```
 
 * **enable** - If the option is `true`, it will show the version information (with icon) of the Python project if it contains the file **pyproject.toml** in the directory.  `Default:` *true*
 * **symbol** - Must receive an icon, whether in unicode or not. `Default:` \uf8d6
 * **color** - Changes the color of the pyproject. `Default:` magenta
-* **prefix.color** - Changes the color of the prefix.   `Default:` *green*
+* **prefix.color** - Changes the color of the prefix.   `Default:` *white*
 * **prefix.text** - Before showing the package information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *on*
 
 
@@ -374,7 +374,7 @@ prefix.text = "on"
 [docker]
 symbol = "\uf308"
 color = "blue"
-prefix.color = "green"
+prefix.color = "white"
 prefix.text = "on"
 version.enable = true
 version.micro.enable = true
@@ -384,7 +384,7 @@ version.micro.enable = true
 
 * **color** - Changes the color of the pyproject. `Default:` blue
 
-* **prefix.color** - Changes the color of the prefix. `Default:` *green*
+* **prefix.color** - Changes the color of the prefix. `Default:` *white*
 
 * **prefix.text** - Before showing the Docker information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *on*
 
@@ -393,13 +393,39 @@ version.micro.enable = true
 * **version.micro.enable** - Shows the micro version of Docker. `Default:` *true*
 
 
+
+**NodeJs:**
+
+```toml
+[nodejs]
+symbol = "\uf898"
+color = "green"
+prefix.color = "white"
+prefix.text = "on"
+version.enable = true
+version.micro.enable = true
+```
+
+* **symbol** -  Must receive an icon, whether in unicode or not. `Default:` \uf898
+
+* **color** - Changes the color of the nodejs version. `Default:` green
+
+* **prefix.color** - Changes the color of the prefix. `Default:` *white*
+
+* **prefix.text** - Before showing the NodeJS information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *on*
+
+* **version.enable** - Shows the version of NodeJs. `Default:` *true*
+
+* **version.micro.enable** - Shows the micro version of NodeJs. `Default:` *true*
+
+
 **Python:**
 
 ```toml
 [python]
 symbol = "\uf81f"
 color = "yellow"
-prefix.color = "green"
+prefix.color = "white"
 prefix.text = "via"
 version.enable = true
 version.micro.enable = true
@@ -407,7 +433,7 @@ version.micro.enable = true
 
 * **symbol** - Must receive an icon, whether in unicode or not. `Default:` \uf81f
 * **color** - Changes the color of the Python version information. `Default:` *yellow*
-* **prefix.color** - Changes the color of the prefix.   `Default:` *green*
+* **prefix.color** - Changes the color of the prefix.   `Default:` *white*
 * **prefix.text** - Before showing the Python version information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *via*
 * **version.enable** - If it is `true`, it shows the version information of the Python currently used. Compatible with *Pyenv*.  `Default:` *true*
 * **version.micro.enable** - If `true`, it will show the *MICRO* version of Python. Note: The `version.enable` key must be` true`. `Default:` *true*
@@ -422,7 +448,7 @@ enable = true
 symbol = "\uf10c"
 involved = "()"
 color = "yellow"
-prefix.color = "green"
+prefix.color = "white"
 prefix.text = "via"
 ```
 
@@ -430,7 +456,7 @@ prefix.text = "via"
 * **symbol** - Must receive an icon, whether in unicode or not. `Default:` \uf10c
 * **involved** - Element that will involve the name of the virtual environment. By default, you should receive two single elements. `Default:` ()
 * **color** - Changes the color of the virtual machine information. `Default:` yellow
-* **prefix.color** - Changes the color of the prefix.   `Default:` *green*
+* **prefix.color** - Changes the color of the prefix.   `Default:` *white*
 * **prefix.text** - Before showing the virtual machine information, it will have a prefixed text. In this option, you can change the text you want. `Default:` `via`
 
 ```toml
