@@ -12,6 +12,7 @@ from zshpower.prompt.sections.git import Git
 from zshpower.prompt.sections.hostname import Hostname
 from zshpower.prompt.sections.package import PyProject
 from zshpower.prompt.sections.docker import Docker
+from zshpower.prompt.sections.node import NodeJs
 from zshpower.prompt.sections.python import Python
 from zshpower.prompt.sections.timer import Timer
 from zshpower.prompt.sections.username import Username
@@ -51,6 +52,7 @@ class Prompt(Base):
         directory = Directory(self.config_load)
         dinamic_section = {
             "docker": Docker(self.config_load),
+            "nodejs": NodeJs(self.config_load),
             "package": PyProject(self.config_load),
             "python": Python(self.config_load),
             "virtualenv": Virtualenv(self.config_load),
@@ -66,7 +68,7 @@ class Prompt(Base):
                 if item == element:
                     # stdout.write(str(dinamic_section[item]))
                     ordered_section.append(dinamic_section[item])
-        sections = "{}{}{}{}{}{}{}"
+        sections = "{}{}{}{}{}{}{}{}"
         return sections.format(static_section, *ordered_section, cmd)
 
     def right(self):

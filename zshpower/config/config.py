@@ -13,7 +13,7 @@ jump_line.enable = true
 config.editor = "vim"
 separator.element = "-"
 separator.color = "white"
-position = ["docker", "package", "virtualenv", "python", "git"]
+position = ["docker", "nodejs", "package", "virtualenv", "python", "git"]
 
 [username]
 enable = false
@@ -22,22 +22,22 @@ color = "cyan"
 [hostname]
 enable = false
 color = "magenta"
-prefix.color = "green"
+prefix.color = "white"
 prefix.text = "at"
 
 [directory]
 truncation_length = 2
 symbol = "\\ufc6e"
 color = "cyan"
-prefix.color = "green"
+prefix.color = "white"
 prefix.text = "in"
 
 [git]
 enable = true
 symbol = "\\uf418"
 branch.color = "cyan"
-color.symbol = "white"
-prefix.color = "green"
+color.symbol = "magenta"
+prefix.color = "white"
 prefix.text = "on"
 
 [git.status]
@@ -66,13 +66,21 @@ error.color = "red"
 enable = true
 symbol = "\\uf8d6"
 color = "red"
-prefix.color = "green"
-prefix.text = "on"
+prefix.color = "white"
+prefix.text = "is"
 
 [docker]
 symbol = "\\uf308"
 color = "blue"
-prefix.color = "green"
+prefix.color = "white"
+prefix.text = "on"
+version.enable = true
+version.micro.enable = true
+
+[nodejs]
+symbol = "\\uf898"
+color = "green"
+prefix.color = "white"
 prefix.text = "on"
 version.enable = true
 version.micro.enable = true
@@ -80,7 +88,7 @@ version.micro.enable = true
 [python]
 symbol = "\\uf81f"
 color = "yellow"
-prefix.color = "green"
+prefix.color = "white"
 prefix.text = "via"
 version.enable = true
 version.micro.enable = true
@@ -90,7 +98,7 @@ enable = true
 symbol = "\\ufcc2"
 involved = "()"
 color = "yellow"
-prefix.color = "green"
+prefix.color = "white"
 prefix.text = "via"
 
 [virtualenv.name]
