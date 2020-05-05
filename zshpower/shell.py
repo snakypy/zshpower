@@ -20,6 +20,8 @@ from zshpower.prompt.sections.virtualenv import Virtualenv
 from zshpower.config.base import Base
 
 
+# TODO: Create a cache file containing the versions so that you
+# don't run the command repeatedly.
 class Prompt(Base):
     """Class to perform the impression of the PROMPT style"""
 
