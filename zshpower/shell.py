@@ -2,8 +2,10 @@ from sys import argv as sys_argv, stdout
 from tomlkit import parse as toml_parse
 from snakypy.file import read as snakypy_file_red
 from snakypy.utils.decorators import only_for_linux
+from snakypy import FG
 from snakypy.path import create as snakypy_path_create
 from zshpower import HOME
+from zshpower.config import package
 from zshpower.utils.shift import create_config
 from zshpower.config.config import content as config_content
 from zshpower.prompt.sections.command import Command
@@ -18,6 +20,7 @@ from zshpower.prompt.sections.timer import Timer
 from zshpower.prompt.sections.username import Username
 from zshpower.prompt.sections.virtualenv import Virtualenv
 from zshpower.config.base import Base
+from tomlkit.exceptions import NonExistentKey
 
 
 # TODO: Create a cache file containing the versions so that you
@@ -34,7 +37,7 @@ class Prompt(Base):
             read_conf = snakypy_file_red(self.config_file)
             parsed = toml_parse(read_conf)
             return parsed
-        except FileNotFoundError:
+        except (FileNotFoundError, NonExistentKey):
             snakypy_path_create(self.config_root)
             create_config(config_content, self.config_file)
             read_conf = snakypy_file_red(self.config_file)
@@ -47,35 +50,43 @@ class Prompt(Base):
             return parsed
 
     def left(self, jump_line="\n"):
-        if not self.config_load["general"]["jump_line"]["enable"]:
-            jump_line = ""
-        username = Username(self.config_load)
-        hostname = Hostname(self.config_load)
-        directory = Directory(self.config_load)
-        dinamic_section = {
-            "docker": Docker(self.config_load),
-            "nodejs": NodeJs(self.config_load),
-            "package": PyProject(self.config_load),
-            "python": Python(self.config_load),
-            "virtualenv": Virtualenv(self.config_load),
-            "git": Git(self.config_load),
-        }
-        cmd = Command(self.config_load)
+        try:
+            if not self.config_load["general"]["jump_line"]["enable"]:
+                jump_line = ""
+            username = Username(self.config_load)
+            hostname = Hostname(self.config_load)
+            directory = Directory(self.config_load)
+            dinamic_section = {
+                "docker": Docker(self.config_load),
+                "nodejs": NodeJs(self.config_load),
+                "package": PyProject(self.config_load),
+                "python": Python(self.config_load),
+                "virtualenv": Virtualenv(self.config_load),
+                "git": Git(self.config_load),
+            }
+            cmd = Command(self.config_load)
 
-        static_section = f"{jump_line}{username}{hostname}{directory}"
+            static_section = f"{jump_line}{username}{hostname}{directory}"
 
-        ordered_section = []
-        for element in self.config_load["general"]["position"]:
-            for item in dinamic_section.keys():
-                if item == element:
-                    # stdout.write(str(dinamic_section[item]))
-                    ordered_section.append(dinamic_section[item])
-        sections = "{}{}{}{}{}{}{}{}"
-        return sections.format(static_section, *ordered_section, cmd)
+            ordered_section = []
+            for element in self.config_load["general"]["position"]:
+                for item in dinamic_section.keys():
+                    if item == element:
+                        # stdout.write(str(dinamic_section[item]))
+                        ordered_section.append(dinamic_section[item])
+            sections = "{}{}{}{}{}{}{}{}"
+            return sections.format(static_section, *ordered_section, cmd)
+        except (NonExistentKey):
+            return (f"{FG.ERROR}>>> {package.info['name']} Error: Key error in "
+                    f"the configuration file. ")
 
     def right(self):
-        timer = str(Timer(self.config_load))
-        return timer
+        try:
+            timer = str(Timer(self.config_load))
+            return timer
+        except (NonExistentKey):
+            return (f"{FG.ERROR}>>> {package.info['name']} Error: Key error in "
+                    f"the configuration file. ")
 
 
 @only_for_linux
