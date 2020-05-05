@@ -9,7 +9,7 @@ def docker_status():
     from subprocess import Popen, PIPE
 
     cmd = """
-    state=$(docker info > /dev/null 2 > &1)
+    state=$(docker info > /dev/null 2>&1)
     if [[ $? -ne 0 ]]; then
         echo "disabled"
     fi
