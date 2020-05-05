@@ -3,20 +3,17 @@ from subprocess import check_output
 from os.path import isfile, join
 from .lib.utils import Color, symbol_ssh, separator, element_spacing
 from zshpower.utils.check import is_tool
+from zshpower.utils.process import shell_command
 
 
 def docker_status():
-    from subprocess import Popen, PIPE
-
     cmd = """
     state=$(docker info > /dev/null 2>&1)
     if [[ $? -ne 0 ]]; then
         echo "disabled"
     fi
     """
-    p = Popen(cmd, shell=True, stdout=PIPE, stderr=PIPE, universal_newlines=True)
-    output, err = p.communicate()
-    return output.replace("\n", ""), err
+    return shell_command("docker", cmd)[0]
 
 
 class Docker(Color):
@@ -52,7 +49,7 @@ class Docker(Color):
         if (
             is_tool("docker")
             and self.docker_version_enable
-            and not docker_status()[0] == "disabled"
+            and not docker_status() == "disabled"
         ):
             if isfile(self.dockerfile) or isfile(self.docker_compose):
                 docker_prefix = (
