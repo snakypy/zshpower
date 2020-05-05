@@ -1,7 +1,7 @@
 from .lib.utils import Color
 from os.path import isfile, isdir, join
 from os import getcwd
-from .lib.utils import Color, symbol_ssh, separator, element_spacing
+from .lib.utils import symbol_ssh, separator, element_spacing
 from zshpower.utils.process import shell_command
 
 
