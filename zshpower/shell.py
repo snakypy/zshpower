@@ -20,7 +20,7 @@ from zshpower.prompt.sections.timer import Timer
 from zshpower.prompt.sections.username import Username
 from zshpower.prompt.sections.virtualenv import Virtualenv
 from zshpower.config.base import Base
-from tomlkit.exceptions import NonExistentKey
+from tomlkit.exceptions import NonExistentKey, UnexpectedCharError
 
 
 # TODO: Create a cache file containing the versions so that you
@@ -76,7 +76,7 @@ class Prompt(Base):
                         ordered_section.append(dinamic_section[item])
             sections = "{}{}{}{}{}{}{}{}"
             return sections.format(static_section, *ordered_section, cmd)
-        except (NonExistentKey):
+        except (NonExistentKey, UnexpectedCharError, ValueError):
             return (
                 f"{FG.ERROR}>>> {package.info['name']} Error: Key error in "
                 f"the configuration file. "
