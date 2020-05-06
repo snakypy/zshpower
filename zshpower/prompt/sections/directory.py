@@ -1,9 +1,9 @@
 from os import geteuid as os_geteuid
-from os import environ
+from os import environ, getcwd
 from pathlib import Path
-from .lib.utils import Color, abspath_link
+from .lib.utils import Color
+# from .lib.utils import abspath_link
 from .lib.utils import symbol_ssh, element_spacing
-from tomlkit.exceptions import UnexpectedCharError
 
 
 def shorten_path(file_path, length):
@@ -39,8 +39,9 @@ class Directory:
         if int(self.directory_truncate_value) > 4:
             self.directory_truncate_value = 4
 
+        # Old "abspath_link()"
         dir_truncate = str(shorten_path(
-            abspath_link(),
+            getcwd(),
             self.directory_truncate_value
         ))
 
