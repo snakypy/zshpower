@@ -9,9 +9,8 @@ def shorten_path(file_path, length):
     return Path(*Path(file_path).parts[-length:])
 
 
-class Directory(Color):
+class Directory:
     def __init__(self, config):
-        super().__init__()
         self.username_enable = config["username"]["enable"]
         self.hostname_enable = config["hostname"]["enable"]
         self.directory_truncate_value = config["directory"]["truncation_length"]

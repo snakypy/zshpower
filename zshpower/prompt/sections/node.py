@@ -5,9 +5,8 @@ from .lib.utils import symbol_ssh, separator, element_spacing
 from zshpower.utils.process import shell_command
 
 
-class NodeJs(Color):
+class NodeJs:
     def __init__(self, config):
-        super().__init__()
         self.config = config
         self.package_json = join(getcwd(), "package.json")
         self.node_modules = join(getcwd(), "node_modules")

@@ -12,9 +12,8 @@ def get_virtualenv_name():
     return ""
 
 
-class Virtualenv(Color):
+class Virtualenv:
     def __init__(self, config):
-        super().__init__()
         self.config = config
         self.venv_enable = config["virtualenv"]["enable"]
         self.venv_symbol = symbol_ssh(config["virtualenv"]["symbol"], "")

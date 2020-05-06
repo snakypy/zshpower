@@ -3,9 +3,8 @@ from os import environ as os_environ
 from .lib.utils import Color, element_spacing
 
 
-class Hostname(Color):
+class Hostname:
     def __init__(self, config):
-        super().__init__()
         self.config = config
         self.hostname_enable = self.config["hostname"]["enable"]
         self.hostname_color = self.config["hostname"]["color"]

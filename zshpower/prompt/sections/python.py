@@ -4,9 +4,8 @@ from os.path import exists, join
 from .lib.utils import Color, symbol_ssh, separator, element_spacing
 
 
-class Python(Color):
+class Python:
     def __init__(self, config):
-        super().__init__()
         self.config = config
         self.search_f = (
             "__pycache__",

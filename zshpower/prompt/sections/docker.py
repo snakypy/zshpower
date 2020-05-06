@@ -16,9 +16,8 @@ def docker_status():
     return shell_command("docker", cmd)[0]
 
 
-class Docker(Color):
+class Docker:
     def __init__(self, config):
-        super().__init__()
         self.config = config
         self.dockerfile = join(getcwd(), "Dockerfile")
         self.docker_compose = join(getcwd(), "docker-compose.yml")

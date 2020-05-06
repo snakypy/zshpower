@@ -4,9 +4,8 @@ from .lib.utils import Color
 from .lib.utils import symbol_ssh, git_status, element_spacing, separator
 
 
-class Git(Color):
+class Git:
     def __init__(self, config, icon_space=" "):
-        super().__init__()
         self.config = config
         self.git_enable = config["git"]["enable"]
         self.git_symbol = symbol_ssh(config["git"]["symbol"], "git:")

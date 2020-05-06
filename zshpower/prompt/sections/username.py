@@ -4,9 +4,8 @@ from zshpower.utils.catch import current_user
 from .lib.utils import Color
 
 
-class Username(Color):
+class Username:
     def __init__(self, config):
-        super().__init__()
         self.username_enable = config["username"]["enable"]
         self.username_color = config["username"]["color"]
         if os_geteuid() == 0:
