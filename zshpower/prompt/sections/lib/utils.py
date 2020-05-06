@@ -56,9 +56,10 @@ def symbol_ssh(symbol1, symbol2, spacing=" "):
     return symbol1
 
 
-def abspath_link():
-    cwd = check_output("pwd -L", shell=True, universal_newlines=True).strip()
-    return cwd
+# DEPRECATED
+# def abspath_link():
+#     cwd = check_output("pwd -L", shell=True, universal_newlines=True).strip()
+#     return cwd
 
 
 def git_status(*, porcelain=False, branch=False):
