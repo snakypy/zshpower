@@ -26,7 +26,7 @@ prefix.color = "white"
 prefix.text = "at"
 
 [directory]
-truncation_length = 2
+truncation_length = 1
 symbol = "\\ufc6e"
 color = "cyan"
 prefix.color = "white"
