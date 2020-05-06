@@ -2,6 +2,7 @@ from os import geteuid as os_geteuid
 from os import environ, getcwd
 from pathlib import Path
 from .lib.utils import Color
+
 # from .lib.utils import abspath_link
 from .lib.utils import symbol_ssh, element_spacing
 
@@ -40,10 +41,7 @@ class Directory:
             self.directory_truncate_value = 4
 
         # Old "abspath_link()"
-        dir_truncate = str(shorten_path(
-            getcwd(),
-            self.directory_truncate_value
-        ))
+        dir_truncate = str(shorten_path(getcwd(), self.directory_truncate_value))
 
         if dir_truncate.split("/")[-1:] == str(Path.home()).split("/")[-1:]:
             dir_truncate = "~"
