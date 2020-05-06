@@ -13,9 +13,7 @@ class Configs:
         self.package_symbol = symbol_ssh(config["package"]["symbol"], "pkg-")
         self.package_color = config["package"]["color"]
         self.package_prefix_color = config["package"]["prefix"]["color"]
-        self.package_prefix_text = element_spacing(
-            config["package"]["prefix"]["text"]
-        )
+        self.package_prefix_text = element_spacing(config["package"]["prefix"]["text"])
 
 
 class Package(Configs):
@@ -38,10 +36,7 @@ class Package(Configs):
             return f"Error{space_elem}"
 
     def __str__(self):
-        if (
-            self.package_enable
-            and self.get_version() != ""
-        ):
+        if self.package_enable and self.get_version() != "":
             package_prefix = (
                 f"{Color(self.package_prefix_color)}"
                 f"{self.package_prefix_text}{Color().NONE}"
@@ -62,7 +57,8 @@ class NodePackage(Package):
     def get_version(self, space_elem=" "):
         if isfile(join(getcwd(), self.package_file)):
             parsed = snakypy_json_read(join(getcwd(), self.package_file))
-            return f"{parsed['version']}{space_elem}"
+            if "version" in parsed:
+                return f"{parsed['version']}{space_elem}"
         return ""
 
     def __str__(self):

@@ -77,16 +77,20 @@ class Prompt(Base):
             sections = "{}{}{}{}{}{}{}{}"
             return sections.format(static_section, *ordered_section, cmd)
         except (NonExistentKey):
-            return (f"{FG.ERROR}>>> {package.info['name']} Error: Key error in "
-                    f"the configuration file. ")
+            return (
+                f"{FG.ERROR}>>> {package.info['name']} Error: Key error in "
+                f"the configuration file. "
+            )
 
     def right(self):
         try:
             timer = str(Timer(self.config_load))
             return timer
         except (NonExistentKey):
-            return (f"{FG.ERROR}>>> {package.info['name']} Error: Key error in "
-                    f"the configuration file. ")
+            return (
+                f"{FG.ERROR}>>> {package.info['name']} Error: Key error in "
+                f"the configuration file. "
+            )
 
 
 @only_for_linux
