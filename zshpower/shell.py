@@ -12,7 +12,7 @@ from zshpower.prompt.sections.command import Command
 from zshpower.prompt.sections.directory import Directory
 from zshpower.prompt.sections.git import Git
 from zshpower.prompt.sections.hostname import Hostname
-from zshpower.prompt.sections.package import PyProject
+from zshpower.prompt.sections.package import get_package
 from zshpower.prompt.sections.docker import Docker
 from zshpower.prompt.sections.node import NodeJs
 from zshpower.prompt.sections.python import Python
@@ -59,7 +59,7 @@ class Prompt(Base):
             dinamic_section = {
                 "docker": Docker(self.config_load),
                 "nodejs": NodeJs(self.config_load),
-                "package": PyProject(self.config_load),
+                "package": get_package(self.config_load),
                 "python": Python(self.config_load),
                 "virtualenv": Virtualenv(self.config_load),
                 "git": Git(self.config_load),
