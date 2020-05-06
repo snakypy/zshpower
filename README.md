@@ -69,8 +69,10 @@ Here is an example of the installed **ZSHPower**:
   - deleted files;
   - new modified files;
   - commits made;
-- Python version shown (*with pyenv support*) on the active virtual machine (E.g: `[python_logo] 3.x`);
+- Python version shown (*with pyenv support*) on the active virtual machine (E.g: `[python_logo] 3.8`);
+- NodeJS version shown (*with nodenv support*)  if NodeJS is installed (E.g: `[node_logo] 13.12.0`);
 - Shows the version of the project if you use "**pyproject.toml**" (E.g: [package_logo] 0.1.0);
+- Shows the version of the project if you use "**package.json**" (E.g: [package_logo] 1.0.0);
 - Show version Docker (E.g: [docker_logo] 19.03.10-ce);
 - Enables **username** and **hostname** when connecting with SSH. (can change in the settings to show permanently);
 - and, many other dynamic settings in ```$HOME/.zshpower/config/<version>/config.toml```.
@@ -350,10 +352,10 @@ error.color = "red"
 * **error.color** - Error exit symbol color. `Default:` *red*
 
 
-**Pyproject:**
+**Package:**
 
 ```toml
-[pyproject]
+[package]
 enable = true
 symbol = "\uf8d6"
 color = "magenta"
@@ -361,9 +363,9 @@ prefix.color = "white"
 prefix.text = "on"
 ```
 
-* **enable** - If the option is `true`, it will show the version information (with icon) of the Python project if it contains the file **pyproject.toml** in the directory.  `Default:` *true*
+* **enable** - If the option is `true`, it will show the version information (with icon) of the Python project if it contains the file **pyproject.toml** and **package.json** in the directory.  `Default:` *true*
 * **symbol** - Must receive an icon, whether in unicode or not. `Default:` \uf8d6
-* **color** - Changes the color of the pyproject. `Default:` magenta
+* **color** - Changes the color of the package. `Default:` magenta
 * **prefix.color** - Changes the color of the prefix.   `Default:` *white*
 * **prefix.text** - Before showing the package information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *on*
 
