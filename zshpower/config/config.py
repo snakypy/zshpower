@@ -13,7 +13,7 @@ jump_line.enable = true
 config.editor = "vim"
 separator.element = "-"
 separator.color = "white"
-position = ["docker", "nodejs", "package", "virtualenv", "python", "git"]
+position = ["virtualenv", "python", "package", "docker", "nodejs", "git"]
 
 [username]
 enable = false
@@ -62,7 +62,7 @@ color = "green"
 error.symbol = "\\uf553"
 error.color = "red"
 
-[pyproject]
+[package]
 enable = true
 symbol = "\\uf8d6"
 color = "red"
