@@ -264,14 +264,14 @@ prefix.text = "at"
 
 ```toml
 [directory]
-truncation_length = 2
+truncation_length = 1
 symbol = "\ufc6e"
 color = "cyan"
 prefix.color = "white"
 prefix.text = "in"
 ```
 
-* **truncation_length** - This option receives an integer from 1 to 3. You will be responsible for truncating the path levels of the directory. `Default:` *2* (Note: Value 0 (zero), show all path.)
+* **truncation_length** - This option receives an integer from 0 to 4. You will be responsible for truncating the path levels of the directory. `Default:` *1* (Note: Value 0 (zero), show all path.)
 * **symbol** - Must receive an icon, whether in unicode or not. `Default:` \ufc6e
 * **color** - Changes the color of the path.  `Default:` cyan
 * **prefix.color** - Changes the color of the path prefix.   `Default:` *white*
