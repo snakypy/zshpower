@@ -3,6 +3,7 @@ from os import environ
 from pathlib import Path
 from .lib.utils import Color, abspath_link
 from .lib.utils import symbol_ssh, element_spacing
+from tomlkit.exceptions import UnexpectedCharError
 
 
 def shorten_path(file_path, length):
@@ -33,18 +34,21 @@ class Directory:
                 f"{self.directory_prefix_text}{Color().NONE}"
             )
 
-        directory = shorten_path(abspath_link(), int(self.directory_truncate_value))
-        if (
-            str(directory) == str(Path.home())
-            or str(directory) == str(Path.home())[1:]
-            # TODO: Error in user "root". Bugfix.
-            # or str(directory) == str(Path.home()).split("/")[2].strip()
-        ):
-            directory = "~"
+        if int(self.directory_truncate_value) < 0:
+            self.directory_truncate_value = 0
+        if int(self.directory_truncate_value) > 4:
+            self.directory_truncate_value = 4
 
+        dir_truncate = str(shorten_path(
+            abspath_link(),
+            self.directory_truncate_value
+        ))
+
+        if dir_truncate.split("/")[-1:] == str(Path.home()).split("/")[-1:]:
+            dir_truncate = "~"
         directory_export = (
             f"{prefix}{Color(self.directory_color)}{self.directory_symbol}"
-            f"{directory}{space_elem}{Color().NONE}"
+            f"{dir_truncate}{space_elem}{Color().NONE}"
         )
 
         return str(directory_export)
