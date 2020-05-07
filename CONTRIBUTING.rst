@@ -60,7 +60,9 @@ Ready to contribute? Here's how to set up `zshpower` for local development.
 1. Fork the `zshpower` repo on GitHub.
 2. Clone your fork locally:
 
-    $ git clone git@github.com:your_name_here/zshpower.git
+    $ git clone git@github.com:your_name_here/zshpower.git --branch dev
+   
+NOTE: It is recommended that you use the "dev" branch, which is the updated branch for future versions.
 
 3. Install your local copy on a virtualenv. Assuming you have poetry installed, this is how you set up your fork for local development:
 
