@@ -35,7 +35,7 @@
 <br>
 
 <div align="left">
-	<h2 style="color: red;">Attention! This project is in the BETA version, it is unstable in terms of performance.</h2>
+	<h2 style="color: red;">Attention! This project is in the BETA version, it is unstable in terms of performance. Currently a prototype.</h2>
 </div>
 
 `ZSHPower` is a theme for ZSH; especially for the [Python](https://www.python.org/) developer. Pleasant to look at, the **ZSHPower** comforts you with its colors and icons vibrant.
