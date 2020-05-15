@@ -36,7 +36,7 @@ class InitCommand(Base):
 
     def main(self, arguments, *, reload=False, message=False):
 
-        tools_requirements("zsh", "vim", "git")
+        tools_requirements("zsh", "vim", "git", "cut", "grep")
 
         create_zshrc_not_exists(
             f". $HOME/.{package.info['pkg_name']}/init", self.zsh_rc
@@ -48,7 +48,6 @@ class InitCommand(Base):
 
         snakypy_file_create(set_zshpower_content, self.init_file, force=True)
 
-        # TODO: Invert command to "--no-omz"
         if arguments["--omz"]:
             omz_install(self.omz_root)
             omz_install_plugins(self.omz_root, self.plugins)
