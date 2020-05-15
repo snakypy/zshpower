@@ -76,14 +76,14 @@ def omz_install_plugins(omz_root, plugins):
                 cmd_snakypy(clone, verbose=True)
                 printer(f"Plugin {plugin} task finished!", foreground=FG.FINISH)
     except Exception:
-        raise Exception(f"There was an error installing the plugin")
+        raise Exception("There was an error installing the plugin")
 
 
 def install_fonts(home, force=False):
     url = "https://github.com/snakypy/snakypy-static"
-    base_url = f"blob/master/zshpower/fonts/fonts.zip?raw=true"
+    base_url = "blob/master/zshpower/fonts/fonts.zip?raw=true"
     font_name = "DejaVu Sans Mono Nerd Font"
-    fonts_dir = join(home, f".fonts")
+    fonts_dir = join(home, ".fonts")
     snakypy_path_create(fonts_dir)
     curl_output = join(home, "zshpower__font.zip")
 
