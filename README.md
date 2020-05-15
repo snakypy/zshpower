@@ -48,7 +48,8 @@ In addition, the **ZSHPower** manager downloads **Oh My Zsh** and the
 <div align="center">
 	<sub><strong>Note:</strong> While this project is in beta, it will present some difficulties in terms of performance. Currently a prototype.</sub>
 </div>
-
+<br>
+<br>
 Here is an example of the installed **ZSHPower**:
 
 <p align="center">
