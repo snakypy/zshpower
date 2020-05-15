@@ -12,12 +12,21 @@ content = f"""#!/usr/bin/env zsh
 # Description: Call script to start {package.info["name"]}.
 # ******************************************************************************
 
-
 export PATH="$PATH:$HOME/.local/bin"
-function set_zshpower () {{
-    PROMPT="$(zshpower-shell prompt)"
-    RPROMPT="$(zshpower-shell rprompt)"
+function zshpower_precmd() {{
+    PS1="$(zshpower-shell prompt)"
 }}
-autoload add-zsh-hook
-add-zsh-hook precmd set_zshpower
+
+function install_zshpower_precmd() {{
+  for s in "${{precmd_functions[@]}}"; do
+    if [ "$s" = "zshpower_precmd" ]; then
+      return
+    fi
+  done
+  precmd_functions+=(zshpower_precmd)
+}}
+
+if [ "$TERM" != "linux" ]; then
+    install_zshpower_precmd
+fi
 """
