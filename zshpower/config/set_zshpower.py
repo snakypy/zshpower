@@ -14,7 +14,13 @@ content = f"""#!/usr/bin/env zsh
 
 export PATH="$PATH:$HOME/.local/bin"
 function zshpower_precmd() {{
-    PS1="$(zshpower-shell prompt)"
+    if [[ ! -n $(which zshpower-shell) ]]; then
+      PROMPT="$(zshpower-shell prompt)"
+      RPROMPT="$(zshpower-shell rprompt)"
+    else
+      PROMPT='%F{{green}}%n%f@%F{{magenta}}%m%f %F{{blue}}%B%~%b%f %# '
+      RPROMPT='[%F{{yellow}}%?%f]'
+    fi
 }}
 
 function install_zshpower_precmd() {{
