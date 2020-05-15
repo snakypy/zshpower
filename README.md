@@ -34,10 +34,6 @@
 <br>
 <br>
 
-<div align="left">
-	<h2 style="color: red;">Attention! This project is in the BETA version, it is unstable in terms of performance. Currently a prototype.</h2>
-</div>
-
 `ZSHPower` is a theme for ZSH; especially for the [Python](https://www.python.org/) developer. Pleasant to look at, the **ZSHPower** comforts you with its colors and icons vibrant.
 
 Installing **ZSHPower** is the easiest thing you will see in any existing theme for **ZSH**, because there is a manager.
@@ -48,6 +44,10 @@ The **ZSHPower** supports installation along with [Oh My ZSH](https://ohmyz.sh/)
 
 In addition, the **ZSHPower** manager downloads **Oh My Zsh** and the
 [`zsh-autosuggestions`](https://github.com/zsh-users/zsh-autosuggestions) and [`zsh-syntax-highlighting`](https://github.com/zsh-users/zsh-syntax-highlighting) plugins automatically, everything to make your ZSH very power.
+
+<div align="center">
+	<sub><strong>Note:</strong> While this project is in beta, it will present some difficulties in terms of performance. Currently a prototype.</sub>
+</div>
 
 Here is an example of the installed **ZSHPower**:
 
