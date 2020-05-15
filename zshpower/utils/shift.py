@@ -131,7 +131,7 @@ def add_plugins_zshrc(zshrc):
     if len(new_plugins) > 0:
         current_zshrc = read_zshrc(zshrc)
         plugins = f'plugins=({" ".join(current)} {" ".join(new_plugins)})'
-        new_zsh_rc = re_sub(rf"^plugins=\(.*", plugins, current_zshrc, flags=re_m)
+        new_zsh_rc = re_sub(r"^plugins=\(.*", plugins, current_zshrc, flags=re_m)
         snakypy_file_create(new_zsh_rc, zshrc, force=True)
         return new_zsh_rc
     return

@@ -44,7 +44,7 @@ class UninstallCommand(Base):
             rm_init_file_package(self.init_file)
             rm_source_zshrc(self.zsh_rc)
         else:
-            title = f"What did you want to uninstall?"
+            title = "What did you want to uninstall?"
             options = [
                 f"{package.info['name']}",
                 f"{package.info['name']} and Oh My ZSH",

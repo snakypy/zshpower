@@ -13,7 +13,7 @@ class CreditsCommand:
         billboard(
             package.info["organization_name"], justify="center", foreground=FG.YELLOW
         )
-        printer(f"copyright (c) since 2020\n".center(100), foreground=FG.GREEN)
+        printer("copyright (c) since 2020\n".center(100), foreground=FG.GREEN)
         credence(
             package.info["name"],
             __version__,
