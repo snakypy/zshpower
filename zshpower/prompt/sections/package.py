@@ -66,7 +66,6 @@ class NodePackage(Package):
 
 
 def get_package(config):
-    status = set()
     files_project_py = (
         "manage.py",
         "setup.py",
@@ -76,7 +75,5 @@ def get_package(config):
     )
     for i in files_project_py:
         if exists(join(getcwd(), i)):
-            status.add(True)
-    if True not in status:
-        return str(NodePackage(config))
+            return str(NodePackage(config))
     return str(Package(config))
