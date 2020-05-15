@@ -21,9 +21,9 @@ class NodeJs:
 
     def get_version(self, space_elem=" "):
         tool = {
-            "node": shell_command("node", "node -v 2>/dev/null"),
-            "nodejs": shell_command("nodejs", "nodejs -v 2>/dev/null"),
-            "nodenv": shell_command("nodenv", "nodenv version-name"),
+            "node": shell_command("node -v 2>/dev/null"),
+            "nodejs": shell_command("nodejs -v 2>/dev/null"),
+            "nodenv": shell_command("nodenv version-name"),
         }
         lst_version = ""
         if tool["nodenv"]:

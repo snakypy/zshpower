@@ -13,7 +13,7 @@ def docker_status():
         echo "disabled"
     fi
     """
-    return shell_command("docker", cmd)[0]
+    return shell_command(cmd)[0]
 
 
 class Docker:
@@ -46,7 +46,7 @@ class Docker:
 
     def __str__(self):
         if self.docker_version_enable:
-            if is_tool("docker") and not docker_status() == "disabled":
+            if not docker_status() == "disabled":
                 if isfile(self.dockerfile) or isfile(self.docker_compose):
                     docker_prefix = (
                         f"{Color(self.docker_prefix_color)}"

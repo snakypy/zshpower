@@ -5,6 +5,7 @@ from snakypy.json import read as snakypy_json_read
 from os import getcwd
 from os.path import isfile, join, exists
 from .lib.utils import Color, symbol_ssh, separator, element_spacing
+from zshpower.utils.process import shell_command
 
 
 class Configs:
@@ -23,17 +24,10 @@ class Package(Configs):
         self.package_file = join(getcwd(), "pyproject.toml")
 
     def get_version(self, space_elem=" "):
-        try:
-            if isfile(self.package_file):
-                read_f = snakypy_file_read(self.package_file)
-                parsed = dict(toml_parse(read_f))
-                for item in parsed.values():
-                    for data in item.values():
-                        if "version" in data:
-                            return f"{data['version']}{space_elem}"
-            return ""
-        except (UnexpectedCharError, ParseError):
-            return f"Error{space_elem}"
+        if isfile(self.package_file):
+            cmd = f"""< {self.package_file} grep "^version = *" | cut -d'"' -f2"""
+            return f"{shell_command(cmd)[0]}{space_elem}"
+        return ""
 
     def __str__(self):
         if self.package_enable and self.get_version() != "":
@@ -75,5 +69,5 @@ def get_package(config):
     )
     for i in files_project_py:
         if exists(join(getcwd(), i)):
-            return str(NodePackage(config))
-    return str(Package(config))
+            return str(Package(config))
+    return str(NodePackage(config))

@@ -1,7 +1,7 @@
 from subprocess import call as subprocess_call
 from subprocess import PIPE, Popen as subprocess_popen
 from zshpower.utils.catch import current_user, current_shell
-from zshpower.utils.check import is_tool
+from zshpower.utils.check import is_tool, tools_requirements
 from snakypy import printer
 from snakypy.ansi import FG
 
@@ -18,14 +18,12 @@ def change_shell():
             printer("Canceled by user", foreground=FG.WARNING)
 
 
-def shell_command(app, cmd):
-    if is_tool(app):
-        p = subprocess_popen(
-            cmd, shell=True, stdout=PIPE, stderr=PIPE, universal_newlines=True
-        )
-        output, err = p.communicate()
-        return output.replace("\n", ""), err
-    return
+def shell_command(cmd):
+    p = subprocess_popen(
+        cmd, shell=True, stdout=PIPE, stderr=PIPE, universal_newlines=True
+    )
+    output, err = p.communicate()
+    return output.replace("\n", ""), err
 
 
 # # TODO: This may be for the future, but not now.
