@@ -25,7 +25,7 @@ class Package(Configs):
 
     def get_version(self, space_elem=" "):
         if isfile(self.package_file):
-            cmd = f"""< {self.package_file} grep "^version = *" | cut -d'"' -f2"""
+            cmd = f"""< {self.package_file} grep "^version = *" | cut -d'"' -f2 | cut -d"'" -f2"""
             return f"{shell_command(cmd)[0]}{space_elem}"
         return ""
 
