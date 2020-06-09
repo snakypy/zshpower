@@ -27,7 +27,7 @@ prefix.text = "at"
 
 [directory]
 truncation_length = 1
-symbol = "\\ufc6e"
+symbol = "\\ue5fe"
 color = "cyan"
 prefix.color = "white"
 prefix.text = "in"
