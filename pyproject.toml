@@ -30,7 +30,7 @@ zshpower-shell = "zshpower.shell:main"
 "Bug Tracker" = "https://github.com/snakypy/zshpower/issues"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 snakypy = "^0.3.6"
 docopt = "^0.6.2"
 tomlkit = "^0.7.0"
