@@ -92,8 +92,8 @@ To work correctly, you will first need:
 
 - [`Git`](https://git-scm.com/downloads) (v2.25 or recent) must be installed;
 - [`Zsh`](http://www.zsh.org/) (v5.2 or recent) must be installed;
-- [`Python`](https://python.org) (v3.7 or recent);
-- [`Pip`](https://pip.pypa.io/en/stable/) (v19.3 or recent) must be installed;
+- [`Python`](https://python.org) (v3.9 or recent);
+- [`Pip`](https://pip.pypa.io/en/stable/) (v21.0.1 or recent) must be installed;
 - Some [`Nerd Font`](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/) font installed;
 - One of that editor [vim](https://www.vim.org/), [nano](https://www.nano-editor.org/) or [emacs](https://www.gnu.org/software/emacs/) must be installed;
 

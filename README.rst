@@ -49,8 +49,8 @@ To work correctly, you will first need:
 
 * `git`_ (v2.25 or recent) must be installed.
 * `zsh`_  (v5.2 or recent) must be installed.
-* `python`_ (v3.7 or recent) must be installed.
-* `pip`_ (v19.3 or recent) must be installed.
+* `python`_ (v3.9 or recent) must be installed.
+* `pip`_ (v21.0.1 or recent) must be installed.
 * `nerd fonts`_ must be installed.
 
 
