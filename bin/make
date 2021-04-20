@@ -71,7 +71,7 @@ EOF
 	function _linter_flake8 () {
 		if [[ -f $(which flake8) ]]; then
 			_msg_header_ "[ Linter ] Checks whether the code structure ..." "\n"
-			flake8 zshpower tests
+			poetry run flake8 zshpower tests
 			_msg_finish_ "Linter finished!"
 		else
 			_msg_error_ "Linter flake8 not installed.\nInstall the requirements that this resolves."
@@ -86,7 +86,7 @@ EOF
 	function _code_style_black () {
 		if [[ -f $(which black) ]]; then
 			_msg_header_ "[ Format ] Formatting code with Black ..." "\n"
-			black zshpower/ tests/
+			poetry run black zshpower/ tests/
 			_msg_finish_ "Code formatted finished!"
 		else
 			_msg_error_ "black not installed.\nInstall the requirements that this resolves."
@@ -103,7 +103,7 @@ EOF
 		_msg_header_ "[ Clearing cache and compiling ]" "\n"
 		$(echo "$0") clean
 		_msg_header_ "Compiling..." "\n"
-	    eqversion
+	    # eqversion
 		poetry build
 		_msg_finish_ "Compilation completed!"
 
@@ -159,7 +159,7 @@ EOF
         _msg_header_ "[ Upload to Test Pypi (http://test.pypi.org) ]" "\n"
         $(echo "$0") build
         _msg_header_ "Starting upload..."
-        twine upload --repository testpypi dist/*
+        poetry run twine upload --repository testpypi dist/*
         _msg_finish_ "Upload complete!"
 
     }
@@ -174,7 +174,7 @@ EOF
         _msg_header_ "[ Upload to Pypi (https://pypi.org) ]" "\n"
         $(echo "$0") build
         _msg_header_ "Starting upload..."
-        twine upload --repository pypi dist/*
+        poetry run twine upload --repository pypi dist/*
         _msg_finish_ "Upload complete!"
         # twine upload dist/*
 
