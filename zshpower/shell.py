@@ -51,25 +51,28 @@ class Prompt(Base):
 
     def left(self, jump_line="\n"):
         try:
-            if not self.config_load["general"]["jump_line"]["enable"]:
+            # Loading the settings to a local variable and thus improving performance
+            config_loaded = self.config_load
+
+            if not config_loaded["general"]["jump_line"]["enable"]:
                 jump_line = ""
-            username = Username(self.config_load)
-            hostname = Hostname(self.config_load)
-            directory = Directory(self.config_load)
+            username = Username(config_loaded)
+            hostname = Hostname(config_loaded)
+            directory = Directory(config_loaded)
             dinamic_section = {
-                "docker": Docker(self.config_load),
-                "nodejs": NodeJs(self.config_load),
-                "package": get_package(self.config_load),
-                "python": Python(self.config_load),
-                "virtualenv": Virtualenv(self.config_load),
-                "git": Git(self.config_load),
+                "docker": Docker(config_loaded),
+                "nodejs": NodeJs(config_loaded),
+                "package": get_package(config_loaded),
+                "python": Python(config_loaded),
+                "virtualenv": Virtualenv(config_loaded),
+                "git": Git(config_loaded),
             }
-            cmd = Command(self.config_load)
+            cmd = Command(config_loaded)
 
             static_section = f"{jump_line}{username}{hostname}{directory}"
 
             ordered_section = []
-            for element in self.config_load["general"]["position"]:
+            for element in config_loaded["general"]["position"]:
                 for item in dinamic_section.keys():
                     if item == element:
                         # stdout.write(str(dinamic_section[item]))
@@ -84,13 +87,23 @@ class Prompt(Base):
 
     def right(self):
         try:
-            timer = str(Timer(self.config_load))
+            # Loading the settings to a local variable and thus improving performance
+            config_loaded = self.config_load
+
+            timer = str(Timer(config_loaded))
             return timer
         except (NonExistentKey):
             return (
                 f"{FG.ERROR}>>> {package.info['name']} Error: Key error in "
                 f"the configuration file. "
             )
+
+
+"""
+PERFORMANCE NOTE: AS ZSHPOWER NEEDS TO LOAD AN EXTERNAL CONFIGURATION TOML FILE AT ALL
+TIMES WHEN A TERMINAL COMMAND IS LAUNCHED, PERFORMANCE IN LOADING THE ZSHPOWER VISUAL
+MODEL SHOULD FALL A FEW MILLISECONDS.
+"""
 
 
 @only_for_linux
