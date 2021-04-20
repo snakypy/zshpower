@@ -147,7 +147,7 @@ However, by default, `ZSHPower` already downloads the font [**DejaVuSansMono Ner
 
 ### Editors, IDE and Terminal
 
-After `ZSHPower` installs the `DejaVuSansMono Nerd Font` font, you must configure your text editor and terminal to recognize the icons used by the `Snnapypy Prompt`.
+After install `ZSHPower` and the `DejaVuSansMono Nerd Font`, you must configure your text editor and terminal to recognize the icons used by the `Snakypy Prompt`.
 
 **Visual Studio Code:**
 
