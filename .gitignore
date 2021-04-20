@@ -135,6 +135,9 @@ package.json
 # Pycharm
 .idea/
 
+# VSCode
+.vscode/
+
 # Ignore file docs
 docs/modules.rst
 docs/zshpower*.rst
