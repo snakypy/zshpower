@@ -58,7 +58,8 @@ def omz_install(omz_root):
             printer("Install Oh My ZSH...", foreground=FG.QUESTION)
             cmd_snakypy(cmd_line, verbose=True)
             printer(
-                "Oh My ZSH installation process finished.", foreground=FG.FINISH,
+                "Oh My ZSH installation process finished.",
+                foreground=FG.FINISH,
             )
 
     except Exception:
