@@ -19,6 +19,7 @@ position = [
     "rust",
     "golang",
     "php",
+    "ruby",
     "elixir",
     "julia",
     "dotnet",
@@ -149,6 +150,14 @@ version.micro.enable = true
 [dotnet]
 symbol = "\\ue77f"
 color = "blue"
+prefix.color = "white"
+prefix.text = "is"
+version.enable = true
+version.micro.enable = true
+
+[ruby]
+symbol = "\\ue21e"
+color = "red"
 prefix.color = "white"
 prefix.text = "is"
 version.enable = true

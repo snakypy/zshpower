@@ -52,6 +52,7 @@ class Prompt(Base):
         from zshpower.prompt.sections.elixir import Elixir
         from zshpower.prompt.sections.julia import Julia
         from zshpower.prompt.sections.dotnet import Dotnet
+        from zshpower.prompt.sections.ruby import Ruby
         from zshpower.prompt.sections.command import Command
         from zshpower.prompt.sections.username import Username
         from zshpower.prompt.sections.virtualenv import Virtualenv
@@ -76,6 +77,7 @@ class Prompt(Base):
                 "elixir": Elixir(config_loaded),
                 "julia": Julia(config_loaded),
                 "dotnet": Dotnet(config_loaded),
+                "ruby": Ruby(config_loaded),
                 "virtualenv": Virtualenv(config_loaded),
                 "git": Git(config_loaded),
             }
@@ -97,7 +99,7 @@ class Prompt(Base):
                 for item in dinamic_section.keys()
                 if item == element
             ]
-            sections = "{}{}{}{}{}{}{}{}{}{}{}{}{}{}"
+            sections = "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"
             return sections.format(static_section, *ordered_section, cmd)
         except (NonExistentKey, UnexpectedCharError, ValueError):
             return (
