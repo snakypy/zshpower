@@ -95,13 +95,3 @@ def element_spacing(element, spacing=" "):
     if element != "":
         element += spacing
     return element
-
-
-def find_files(directory, /, files=(), extension=None):
-    import os
-
-    for r, d, f in os.walk(directory):
-        for item in f:
-            if extension is not None and item.endswith(extension) or item in files:
-                return True
-    return False
