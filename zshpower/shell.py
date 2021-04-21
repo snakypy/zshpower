@@ -71,12 +71,20 @@ class Prompt(Base):
 
             static_section = f"{jump_line}{username}{hostname}{directory}"
 
-            ordered_section = []
-            for element in config_loaded["general"]["position"]:
-                for item in dinamic_section.keys():
-                    if item == element:
-                        # stdout.write(str(dinamic_section[item]))
-                        ordered_section.append(dinamic_section[item])
+            # # Old: No List Comprehension
+            # ordered_section = []
+            # for element in config_loaded["general"]["position"]:
+            #     for item in dinamic_section.keys():
+            #         if item == element:
+            #             # stdout.write(str(dinamic_section[item]))
+            #             ordered_section.append(dinamic_section[item])
+
+            ordered_section = [
+                dinamic_section[item]
+                for element in config_loaded["general"]["position"]
+                for item in dinamic_section.keys()
+                if item == element
+            ]
             sections = "{}{}{}{}{}{}{}{}"
             return sections.format(static_section, *ordered_section, cmd)
         except (NonExistentKey, UnexpectedCharError, ValueError):

@@ -133,10 +133,11 @@ def add_plugins_zshrc(zshrc):
         "zsh-autosuggestions",
     )
     current = plugins_current_zshrc(zshrc)
-    new_plugins = []
-    for plugin in plugins:
-        if plugin not in current:
-            new_plugins.append(plugin)
+    # new_plugins = []
+    # for plugin in plugins:
+    #     if plugin not in current:
+    #         new_plugins.append(plugin)
+    new_plugins = [plugin for plugin in plugins if plugin not in current]
 
     if len(new_plugins) > 0:
         current_zshrc = read_zshrc(zshrc)

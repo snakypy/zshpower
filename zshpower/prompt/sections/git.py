@@ -114,7 +114,6 @@ class Git:
                 f"{Color().NONE}"
             )
             status_current = []
-            status_icons = []
             if "??" in status_git:
                 status_current.append("??")
             if "D" in status_git:
@@ -144,14 +143,25 @@ class Git:
             if len(status_git) == 0:
                 status_current.append("CL")
 
-            for item in status_current:
-                if "SSH_CONNECTION" not in environ:
-                    if self.git_symbol_enable:
-                        status_icons.append(f"{self.icons[item][0]}")
-                    else:
-                        status_icons.append(f"{self.icons[item][1]}")
-                else:
-                    status_icons.append(f"{self.icons[item][1]}")
+            # # Old: No List Comprehension
+            # status_icons = []
+            # for item in status_current:
+            #     if "SSH_CONNECTION" not in environ:
+            #         if self.git_symbol_enable:
+            #             status_icons.append(f"{self.icons[item][0]}")
+            #         else:
+            #             status_icons.append(f"{self.icons[item][1]}")
+            #     else:
+            #         status_icons.append(f"{self.icons[item][1]}")
+
+            status_icons = [
+                self.icons[item][0]
+                if self.git_symbol_enable
+                else self.icons[item][1]
+                if "SSH_CONNECTION" not in environ
+                else self.icons[item][1]
+                for item in status_current
+            ]
 
             # status = f'( {" ".join(sorted(status_icons)).strip()} )'
             # if len(status_current) == 1:
