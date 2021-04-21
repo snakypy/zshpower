@@ -35,9 +35,10 @@ class Python:
         from zshpower.utils.catch import find_files
         from zshpower.utils.check import is_tool
         from os import environ as os_environ, getcwd as os_getcwd
+        from zshpower import __pyversion__
 
         py_prefix1 = f"{Color(self.py_prefix_color)}{self.py_prefix_text}{Color().NONE}"
-        if is_tool("python"):
+        if is_tool("python", f"python{__pyversion__[0]}"):
             if (
                 self.py_version_enable
                 and find_files(os_getcwd(), self.search_f)
