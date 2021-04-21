@@ -16,3 +16,5 @@ from pathlib import Path
 HOME = str(Path.home())
 
 __version__ = "0.6.0"
+
+__pyversion__ = ["3", "9"]
