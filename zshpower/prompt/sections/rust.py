@@ -3,7 +3,7 @@ class Rust:
         from .lib.utils import symbol_ssh, element_spacing
 
         self.config = config
-        self.search_f = ("Cargo.toml", "*.rs")
+        self.search_f = ("Cargo.toml", "cargo.toml")
         self.rs_symbol = config["rust"]["symbol"]
         self.rs_symbol = symbol_ssh(config["rust"]["symbol"], "rs-")
         self.rs_color = config["rust"]["color"]
@@ -43,7 +43,7 @@ class Rust:
 
         if is_tool("rustc"):
             if self.rs_version_enable and find_files(
-                os_getcwd(), files=("Cargo.toml",), extension=".rs"
+                os_getcwd(), files=self.search_f, extension=".rs"
             ):
                 return str(
                     (
