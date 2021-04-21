@@ -13,7 +13,7 @@ jump_line.enable = true
 config.editor = "vim"
 separator.element = "-"
 separator.color = "white"
-position = ["virtualenv", "python", "rust", "golang", "php", "package", "docker", "nodejs", "git"]
+position = ["virtualenv", "python", "rust", "golang", "php", "elixir", "package", "docker", "nodejs", "git"]
 
 [username]
 enable = false
@@ -112,6 +112,14 @@ version.micro.enable = true
 [php]
 symbol = "\\ue608"
 color = "magenta"
+prefix.color = "white"
+prefix.text = "is"
+version.enable = true
+version.micro.enable = true
+
+[elixir]
+symbol = "\\ue62d"
+color = "blue"
 prefix.color = "white"
 prefix.text = "is"
 version.enable = true
