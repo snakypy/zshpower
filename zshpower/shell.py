@@ -47,6 +47,8 @@ class Prompt(Base):
         from zshpower.prompt.sections.node import NodeJs
         from zshpower.prompt.sections.python import Python
         from zshpower.prompt.sections.rust import Rust
+        from zshpower.prompt.sections.golang import Golang
+        from zshpower.prompt.sections.php import Php
         from zshpower.prompt.sections.command import Command
         from zshpower.prompt.sections.username import Username
         from zshpower.prompt.sections.virtualenv import Virtualenv
@@ -66,6 +68,8 @@ class Prompt(Base):
                 "package": get_package(config_loaded),
                 "python": Python(config_loaded),
                 "rust": Rust(config_loaded),
+                "golang": Golang(config_loaded),
+                "php": Php(config_loaded),
                 "virtualenv": Virtualenv(config_loaded),
                 "git": Git(config_loaded),
             }
@@ -87,12 +91,12 @@ class Prompt(Base):
                 for item in dinamic_section.keys()
                 if item == element
             ]
-            sections = "{}{}{}{}{}{}{}{}{}"
+            sections = "{}{}{}{}{}{}{}{}{}{}{}"
             return sections.format(static_section, *ordered_section, cmd)
         except (NonExistentKey, UnexpectedCharError, ValueError):
             return (
                 f"{FG.ERROR}>>> {package.info['name']} Error: Key error in "
-                f"the configuration file. "
+                f"the configuration file.\n> "
             )
 
     def right(self):
@@ -107,7 +111,7 @@ class Prompt(Base):
         except (NonExistentKey):
             return (
                 f"{FG.ERROR}>>> {package.info['name']} Error: Key error in "
-                f"the configuration file. "
+                f"the configuration file.\n > "
             )
 
 
