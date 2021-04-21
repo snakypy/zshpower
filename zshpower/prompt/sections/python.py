@@ -31,19 +31,17 @@ class Python:
             return f"{version}{space_elem}"
 
     def __str__(self):
-        from .lib.utils import Color, separator
+        from .lib.utils import Color, separator, find_files
         from os.path import exists, join
         from os import environ as os_environ, getcwd as os_getcwd
 
         py_prefix1 = f"{Color(self.py_prefix_color)}{self.py_prefix_text}{Color().NONE}"
-        if self.py_version_enable:
-            for item in self.search_f:
-                if exists(join(os_getcwd(), item)) or "VIRTUAL_ENV" in os_environ:
-                    return str(
-                        (
-                            f"{separator(self.config)}{py_prefix1}"
-                            f"{Color(self.py_color)}{self.py_symbol}"
-                            f"{self.get_version()}{Color().NONE}"
-                        )
-                    )
+        if self.py_version_enable and find_files(os_getcwd(), self.search_f) or "VIRTUAL_ENV" in os_environ:
+            return str(
+                (
+                    f"{separator(self.config)}{py_prefix1}"
+                    f"{Color(self.py_color)}{self.py_symbol}"
+                    f"{self.get_version()}{Color().NONE}"
+                )
+            )
         return ""
