@@ -14,17 +14,19 @@ config.editor = "vim"
 separator.element = "-"
 separator.color = "white"
 position = [
-"virtualenv",
-"python",
-"rust",
-"golang",
-"php",
-"elixir",
-"julia",
-"package",
-"docker",
-"nodejs",
-"git"]
+    "virtualenv",
+    "python",
+    "rust",
+    "golang",
+    "php",
+    "elixir",
+    "julia",
+    "dotnet",
+    "package",
+    "docker",
+    "nodejs",
+    "git"
+    ]
 
 [username]
 enable = false
@@ -138,6 +140,14 @@ version.micro.enable = true
 
 [julia]
 symbol = "\\ue624"
+color = "blue"
+prefix.color = "white"
+prefix.text = "is"
+version.enable = true
+version.micro.enable = true
+
+[dotnet]
+symbol = "\\ue77f"
 color = "blue"
 prefix.color = "white"
 prefix.text = "is"

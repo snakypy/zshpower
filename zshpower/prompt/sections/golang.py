@@ -45,7 +45,7 @@ class Golang:
 
         if is_tool("go"):
             if self.go_version_enable and find_files(
-                os_getcwd(), files=self.search_f, extension=".go"
+                os_getcwd(), files=self.search_f, extension=(".go",)
             ):
                 return str(
                     (

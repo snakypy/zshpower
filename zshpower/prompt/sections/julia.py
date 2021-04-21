@@ -3,7 +3,6 @@ class Julia:
         from .lib.utils import symbol_ssh, element_spacing
 
         self.config = config
-        self.search_f = ("index.jl",)
         self.jl_symbol = config["julia"]["symbol"]
         self.jl_symbol = symbol_ssh(config["julia"]["symbol"], "ex-")
         self.jl_color = config["julia"]["color"]
@@ -23,7 +22,8 @@ class Julia:
                 universal_newlines=True,
             )
             .replace("\n", "")
-            .split(" ")[2].split(".")
+            .split(" ")[2]
+            .split(".")
         )
 
         if not self.jlv_micro_enable:
@@ -42,9 +42,7 @@ class Julia:
         jl_prefix1 = f"{Color(self.jl_prefix_color)}{self.jl_prefix_text}{Color().NONE}"
 
         if is_tool("julia"):
-            if self.jl_version_enable and find_files(
-                os_getcwd(), files=self.search_f, extension=".ex"
-            ):
+            if self.jl_version_enable and find_files(os_getcwd(), extension=(".jl",)):
                 return str(
                     (
                         f"{separator(self.config)}{jl_prefix1}"

@@ -10,7 +10,7 @@ class Elixir:
         self.eli_prefix_color = config["elixir"]["prefix"]["color"]
         self.eli_prefix_text = element_spacing(config["elixir"]["prefix"]["text"])
         self.eli_version_enable = config["elixir"]["version"]["enable"]
-        self.gov_micro_enable = config["elixir"]["version"]["micro"]["enable"]
+        self.eliv_micro_enable = config["elixir"]["version"]["micro"]["enable"]
 
     def get_version(self, space_elem=" "):
         from subprocess import check_output
@@ -26,7 +26,7 @@ class Elixir:
             .split(".")
         )
 
-        if not self.gov_micro_enable:
+        if not self.eliv_micro_enable:
             version = "{0[0]}.{0[1]}".format(eli_version)
             return f"{version}{space_elem}"
         else:
@@ -39,11 +39,13 @@ class Elixir:
         from zshpower.utils.check import is_tool
         from os import getcwd as os_getcwd
 
-        eli_prefix1 = f"{Color(self.eli_prefix_color)}{self.eli_prefix_text}{Color().NONE}"
+        eli_prefix1 = (
+            f"{Color(self.eli_prefix_color)}{self.eli_prefix_text}{Color().NONE}"
+        )
 
         if is_tool("elixir"):
             if self.eli_version_enable and find_files(
-                os_getcwd(), files=self.search_f, extension=".ex"
+                os_getcwd(), files=self.search_f, extension=(".ex",)
             ):
                 return str(
                     (

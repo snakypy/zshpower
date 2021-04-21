@@ -39,11 +39,13 @@ class Php:
         from zshpower.utils.check import is_tool
         from os import getcwd as os_getcwd
 
-        php_prefix1 = f"{Color(self.php_prefix_color)}{self.php_prefix_text}{Color().NONE}"
+        php_prefix1 = (
+            f"{Color(self.php_prefix_color)}{self.php_prefix_text}{Color().NONE}"
+        )
 
         if is_tool("php"):
             if self.php_version_enable and find_files(
-                os_getcwd(), files=self.search_f, extension=".php"
+                os_getcwd(), files=self.search_f, extension=(".php",)
             ):
                 return str(
                     (

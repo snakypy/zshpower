@@ -43,7 +43,7 @@ class Rust:
 
         if is_tool("rustc"):
             if self.rs_version_enable and find_files(
-                os_getcwd(), files=self.search_f, extension=".rs"
+                os_getcwd(), files=self.search_f, extension=(".rs",)
             ):
                 return str(
                     (

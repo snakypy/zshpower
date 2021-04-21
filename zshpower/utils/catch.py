@@ -77,11 +77,11 @@ def get_line_source(zshrc):
     return
 
 
-def find_files(directory, /, files=(), extension=None):
+def find_files(directory, /, files=(), extension=()):
     import os
 
     for r, d, f in os.walk(directory):
         for item in f:
-            if extension is not None and item.endswith(extension) or item in files:
+            if item.endswith(extension) or item in files:
                 return True
     return False
