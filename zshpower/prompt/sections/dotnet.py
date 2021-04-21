@@ -5,7 +5,7 @@ class Dotnet:
         self.config = config
         self.search_f = ("project.json", "global.json", "paket.dependencies")
         self.dn_symbol = config["dotnet"]["symbol"]
-        self.dn_symbol = symbol_ssh(config["dotnet"]["symbol"], "ex-")
+        self.dn_symbol = symbol_ssh(config["dotnet"]["symbol"], "dn-")
         self.dn_color = config["dotnet"]["color"]
         self.dn_prefix_color = config["dotnet"]["prefix"]["color"]
         self.dn_prefix_text = element_spacing(config["dotnet"]["prefix"]["text"])

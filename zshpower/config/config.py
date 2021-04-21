@@ -76,6 +76,14 @@ color = "green"
 error.symbol = "\\uf553"
 error.color = "red"
 
+[python]
+symbol = "\\uf81f"
+color = "yellow"
+prefix.color = "white"
+prefix.text = "via"
+version.enable = true
+version.micro.enable = true
+
 [package]
 enable = true
 symbol = "\\uf8d6"
@@ -96,14 +104,6 @@ symbol = "\\uf898"
 color = "green"
 prefix.color = "white"
 prefix.text = "on"
-version.enable = true
-version.micro.enable = true
-
-[python]
-symbol = "\\uf81f"
-color = "yellow"
-prefix.color = "white"
-prefix.text = "via"
 version.enable = true
 version.micro.enable = true
 

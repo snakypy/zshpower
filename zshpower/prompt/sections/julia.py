@@ -4,7 +4,7 @@ class Julia:
 
         self.config = config
         self.jl_symbol = config["julia"]["symbol"]
-        self.jl_symbol = symbol_ssh(config["julia"]["symbol"], "ex-")
+        self.jl_symbol = symbol_ssh(config["julia"]["symbol"], "jl-")
         self.jl_color = config["julia"]["color"]
         self.jl_prefix_color = config["julia"]["prefix"]["color"]
         self.jl_prefix_text = element_spacing(config["julia"]["prefix"]["text"])

@@ -39,16 +39,10 @@ class Python:
 
         py_prefix1 = f"{Color(self.py_prefix_color)}{self.py_prefix_text}{Color().NONE}"
         if is_tool("python", f"python{__pyversion__[0]}"):
-            if (
-                self.py_version_enable
-                and find_files(os_getcwd(), self.search_f)
-                or "VIRTUAL_ENV" in os_environ
-            ):
+            if self.py_version_enable and find_files(os_getcwd(), self.search_f) or "VIRTUAL_ENV" in os_environ:
                 return str(
-                    (
-                        f"{separator(self.config)}{py_prefix1}"
-                        f"{Color(self.py_color)}{self.py_symbol}"
-                        f"{self.get_version()}{Color().NONE}"
-                    )
+                    f"{separator(self.config)}{py_prefix1}"
+                    f"{Color(self.py_color)}{self.py_symbol}"
+                    f"{self.get_version()}{Color().NONE}"
                 )
         return ""

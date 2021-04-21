@@ -5,7 +5,7 @@ class Ruby:
         self.config = config
         self.search_f = ("Gemfile", "Rakefile")
         self.rb_symbol = config["ruby"]["symbol"]
-        self.rb_symbol = symbol_ssh(config["ruby"]["symbol"], "ex-")
+        self.rb_symbol = symbol_ssh(config["ruby"]["symbol"], "rb-")
         self.rb_color = config["ruby"]["color"]
         self.rb_prefix_color = config["ruby"]["prefix"]["color"]
         self.rb_prefix_text = element_spacing(config["ruby"]["prefix"]["text"])
@@ -23,7 +23,8 @@ class Ruby:
                 universal_newlines=True,
             )
             .replace("\n", "")
-            .split(" ")[1].split(".")
+            .split(" ")[1]
+            .split(".")
         )
 
         if not self.rbv_micro_enable:

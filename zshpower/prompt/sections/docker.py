@@ -26,7 +26,7 @@ class Docker:
         self.docker_version_micro_enable = config["docker"]["version"]["micro"][
             "enable"
         ]
-        self.docker_symbol = symbol_ssh(config["docker"]["symbol"], "Dkr-")
+        self.docker_symbol = symbol_ssh(config["docker"]["symbol"], "dkr-")
         self.docker_color = config["docker"]["color"]
         self.docker_prefix_color = config["docker"]["prefix"]["color"]
         self.docker_prefix_text = element_spacing(config["docker"]["prefix"]["text"])
