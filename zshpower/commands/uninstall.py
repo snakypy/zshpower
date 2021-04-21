@@ -1,22 +1,13 @@
-from datetime import datetime
-from snakypy import printer, pick
-from snakypy.ansi import FG
-from snakypy.file import create as snakypy_file_create
 from os import remove as os_remove
 from zshpower.config import package
 from zshpower.config.base import Base
-from subprocess import check_output
 from contextlib import suppress as contextlib_suppress
-from zshpower.utils.check import checking_init
-from shutil import which as shutil_which
-from shutil import copyfile as shutil_copyfile
-from shutil import rmtree as shutil_rmtree
-from zshpower.utils.process import reload_zsh
-from zshpower.utils.catch import read_zshrc_omz
-from zshpower.utils.shift import change_theme_in_zshrc, rm_source_zshrc
 
 
 def rm_init_file_package(init_file):
+    from shutil import which as shutil_which
+    from subprocess import check_output
+
     with contextlib_suppress(Exception):
         os_remove(init_file)
     if shutil_which("pip") is not None:
@@ -32,6 +23,17 @@ class UninstallCommand(Base):
         Base.__init__(self, home)
 
     def main(self):
+        from zshpower.utils.shift import change_theme_in_zshrc, rm_source_zshrc
+        from zshpower.utils.check import checking_init
+        from shutil import copyfile as shutil_copyfile
+        from shutil import rmtree as shutil_rmtree
+        from zshpower.utils.process import reload_zsh
+        from zshpower.utils.catch import read_zshrc_omz
+        from snakypy.file import create as snakypy_file_create
+        from snakypy.ansi import FG
+        from snakypy import printer, pick
+        from datetime import datetime
+
         checking_init(self.HOME)
 
         if not read_zshrc_omz(self.zsh_rc):

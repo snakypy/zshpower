@@ -1,12 +1,10 @@
-from os import getcwd
-from subprocess import check_output
-from os.path import isfile, join
-from .lib.utils import Color, symbol_ssh, separator, element_spacing
-from zshpower.utils.check import is_tool
-from zshpower.utils.process import shell_command
+# from zshpower.utils.check import is_tool
+from os.path import join
 
 
 def docker_status():
+    from zshpower.utils.process import shell_command
+
     cmd = """
     state=$(docker info > /dev/null 2>&1)
     if [[ $? -ne 0 ]]; then
@@ -18,6 +16,9 @@ def docker_status():
 
 class Docker:
     def __init__(self, config):
+        from os import getcwd
+        from .lib.utils import symbol_ssh, element_spacing
+
         self.config = config
         self.dockerfile = join(getcwd(), "Dockerfile")
         self.docker_compose = join(getcwd(), "docker-compose.yml")
@@ -31,6 +32,8 @@ class Docker:
         self.docker_prefix_text = element_spacing(config["docker"]["prefix"]["text"])
 
     def get_version(self, space_elem=" "):
+        from subprocess import check_output
+
         docker_v = (
             check_output(
                 "docker version --format '{{.Server.Version}}'",
@@ -45,6 +48,10 @@ class Docker:
         return f"{'.'.join(docker_v)}{space_elem}"
 
     def __str__(self):
+        from os.path import isfile
+        from .lib.utils import Color
+        from .lib.utils import separator
+
         if self.docker_version_enable:
             if not docker_status() == "disabled":
                 if isfile(self.dockerfile) or isfile(self.docker_compose):

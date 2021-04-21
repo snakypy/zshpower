@@ -1,11 +1,10 @@
-from os.path import join, isdir
-from os import getcwd, environ
 from .lib.utils import Color
-from .lib.utils import symbol_ssh, git_status, element_spacing, separator
 
 
 class Git:
     def __init__(self, config, icon_space=" "):
+        from .lib.utils import element_spacing, symbol_ssh
+
         self.config = config
         self.git_enable = config["git"]["enable"]
         self.git_symbol = symbol_ssh(config["git"]["symbol"], "git:")
@@ -97,6 +96,10 @@ class Git:
         self.icons["UD"] = self.icons["UU"]
 
     def __str__(self):
+        from .lib.utils import separator, git_status
+        from os import getcwd, environ
+        from os.path import join, isdir
+
         if self.git_enable and isdir(join(getcwd(), ".git")):
             status_git = git_status(porcelain=True)
             status_git_text = git_status()

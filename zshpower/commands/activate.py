@@ -1,10 +1,4 @@
-from snakypy import printer
-from snakypy.ansi import FG
 from zshpower.config.base import Base
-from zshpower.utils.process import reload_zsh
-from zshpower.utils.shift import change_theme_in_zshrc
-from zshpower.utils.catch import read_zshrc_omz
-from zshpower.utils.check import checking_init
 
 
 class ActivateCommand(Base):
@@ -12,6 +6,13 @@ class ActivateCommand(Base):
         Base.__init__(self, home)
 
     def main(self):
+        from zshpower.utils.check import checking_init
+        from zshpower.utils.catch import read_zshrc_omz
+        from zshpower.utils.shift import change_theme_in_zshrc
+        from zshpower.utils.process import reload_zsh
+        from snakypy.ansi import FG
+        from snakypy import printer
+
         checking_init(self.HOME)
 
         if read_zshrc_omz(self.zsh_rc):

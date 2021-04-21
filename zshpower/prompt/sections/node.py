@@ -1,12 +1,11 @@
-from .lib.utils import Color
-from os.path import isfile, isdir, join
-from os import getcwd
-from .lib.utils import symbol_ssh, separator, element_spacing
-from zshpower.utils.process import shell_command
+from os.path import join
 
 
 class NodeJs:
     def __init__(self, config):
+        from .lib.utils import symbol_ssh, element_spacing
+        from os import getcwd
+
         self.config = config
         self.package_json = join(getcwd(), "package.json")
         self.node_modules = join(getcwd(), "node_modules")
@@ -20,6 +19,8 @@ class NodeJs:
         self.node_prefix_text = element_spacing(self.config["nodejs"]["prefix"]["text"])
 
     def get_version(self, space_elem=" "):
+        from zshpower.utils.process import shell_command
+
         tool = {
             "node": shell_command("node -v 2>/dev/null"),
             "nodejs": shell_command("nodejs -v 2>/dev/null"),
@@ -41,6 +42,10 @@ class NodeJs:
         return f"{'.'.join(lst_version)}{space_elem}".replace("v", "")
 
     def __str__(self):
+        from .lib.utils import separator
+        from os.path import isfile, isdir
+        from .lib.utils import Color
+
         if self.node_version_enable:
             if isfile(self.package_json) or isdir(self.node_modules):
                 node_prefix = (

@@ -1,15 +1,14 @@
-from tomlkit import parse as toml_parse
-from tomlkit.exceptions import UnexpectedCharError, ParseError
-from snakypy.file import read as snakypy_file_read
-from snakypy.json import read as snakypy_json_read
+# from snakypy.file import read as snakypy_file_read
+# from tomlkit import parse as toml_parse
+# from tomlkit.exceptions import UnexpectedCharError, ParseError
 from os import getcwd
-from os.path import isfile, join, exists
-from .lib.utils import Color, symbol_ssh, separator, element_spacing
-from zshpower.utils.process import shell_command
+from os.path import isfile, join
 
 
 class Configs:
     def __init__(self, config):
+        from .lib.utils import Color, symbol_ssh, element_spacing
+
         self.package_enable = config["package"]["enable"]
         self.package_symbol = symbol_ssh(config["package"]["symbol"], "pkg-")
         self.package_color = config["package"]["color"]
@@ -24,12 +23,16 @@ class Package(Configs):
         self.package_file = join(getcwd(), "pyproject.toml")
 
     def get_version(self, space_elem=" "):
+        from zshpower.utils.process import shell_command
+
         if isfile(self.package_file):
             cmd = f"""< {self.package_file} grep "^version = *" | cut -d'"' -f2 | cut -d"'" -f2"""
             return f"{shell_command(cmd)[0]}{space_elem}"
         return ""
 
     def __str__(self):
+        from .lib.utils import Color, separator
+
         if self.package_enable and self.get_version() != "":
             package_prefix = (
                 f"{Color(self.package_prefix_color)}"
@@ -49,6 +52,8 @@ class NodePackage(Package):
         self.package_file = join(getcwd(), "package.json")
 
     def get_version(self, space_elem=" "):
+        from snakypy.json import read as snakypy_json_read
+
         if isfile(join(getcwd(), self.package_file)):
             parsed = snakypy_json_read(join(getcwd(), self.package_file))
             if "version" in parsed:
@@ -60,6 +65,8 @@ class NodePackage(Package):
 
 
 def get_package(config):
+    from os.path import exists
+
     files_project_py = (
         "manage.py",
         "setup.py",

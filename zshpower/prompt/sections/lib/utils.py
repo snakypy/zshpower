@@ -1,5 +1,3 @@
-import os
-from subprocess import check_output
 # from snakypy import FG
 # from snakypy.ansi import NONE as s_none
 
@@ -49,6 +47,8 @@ class Color:
 
 
 def symbol_ssh(symbol1, symbol2, spacing=" "):
+    import os
+
     if symbol1 != "":
         symbol1 += spacing
     if "SSH_CONNECTION" in os.environ:
@@ -63,6 +63,8 @@ def symbol_ssh(symbol1, symbol2, spacing=" "):
 
 
 def git_status(*, porcelain=False, branch=False):
+    from subprocess import check_output
+
     porcelain_set = "--porcelain" if porcelain else ""
     branch_set = "--branch" if branch else ""
     if porcelain and not branch:

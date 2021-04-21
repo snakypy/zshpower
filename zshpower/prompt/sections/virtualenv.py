@@ -1,5 +1,4 @@
 from os import environ as os_environ
-from .lib.utils import Color, separator, symbol_ssh, element_spacing
 
 
 def get_virtualenv_name():
@@ -14,6 +13,8 @@ def get_virtualenv_name():
 
 class Virtualenv:
     def __init__(self, config):
+        from .lib.utils import symbol_ssh, element_spacing
+
         self.config = config
         self.venv_enable = config["virtualenv"]["enable"]
         self.venv_symbol = symbol_ssh(config["virtualenv"]["symbol"], "")
@@ -25,6 +26,8 @@ class Virtualenv:
         self.venv_name_text = config["virtualenv"]["name"]["text"]
 
     def __str__(self, space_elem=" "):
+        from .lib.utils import Color, separator
+
         involved_prefix = ""
         involved_suffix = ""
 

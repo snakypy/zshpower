@@ -1,7 +1,4 @@
 from os import geteuid as os_geteuid
-from os import environ as os_environ
-from zshpower.utils.catch import current_user
-from .lib.utils import Color
 
 
 class Username:
@@ -12,6 +9,10 @@ class Username:
             self.username_color = "red"
 
     def __str__(self, space_elem=" "):
+        from os import environ as os_environ
+        from zshpower.utils.catch import current_user
+        from .lib.utils import Color
+
         if "SSH_CONNECTION" in os_environ or self.username_enable or os_geteuid() == 0:
             user = current_user()
             username_export = (

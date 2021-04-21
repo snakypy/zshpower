@@ -1,15 +1,11 @@
-from pydoc import pager as pydoc_pager
-from shutil import which as shutil_which
 from zshpower.config.base import Base
-from snakypy.file import read as snakypy_file_red
-from tomlkit import parse as toml_parse
-from os import environ
-from subprocess import call as subprocess_call
-from snakypy.file import read as snakypy_file_read
-from zshpower.utils.check import checking_init
 
 
 def editor_run(editor, config):
+    from subprocess import call as subprocess_call
+    from os import environ
+    from shutil import which as shutil_which
+
     if shutil_which(editor):
         get_editor = environ.get("EDITOR", editor)
         with open(config) as f:
@@ -23,6 +19,11 @@ class ConfigCommand(Base):
         Base.__init__(self, home)
 
     def main(self, arguments):
+        from zshpower.utils.check import checking_init
+        from snakypy.file import read as snakypy_file_read
+        from tomlkit import parse as toml_parse
+        from snakypy.file import read as snakypy_file_red
+        from pydoc import pager as pydoc_pager
 
         checking_init(self.HOME)
 

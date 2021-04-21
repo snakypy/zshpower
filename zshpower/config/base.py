@@ -1,10 +1,9 @@
-from zshpower import __version__
-from os.path import join
-from zshpower.config import package
-
-
 class Base:
     def __init__(self, home):
+        from zshpower.config import package
+        from zshpower import __version__
+        from os.path import join
+
         self.HOME = home
         self.config_root = join(
             self.HOME, f".{package.info['pkg_name']}/config/{__version__}"

@@ -1,10 +1,5 @@
-from os import geteuid as os_geteuid
-from os import environ, getcwd
-from pathlib import Path
-from .lib.utils import Color
-
 # from .lib.utils import abspath_link
-from .lib.utils import symbol_ssh, element_spacing
+from pathlib import Path
 
 
 def shorten_path(file_path, length):
@@ -13,6 +8,8 @@ def shorten_path(file_path, length):
 
 class Directory:
     def __init__(self, config):
+        from .lib.utils import symbol_ssh, element_spacing
+
         self.username_enable = config["username"]["enable"]
         self.hostname_enable = config["hostname"]["enable"]
         self.directory_truncate_value = config["directory"]["truncation_length"]
@@ -24,6 +21,10 @@ class Directory:
         )
 
     def __str__(self, prefix="", space_elem=" "):
+        from os import environ, getcwd
+        from os import geteuid as os_geteuid
+        from .lib.utils import Color
+
         if (
             self.username_enable
             or os_geteuid() == 0

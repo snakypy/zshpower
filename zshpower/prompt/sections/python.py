@@ -1,11 +1,7 @@
-from sys import version_info as sys_version_info
-from os import environ as os_environ, getcwd as os_getcwd
-from os.path import exists, join
-from .lib.utils import Color, symbol_ssh, separator, element_spacing
-
-
 class Python:
     def __init__(self, config):
+        from .lib.utils import symbol_ssh, element_spacing
+
         self.config = config
         self.search_f = (
             "__pycache__",
@@ -25,6 +21,8 @@ class Python:
         self.pyv_micro_enable = config["python"]["version"]["micro"]["enable"]
 
     def get_version(self, space_elem=" "):
+        from sys import version_info as sys_version_info
+
         if not self.pyv_micro_enable:
             version = "{0[0]}.{0[1]}".format(sys_version_info)
             return f"{version}{space_elem}"
@@ -33,6 +31,10 @@ class Python:
             return f"{version}{space_elem}"
 
     def __str__(self):
+        from .lib.utils import Color, separator
+        from os.path import exists, join
+        from os import environ as os_environ, getcwd as os_getcwd
+
         py_prefix1 = f"{Color(self.py_prefix_color)}{self.py_prefix_text}{Color().NONE}"
         if self.py_version_enable:
             for item in self.search_f:

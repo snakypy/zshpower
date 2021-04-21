@@ -1,10 +1,7 @@
-from socket import gethostname as socket_gethostname
-from os import environ as os_environ
-from .lib.utils import Color, element_spacing
-
-
 class Hostname:
     def __init__(self, config):
+        from .lib.utils import element_spacing
+
         self.config = config
         self.hostname_enable = self.config["hostname"]["enable"]
         self.hostname_color = self.config["hostname"]["color"]
@@ -14,6 +11,10 @@ class Hostname:
         )
 
     def __str__(self, prefix="", space_elem=" "):
+        from .lib.utils import Color
+        from os import environ as os_environ
+        from socket import gethostname as socket_gethostname
+
         if self.config["username"]["enable"] or "SSH_CONNECTION" in os_environ:
             prefix = (
                 f"{Color(self.hostname_prefix_color)}"

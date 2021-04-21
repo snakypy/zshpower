@@ -1,9 +1,6 @@
 from subprocess import call as subprocess_call
-from subprocess import PIPE, Popen as subprocess_popen
-from zshpower.utils.catch import current_user, current_shell
-from zshpower.utils.check import is_tool, tools_requirements
-from snakypy import printer
-from snakypy.ansi import FG
+
+# from zshpower.utils.check import is_tool, tools_requirements
 
 
 def reload_zsh():
@@ -11,6 +8,10 @@ def reload_zsh():
 
 
 def change_shell():
+    from snakypy import printer
+    from zshpower.utils.catch import current_user, current_shell
+    from snakypy.ansi import FG
+
     if current_shell()[0] != "zsh":
         try:
             subprocess_call(f"chsh -s $(which zsh) {current_user()}", shell=True)
@@ -19,6 +20,8 @@ def change_shell():
 
 
 def shell_command(cmd):
+    from subprocess import PIPE, Popen as subprocess_popen
+
     p = subprocess_popen(
         cmd, shell=True, stdout=PIPE, stderr=PIPE, universal_newlines=True
     )

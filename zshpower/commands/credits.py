@@ -1,13 +1,12 @@
-from snakypy import printer
-from snakypy.ansi import FG
-from snakypy.console import billboard, credence
-from zshpower.config import package
-from zshpower import __version__
-
-
 class CreditsCommand:
     @staticmethod
     def main():
+        from snakypy import printer
+        from snakypy.ansi import FG
+        from snakypy.console import billboard, credence
+        from zshpower.config import package
+        from zshpower import __version__
+
         print("\n")
         printer("Offered by:".center(50), foreground=FG.GREEN)
         billboard(
