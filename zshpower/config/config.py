@@ -93,6 +93,14 @@ prefix.text = "via"
 version.enable = true
 version.micro.enable = true
 
+[rust]
+symbol = "\\ue7a8"
+color = "red"
+prefix.color = "white"
+prefix.text = "is"
+version.enable = true
+version.micro.enable = true
+
 [virtualenv]
 enable = true
 symbol = "\\ufcc2"
