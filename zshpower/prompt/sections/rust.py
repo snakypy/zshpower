@@ -34,19 +34,22 @@ class Rust:
             return f"{version}{space_elem}"
 
     def __str__(self):
-        from .lib.utils import Color, separator, find_files
-        from os.path import exists, join
+        from .lib.utils import Color, separator
+        from zshpower.utils.catch import find_files
+        from zshpower.utils.check import is_tool
         from os import getcwd as os_getcwd
 
         rs_prefix1 = f"{Color(self.rs_prefix_color)}{self.rs_prefix_text}{Color().NONE}"
-        if self.rs_version_enable and find_files(
-            os_getcwd(), files=("Cargo.toml",), extension=".rs"
-        ):
-            return str(
-                (
-                    f"{separator(self.config)}{rs_prefix1}"
-                    f"{Color(self.rs_color)}{self.rs_symbol}"
-                    f"{self.get_version()}{Color().NONE}"
+
+        if is_tool("rustc"):
+            if self.rs_version_enable and find_files(
+                os_getcwd(), files=("Cargo.toml",), extension=".rs"
+            ):
+                return str(
+                    (
+                        f"{separator(self.config)}{rs_prefix1}"
+                        f"{Color(self.rs_color)}{self.rs_symbol}"
+                        f"{self.get_version()}{Color().NONE}"
+                    )
                 )
-            )
         return ""
