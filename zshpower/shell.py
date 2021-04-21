@@ -46,6 +46,7 @@ class Prompt(Base):
         from zshpower.prompt.sections.docker import Docker
         from zshpower.prompt.sections.node import NodeJs
         from zshpower.prompt.sections.python import Python
+        from zshpower.prompt.sections.rust import Rust
         from zshpower.prompt.sections.command import Command
         from zshpower.prompt.sections.username import Username
         from zshpower.prompt.sections.virtualenv import Virtualenv
@@ -64,6 +65,7 @@ class Prompt(Base):
                 "nodejs": NodeJs(config_loaded),
                 "package": get_package(config_loaded),
                 "python": Python(config_loaded),
+                "rust": Rust(config_loaded),
                 "virtualenv": Virtualenv(config_loaded),
                 "git": Git(config_loaded),
             }
@@ -85,7 +87,7 @@ class Prompt(Base):
                 for item in dinamic_section.keys()
                 if item == element
             ]
-            sections = "{}{}{}{}{}{}{}{}"
+            sections = "{}{}{}{}{}{}{}{}{}"
             return sections.format(static_section, *ordered_section, cmd)
         except (NonExistentKey, UnexpectedCharError, ValueError):
             return (
