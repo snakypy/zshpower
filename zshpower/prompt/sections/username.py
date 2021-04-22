@@ -13,7 +13,7 @@ class Username:
         from zshpower.utils.catch import current_user
         from .lib.utils import Color
 
-        if "SSH_CONNECTION" in os_environ or self.username_enable or os_geteuid() == 0:
+        if self.username_enable or "SSH_CONNECTION" in os_environ or os_geteuid() == 0:
             user = current_user()
             username_export = (
                 f"{Color(self.username_color)}{user}{space_elem}{Color().NONE}"

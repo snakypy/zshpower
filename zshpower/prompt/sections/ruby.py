@@ -13,7 +13,7 @@ class Ruby:
         self.micro_version_enable = config["ruby"]["version"]["micro"]["enable"]
 
     def get_version(self, space_elem=" "):
-        from subprocess import check_output, run
+        from subprocess import run
 
         ruby_version = run(
             "ruby --version 2>/dev/null", capture_output=True, shell=True, text=True
@@ -39,8 +39,8 @@ class Ruby:
         prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
 
         if (
-            self.get_version()
-            and self.version_enable
+            self.version_enable
+            and self.get_version()
             and find_objects(
                 os_getcwd(),
                 files=self.files,

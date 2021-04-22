@@ -38,8 +38,8 @@ class Rust:
         prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
 
         if (
-            self.get_version()
-            and self.version_enable
+            self.version_enable
+            and self.get_version()
             and find_objects(os_getcwd(), files=self.files, extension=(".rs",))
         ):
             return str(

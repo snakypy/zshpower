@@ -35,14 +35,13 @@ class Php:
     def __str__(self):
         from .lib.utils import Color, separator
         from zshpower.utils.catch import find_objects
-        from zshpower.utils.check import is_tool
         from os import getcwd as os_getcwd
 
         prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
 
         if (
-            self.get_version()
-            and self.version_enable
+            self.version_enable
+            and self.get_version()
             and find_objects(os_getcwd(), files=self.files, extension=(".php",))
         ):
             return str(

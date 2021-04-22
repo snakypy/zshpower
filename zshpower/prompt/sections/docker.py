@@ -56,8 +56,8 @@ class Docker:
         docker_version = self.get_version()
 
         if (
-            self.get_version()
-            and self.docker_version_enable
+            self.docker_version_enable
+            and self.get_version()
             and find_objects(os_getcwd(), files=self.search_f)
             and docker_version
         ):
