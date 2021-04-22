@@ -86,7 +86,8 @@ def find_objects(directory, /, files=(), folders=(), extension=()):
             if isdir(i):
                 return True
         for i in extension:
-            if file.endswith(i):
+            obj = os.path.join(directory, i)
+            if not isdir(obj) and file.endswith(i):
                 return True
     for i in files:
         if exists(os.path.join(directory, i)):
