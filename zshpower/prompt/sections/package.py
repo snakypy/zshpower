@@ -23,11 +23,18 @@ class Package(Configs):
         self.package_file = join(getcwd(), "pyproject.toml")
 
     def get_version(self, space_elem=" "):
-        from zshpower.utils.process import shell_command
+        from subprocess import run
 
-        if isfile(self.package_file):
-            cmd = f"""< {self.package_file} grep "^version = *" | cut -d'"' -f2 | cut -d"'" -f2"""
-            return f"{shell_command(cmd)[0]}{space_elem}"
+        version_pkg = run(
+            f"""< {self.package_file} grep "^version = *" | cut -d'"' -f2 | cut -d"'" -f2""",
+            capture_output=True,
+            shell=True,
+            text=True,
+        )
+        version_pkg = version_pkg.stdout.replace("\n", "")
+
+        if version_pkg:
+            return f"{version_pkg}{space_elem}"
         return ""
 
     def __str__(self):
