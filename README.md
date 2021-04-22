@@ -413,7 +413,7 @@ prefix.text = "on"
 ```toml
 [docker]
 symbol = "\uf308"
-color = "blue"
+color = "cyan"
 prefix.color = "white"
 prefix.text = "on"
 version.enable = false
@@ -422,7 +422,7 @@ version.micro.enable = true
 
 * **symbol** -  Must receive an icon, whether in unicode or not. `Default:` \uf308
 
-* **color** - Changes the color of the pyproject. `Default:` blue
+* **color** - Changes the color of the pyproject. `Default:` cyan
 
 * **prefix.color** - Changes the color of the prefix. `Default:` *white*
 
@@ -463,7 +463,7 @@ version.micro.enable = true
 ```toml
 [dotnet]
 symbol = "\ue77f"
-color = "blue"
+color = "cyan"
 prefix.color = "white"
 prefix.text = "is"
 version.enable = false
@@ -472,7 +472,7 @@ version.micro.enable = true
 
 * **symbol** -  Must receive an icon, whether in unicode or not. `Default:` \ue77f
 
-* **color** - Changes the color of the version. `Default:` red
+* **color** - Changes the color of the version. `Default:` cyan
 
 * **prefix.color** - Changes the color of the prefix. `Default:` *white*
 
@@ -586,7 +586,7 @@ version.micro.enable = true
 ```toml
 [golang]
 symbol = "\ue627"
-color = "blue"
+color = "cyan"
 prefix.color = "white"
 prefix.text = "is"
 version.enable = false
@@ -595,7 +595,7 @@ version.micro.enable = true
 
 * **symbol** -  Must receive an icon, whether in unicode or not. `Default:` \ue62d
 
-* **color** - Changes the color of the version. `Default:` blue
+* **color** - Changes the color of the version. `Default:` cyan
 
 * **prefix.color** - Changes the color of the prefix. `Default:` *white*
 

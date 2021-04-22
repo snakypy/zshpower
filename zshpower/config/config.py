@@ -93,7 +93,7 @@ prefix.text = "is"
 
 [docker]
 symbol = "\\uf308"
-color = "blue"
+color = "cyan"
 prefix.color = "white"
 prefix.text = "on"
 version.enable = true
@@ -117,7 +117,7 @@ version.micro.enable = true
 
 [golang]
 symbol = "\\ue627"
-color = "blue"
+color = "cyan"
 prefix.color = "white"
 prefix.text = "is"
 version.enable = true
@@ -149,7 +149,7 @@ version.micro.enable = true
 
 [dotnet]
 symbol = "\\ue77f"
-color = "blue"
+color = "cyan"
 prefix.color = "white"
 prefix.text = "is"
 version.enable = true
