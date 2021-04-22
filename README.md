@@ -205,7 +205,7 @@ The **symbol** keys, receive icons or their values in `Unicode`. By default, the
 
 ### Configuration file
 
-The configuration file is found in **[HOME USER]/.zshpower/config/[VERSION]/config.toml**, where in **VERSION** is the current version of **ZSHPower**.
+The configuration file is found in **[HOME USER]/.zshpower/config/[VERSION]/config.toml**, where in **VERSION** is the current version of **ZSHPower**. By default, the preview of the version of certain tools is set to **false**.
 
 ```shell
 $ zshpower --version
@@ -221,7 +221,21 @@ jump_line.enable = true
 separator.element = "-"
 config.editor = "vim"
 separator.color = "white"
-position = ["package", "virtualenv", "python", "git"]
+position = [
+    "virtualenv",
+    "python",
+    "package",
+    "nodejs",
+    "rust",
+    "golang",
+    "php",
+    "ruby",
+    "elixir",
+    "julia",
+    "dotnet",
+    "docker",
+    "git"
+    ]
 ```
 
 * **jump_line.enable** - If this option is `true`, you will skip a line each time you execute a command. `Default:` *true*
@@ -232,8 +246,22 @@ position = ["package", "virtualenv", "python", "git"]
 
 * **separator.color** - Changes the color of the separator. `Default:` *white*
 
-* **position** -  This option changes the position of certain sections. *Default:* ["package", "virtualenv", "python", "git"]
-
+* **position** -  This option changes the position of certain sections. *Default:*
+position = [
+    "virtualenv",
+    "python",
+    "package",
+    "nodejs",
+    "rust",
+    "golang",
+    "php",
+    "ruby",
+    "elixir",
+    "julia",
+    "dotnet",
+    "docker",
+    "git"
+    ]
 
 
 **Username**:
@@ -249,7 +277,6 @@ color = "cyan"
 * **color** - Changes the color of the username. `Default:` *cyan*
 
 
-
 **Hostname**:
 
 ```toml
@@ -261,8 +288,11 @@ prefix.text = "at"
 ```
 
 * **enable** -  If it is active, it will show the hostname of the machine. When using SSH, even with the value `false` the hostname will be shown.  `Default:` *false*
+
 * **color** - Changes the color of the username.   `Default:` *magenta*
+
 * **prefix.color** - Changes the color of the hostname prefix.  `Default:` *white*
+
 * **prefix.text** - Before showing the hostname of the machine, it will have a prefix text. In this option you can change the text you want. `Default:` *at*
 
 
@@ -283,7 +313,6 @@ prefix.text = "in"
 * **color** - Changes the color of the path.  `Default:` cyan
 * **prefix.color** - Changes the color of the path prefix.   `Default:` *white*
 * **prefix.text** - Before showing the current path (or folder), it will have prefixed text. In this option you can change the text you want. `Default:` *in*
-
 
 
 **Git:**
@@ -311,7 +340,6 @@ prefix.text = "on"
 * **prefix.text** - Before showing the git information, it will have prefixed text. In this option you can change the text you want. `Default:` *on*
 
 
-
 **Git Status:**
 
 ```toml
@@ -332,7 +360,6 @@ symbol.conflicts = "\uf0e7"
 ```
 
 * **symbols.enable** -  Receives `true` or` false`. If `true`, shows the git status icons through each defined value. Remember that these icons will not be shown if you are via SSH. `Default:` *true*
-
 
 
 **Command**:
@@ -363,17 +390,21 @@ error.color = "red"
 
 ```toml
 [package]
-enable = true
+enable = false
 symbol = "\uf8d6"
 color = "magenta"
 prefix.color = "white"
 prefix.text = "on"
 ```
 
-* **enable** - If the option is `true`, it will show the version information (with icon) of the Python project if it contains the file **pyproject.toml** and **package.json** in the directory.  `Default:` *true*
+* **enable** - If the option is `true`, it will show the version information (with icon) of the Python project if it contains the file **pyproject.toml** and **package.json** in the directory.  `Default:` *false*
+
 * **symbol** - Must receive an icon, whether in unicode or not. `Default:` \uf8d6
+
 * **color** - Changes the color of the package. `Default:` magenta
+
 * **prefix.color** - Changes the color of the prefix.   `Default:` *white*
+
 * **prefix.text** - Before showing the package information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *on*
 
 
@@ -385,7 +416,7 @@ symbol = "\uf308"
 color = "blue"
 prefix.color = "white"
 prefix.text = "on"
-version.enable = true
+version.enable = false
 version.micro.enable = true
 ```
 
@@ -397,10 +428,182 @@ version.micro.enable = true
 
 * **prefix.text** - Before showing the Docker information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *on*
 
-* **version.enable** - Shows the version of Docker. `Default:` *true*
+* **version.enable** - Shows the version of Docker. `Default:` *false*
 
 * **version.micro.enable** - Shows the micro version of Docker. `Default:` *true*
 
+
+**Rust:**
+
+```toml
+[rust]
+symbol = "\ue7a8"
+color = "red"
+prefix.color = "white"
+prefix.text = "is"
+version.enable = false
+version.micro.enable = true
+```
+
+* **symbol** -  Must receive an icon, whether in unicode or not. `Default:` \ue7a8
+
+* **color** - Changes the color of the version. `Default:` red
+
+* **prefix.color** - Changes the color of the prefix. `Default:` *white*
+
+* **prefix.text** - Before showing the Rust information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *is*
+
+* **version.enable** - Shows the version of Rust. `Default:` *false*
+
+* **version.micro.enable** - Shows the micro version of Rust. `Default:` *true*
+
+
+**Dotnet:**
+
+```toml
+[dotnet]
+symbol = "\ue77f"
+color = "blue"
+prefix.color = "white"
+prefix.text = "is"
+version.enable = false
+version.micro.enable = true
+```
+
+* **symbol** -  Must receive an icon, whether in unicode or not. `Default:` \ue77f
+
+* **color** - Changes the color of the version. `Default:` red
+
+* **prefix.color** - Changes the color of the prefix. `Default:` *white*
+
+* **prefix.text** - Before showing the Dotnet information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *is*
+
+* **version.enable** - Shows the version of Dotnet. `Default:` *false*
+
+* **version.micro.enable** - Shows the micro version of Dotnet. `Default:` *true*
+
+**Ruby:**
+
+```toml
+[ruby]
+symbol = "\ue21e"
+color = "red"
+prefix.color = "white"
+prefix.text = "is"
+version.enable = false
+version.micro.enable = true
+```
+
+* **symbol** -  Must receive an icon, whether in unicode or not. `Default:` \ue21e
+
+* **color** - Changes the color of the version. `Default:` red
+
+* **prefix.color** - Changes the color of the prefix. `Default:` *white*
+
+* **prefix.text** - Before showing the Ruby information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *is*
+
+* **version.enable** - Shows the version of Ruby. `Default:` *false*
+
+* **version.micro.enable** - Shows the micro version of Ruby. `Default:` *true*
+
+**Php:**
+
+```toml
+[php]
+symbol = "\ue608"
+color = "magenta"
+prefix.color = "white"
+prefix.text = "is"
+version.enable = false
+version.micro.enable = true
+```
+
+* **symbol** -  Must receive an icon, whether in unicode or not. `Default:` \ue608
+
+* **color** - Changes the color of the version. `Default:` magenta
+
+* **prefix.color** - Changes the color of the prefix. `Default:` *white*
+
+* **prefix.text** - Before showing the Php information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *is*
+
+* **version.enable** - Shows the version of Php. `Default:` *false*
+
+* **version.micro.enable** - Shows the micro version of Php. `Default:` *true*
+
+
+**Julia:**
+
+```toml
+[julia]
+symbol = "\ue624"
+color = "blue"
+prefix.color = "white"
+prefix.text = "is"
+version.enable = false
+version.micro.enable = true
+```
+
+* **symbol** -  Must receive an icon, whether in unicode or not. `Default:` \ue624
+
+* **color** - Changes the color of the version. `Default:` blue
+
+* **prefix.color** - Changes the color of the prefix. `Default:` *white*
+
+* **prefix.text** - Before showing the Julia information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *is*
+
+* **version.enable** - Shows the version of Julia. `Default:` *false*
+
+* **version.micro.enable** - Shows the micro version of Julia. `Default:` *true*
+
+
+**Elixir:**
+
+```toml
+[elixir]
+symbol = "\ue62d"
+color = "blue"
+prefix.color = "white"
+prefix.text = "is"
+version.enable = false
+version.micro.enable = true
+```
+
+* **symbol** -  Must receive an icon, whether in unicode or not. `Default:` \ue62d
+
+* **color** - Changes the color of the version. `Default:` blue
+
+* **prefix.color** - Changes the color of the prefix. `Default:` *white*
+
+* **prefix.text** - Before showing the Elixir information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *is*
+
+* **version.enable** - Shows the version of Elixir. `Default:` *false*
+
+* **version.micro.enable** - Shows the micro version of Elixir. `Default:` *true*
+
+
+**Golang:**
+
+```toml
+[golang]
+symbol = "\ue627"
+color = "blue"
+prefix.color = "white"
+prefix.text = "is"
+version.enable = false
+version.micro.enable = true
+```
+
+* **symbol** -  Must receive an icon, whether in unicode or not. `Default:` \ue62d
+
+* **color** - Changes the color of the version. `Default:` blue
+
+* **prefix.color** - Changes the color of the prefix. `Default:` *white*
+
+* **prefix.text** - Before showing the Golang information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *is*
+
+* **version.enable** - Shows the version of Golang. `Default:` *false*
+
+* **version.micro.enable** - Shows the micro version of Golang. `Default:` *true*
 
 
 **NodeJs:**
@@ -411,7 +614,7 @@ symbol = "\uf898"
 color = "green"
 prefix.color = "white"
 prefix.text = "on"
-version.enable = true
+version.enable = false
 version.micro.enable = true
 ```
 
@@ -423,7 +626,7 @@ version.micro.enable = true
 
 * **prefix.text** - Before showing the NodeJS information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *on*
 
-* **version.enable** - Shows the version of NodeJs. `Default:` *true*
+* **version.enable** - Shows the version of NodeJs. `Default:` *false*
 
 * **version.micro.enable** - Shows the micro version of NodeJs. `Default:` *true*
 
@@ -436,24 +639,28 @@ symbol = "\uf81f"
 color = "yellow"
 prefix.color = "white"
 prefix.text = "via"
-version.enable = true
+version.enable = false
 version.micro.enable = true
 ```
 
 * **symbol** - Must receive an icon, whether in unicode or not. `Default:` \uf81f
-* **color** - Changes the color of the Python version information. `Default:` *yellow*
-* **prefix.color** - Changes the color of the prefix.   `Default:` *white*
-* **prefix.text** - Before showing the Python version information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *via*
-* **version.enable** - If it is `true`, it shows the version information of the Python currently used. Compatible with *Pyenv*.  `Default:` *true*
-* **version.micro.enable** - If `true`, it will show the *MICRO* version of Python. Note: The `version.enable` key must be` true`. `Default:` *true*
 
+* **color** - Changes the color of the Python version information. `Default:` *yellow*
+
+* **prefix.color** - Changes the color of the prefix.   `Default:` *white*
+
+* **prefix.text** - Before showing the Python version information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *via*
+
+* **version.enable** - If it is `true`, it shows the version information of the Python currently used. Compatible with *Pyenv*.  `Default:` *false*
+
+* **version.micro.enable** - If `true`, it will show the *MICRO* version of Python. Note: The `version.enable` key must be` true`. `Default:` *true*
 
 
 **Virtualenv:**
 
 ```toml
 [virtualenv]
-enable = true
+enable = false
 symbol = "\uf10c"
 involved = "()"
 color = "yellow"
@@ -461,11 +668,16 @@ prefix.color = "white"
 prefix.text = "via"
 ```
 
-* **enable** - If `true` displays the virtual machine information. `Default:` *true*
+* **enable** - If `true` displays the virtual machine information. `Default:` *false*
+
 * **symbol** - Must receive an icon, whether in unicode or not. `Default:` \uf10c
+
 * **involved** - Element that will involve the name of the virtual environment. By default, you should receive two single elements. `Default:` ()
+
 * **color** - Changes the color of the virtual machine information. `Default:` yellow
+
 * **prefix.color** - Changes the color of the prefix.   `Default:` *white*
+
 * **prefix.text** - Before showing the virtual machine information, it will have a prefixed text. In this option, you can change the text you want. `Default:` `via`
 
 ```toml
@@ -475,25 +687,27 @@ text = "venv"
 ```
 
 * **normal.enable** - If the option is `true`, it will show the real name of the virtual machine. If the option is `false`, the user has the possibility to enter text. `Default:` true
-* **text** - Displays custom text in the name of the virtual machine. This option will only take effect if the `normal.enable` option has a value of  `false`. `Default:` *venv*
 
+* **text** - Displays custom text in the name of the virtual machine. This option will only take effect if the `normal.enable` option has a value of  `false`. `Default:` *venv*
 
 
 **Timer**
 
 ```toml
 [timer]
-enable = true
+enable = false
 symbol = "\uf43a"
 color = "blue"
 seconds.enable = false
 ```
 
-* **enable** - Receive `true` or` false`. If it has `true`, it shows a digital clock on the console.  `Default:` *true*
-* **symbol** - Must receive an icon, whether in unicode or not. `Default:` \uf43a
-* **color** - Changes the color of the clock.  `Default:` blue
-* **seconds.enable** - Receive `true` or` false`. If it has `true`, show the seconds of the clock. `Default:` false
+* **enable** - Receive `true` or` false`. If it has `true`, it shows a digital clock on the console.  `Default:` *false*
 
+* **symbol** - Must receive an icon, whether in unicode or not. `Default:` \uf43a
+
+* **color** - Changes the color of the clock.  `Default:` blue
+
+* **seconds.enable** - Receive `true` or` false`. If it has `true`, show the seconds of the clock. `Default:` false
 
 
 ## Upgrading
