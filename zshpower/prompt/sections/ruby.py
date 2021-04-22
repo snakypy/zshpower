@@ -22,7 +22,12 @@ class Ruby:
         if not ruby_version.stdout.replace("\n", ""):
             return False
 
+        # E.g: ['3', '0', '1p64']
         ruby_version = ruby_version.stdout.replace("\n", " ").split(" ")[1].split(".")
+
+        # Format version. Remove p64. E.g: ['3', '0', '1']
+        ruby_version.append(ruby_version[2].split("p")[0])
+        ruby_version.pop(2)
 
         if not self.micro_version_enable:
             version_current = "{0[0]}.{0[1]}".format(ruby_version)
