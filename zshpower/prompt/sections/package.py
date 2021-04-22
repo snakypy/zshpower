@@ -7,7 +7,7 @@ from os.path import isfile, join
 
 class Configs:
     def __init__(self, config):
-        from .lib.utils import Color, symbol_ssh, element_spacing
+        from .lib.utils import symbol_ssh, element_spacing
 
         self.package_enable = config["package"]["enable"]
         self.package_symbol = symbol_ssh(config["package"]["symbol"], "pkg-")
@@ -53,11 +53,13 @@ class NodePackage(Package):
 
     def get_version(self, space_elem=" "):
         from snakypy.json import read as snakypy_json_read
+        from contextlib import suppress
 
         if isfile(join(getcwd(), self.package_file)):
-            parsed = snakypy_json_read(join(getcwd(), self.package_file))
-            if "version" in parsed:
-                return f"{parsed['version']}{space_elem}"
+            with suppress(Exception):
+                parsed = snakypy_json_read(join(getcwd(), self.package_file))
+                if "version" in parsed:
+                    return f"{parsed['version']}{space_elem}"
         return ""
 
     def __str__(self):
