@@ -3,55 +3,55 @@ class Dotnet:
         from .lib.utils import symbol_ssh, element_spacing
 
         self.config = config
-        self.search_f = ("project.json", "global.json", "paket.dependencies")
-        self.dn_symbol = config["dotnet"]["symbol"]
-        self.dn_symbol = symbol_ssh(config["dotnet"]["symbol"], "dn-")
-        self.dn_color = config["dotnet"]["color"]
-        self.dn_prefix_color = config["dotnet"]["prefix"]["color"]
-        self.dn_prefix_text = element_spacing(config["dotnet"]["prefix"]["text"])
-        self.dn_version_enable = config["dotnet"]["version"]["enable"]
-        self.dnv_micro_enable = config["dotnet"]["version"]["micro"]["enable"]
+        self.files = ("project.json", "global.json", "paket.dependencies")
+        self.extensions = (".csproj", ".fsproj", ".xproj", ".sln")
+        self.symbol = symbol_ssh(config["dotnet"]["symbol"], "dn-")
+        self.color = config["dotnet"]["color"]
+        self.prefix_color = config["dotnet"]["prefix"]["color"]
+        self.prefix_text = element_spacing(config["dotnet"]["prefix"]["text"])
+        self.version_enable = config["dotnet"]["version"]["enable"]
+        self.micro_version_enable = config["dotnet"]["version"]["micro"]["enable"]
 
     def get_version(self, space_elem=" "):
-        from subprocess import check_output
+        from subprocess import run
 
-        # Exemple print: ['5', '0', '202']
-        dn_version = (
-            check_output(
-                """dotnet --version 2>/dev/null""",
-                shell=True,
-                universal_newlines=True,
-            )
-            .replace("\n", "")
-            .split(".")
+        dotnet_version = run(
+            "dotnet --version 2>/dev/null", capture_output=True, shell=True, text=True
         )
 
-        if not self.dnv_micro_enable:
-            version = "{0[0]}.{0[1]}".format(dn_version)
-            return f"{version}{space_elem}"
+        if not dotnet_version.stdout.replace("\n", ""):
+            return False
+
+        dotnet_version = dotnet_version.stdout.replace("\n", "").split(".")
+
+        if not self.micro_version_enable:
+            version_current = "{0[0]}.{0[1]}".format(dotnet_version)
+            return f"{version_current}{space_elem}"
         else:
-            version = "{0[0]}.{0[1]}.{0[2]}".format(dn_version)
-            return f"{version}{space_elem}"
+            version_current = "{0[0]}.{0[1]}.{0[2]}".format(dotnet_version)
+            return f"{version_current}{space_elem}"
 
     def __str__(self):
         from .lib.utils import Color, separator
-        from zshpower.utils.catch import find_files
-        from zshpower.utils.check import is_tool
+        from zshpower.utils.catch import find_objects
         from os import getcwd as os_getcwd
 
-        dn_prefix1 = f"{Color(self.dn_prefix_color)}{self.dn_prefix_text}{Color().NONE}"
+        prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
 
-        if is_tool("dotnet"):
-            if self.dn_version_enable and find_files(
+        if (
+            self.get_version()
+            and self.version_enable
+            and find_objects(
                 os_getcwd(),
-                files=self.search_f,
-                extension=(".csproj", ".fsproj", ".xproj", ".sln"),
-            ):
-                return str(
-                    (
-                        f"{separator(self.config)}{dn_prefix1}"
-                        f"{Color(self.dn_color)}{self.dn_symbol}"
-                        f"{self.get_version()}{Color().NONE}"
-                    )
+                files=self.files,
+                extension=self.extensions,
+            )
+        ):
+            return str(
+                (
+                    f"{separator(self.config)}{prefix}"
+                    f"{Color(self.color)}{self.symbol}"
+                    f"{self.get_version()}{Color().NONE}"
                 )
+            )
         return ""

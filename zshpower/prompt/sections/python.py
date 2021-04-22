@@ -12,7 +12,6 @@ class Python:
             "requirements.txt",
             "pyproject.toml",
         )
-        self.py_symbol = config["python"]["symbol"]
         self.py_symbol = symbol_ssh(config["python"]["symbol"], "py-")
         self.py_color = config["python"]["color"]
         self.py_prefix_color = config["python"]["prefix"]["color"]
@@ -32,7 +31,7 @@ class Python:
 
     def __str__(self):
         from .lib.utils import Color, separator
-        from zshpower.utils.catch import find_files
+        from zshpower.utils.catch import find_objects
         from zshpower.utils.check import is_tool
         from os import environ as os_environ, getcwd as os_getcwd
         from zshpower import __pyversion__
@@ -41,7 +40,7 @@ class Python:
         if is_tool("python", f"python{__pyversion__[0]}"):
             if (
                 self.py_version_enable
-                and find_files(os_getcwd(), self.search_f)
+                and find_objects(os_getcwd(), self.search_f)
                 or "VIRTUAL_ENV" in os_environ
             ):
                 return str(

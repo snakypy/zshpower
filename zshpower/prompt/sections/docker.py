@@ -29,48 +29,46 @@ class Docker:
         self.docker_prefix_text = element_spacing(config["docker"]["prefix"]["text"])
 
     def get_version(self, space_elem=" "):
-        from subprocess import PIPE, Popen as subprocess_popen
+        from subprocess import run
 
-        p = subprocess_popen(
+        docker_version = run(
             "docker version --format '{{.Server.Version}}'",
+            capture_output=True,
+            text=True,
             shell=True,
-            stdout=PIPE,
-            stderr=PIPE,
-            universal_newlines=True,
         )
 
-        output, err = p.communicate()
-        docker_v = output.replace("\n", "").split(".")
-
-        if err:
+        if not docker_version.stdout.replace("\n", ""):
             return False
-        elif not self.docker_version_micro_enable:
-            return f"{'.'.join(docker_v[:-1])}{space_elem}"
-        return f"{'.'.join(docker_v)}{space_elem}"
+
+        docker_version = docker_version.stdout.replace("\n", "").split(".")
+
+        if not self.docker_version_micro_enable:
+            return f"{'.'.join(docker_version[:-1])}{space_elem}"
+        return f"{'.'.join(docker_version)}{space_elem}"
 
     def __str__(self):
         from .lib.utils import Color
         from .lib.utils import separator
-        from zshpower.utils.check import is_tool
-        from zshpower.utils.catch import find_files
+        from zshpower.utils.catch import find_objects
         from os import getcwd as os_getcwd
 
         docker_version = self.get_version()
 
-        if is_tool("docker"):
-            if (
-                self.docker_version_enable
-                and find_files(os_getcwd(), files=self.search_f)
-                and docker_version
-            ):
-                docker_prefix = (
-                    f"{Color(self.docker_prefix_color)}"
-                    f"{self.docker_prefix_text}{Color().NONE}"
-                )
-                docker_export = (
-                    f"{separator(self.config)}{docker_prefix}"
-                    f"{Color(self.docker_color)}"
-                    f"{self.docker_symbol}{docker_version}{Color().NONE}"
-                )
-                return str(docker_export)
+        if (
+            self.get_version()
+            and self.docker_version_enable
+            and find_objects(os_getcwd(), files=self.search_f)
+            and docker_version
+        ):
+            docker_prefix = (
+                f"{Color(self.docker_prefix_color)}"
+                f"{self.docker_prefix_text}{Color().NONE}"
+            )
+            docker_export = (
+                f"{separator(self.config)}{docker_prefix}"
+                f"{Color(self.docker_color)}"
+                f"{self.docker_symbol}{docker_version}{Color().NONE}"
+            )
+            return str(docker_export)
         return ""

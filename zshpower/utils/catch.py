@@ -77,11 +77,28 @@ def get_line_source(zshrc):
     return
 
 
-def find_files(directory, /, files=(), extension=()):
+def find_objects(directory, /, files=(), folders=(), extension=()):
     import os
+    from os.path import exists, isdir
 
-    for r, d, f in os.walk(directory):
-        for item in f:
-            if item.endswith(extension) or item in files:
+    for file in os.listdir(directory):
+        for i in folders:
+            if isdir(i):
                 return True
+        for i in extension:
+            if file.endswith(i):
+                return True
+    for i in files:
+        if exists(os.path.join(directory, i)):
+            return True
     return False
+
+
+# def find_files_OLD(directory, /, files=(), extension=()):
+#     import os
+
+#     for r, d, f in os.walk(directory):
+#         for item in f:
+#             if item.endswith(extension) or item in files:
+#                 return True
+#     return False

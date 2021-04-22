@@ -3,55 +3,53 @@ class Golang:
         from .lib.utils import symbol_ssh, element_spacing
 
         self.config = config
-        self.search_f = ("go.mod", "glide.yaml")
-        self.go_symbol = config["golang"]["symbol"]
-        self.go_symbol = symbol_ssh(config["golang"]["symbol"], "go-")
-        self.go_color = config["golang"]["color"]
-        self.go_prefix_color = config["golang"]["prefix"]["color"]
-        self.go_prefix_text = element_spacing(config["golang"]["prefix"]["text"])
-        self.go_version_enable = config["golang"]["version"]["enable"]
-        self.gov_micro_enable = config["golang"]["version"]["micro"]["enable"]
+        self.files = ("go.mod", "glide.yaml")
+        self.folders = ("Godeps",)
+        self.symbol = symbol_ssh(config["golang"]["symbol"], "go-")
+        self.color = config["golang"]["color"]
+        self.prefix_color = config["golang"]["prefix"]["color"]
+        self.prefix_text = element_spacing(config["golang"]["prefix"]["text"])
+        self.version_enable = config["golang"]["version"]["enable"]
+        self.micro_version_enable = config["golang"]["version"]["micro"]["enable"]
 
     def get_version(self, space_elem=" "):
-        from subprocess import check_output
+        from subprocess import run
 
-        # Exemple print: ['go', 'version', 'go1.16.3', 'linux/amd64']
-        go_version_full = (
-            check_output(
-                "go version",
-                shell=True,
-                universal_newlines=True,
-            )
-            .replace("\n", "")
-            .split(" ")
-        )
+        output_version = run("go version", capture_output=True, shell=True, text=True)
 
-        go_version = go_version_full[2].replace("go", "").split(".")
+        if not output_version.stdout.replace("\n", ""):
+            return False
 
-        if not self.gov_micro_enable:
-            version = "{0[0]}.{0[1]}".format(go_version)
+        output_version = output_version.stdout.replace("go", "").split(" ")
+        output_version = output_version[2].split(".")
+
+        if not self.micro_version_enable:
+            version = "{0[0]}.{0[1]}".format(output_version)
             return f"{version}{space_elem}"
         else:
-            version = "{0[0]}.{0[1]}.{0[2]}".format(go_version)
+            version = "{0[0]}.{0[1]}.{0[2]}".format(output_version)
             return f"{version}{space_elem}"
 
     def __str__(self):
         from .lib.utils import Color, separator
-        from zshpower.utils.catch import find_files
+        from zshpower.utils.catch import find_objects
         from zshpower.utils.check import is_tool
         from os import getcwd as os_getcwd
 
-        go_prefix1 = f"{Color(self.go_prefix_color)}{self.go_prefix_text}{Color().NONE}"
+        prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
 
-        if is_tool("go"):
-            if self.go_version_enable and find_files(
-                os_getcwd(), files=self.search_f, extension=(".go",)
-            ):
-                return str(
-                    (
-                        f"{separator(self.config)}{go_prefix1}"
-                        f"{Color(self.go_color)}{self.go_symbol}"
-                        f"{self.get_version()}{Color().NONE}"
-                    )
+        if (
+            self.get_version()
+            and self.version_enable
+            and find_objects(
+                os_getcwd(), files=self.files, folders=self.folders, extension=(".go",)
+            )
+        ):
+            return str(
+                (
+                    f"{separator(self.config)}{prefix}"
+                    f"{Color(self.color)}{self.symbol}"
+                    f"{self.get_version()}{Color().NONE}"
                 )
+            )
         return ""
