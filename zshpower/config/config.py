@@ -16,6 +16,8 @@ separator.color = "white"
 position = [
     "virtualenv",
     "python",
+    "package",
+    "nodejs",
     "rust",
     "golang",
     "php",
@@ -23,9 +25,7 @@ position = [
     "elixir",
     "julia",
     "dotnet",
-    "package",
     "docker",
-    "nodejs",
     "git"
     ]
 
