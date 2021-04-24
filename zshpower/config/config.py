@@ -19,6 +19,7 @@ position = [
     "package",
     "nodejs",
     "rust",
+    "java",
     "golang",
     "php",
     "ruby",
@@ -126,6 +127,14 @@ version.micro.enable = true
 [php]
 symbol = "\\ue608"
 color = "magenta"
+prefix.color = "white"
+prefix.text = "is"
+version.enable = true
+version.micro.enable = true
+
+[java]
+symbol = "\\ue256"
+color = "red"
 prefix.color = "white"
 prefix.text = "is"
 version.enable = true
