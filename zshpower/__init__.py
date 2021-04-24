@@ -11,10 +11,14 @@ For more information, access: 'https://github.com/snakypy/zshpower'
 :license: MIT license, see LICENSE for details.
 """
 
-from pathlib import Path
+try:
+    from pathlib import Path
 
-HOME = str(Path.home())
+    HOME = str(Path.home())
 
-__version__ = "0.6.0"
+    __version__ = "0.6.0"
 
-__pyversion__ = ["3", "9"]
+    __pyversion__ = ["3", "9"]
+
+except (KeyboardInterrupt):
+    pass
