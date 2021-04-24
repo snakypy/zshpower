@@ -1,9 +1,9 @@
 try:
-    from snakypy.utils.decorators import only_for_linux
     from snakypy import FG
     from tomlkit.exceptions import NonExistentKey, UnexpectedCharError
 except KeyboardInterrupt:
     pass
+from snakypy.utils.decorators import only_for_linux
 from zshpower.utils.decorators import silent_errors
 from zshpower import HOME
 from zshpower.config import package
