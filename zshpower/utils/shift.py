@@ -67,8 +67,8 @@ def omz_install(omz_root):
 
 def omz_install_plugins(omz_root, plugins):
     from os.path import isdir
-
     try:
+
         url_master = "https://github.com/zsh-users"
         for plugin in plugins:
             path = join(omz_root, f"custom/plugins/{plugin}")
