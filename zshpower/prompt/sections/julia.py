@@ -3,6 +3,9 @@ class Julia:
         from .lib.utils import symbol_ssh, element_spacing
 
         self.config = config
+        self.extensions = (".jl",)
+        self.files = ()
+        self.folders = ()
         self.symbol = symbol_ssh(config["julia"]["symbol"], "jl-")
         self.color = config["julia"]["color"]
         self.prefix_color = config["julia"]["prefix"]["color"]
@@ -13,41 +16,38 @@ class Julia:
     def get_version(self, space_elem=" "):
         from subprocess import run
 
-        output_version = run(
+        julia_version = run(
             "julia --version", capture_output=True, shell=True, text=True
-        )
+        ).stdout
 
-        if not output_version.stdout.replace("\n", ""):
+        if not julia_version.replace("\n", ""):
             return False
 
-        output_version = (
-            output_version.stdout.replace("\n", "").split(" ")[2].split(".")
-        )
+        julia_version = julia_version.replace("\n", "").split(" ")[2].split(".")
 
         if not self.micro_version_enable:
-            version_current = "{0[0]}.{0[1]}".format(output_version)
-            return f"{version_current}{space_elem}"
-        else:
-            version_current = "{0[0]}.{0[1]}.{0[2]}".format(output_version)
-            return f"{version_current}{space_elem}"
+            return f"{'{0[0]}.{0[1]}'.format(julia_version)}{space_elem}"
+        return f"{'{0[0]}.{0[1]}.{0[2]}'.format(julia_version)}{space_elem}"
 
     def __str__(self):
         from .lib.utils import Color, separator
         from zshpower.utils.catch import find_objects
         from os import getcwd as os_getcwd
 
-        prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
+        julia_version = self.get_version()
 
         if (
             self.version_enable
-            and self.get_version()
-            and find_objects(os_getcwd(), extension=(".jl",))
+            and julia_version
+            and find_objects(os_getcwd(), files=self.files, folders=self.folders, extension=self.extensions)
         ):
+            prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
+
             return str(
                 (
                     f"{separator(self.config)}{prefix}"
                     f"{Color(self.color)}{self.symbol}"
-                    f"{self.get_version()}{Color().NONE}"
+                    f"{julia_version}{Color().NONE}"
                 )
             )
         return ""

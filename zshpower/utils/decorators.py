@@ -39,4 +39,5 @@ def silent_errors(func):
     def wrapper(*args, **kwargs):
         with suppress(NameError, TypeError, KeyboardInterrupt):
             return func(*args, **kwargs)
+
     return wrapper

@@ -18,15 +18,17 @@ class Docker:
         from .lib.utils import symbol_ssh, element_spacing
 
         self.config = config
-        self.search_f = ("Dockerfile", "docker-compose.yml")
-        self.docker_version_enable = config["docker"]["version"]["enable"]
-        self.docker_version_micro_enable = config["docker"]["version"]["micro"][
+        self.files = ("Dockerfile", "docker-compose.yml")
+        self.extensions = ()
+        self.folders = ()
+        self.symbol = symbol_ssh(config["docker"]["symbol"], "dkr-")
+        self.color = config["docker"]["color"]
+        self.prefix_color = config["docker"]["prefix"]["color"]
+        self.prefix_text = element_spacing(config["docker"]["prefix"]["text"])
+        self.version_enable = config["docker"]["version"]["enable"]
+        self.micro_version_enable = config["docker"]["version"]["micro"][
             "enable"
         ]
-        self.docker_symbol = symbol_ssh(config["docker"]["symbol"], "dkr-")
-        self.docker_color = config["docker"]["color"]
-        self.docker_prefix_color = config["docker"]["prefix"]["color"]
-        self.docker_prefix_text = element_spacing(config["docker"]["prefix"]["text"])
 
     def get_version(self, space_elem=" "):
         from subprocess import run
@@ -36,16 +38,16 @@ class Docker:
             capture_output=True,
             text=True,
             shell=True,
-        )
+        ).stdout
 
-        if not docker_version.stdout.replace("\n", ""):
+        if not docker_version.replace("\n", ""):
             return False
 
-        docker_version = docker_version.stdout.replace("\n", "").split(".")
+        docker_version = docker_version.replace("\n", "").split(".")
 
-        if not self.docker_version_micro_enable:
-            return f"{'.'.join(docker_version[:-1])}{space_elem}"
-        return f"{'.'.join(docker_version)}{space_elem}"
+        if not self.micro_version_enable:
+            return f"{'{0[0]}.{0[1]}'.format(docker_version)}{space_elem}"
+        return f"{'{0[0]}.{0[1]}.{0[2]}'.format(docker_version)}{space_elem}"
 
     def __str__(self):
         from .lib.utils import Color
@@ -56,19 +58,17 @@ class Docker:
         docker_version = self.get_version()
 
         if (
-            self.docker_version_enable
-            and self.get_version()
-            and find_objects(os_getcwd(), files=self.search_f)
+            self.version_enable
             and docker_version
+            and find_objects(os_getcwd(), files=self.files, folders=self.folders, extension=self.extensions)
         ):
-            docker_prefix = (
-                f"{Color(self.docker_prefix_color)}"
-                f"{self.docker_prefix_text}{Color().NONE}"
+            prefix = (
+                f"{Color(self.prefix_color)}"
+                f"{self.prefix_text}{Color().NONE}"
             )
-            docker_export = (
-                f"{separator(self.config)}{docker_prefix}"
-                f"{Color(self.docker_color)}"
-                f"{self.docker_symbol}{docker_version}{Color().NONE}"
+            return str(
+                f"{separator(self.config)}{prefix}"
+                f"{Color(self.color)}"
+                f"{self.symbol}{docker_version}{Color().NONE}"
             )
-            return str(docker_export)
         return ""

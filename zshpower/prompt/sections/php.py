@@ -26,24 +26,23 @@ class Php:
             return False
 
         if not self.micro_version_enable:
-            version_current = "{0[0]}.{0[1]}".format(php_version.split("."))
-            return f"{version_current}{space_elem}"
-        else:
-            version_current = "{0[0]}.{0[1]}.{0[2]}".format(php_version.split("."))
-            return f"{version_current}{space_elem}"
+            return f"{'{0[0]}.{0[1]}'.format(php_version)}{space_elem}"
+        return f"{'{0[0]}.{0[1]}.{0[2]}'.format(php_version)}{space_elem}"
 
     def __str__(self):
         from .lib.utils import Color, separator
         from zshpower.utils.catch import find_objects
         from os import getcwd as os_getcwd
 
-        prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
+        php_version = self.get_version()
 
         if (
             self.version_enable
-            and self.get_version()
+            and php_version
             and find_objects(os_getcwd(), files=self.files, extension=(".php",))
         ):
+            prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
+
             return str(
                 (
                     f"{separator(self.config)}{prefix}"

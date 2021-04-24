@@ -5,58 +5,72 @@ from os import getcwd
 from os.path import isfile, join
 
 
-class Configs:
+class Config:
     def __init__(self, config):
         from .lib.utils import symbol_ssh, element_spacing
 
-        self.package_enable = config["package"]["enable"]
-        self.package_symbol = symbol_ssh(config["package"]["symbol"], "pkg-")
-        self.package_color = config["package"]["color"]
-        self.package_prefix_color = config["package"]["prefix"]["color"]
-        self.package_prefix_text = element_spacing(config["package"]["prefix"]["text"])
+        self.version_enable = config["package"]["enable"]
+        self.symbol = symbol_ssh(config["package"]["symbol"], "pkg-")
+        self.color = config["package"]["color"]
+        self.prefix_color = config["package"]["prefix"]["color"]
+        self.prefix_text = element_spacing(config["package"]["prefix"]["text"])
 
 
-class Package(Configs):
+class PackagePython(Config):
     def __init__(self, config):
-        Configs.__init__(self, config)
+        Config.__init__(self, config)
         self.config = config
-        self.package_file = join(getcwd(), "pyproject.toml")
+        self.files = ("pyproject.toml",)
+        self.folders = ()
+        self.extensions = ()
 
     def get_version(self, space_elem=" "):
         from subprocess import run
 
-        version_pkg = run(
-            f"""< {self.package_file} grep "^version = *" | cut -d'"' -f2 | cut -d"'" -f2""",
+        python_package_version = run(
+            f"""< {self.files[0]} grep "^version = *" | cut -d'"' -f2 | cut -d"'" -f2""",
             capture_output=True,
             shell=True,
             text=True,
-        )
-        version_pkg = version_pkg.stdout.replace("\n", "")
+        ).stdout
 
-        if version_pkg:
-            return f"{version_pkg}{space_elem}"
+        python_package_version = python_package_version.replace("\n", "")
+
+        if python_package_version:
+            return f"{python_package_version}{space_elem}"
         return ""
 
     def __str__(self):
         from .lib.utils import Color, separator
+        from zshpower.utils.catch import find_objects
+        from os import getcwd as os_getcwd
 
-        if self.package_enable and self.get_version() != "":
-            package_prefix = (
-                f"{Color(self.package_prefix_color)}"
-                f"{self.package_prefix_text}{Color().NONE}"
+        package_version = self.get_version()
+
+        if (
+            self.version_enable
+            and package_version
+            and find_objects(os_getcwd(), files=self.files, folders=self.folders, extension=self.extensions)
+        ):
+            prefix = (
+                f"{Color(self.prefix_color)}"
+                f"{self.prefix_text}{Color().NONE}"
             )
             return (
-                f"{separator(self.config)}{package_prefix}"
-                f"{Color(self.package_color)}"
-                f"{self.package_symbol}{self.get_version()}{Color().NONE}"
+                f"{separator(self.config)}{prefix}"
+                f"{Color(self.color)}"
+                f"{self.symbol}{self.get_version()}{Color().NONE}"
             )
         return ""
 
 
-class NodePackage(Package):
+class PackageNodeJS(PackagePython):
     def __init__(self, config):
-        Package.__init__(self, config)
-        self.package_file = join(getcwd(), "package.json")
+        PackagePython.__init__(self, config)
+        # self.package_file = join(getcwd(), "package.json")
+        self.files = ("package.json",)
+        self.folders = ()
+        self.extensions = ()
 
     def get_version(self, space_elem=" "):
         from snakypy.json import read as snakypy_json_read
@@ -64,13 +78,13 @@ class NodePackage(Package):
 
         if isfile(join(getcwd(), self.package_file)):
             with suppress(Exception):
-                parsed = snakypy_json_read(join(getcwd(), self.package_file))
+                parsed = snakypy_json_read(join(getcwd(), self.files[0]))
                 if "version" in parsed:
                     return f"{parsed['version']}{space_elem}"
         return ""
 
     def __str__(self):
-        return Package.__str__(self)
+        return PackagePython.__str__(self)
 
 
 def get_package(config):
@@ -85,5 +99,5 @@ def get_package(config):
     )
     for i in files_project_py:
         if exists(join(getcwd(), i)):
-            return str(Package(config))
-    return str(NodePackage(config))
+            return str(PackagePython(config))
+    return str(PackageNodeJS(config))

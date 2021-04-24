@@ -82,16 +82,19 @@ def find_objects(directory, /, files=(), folders=(), extension=()):
     from os.path import exists, isdir
 
     for file in os.listdir(directory):
-        for i in folders:
-            if isdir(i):
+        if folders:
+            for i in folders:
+                if isdir(i):
+                    return True
+        if extension:
+            for i in extension:
+                obj = os.path.join(directory, i)
+                if not isdir(obj) and file.endswith(i):
+                    return True
+    if files:
+        for i in files:
+            if exists(os.path.join(directory, i)):
                 return True
-        for i in extension:
-            obj = os.path.join(directory, i)
-            if not isdir(obj) and file.endswith(i):
-                return True
-    for i in files:
-        if exists(os.path.join(directory, i)):
-            return True
     return False
 
 
