@@ -19,5 +19,5 @@ class Timer:
             timer = (
                 f"{Color(self.timer_color)}{self.timer_symbol}" f"{get_timer}{c.NONE}"
             )
-            return f"{timer.strip()}"
+            return timer.strip()
         return ""
