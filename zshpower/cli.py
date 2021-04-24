@@ -1,5 +1,9 @@
 """CLI - Command Line Interface"""
-from snakypy.utils.decorators import only_for_linux
+try:
+    from snakypy.utils.decorators import only_for_linux
+except KeyboardInterrupt:
+    pass
+from zshpower.utils.decorators import silent_errors
 from zshpower.utils.decorators import assign_cli
 from zshpower.utils.catch import arguments
 from zshpower import HOME
@@ -58,6 +62,7 @@ def run_credits():
     CreditsCommand().main()
 
 
+@silent_errors
 @only_for_linux
 def main():
     run_init()
