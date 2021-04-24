@@ -4,6 +4,8 @@ class Php:
 
         self.config = config
         self.files = ("composer.json",)
+        self.extensions = (".php",)
+        self.folders = ()
         self.symbol = symbol_ssh(config["php"]["symbol"], "php-")
         self.color = config["php"]["color"]
         self.prefix_color = config["php"]["prefix"]["color"]
@@ -19,8 +21,9 @@ class Php:
             capture_output=True,
             shell=True,
             text=True,
-        )
-        php_version = php_version.stdout.replace("\n", "")
+        ).stdout
+
+        php_version = php_version.replace("\n", "")
 
         if not php_version:
             return False
@@ -39,7 +42,7 @@ class Php:
         if (
             self.version_enable
             and php_version
-            and find_objects(os_getcwd(), files=self.files, extension=(".php",))
+            and find_objects(os_getcwd(), files=self.files, folders=self.folders, extension=self.extensions)
         ):
             prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
 

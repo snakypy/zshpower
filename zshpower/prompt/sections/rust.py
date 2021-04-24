@@ -4,6 +4,8 @@ class Rust:
 
         self.config = config
         self.files = ("Cargo.toml",)
+        self.extensions = (".rs",)
+        self.folders = ()
         self.symbol = symbol_ssh(config["rust"]["symbol"], "rs-")
         self.color = config["rust"]["color"]
         self.prefix_color = config["rust"]["prefix"]["color"]
@@ -16,12 +18,12 @@ class Rust:
 
         rust_version = run(
             "rustc --version", capture_output=True, shell=True, text=True
-        )
+        ).stdout
 
-        if not rust_version.stdout.replace("\n", ""):
+        if not rust_version.replace("\n", ""):
             return False
 
-        rust_version = rust_version.stdout.split(" ")[1].replace("\n", "").split(".")
+        rust_version = rust_version.split(" ")[1].replace("\n", "").split(".")
 
         if not self.micro_version_enable:
             return f"{'{0[0]}.{0[1]}'.format(rust_version)}{space_elem}"
@@ -37,7 +39,7 @@ class Rust:
         if (
             self.version_enable
             and rust_version
-            and find_objects(os_getcwd(), files=self.files, extension=(".rs",))
+            and find_objects(os_getcwd(), files=self.files, folders=self.folders, extension=self.extensions)
         ):
             prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
 

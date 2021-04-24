@@ -47,7 +47,7 @@ class Draw(Base):
             from zshpower.prompt.sections.directory import Directory
             from zshpower.prompt.sections.git import Git
             from zshpower.prompt.sections.hostname import Hostname
-            from zshpower.prompt.sections.package import get_package
+            from zshpower.prompt.sections.package import get_package, Package
             from zshpower.prompt.sections.docker import Docker
             from zshpower.prompt.sections.node import NodeJs
             from zshpower.prompt.sections.python import Python
@@ -75,6 +75,7 @@ class Draw(Base):
                 "docker": Docker(config_loaded),
                 "nodejs": NodeJs(config_loaded),
                 "package": get_package(config_loaded),
+                # "package": Package(config_loaded),
                 "python": Python(config_loaded),
                 "rust": Rust(config_loaded),
                 "golang": Golang(config_loaded),
