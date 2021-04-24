@@ -246,7 +246,7 @@ position = [
 
 * **separator.color** - Changes the color of the separator. `Default:` *white*
 
-* **position** -  This option changes the position of certain sections. *Default:*
+* **position** -  This option changes the position of certain sections. To show the information for a given tool, it must be listed in **position**. *Default:*
 position = [
     "virtualenv",
     "python",
@@ -531,6 +531,31 @@ version.micro.enable = true
 * **version.micro.enable** - Shows the micro version of Php. `Default:` *true*
 
 
+**Java:**
+
+```toml
+[java]
+symbol = "\ue256"
+color = "red"
+prefix.color = "white"
+prefix.text = "is"
+version.enable = false
+version.micro.enable = true
+```
+
+* **symbol** -  Must receive an icon, whether in unicode or not. `Default:` \ue256
+
+* **color** - Changes the color of the version. `Default:` red
+
+* **prefix.color** - Changes the color of the prefix. `Default:` *white*
+
+* **prefix.text** - Before showing the Java information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *is*
+
+* **version.enable** - Shows the version of Java. `Default:` *false*
+
+* **version.micro.enable** - Shows the micro version of Java. `Default:` *true*
+
+
 **Julia:**
 
 ```toml
@@ -742,27 +767,27 @@ If you made any changes to the configuration file and regretted it, you can rese
 $ zshpower reset
 ```
 
-## Disable and Enable theme for Oh My ZSH
+## Deactivate and Activate theme for Oh My ZSH
 
 You can activate and deactivate **ZSHPower** at any time, without opening any files, if using with Oh My ZH. To do this, follow the steps below:
 
-* Disable
+* Deactivate
 
 ```shell
-$ zshpower disable
+$ zshpower deactivate
 ```
 
-When disabled, the manager will return to the default [Oh My Zsh](https://github.com/robbyrussell/oh-my-zsh#selecting-a-theme) theme, the `robbyrussell`.
-If you want to disable with another theme already installed, use the `--theme` option. Example:
+When deactivate, the manager will return to the default [Oh My Zsh](https://github.com/robbyrussell/oh-my-zsh#selecting-a-theme) theme, the `robbyrussell`.
+If you want to deactivate with another theme already installed, use the `--theme` option. Example:
 
 ```shell
-$ zshpower disable --theme=agnoster
+$ zshpower deactivate --theme=agnoster
 ```
 
-* Enable
+* Activate
 
 ```shell
-$ zshpower enable
+$ zshpower activate
 ```
 
 ## Uninstalling
