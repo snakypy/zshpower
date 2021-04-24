@@ -24,7 +24,7 @@ packages = [
 
 [tool.poetry.scripts]
 zshpower = "zshpower.cli:main"
-zshpower-shell = "zshpower.shell:main"
+zshpower-draw = "zshpower.draw:main"
 
 [tool.poetry.urls]
 "Bug Tracker" = "https://github.com/snakypy/zshpower/issues"
