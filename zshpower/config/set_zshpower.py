@@ -20,10 +20,10 @@ export PATH="$PATH:$HOME/.local/bin"
 
 ## Option using "add-zsh-hook"
 # function set_zshpower () {{
-#   state=$(which zshpower-shell > /dev/null 2>&1)
+#   state=$(which zshpower-draw > /dev/null 2>&1)
 #   if [ ! $? -ne 0 ]; then
-#     PROMPT="$(zshpower-shell prompt)"
-#     RPROMPT="$(zshpower-shell rprompt)"
+#     PROMPT="$(zshpower-draw prompt)"
+#     RPROMPT="$(zshpower-draw rprompt)"
 #   else
 #     PROMPT='%F{{green}}%n%f@%F{{magenta}}%m%f %F{{blue}}%B%~%b%f %# '
 #     RPROMPT='[%F{{yellow}}%?%f]'
@@ -34,10 +34,10 @@ export PATH="$PATH:$HOME/.local/bin"
 
 ## Option not using "add-zsh-hook" - manual
 function zshpower_precmd() {{
-    state=$(which zshpower-shell > /dev/null 2>&1)
+    state=$(which zshpower-draw > /dev/null 2>&1)
     if [ ! $? -ne 0 ]; then
-      PROMPT="$(zshpower-shell prompt)"
-      RPROMPT="$(zshpower-shell rprompt)"
+      PROMPT="$(zshpower-draw prompt)"
+      RPROMPT="$(zshpower-draw rprompt)"
     else
       PROMPT='%F{{green}}%n%f@%F{{magenta}}%m%f %F{{blue}}%B%~%b%f %# '
       RPROMPT='[%F{{yellow}}%?%f]'
