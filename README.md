@@ -227,11 +227,13 @@ position = [
     "package",
     "nodejs",
     "rust",
+    "java",
     "golang",
     "php",
     "ruby",
     "elixir",
     "julia",
+    "dart",
     "dotnet",
     "docker",
     "git"
@@ -257,6 +259,7 @@ position = [
     "php",
     "ruby",
     "elixir",
+    "dart",
     "julia",
     "dotnet",
     "docker",
@@ -309,9 +312,13 @@ prefix.text = "in"
 ```
 
 * **truncation_length** - This option receives an integer from 0 to 4. You will be responsible for truncating the path levels of the directory. `Default:` *1* (Note: Value 0 (zero), show all path.)
+
 * **symbol** - Must receive an icon, whether in unicode or not. `Default:` \ufc6e
+
 * **color** - Changes the color of the path.  `Default:` cyan
+
 * **prefix.color** - Changes the color of the path prefix.   `Default:` *white*
+
 * **prefix.text** - Before showing the current path (or folder), it will have prefixed text. In this option you can change the text you want. `Default:` *in*
 
 
@@ -392,20 +399,20 @@ error.color = "red"
 [package]
 enable = false
 symbol = "\uf8d6"
-color = "magenta"
+color = "red"
 prefix.color = "white"
-prefix.text = "on"
+prefix.text = "is"
 ```
 
-* **enable** - If the option is `true`, it will show the version information (with icon) of the Python project if it contains the file **pyproject.toml** and **package.json** in the directory.  `Default:` *false*
+* **enable** - If the option is `true`, it will show the version information (with icon) of the Python project if it contains the file **pyproject.toml**, **Cargo.toml**, and **package.json** in the directory.  `Default:` *false*
 
 * **symbol** - Must receive an icon, whether in unicode or not. `Default:` \uf8d6
 
-* **color** - Changes the color of the package. `Default:` magenta
+* **color** - Changes the color of the package. `Default:` red
 
 * **prefix.color** - Changes the color of the prefix.   `Default:` *white*
 
-* **prefix.text** - Before showing the package information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *on*
+* **prefix.text** - Before showing the package information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *is*
 
 
 **Docker:**
@@ -440,7 +447,7 @@ version.micro.enable = true
 symbol = "\ue7a8"
 color = "red"
 prefix.color = "white"
-prefix.text = "is"
+prefix.text = "via"
 version.enable = false
 version.micro.enable = true
 ```
@@ -451,7 +458,7 @@ version.micro.enable = true
 
 * **prefix.color** - Changes the color of the prefix. `Default:` *white*
 
-* **prefix.text** - Before showing the Rust information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *is*
+* **prefix.text** - Before showing the Rust information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *via*
 
 * **version.enable** - Shows the version of Rust. `Default:` *false*
 
@@ -465,7 +472,7 @@ version.micro.enable = true
 symbol = "\ue77f"
 color = "cyan"
 prefix.color = "white"
-prefix.text = "is"
+prefix.text = "via"
 version.enable = false
 version.micro.enable = true
 ```
@@ -476,7 +483,7 @@ version.micro.enable = true
 
 * **prefix.color** - Changes the color of the prefix. `Default:` *white*
 
-* **prefix.text** - Before showing the Dotnet information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *is*
+* **prefix.text** - Before showing the Dotnet information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *via*
 
 * **version.enable** - Shows the version of Dotnet. `Default:` *false*
 
@@ -489,7 +496,7 @@ version.micro.enable = true
 symbol = "\ue21e"
 color = "red"
 prefix.color = "white"
-prefix.text = "is"
+prefix.text = "via"
 version.enable = false
 version.micro.enable = true
 ```
@@ -500,7 +507,7 @@ version.micro.enable = true
 
 * **prefix.color** - Changes the color of the prefix. `Default:` *white*
 
-* **prefix.text** - Before showing the Ruby information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *is*
+* **prefix.text** - Before showing the Ruby information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *via*
 
 * **version.enable** - Shows the version of Ruby. `Default:` *false*
 
@@ -513,7 +520,7 @@ version.micro.enable = true
 symbol = "\ue608"
 color = "magenta"
 prefix.color = "white"
-prefix.text = "is"
+prefix.text = "via"
 version.enable = false
 version.micro.enable = true
 ```
@@ -524,7 +531,7 @@ version.micro.enable = true
 
 * **prefix.color** - Changes the color of the prefix. `Default:` *white*
 
-* **prefix.text** - Before showing the Php information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *is*
+* **prefix.text** - Before showing the Php information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *via*
 
 * **version.enable** - Shows the version of Php. `Default:` *false*
 
@@ -538,7 +545,7 @@ version.micro.enable = true
 symbol = "\ue256"
 color = "red"
 prefix.color = "white"
-prefix.text = "is"
+prefix.text = "via"
 version.enable = false
 version.micro.enable = true
 ```
@@ -549,7 +556,7 @@ version.micro.enable = true
 
 * **prefix.color** - Changes the color of the prefix. `Default:` *white*
 
-* **prefix.text** - Before showing the Java information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *is*
+* **prefix.text** - Before showing the Java information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *via*
 
 * **version.enable** - Shows the version of Java. `Default:` *false*
 
@@ -563,7 +570,7 @@ version.micro.enable = true
 symbol = "\ue624"
 color = "blue"
 prefix.color = "white"
-prefix.text = "is"
+prefix.text = "via"
 version.enable = false
 version.micro.enable = true
 ```
@@ -574,7 +581,7 @@ version.micro.enable = true
 
 * **prefix.color** - Changes the color of the prefix. `Default:` *white*
 
-* **prefix.text** - Before showing the Julia information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *is*
+* **prefix.text** - Before showing the Julia information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *via*
 
 * **version.enable** - Shows the version of Julia. `Default:` *false*
 
@@ -588,7 +595,7 @@ version.micro.enable = true
 symbol = "\ue62d"
 color = "blue"
 prefix.color = "white"
-prefix.text = "is"
+prefix.text = "via"
 version.enable = false
 version.micro.enable = true
 ```
@@ -599,7 +606,7 @@ version.micro.enable = true
 
 * **prefix.color** - Changes the color of the prefix. `Default:` *white*
 
-* **prefix.text** - Before showing the Elixir information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *is*
+* **prefix.text** - Before showing the Elixir information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *via*
 
 * **version.enable** - Shows the version of Elixir. `Default:` *false*
 
@@ -613,7 +620,7 @@ version.micro.enable = true
 symbol = "\ue627"
 color = "cyan"
 prefix.color = "white"
-prefix.text = "is"
+prefix.text = "via"
 version.enable = false
 version.micro.enable = true
 ```
@@ -624,11 +631,36 @@ version.micro.enable = true
 
 * **prefix.color** - Changes the color of the prefix. `Default:` *white*
 
-* **prefix.text** - Before showing the Golang information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *is*
+* **prefix.text** - Before showing the Golang information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *via*
 
 * **version.enable** - Shows the version of Golang. `Default:` *false*
 
 * **version.micro.enable** - Shows the micro version of Golang. `Default:` *true*
+
+
+**Dart:**
+
+```toml
+[dart]
+symbol = "\ue798"
+color = "cyan"
+prefix.color = "white"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+```
+
+* **symbol** - Must receive an icon, whether in unicode or not. `Default:` \ue798
+
+* **color** - Changes the color of the Dart version information. `Default:` *cyan*
+
+* **prefix.color** - Changes the color of the prefix.   `Default:` *white*
+
+* **prefix.text** - Before showing the Dart version information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *via*
+
+* **version.enable** - If it is `true`, it shows the version information of the Dart currently used. Compatible with *Pyenv*.  `Default:` *false*
+
+* **version.micro.enable** - If `true`, it will show the *MICRO* version of Dart. Note: The `version.enable` key must be` true`. `Default:` *true*
 
 
 **NodeJs:**
@@ -685,17 +717,17 @@ version.micro.enable = true
 
 ```toml
 [virtualenv]
-enable = false
-symbol = "\uf10c"
+enable = true
+symbol = "\uf7c9"
 involved = "()"
 color = "yellow"
 prefix.color = "white"
 prefix.text = "via"
 ```
 
-* **enable** - If `true` displays the virtual machine information. `Default:` *false*
+* **enable** - If `true` displays the virtual machine information. `Default:` *true*
 
-* **symbol** - Must receive an icon, whether in unicode or not. `Default:` \uf10c
+* **symbol** - Must receive an icon, whether in unicode or not. `Default:` \uf7c9
 
 * **involved** - Element that will involve the name of the virtual environment. By default, you should receive two single elements. `Default:` ()
 
