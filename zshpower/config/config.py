@@ -19,8 +19,8 @@ position = [
     "package",
     "nodejs",
     "rust",
-    "java",
     "golang",
+    "java",
     "php",
     "ruby",
     "elixir",
@@ -33,10 +33,12 @@ position = [
 
 [username]
 enable = false
+symbol = "\\uf007"
 color = "cyan"
 
 [hostname]
 enable = false
+symbol = "\\ue0a2"
 color = "magenta"
 prefix.color = "white"
 prefix.text = "at"
