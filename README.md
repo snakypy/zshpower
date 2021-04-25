@@ -227,8 +227,8 @@ position = [
     "package",
     "nodejs",
     "rust",
-    "java",
     "golang",
+    "java",
     "php",
     "ruby",
     "elixir",
@@ -272,10 +272,13 @@ position = [
 ```toml
 [username]
 enable = false
+symbol = "\uf007"
 color = "cyan"
 ```
 
 * **enable** - If it is active, it will show the username of the machine. When using SSH, even with the value `false` the username will be shown. `Default:` *false*
+
+* **symbol** - Must receive an icon, whether in unicode or not. `Default:` \uf007
 
 * **color** - Changes the color of the username. `Default:` *cyan*
 
@@ -285,12 +288,15 @@ color = "cyan"
 ```toml
 [hostname]
 enable = false
+symbol = "\ue0a2"
 color = "magenta"
 prefix.color = "white"
 prefix.text = "at"
 ```
 
 * **enable** -  If it is active, it will show the hostname of the machine. When using SSH, even with the value `false` the hostname will be shown.  `Default:` *false*
+
+* **symbol** - Must receive an icon, whether in unicode or not. `Default:` \ue0a2
 
 * **color** - Changes the color of the username.   `Default:` *magenta*
 
