@@ -6,13 +6,12 @@ class Git:
         from .lib.utils import element_spacing, symbol_ssh
 
         self.config = config
-        self.git_enable = config["git"]["enable"]
-        self.git_symbol = symbol_ssh(config["git"]["symbol"], "git:")
-        self.git_color_symbol = config["git"]["color"]["symbol"]
-        self.git_branch_color = config["git"]["branch"]["color"]
-        self.git_prefix_color = config["git"]["prefix"]["color"]
-        self.git_prefix_text = element_spacing(config["git"]["prefix"]["text"])
-        self.git_symbol_enable = config["git"]["status"]["symbols"]["enable"]
+        self.symbol = symbol_ssh(config["git"]["symbol"], "git:")
+        self.color_symbol = config["git"]["color"]["symbol"]
+        self.branch_color = config["git"]["branch"]["color"]
+        self.prefix_color = config["git"]["prefix"]["color"]
+        self.prefix_text = element_spacing(config["git"]["prefix"]["text"])
+        self.symbol_enable = config["git"]["status"]["symbols"]["enable"]
         self.icons = {
             "A": [
                 f"{Color('green')}"
@@ -100,16 +99,16 @@ class Git:
         from os import getcwd, environ
         from os.path import join, isdir
 
-        if self.git_enable and isdir(join(getcwd(), ".git")):
+        if isdir(join(getcwd(), ".git")):
             status_git = git_status(porcelain=True)
             status_git_text = git_status()
             branch_current = git_status(branch=True)
             branch_formated = (
-                f"{Color(self.git_prefix_color)}"
-                f"{self.git_prefix_text}{Color().NONE}"
-                f"{Color(self.git_color_symbol)}"
-                f"{self.git_symbol}{Color().NONE}"
-                f"{Color(self.git_branch_color)}"
+                f"{Color(self.prefix_color)}"
+                f"{self.prefix_text}{Color().NONE}"
+                f"{Color(self.color_symbol)}"
+                f"{self.symbol}{Color().NONE}"
+                f"{Color(self.branch_color)}"
                 f"{branch_current}"
                 f"{Color().NONE}"
             )
@@ -147,7 +146,7 @@ class Git:
             # status_icons = []
             # for item in status_current:
             #     if "SSH_CONNECTION" not in environ:
-            #         if self.git_symbol_enable:
+            #         if self.symbol_enable:
             #             status_icons.append(f"{self.icons[item][0]}")
             #         else:
             #             status_icons.append(f"{self.icons[item][1]}")
@@ -156,7 +155,7 @@ class Git:
 
             status_icons = [
                 self.icons[item][0]
-                if self.git_symbol_enable
+                if self.symbol_enable
                 else self.icons[item][1]
                 if "SSH_CONNECTION" not in environ
                 else self.icons[item][1]

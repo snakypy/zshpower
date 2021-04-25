@@ -10,13 +10,14 @@ class Golang:
         self.color = config["golang"]["color"]
         self.prefix_color = config["golang"]["prefix"]["color"]
         self.prefix_text = element_spacing(config["golang"]["prefix"]["text"])
-        self.version_enable = config["golang"]["version"]["enable"]
         self.micro_version_enable = config["golang"]["version"]["micro"]["enable"]
 
     def get_version(self, space_elem=" "):
         from subprocess import run
 
-        output_version = run("go version", capture_output=True, shell=True, text=True).stdout
+        output_version = run(
+            "go version", capture_output=True, shell=True, text=True
+        ).stdout
 
         if not output_version.replace("\n", ""):
             return False
@@ -33,9 +34,13 @@ class Golang:
         from os import getcwd as os_getcwd
 
         if (
-            self.version_enable
-            and self.get_version()
-            and find_objects(os_getcwd(), files=self.files, folders=self.folders, extension=self.extensions)
+            self.get_version()
+            and find_objects(
+                os_getcwd(),
+                files=self.files,
+                folders=self.folders,
+                extension=self.extensions,
+            )
         ):
             prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
 

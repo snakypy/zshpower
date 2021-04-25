@@ -18,7 +18,5 @@ try:
 
     __version__ = "0.6.0"
 
-    __pyversion__ = ["3", "9"]
-
 except (KeyboardInterrupt):
     pass

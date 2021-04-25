@@ -10,7 +10,6 @@ class Elixir:
         self.color = config["elixir"]["color"]
         self.prefix_color = config["elixir"]["prefix"]["color"]
         self.prefix_text = element_spacing(config["elixir"]["prefix"]["text"])
-        self.version_enable = config["elixir"]["version"]["enable"]
         self.micro_version_enable = config["elixir"]["version"]["micro"]["enable"]
 
     def get_version(self, space_elem=" "):
@@ -40,9 +39,13 @@ class Elixir:
         elixir_version = self.get_version()
 
         if (
-            self.version_enable
-            and elixir_version
-            and find_objects(os_getcwd(), files=self.files, folders=self.folders, extension=self.extensions)
+            elixir_version
+            and find_objects(
+                os_getcwd(),
+                files=self.files,
+                folders=self.folders,
+                extension=self.extensions,
+            )
         ):
             prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
 

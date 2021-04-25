@@ -10,7 +10,6 @@ class Ruby:
         self.color = config["ruby"]["color"]
         self.prefix_color = config["ruby"]["prefix"]["color"]
         self.prefix_text = element_spacing(config["ruby"]["prefix"]["text"])
-        self.version_enable = config["ruby"]["version"]["enable"]
         self.micro_version_enable = config["ruby"]["version"]["micro"]["enable"]
 
     def get_version(self, space_elem=" "):
@@ -42,9 +41,13 @@ class Ruby:
         ruby_version = self.get_version()
 
         if (
-            self.version_enable
-            and ruby_version
-            and find_objects(os_getcwd(), files=self.files, folders=self.folders, extension=self.extensions)
+            ruby_version
+            and find_objects(
+                os_getcwd(),
+                files=self.files,
+                folders=self.folders,
+                extension=self.extensions,
+            )
         ):
 
             prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"

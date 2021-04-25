@@ -1,11 +1,8 @@
-# from snakypy.file import read as snakypy_file_read
-# from tomlkit import parse as toml_parse
-# from tomlkit.exceptions import UnexpectedCharError, ParseError
 from os import getcwd
-from os.path import isfile, join
+from os.path import join
 
 
-class Base():
+class Base:
     def __init__(self, config):
         from .lib.utils import symbol_ssh, element_spacing
 
@@ -13,7 +10,6 @@ class Base():
         self.files = ()
         self.folders = ()
         self.extensions = ()
-        self.version_enable = config["package"]["enable"]
         self.symbol = symbol_ssh(config["package"]["symbol"], "pkg-")
         self.color = config["package"]["color"]
         self.prefix_color = config["package"]["prefix"]["color"]
@@ -27,14 +23,15 @@ class Base():
         package_version = self.get_version()
 
         if (
-            self.version_enable
-            and package_version
-            and find_objects(os_getcwd(), files=self.files, folders=self.folders, extension=self.extensions)
-        ):
-            prefix = (
-                f"{Color(self.prefix_color)}"
-                f"{self.prefix_text}{Color().NONE}"
+            package_version
+            and find_objects(
+                os_getcwd(),
+                files=self.files,
+                folders=self.folders,
+                extension=self.extensions,
             )
+        ):
+            prefix = f"{Color(self.prefix_color)}" f"{self.prefix_text}{Color().NONE}"
             return (
                 f"{separator(self.config)}{prefix}"
                 f"{Color(self.color)}"
@@ -43,21 +40,16 @@ class Base():
         return ""
 
 
-# class Config:
-#     def __init__(self, config):
-#         from .lib.utils import symbol_ssh, element_spacing
-
-#         self.version_enable = config["package"]["enable"]
-#         self.symbol = symbol_ssh(config["package"]["symbol"], "pkg-")
-#         self.color = config["package"]["color"]
-#         self.prefix_color = config["package"]["prefix"]["color"]
-#         self.prefix_text = element_spacing(config["package"]["prefix"]["text"])
-
-
-class PackagePython(Base):
+class Python(Base):
     def __init__(self, config):
         Base.__init__(self, config)
-        self.files = ("pyproject.toml",)
+        self.files = (
+            "pyproject.toml",
+            "manage.py",
+            "requirements.txt",
+            "setup.py",
+            "__init__.py",
+        )
 
     def get_version(self, space_elem=" "):
         from subprocess import run
@@ -79,14 +71,16 @@ class PackagePython(Base):
         return super().__str__()
 
 
-class PackageNodeJS(Base):
+class NodeJS(Base):
     def __init__(self, config):
         Base.__init__(self, config)
         self.files = ("package.json",)
+        self.folders = ("node_modules",)
 
     def get_version(self, space_elem=" "):
         from snakypy.json import read as snakypy_json_read
         from contextlib import suppress
+        from os.path import isfile
 
         if isfile(join(getcwd(), self.files[0])):
             with suppress(Exception):
@@ -99,44 +93,38 @@ class PackageNodeJS(Base):
         return Base.__str__(self)
 
 
-class Package():
+class Rust(Base):
     def __init__(self, config):
-        PackagePython.__init__(self, config)
-        PackageNodeJS.__init__(self, config)
+        Base.__init__(self, config)
+        self.files = ("Cargo.toml",)
 
-        from os.path import exists
+    def get_version(self, space_elem=" "):
+        from subprocess import run
 
-        files_project_py = (
-            "manage.py",
-            "setup.py",
-            "__init__.py",
-            "requirements.txt",
-            "pyproject.toml",
-        )
-        for i in files_project_py:
-            if exists(join(getcwd(), i)):
-                return str(PackagePython(config))
-        return str(PackageNodeJS(config))
+        python_package_version = run(
+            f"""< {self.files[0]} grep "^version = *" | cut -d'"' -f2 | cut -d"'" -f2""",
+            capture_output=True,
+            shell=True,
+            text=True,
+        ).stdout
 
-    # def __str__(self):
-    #     return self.__init__()
+        python_package_version = python_package_version.replace("\n", "")
+
+        if python_package_version:
+            return f"{python_package_version}{space_elem}"
+        return ""
+
+    def __str__(self):
+        return super().__str__()
 
 
-def get_package(config):
+def package(config):
     from os.path import exists
 
-    # files_project_py = (
-    #     "manage.py",
-    #     "setup.py",
-    #     "__init__.py",
-    #     "requirements.txt",
-    #     "pyproject.toml",
-    # )
-    # for i in files_project_py:
-    #     if exists(join(getcwd(), i)):
-    #         return str(PackagePython(config))
-    # return str(PackageNodeJS(config))
-
-    if exists(join(getcwd(), "pyproject.toml")) and exists(join(getcwd(), "package.json")):
-        return f"{PackagePython(config)}{PackageNodeJS(config)}"
+    if exists(join(getcwd(), Python(config).files[0])):
+        return Python(config)
+    elif exists(join(getcwd(), Rust(config).files[0])):
+        return Rust(config)
+    elif exists(join(getcwd(), NodeJS(config).files[0])):
+        return NodeJS(config)
     return ""

@@ -9,6 +9,9 @@ from zshpower import HOME
 from zshpower.config import package
 from zshpower.config.base import Base
 
+# Test timer
+# from zshpower.utils.decorators import runtime
+
 
 # TODO: Create a cache file containing the versions so that you
 # don't run the command repeatedly.
@@ -42,12 +45,13 @@ class Draw(Base):
             # )
             return parsed
 
+    # @runtime
     def prompt(self, jump_line="\n"):
         try:
             from zshpower.prompt.sections.directory import Directory
             from zshpower.prompt.sections.git import Git
             from zshpower.prompt.sections.hostname import Hostname
-            from zshpower.prompt.sections.package import get_package, Package
+            from zshpower.prompt.sections.package import package
             from zshpower.prompt.sections.docker import Docker
             from zshpower.prompt.sections.node import NodeJs
             from zshpower.prompt.sections.python import Python
@@ -59,6 +63,7 @@ class Draw(Base):
             from zshpower.prompt.sections.dotnet import Dotnet
             from zshpower.prompt.sections.ruby import Ruby
             from zshpower.prompt.sections.java import Java
+            from zshpower.prompt.sections.dart import Dart
             from zshpower.prompt.sections.command import Command
             from zshpower.prompt.sections.username import Username
             from zshpower.prompt.sections.virtualenv import Virtualenv
@@ -68,25 +73,61 @@ class Draw(Base):
 
             if not config_loaded["general"]["jump_line"]["enable"]:
                 jump_line = ""
-            username = Username(config_loaded)
-            hostname = Hostname(config_loaded)
+
+            username = (
+                Username(config_loaded) if config_loaded["username"]["enable"] else ""
+            )
+
+            hostname = (
+                Hostname(config_loaded) if config_loaded["hostname"]["enable"] else ""
+            )
+
             directory = Directory(config_loaded)
+
             dinamic_section = {
-                "docker": Docker(config_loaded),
-                "nodejs": NodeJs(config_loaded),
-                "package": get_package(config_loaded),
-                # "package": Package(config_loaded),
-                "python": Python(config_loaded),
-                "rust": Rust(config_loaded),
-                "golang": Golang(config_loaded),
-                "php": Php(config_loaded),
-                "java": Java(config_loaded),
-                "elixir": Elixir(config_loaded),
-                "julia": Julia(config_loaded),
-                "dotnet": Dotnet(config_loaded),
-                "ruby": Ruby(config_loaded),
-                "virtualenv": Virtualenv(config_loaded),
-                "git": Git(config_loaded),
+                "virtualenv": Virtualenv(config_loaded)
+                if config_loaded["virtualenv"]["enable"]
+                else "",
+                "python": Python(config_loaded)
+                if config_loaded["python"]["version"]["enable"]
+                else "",
+                "package": package(config_loaded)
+                if config_loaded["package"]["enable"]
+                else "",
+                "nodejs": NodeJs(config_loaded)
+                if config_loaded["nodejs"]["version"]["enable"]
+                else "",
+                "rust": Rust(config_loaded)
+                if config_loaded["rust"]["version"]["enable"]
+                else "",
+                "golang": Golang(config_loaded)
+                if config_loaded["golang"]["version"]["enable"]
+                else "",
+                "ruby": Ruby(config_loaded)
+                if config_loaded["ruby"]["version"]["enable"]
+                else "",
+                "dart": Dart(config_loaded)
+                if config_loaded["dart"]["version"]["enable"]
+                else "",
+                "php": Php(config_loaded)
+                if config_loaded["php"]["version"]["enable"]
+                else "",
+                "java": Java(config_loaded)
+                if config_loaded["java"]["version"]["enable"]
+                else "",
+                "julia": Julia(config_loaded)
+                if config_loaded["julia"]["version"]["enable"]
+                else "",
+                "dotnet": Dotnet(config_loaded)
+                if config_loaded["dotnet"]["version"]["enable"]
+                else "",
+                "elixir": Elixir(config_loaded)
+                if config_loaded["elixir"]["version"]["enable"]
+                else "",
+                "docker": Docker(config_loaded)
+                if config_loaded["docker"]["version"]["enable"]
+                else "",
+                "git": Git(config_loaded) if config_loaded["git"]["enable"] else "",
             }
             cmd = Command(config_loaded)
 
@@ -107,7 +148,7 @@ class Draw(Base):
                 if item in element
             )
 
-            sections = "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"
+            sections = "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"
             return sections.format(static_section, *ordered_section, cmd)
         except (NonExistentKey, UnexpectedCharError, ValueError):
             return (
@@ -119,10 +160,9 @@ class Draw(Base):
         try:
             from zshpower.prompt.sections.timer import Timer
 
-            # Loading the settings to a local variable and thus improving performance
             config_loaded = self.config_load
 
-            timer = str(Timer(config_loaded))
+            timer = str(Timer(config_loaded) if config_loaded["timer"]["enable"] else "")
             return timer
         except (NonExistentKey):
             return (

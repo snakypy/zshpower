@@ -42,7 +42,12 @@ class Java:
         if (
             self.version_enable
             and java_version
-            and find_objects(os_getcwd(), files=self.files, folders=self.folders, extension=self.extensions)
+            and find_objects(
+                os_getcwd(),
+                files=self.files,
+                folders=self.folders,
+                extension=self.extensions,
+            )
         ):
             prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
 

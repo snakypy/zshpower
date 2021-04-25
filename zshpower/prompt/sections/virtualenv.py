@@ -16,7 +16,6 @@ class Virtualenv:
         from .lib.utils import symbol_ssh, element_spacing
 
         self.config = config
-        self.venv_enable = config["virtualenv"]["enable"]
         self.venv_symbol = symbol_ssh(config["virtualenv"]["symbol"], "")
         self.venv_involved = config["virtualenv"]["involved"]
         self.venv_color = config["virtualenv"]["color"]
@@ -31,7 +30,7 @@ class Virtualenv:
         involved_prefix = ""
         involved_suffix = ""
 
-        if self.venv_enable and "VIRTUAL_ENV" in os_environ:
+        if "VIRTUAL_ENV" in os_environ:
             env_prefix = (
                 f"{Color(self.venv_prefix_color)}"
                 f"{self.venv_prefix_text}{Color().NONE}"

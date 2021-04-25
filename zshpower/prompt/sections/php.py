@@ -10,7 +10,6 @@ class Php:
         self.color = config["php"]["color"]
         self.prefix_color = config["php"]["prefix"]["color"]
         self.prefix_text = element_spacing(config["php"]["prefix"]["text"])
-        self.version_enable = config["php"]["version"]["enable"]
         self.micro_version_enable = config["php"]["version"]["micro"]["enable"]
 
     def get_version(self, space_elem=" "):
@@ -40,9 +39,13 @@ class Php:
         php_version = self.get_version()
 
         if (
-            self.version_enable
-            and php_version
-            and find_objects(os_getcwd(), files=self.files, folders=self.folders, extension=self.extensions)
+            php_version
+            and find_objects(
+                os_getcwd(),
+                files=self.files,
+                folders=self.folders,
+                extension=self.extensions,
+            )
         ):
             prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
 

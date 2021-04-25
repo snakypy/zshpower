@@ -1,9 +1,12 @@
+from sys import version_info as sys_version_info
+
+
 class Python:
     def __init__(self, config):
         from .lib.utils import symbol_ssh, element_spacing
 
         self.config = config
-        self.search_f = (
+        self.files = (
             "__pycache__",
             "manage.py",
             "setup.py",
@@ -12,40 +15,43 @@ class Python:
             "requirements.txt",
             "pyproject.toml",
         )
-        self.py_symbol = symbol_ssh(config["python"]["symbol"], "py-")
-        self.py_color = config["python"]["color"]
-        self.py_prefix_color = config["python"]["prefix"]["color"]
-        self.py_prefix_text = element_spacing(config["python"]["prefix"]["text"])
-        self.py_version_enable = config["python"]["version"]["enable"]
-        self.pyv_micro_enable = config["python"]["version"]["micro"]["enable"]
+        self.folders = ()
+        self.extensions = ()
+        self.symbol = symbol_ssh(config["python"]["symbol"], "py-")
+        self.color = config["python"]["color"]
+        self.prefix_color = config["python"]["prefix"]["color"]
+        self.prefix_text = element_spacing(config["python"]["prefix"]["text"])
+        self.micro_version_enable = config["python"]["version"]["micro"]["enable"]
 
     def get_version(self, space_elem=" "):
-        from sys import version_info as sys_version_info
 
-        if not self.pyv_micro_enable:
-            version = "{0[0]}.{0[1]}".format(sys_version_info)
-            return f"{version}{space_elem}"
-        else:
-            version = "{0[0]}.{0[1]}.{0[2]}".format(sys_version_info)
-            return f"{version}{space_elem}"
+        if not self.micro_version_enable:
+            return f"{'{0[0]}.{0[1]}'.format(sys_version_info)}{space_elem}"
+        return f"{'{0[0]}.{0[1]}.{0[2]}'.format(sys_version_info)}{space_elem}"
 
     def __str__(self):
         from .lib.utils import Color, separator
         from zshpower.utils.catch import find_objects
         from zshpower.utils.check import is_tool
         from os import environ as os_environ, getcwd as os_getcwd
-        from zshpower import __pyversion__
 
-        py_prefix1 = f"{Color(self.py_prefix_color)}{self.py_prefix_text}{Color().NONE}"
-        if is_tool("python", f"python{__pyversion__[0]}"):
+        if is_tool("python", f"python{'{0[0]}'.format(sys_version_info)}"):
             if (
-                self.py_version_enable
-                and find_objects(os_getcwd(), self.search_f)
+                find_objects(
+                    os_getcwd(),
+                    files=self.files,
+                    folders=self.folders,
+                    extension=self.extensions,
+                )
                 or "VIRTUAL_ENV" in os_environ
             ):
+                prefix = (
+                    f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
+                )
+
                 return str(
-                    f"{separator(self.config)}{py_prefix1}"
-                    f"{Color(self.py_color)}{self.py_symbol}"
+                    f"{separator(self.config)}{prefix}"
+                    f"{Color(self.color)}{self.symbol}"
                     f"{self.get_version()}{Color().NONE}"
                 )
         return ""

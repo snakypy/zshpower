@@ -10,7 +10,6 @@ class Julia:
         self.color = config["julia"]["color"]
         self.prefix_color = config["julia"]["prefix"]["color"]
         self.prefix_text = element_spacing(config["julia"]["prefix"]["text"])
-        self.version_enable = config["julia"]["version"]["enable"]
         self.micro_version_enable = config["julia"]["version"]["micro"]["enable"]
 
     def get_version(self, space_elem=" "):
@@ -37,9 +36,13 @@ class Julia:
         julia_version = self.get_version()
 
         if (
-            self.version_enable
-            and julia_version
-            and find_objects(os_getcwd(), files=self.files, folders=self.folders, extension=self.extensions)
+            julia_version
+            and find_objects(
+                os_getcwd(),
+                files=self.files,
+                folders=self.folders,
+                extension=self.extensions,
+            )
         ):
             prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
 

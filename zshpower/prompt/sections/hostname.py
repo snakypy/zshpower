@@ -3,7 +3,6 @@ class Hostname:
         from .lib.utils import element_spacing
 
         self.config = config
-        self.hostname_enable = self.config["hostname"]["enable"]
         self.hostname_color = self.config["hostname"]["color"]
         self.hostname_prefix_color = self.config["hostname"]["prefix"]["color"]
         self.hostname_prefix_text = element_spacing(
@@ -22,7 +21,7 @@ class Hostname:
                 f"{Color().NONE}"
             )
 
-        if "SSH_CONNECTION" in os_environ or self.hostname_enable:
+        if "SSH_CONNECTION" in os_environ:
             hostname_export = (
                 f"{prefix}{Color(self.hostname_color)}"
                 f"{socket_gethostname()}{space_elem}{Color().NONE}"

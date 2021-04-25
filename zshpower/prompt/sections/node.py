@@ -9,13 +9,15 @@ class NodeJs:
         self.color = self.config["nodejs"]["color"]
         self.prefix_color = self.config["nodejs"]["prefix"]["color"]
         self.prefix_text = element_spacing(self.config["nodejs"]["prefix"]["text"])
-        self.version_enable = self.config["nodejs"]["version"]["enable"]
         self.micro_version_enable = self.config["nodejs"]["version"]["micro"]["enable"]
 
     def get_version(self, space_elem=" "):
         from subprocess import run
 
-        output = run("node -v 2>/dev/null", capture_output=True, shell=True, text=True).stdout
+        output = run(
+            "node -v 2>/dev/null", capture_output=True, shell=True, text=True
+        ).stdout
+
         nodejs_version = output.replace("\n", "")
 
         if not nodejs_version:
@@ -33,9 +35,10 @@ class NodeJs:
         from os import getcwd as os_getcwd
         from .lib.utils import Color
 
+        nodejs_version = self.get_version()
+
         if (
-            self.version_enable
-            and self.get_version()
+            nodejs_version
             and find_objects(
                 os_getcwd(),
                 files=self.files,
@@ -43,9 +46,10 @@ class NodeJs:
             )
         ):
             prefix = f"{Color(self.prefix_color)}" f"{self.prefix_text}{Color().NONE}"
+
             return str(
                 f"{separator(self.config)}{prefix}"
                 f"{Color(self.color)}"
-                f"{self.symbol}{self.get_version()}{Color().NONE}"
+                f"{self.symbol}{nodejs_version}{Color().NONE}"
             )
         return ""

@@ -10,7 +10,6 @@ class Dotnet:
         self.color = config["dotnet"]["color"]
         self.prefix_color = config["dotnet"]["prefix"]["color"]
         self.prefix_text = element_spacing(config["dotnet"]["prefix"]["text"])
-        self.version_enable = config["dotnet"]["version"]["enable"]
         self.micro_version_enable = config["dotnet"]["version"]["micro"]["enable"]
 
     def get_version(self, space_elem=" "):
@@ -37,8 +36,7 @@ class Dotnet:
         dotnet_version = self.get_version()
 
         if (
-            self.version_enable
-            and dotnet_version
+            dotnet_version
             and find_objects(
                 os_getcwd(),
                 files=self.files,

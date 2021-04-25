@@ -25,10 +25,7 @@ class Docker:
         self.color = config["docker"]["color"]
         self.prefix_color = config["docker"]["prefix"]["color"]
         self.prefix_text = element_spacing(config["docker"]["prefix"]["text"])
-        self.version_enable = config["docker"]["version"]["enable"]
-        self.micro_version_enable = config["docker"]["version"]["micro"][
-            "enable"
-        ]
+        self.micro_version_enable = config["docker"]["version"]["micro"]["enable"]
 
     def get_version(self, space_elem=" "):
         from subprocess import run
@@ -58,14 +55,15 @@ class Docker:
         docker_version = self.get_version()
 
         if (
-            self.version_enable
-            and docker_version
-            and find_objects(os_getcwd(), files=self.files, folders=self.folders, extension=self.extensions)
-        ):
-            prefix = (
-                f"{Color(self.prefix_color)}"
-                f"{self.prefix_text}{Color().NONE}"
+            docker_version
+            and find_objects(
+                os_getcwd(),
+                files=self.files,
+                folders=self.folders,
+                extension=self.extensions,
             )
+        ):
+            prefix = f"{Color(self.prefix_color)}" f"{self.prefix_text}{Color().NONE}"
             return str(
                 f"{separator(self.config)}{prefix}"
                 f"{Color(self.color)}"

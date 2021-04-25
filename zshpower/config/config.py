@@ -25,6 +25,7 @@ position = [
     "ruby",
     "elixir",
     "julia",
+    "dart",
     "dotnet",
     "docker",
     "git"
@@ -82,11 +83,11 @@ symbol = "\\uf81f"
 color = "yellow"
 prefix.color = "white"
 prefix.text = "via"
-version.enable = true
+version.enable = false
 version.micro.enable = true
 
 [package]
-enable = true
+enable = false
 symbol = "\\uf8d6"
 color = "red"
 prefix.color = "white"
@@ -97,70 +98,78 @@ symbol = "\\uf308"
 color = "cyan"
 prefix.color = "white"
 prefix.text = "on"
-version.enable = true
+version.enable = false
 version.micro.enable = true
 
 [nodejs]
 symbol = "\\uf898"
 color = "green"
 prefix.color = "white"
-prefix.text = "on"
-version.enable = true
+prefix.text = "via"
+version.enable = false
 version.micro.enable = true
 
 [rust]
 symbol = "\\ue7a8"
 color = "red"
 prefix.color = "white"
-prefix.text = "is"
-version.enable = true
+prefix.text = "via"
+version.enable = false
 version.micro.enable = true
 
 [golang]
 symbol = "\\ue627"
 color = "cyan"
 prefix.color = "white"
-prefix.text = "is"
-version.enable = true
+prefix.text = "via"
+version.enable = false
 version.micro.enable = true
 
 [php]
 symbol = "\\ue608"
 color = "magenta"
 prefix.color = "white"
-prefix.text = "is"
-version.enable = true
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+
+[dart]
+symbol = "\\ue798"
+color = "cyan"
+prefix.color = "white"
+prefix.text = "via"
+version.enable = false
 version.micro.enable = true
 
 [java]
 symbol = "\\ue256"
 color = "red"
 prefix.color = "white"
-prefix.text = "is"
-version.enable = true
+prefix.text = "via"
+version.enable = false
 version.micro.enable = true
 
 [elixir]
 symbol = "\\ue62d"
 color = "blue"
 prefix.color = "white"
-prefix.text = "is"
-version.enable = true
+prefix.text = "via"
+version.enable = false
 version.micro.enable = true
 
 [julia]
 symbol = "\\ue624"
 color = "blue"
 prefix.color = "white"
-prefix.text = "is"
-version.enable = true
+prefix.text = "via"
+version.enable = false
 version.micro.enable = true
 
 [dotnet]
 symbol = "\\ue77f"
 color = "cyan"
 prefix.color = "white"
-prefix.text = "is"
+prefix.text = "via"
 version.enable = true
 version.micro.enable = true
 
@@ -168,13 +177,13 @@ version.micro.enable = true
 symbol = "\\ue21e"
 color = "red"
 prefix.color = "white"
-prefix.text = "is"
-version.enable = true
+prefix.text = "via"
+version.enable = false
 version.micro.enable = true
 
 [virtualenv]
-enable = true
-symbol = "\\ufcc2"
+enable = false
+symbol = "\\uf7c9"
 involved = "()"
 color = "yellow"
 prefix.color = "white"
@@ -185,7 +194,7 @@ normal.enable = true
 text = "venv"
 
 [timer]
-enable = true
+enable = false
 symbol = "\\uf43a"
 color = "blue"
 seconds.enable = false

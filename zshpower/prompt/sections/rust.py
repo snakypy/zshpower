@@ -10,7 +10,6 @@ class Rust:
         self.color = config["rust"]["color"]
         self.prefix_color = config["rust"]["prefix"]["color"]
         self.prefix_text = element_spacing(config["rust"]["prefix"]["text"])
-        self.version_enable = config["rust"]["version"]["enable"]
         self.micro_version_enable = config["rust"]["version"]["micro"]["enable"]
 
     def get_version(self, space_elem=" "):
@@ -37,9 +36,13 @@ class Rust:
         rust_version = self.get_version()
 
         if (
-            self.version_enable
-            and rust_version
-            and find_objects(os_getcwd(), files=self.files, folders=self.folders, extension=self.extensions)
+            rust_version
+            and find_objects(
+                os_getcwd(),
+                files=self.files,
+                folders=self.folders,
+                extension=self.extensions,
+            )
         ):
             prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
 
