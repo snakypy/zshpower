@@ -57,3 +57,12 @@ class Elixir:
                 )
             )
         return ""
+
+
+def elixir(config):
+    import concurrent.futures
+
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        future = executor.submit(Elixir, config)
+        return_value = future.result()
+        return return_value

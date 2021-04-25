@@ -59,3 +59,12 @@ class Php:
                 )
             )
         return ""
+
+
+def php(config):
+    import concurrent.futures
+
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        future = executor.submit(Php, config)
+        return_value = future.result()
+        return return_value

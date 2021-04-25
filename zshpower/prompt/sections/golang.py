@@ -52,3 +52,12 @@ class Golang:
                 )
             )
         return ""
+
+
+def golang(config):
+    import concurrent.futures
+
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        future = executor.submit(Golang, config)
+        return_value = future.result()
+        return return_value

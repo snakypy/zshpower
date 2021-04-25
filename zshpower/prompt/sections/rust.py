@@ -54,3 +54,12 @@ class Rust:
                 )
             )
         return ""
+
+
+def rust(config):
+    import concurrent.futures
+
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        future = executor.submit(Rust, config)
+        return_value = future.result()
+        return return_value

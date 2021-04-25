@@ -51,22 +51,22 @@ class Draw(Base):
             from zshpower.prompt.sections.directory import Directory
             from zshpower.prompt.sections.git import Git
             from zshpower.prompt.sections.hostname import Hostname
-            from zshpower.prompt.sections.package import package
-            from zshpower.prompt.sections.docker import Docker
-            from zshpower.prompt.sections.node import NodeJs
-            from zshpower.prompt.sections.python import Python
-            from zshpower.prompt.sections.rust import Rust
-            from zshpower.prompt.sections.golang import Golang
-            from zshpower.prompt.sections.php import Php
-            from zshpower.prompt.sections.elixir import Elixir
-            from zshpower.prompt.sections.julia import Julia
-            from zshpower.prompt.sections.dotnet import Dotnet
-            from zshpower.prompt.sections.ruby import Ruby
-            from zshpower.prompt.sections.java import Java
-            from zshpower.prompt.sections.dart import Dart
             from zshpower.prompt.sections.command import Command
             from zshpower.prompt.sections.username import Username
-            from zshpower.prompt.sections.virtualenv import Virtualenv
+            from zshpower.prompt.sections.package import package
+            from zshpower.prompt.sections.docker import docker
+            from zshpower.prompt.sections.node import nodejs
+            from zshpower.prompt.sections.python import python
+            from zshpower.prompt.sections.rust import rust
+            from zshpower.prompt.sections.golang import golang
+            from zshpower.prompt.sections.php import php
+            from zshpower.prompt.sections.elixir import elixir
+            from zshpower.prompt.sections.julia import julia
+            from zshpower.prompt.sections.dotnet import dotnet
+            from zshpower.prompt.sections.ruby import ruby
+            from zshpower.prompt.sections.java import java
+            from zshpower.prompt.sections.dart import dart
+            from zshpower.prompt.sections.virtualenv import virtualenv
 
             # Loading the settings to a local variable and thus improving performance
             config_loaded = self.config_load
@@ -85,46 +85,46 @@ class Draw(Base):
             directory = Directory(config_loaded)
 
             dinamic_section = {
-                "virtualenv": Virtualenv(config_loaded)
+                "virtualenv": virtualenv(config_loaded)
                 if config_loaded["virtualenv"]["enable"]
                 else "",
-                "python": Python(config_loaded)
+                "python": python(config_loaded)
                 if config_loaded["python"]["version"]["enable"]
                 else "",
                 "package": package(config_loaded)
                 if config_loaded["package"]["enable"]
                 else "",
-                "nodejs": NodeJs(config_loaded)
+                "nodejs": nodejs(config_loaded)
                 if config_loaded["nodejs"]["version"]["enable"]
                 else "",
-                "rust": Rust(config_loaded)
+                "rust": rust(config_loaded)
                 if config_loaded["rust"]["version"]["enable"]
                 else "",
-                "golang": Golang(config_loaded)
+                "golang": golang(config_loaded)
                 if config_loaded["golang"]["version"]["enable"]
                 else "",
-                "ruby": Ruby(config_loaded)
+                "ruby": ruby(config_loaded)
                 if config_loaded["ruby"]["version"]["enable"]
                 else "",
-                "dart": Dart(config_loaded)
+                "dart": dart(config_loaded)
                 if config_loaded["dart"]["version"]["enable"]
                 else "",
-                "php": Php(config_loaded)
+                "php": php(config_loaded)
                 if config_loaded["php"]["version"]["enable"]
                 else "",
-                "java": Java(config_loaded)
+                "java": java(config_loaded)
                 if config_loaded["java"]["version"]["enable"]
                 else "",
-                "julia": Julia(config_loaded)
+                "julia": julia(config_loaded)
                 if config_loaded["julia"]["version"]["enable"]
                 else "",
-                "dotnet": Dotnet(config_loaded)
+                "dotnet": dotnet(config_loaded)
                 if config_loaded["dotnet"]["version"]["enable"]
                 else "",
-                "elixir": Elixir(config_loaded)
+                "elixir": elixir(config_loaded)
                 if config_loaded["elixir"]["version"]["enable"]
                 else "",
-                "docker": Docker(config_loaded)
+                "docker": docker(config_loaded)
                 if config_loaded["docker"]["version"]["enable"]
                 else "",
                 "git": Git(config_loaded) if config_loaded["git"]["enable"] else "",

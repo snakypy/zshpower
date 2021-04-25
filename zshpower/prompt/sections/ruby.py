@@ -1,3 +1,6 @@
+from zshpower.prompt.sections.package import Rust
+
+
 class Ruby:
     def __init__(self, config):
         from .lib.utils import symbol_ssh, element_spacing
@@ -60,3 +63,12 @@ class Ruby:
                 )
             )
         return ""
+
+
+def ruby(config):
+    import concurrent.futures
+
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        future = executor.submit(Ruby, config)
+        return_value = future.result()
+        return return_value

@@ -14,6 +14,7 @@ def get_virtualenv_name():
 class Virtualenv:
     def __init__(self, config):
         from .lib.utils import symbol_ssh, element_spacing
+        # Thread.__init__(self)
 
         self.config = config
         self.venv_symbol = symbol_ssh(config["virtualenv"]["symbol"], "")
@@ -54,3 +55,12 @@ class Virtualenv:
                 )
             return str(virtualenv)
         return ""
+
+
+def virtualenv(config):
+    import concurrent.futures
+
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        future = executor.submit(Virtualenv, config)
+        return_value = future.result()
+        return return_value

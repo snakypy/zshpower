@@ -54,3 +54,12 @@ class Julia:
                 )
             )
         return ""
+
+
+def julia(config):
+    import concurrent.futures
+
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        future = executor.submit(Julia, config)
+        return_value = future.result()
+        return return_value

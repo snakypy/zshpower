@@ -70,3 +70,12 @@ class Docker:
                 f"{self.symbol}{docker_version}{Color().NONE}"
             )
         return ""
+
+
+def docker(config):
+    import concurrent.futures
+
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        future = executor.submit(Docker, config)
+        return_value = future.result()
+        return return_value

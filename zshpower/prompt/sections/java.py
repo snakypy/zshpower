@@ -59,3 +59,12 @@ class Java:
                 )
             )
         return ""
+
+
+def java(config):
+    import concurrent.futures
+
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        future = executor.submit(Java, config)
+        return_value = future.result()
+        return return_value

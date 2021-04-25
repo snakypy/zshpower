@@ -58,3 +58,12 @@ class Dart:
                 )
             )
         return ""
+
+
+def dart(config):
+    import concurrent.futures
+
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        future = executor.submit(Dart, config)
+        return_value = future.result()
+        return return_value

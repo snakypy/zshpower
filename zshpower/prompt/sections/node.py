@@ -53,3 +53,12 @@ class NodeJs:
                 f"{self.symbol}{nodejs_version}{Color().NONE}"
             )
         return ""
+
+
+def nodejs(config):
+    import concurrent.futures
+
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        future = executor.submit(NodeJs, config)
+        return_value = future.result()
+        return return_value
