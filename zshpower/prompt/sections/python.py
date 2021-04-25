@@ -15,8 +15,8 @@ class Python:
             "requirements.txt",
             "pyproject.toml",
         )
-        self.folders = ()
-        self.extensions = ()
+        self.folders = ("__pycache__",)
+        self.extensions = (".py",)
         self.symbol = symbol_ssh(config["python"]["symbol"], "py-")
         self.color = config["python"]["color"]
         self.prefix_color = config["python"]["prefix"]["color"]
