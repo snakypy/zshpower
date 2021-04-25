@@ -27,6 +27,8 @@ class Php:
         if not php_version:
             return False
 
+        php_version = php_version.replace("\n", "").split(".")
+
         if not self.micro_version_enable:
             return f"{'{0[0]}.{0[1]}'.format(php_version)}{space_elem}"
         return f"{'{0[0]}.{0[1]}.{0[2]}'.format(php_version)}{space_elem}"
