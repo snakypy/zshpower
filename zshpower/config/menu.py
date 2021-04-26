@@ -9,6 +9,7 @@ options = f"""
 
 Usage:
     {package.info['executable']} init [--omz]
+    {package.info['executable']} sync
     {package.info['executable']} config (--open | --view)
     {package.info['executable']} activate
     {package.info['executable']} deactivate [--theme=<name>]
@@ -20,6 +21,7 @@ Usage:
 
 Arguments:
     {FG.CYAN}init{NONE} ---------- Installs the {package.info["name"]} settings.
+    {FG.CYAN}sync{NONE} ---------- Synchronizes the machine's data with the {package.info["name"]} database.
     {FG.CYAN}activate{NONE} ------ Activate the {package.info["name"]} theme. ({omz}).
     {FG.CYAN}deactivate{NONE} ---- Deactivate the {package.info["name"]} theme and go back to the default. ({omz}).
     {FG.CYAN}reset{NONE} --------- Reset to default settings.

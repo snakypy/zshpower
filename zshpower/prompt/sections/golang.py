@@ -1,8 +1,10 @@
 class Golang:
-    def __init__(self, config):
+    def __init__(self, config, version, space_elem=" "):
         from .lib.utils import symbol_ssh, element_spacing
 
         self.config = config
+        self.version = version
+        self.space_elem = space_elem
         self.extensions = (".go",)
         self.files = ("go.mod", "glide.yaml")
         self.folders = ("Godeps",)
@@ -12,29 +14,31 @@ class Golang:
         self.prefix_text = element_spacing(config["golang"]["prefix"]["text"])
         self.micro_version_enable = config["golang"]["version"]["micro"]["enable"]
 
-    def get_version(self, space_elem=" "):
-        from subprocess import run
+    # def get_version(self, space_elem=" "):
+    #     from subprocess import run
 
-        output_version = run(
-            "go version", capture_output=True, shell=True, text=True
-        ).stdout
+    #     output_version = run(
+    #         "go version", capture_output=True, shell=True, text=True
+    #     ).stdout
 
-        if not output_version.replace("\n", ""):
-            return False
+    #     if not output_version.replace("\n", ""):
+    #         return False
 
-        output_version = output_version.replace("go", "").split(" ")[2].split(".")
+    #     output_version = output_version.replace("go", "").split(" ")[2].split(".")
 
-        if not self.micro_version_enable:
-            return f"{'{0[0]}.{0[1]}'.format(output_version)}{space_elem}"
-        return f"{'{0[0]}.{0[1]}.{0[2]}'.format(output_version)}{space_elem}"
+    #     if not self.micro_version_enable:
+    #         return f"{'{0[0]}.{0[1]}'.format(output_version)}{space_elem}"
+    #     return f"{'{0[0]}.{0[1]}.{0[2]}'.format(output_version)}{space_elem}"
 
     def __str__(self):
         from .lib.utils import Color, separator
         from zshpower.utils.catch import find_objects
         from os import getcwd as os_getcwd
 
+        golang_version = self.version
+
         if (
-            self.get_version()
+            golang_version
             and find_objects(
                 os_getcwd(),
                 files=self.files,
@@ -48,7 +52,7 @@ class Golang:
                 (
                     f"{separator(self.config)}{prefix}"
                     f"{Color(self.color)}{self.symbol}"
-                    f"{self.get_version()}{Color().NONE}"
+                    f"{golang_version}{self.space_elem}{Color().NONE}"
                 )
             )
         return ""

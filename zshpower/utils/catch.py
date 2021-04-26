@@ -96,13 +96,3 @@ def find_objects(directory, /, files=(), folders=(), extension=()):
             if exists(os.path.join(directory, i)):
                 return True
     return False
-
-
-# def find_files_OLD(directory, /, files=(), extension=()):
-#     import os
-
-#     for r, d, f in os.walk(directory):
-#         for item in f:
-#             if item.endswith(extension) or item in files:
-#                 return True
-#     return False

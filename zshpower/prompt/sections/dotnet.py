@@ -1,8 +1,10 @@
 class Dotnet:
-    def __init__(self, config):
+    def __init__(self, config, version, space_elem=" "):
         from .lib.utils import symbol_ssh, element_spacing
 
         self.config = config
+        self.version = version
+        self.space_elem = space_elem
         self.files = ("project.json", "global.json", "paket.dependencies")
         self.extensions = (".csproj", ".fsproj", ".xproj", ".sln")
         self.folders = ()
@@ -12,28 +14,38 @@ class Dotnet:
         self.prefix_text = element_spacing(config["dotnet"]["prefix"]["text"])
         self.micro_version_enable = config["dotnet"]["version"]["micro"]["enable"]
 
-    def get_version(self, space_elem=" "):
-        from subprocess import run
+    # def get_version(self, database, space_elem=" "):
+    #     sql = """SELECT version FROM info WHERE name = 'dotnet';"""
+    #     query = database.query(sql)[0][0]
+    #     if query:
+    #         dotnet_version = query.split(".")
+    #         if not self.micro_version_enable:
+    #             return f"{'{0[0]}.{0[1]}'.format(dotnet_version)}{space_elem}"
+    #         return f"{'{0[0]}.{0[1]}.{0[2]}'.format(dotnet_version)}{space_elem}"
+    #     return ""
 
-        dotnet_version = run(
-            "dotnet --version 2>/dev/null", capture_output=True, shell=True, text=True
-        ).stdout
+    # def get_version(self, space_elem=" "):
+    #     from subprocess import run
 
-        if not dotnet_version.replace("\n", ""):
-            return False
+    #     dotnet_version = run(
+    #         "dotnet --version 2>/dev/null", capture_output=True, shell=True, text=True
+    #     ).stdout
 
-        dotnet_version = dotnet_version.replace("\n", "").split(".")
+    #     if not dotnet_version.replace("\n", ""):
+    #         return False
 
-        if not self.micro_version_enable:
-            return f"{'{0[0]}.{0[1]}'.format(dotnet_version)}{space_elem}"
-        return f"{'{0[0]}.{0[1]}.{0[2]}'.format(dotnet_version)}{space_elem}"
+    #     dotnet_version = dotnet_version.replace("\n", "").split(".")
+
+    #     if not self.micro_version_enable:
+    #         return f"{'{0[0]}.{0[1]}'.format(dotnet_version)}{space_elem}"
+    #     return f"{'{0[0]}.{0[1]}.{0[2]}'.format(dotnet_version)}{space_elem}"
 
     def __str__(self):
         from .lib.utils import Color, separator
         from zshpower.utils.catch import find_objects
         from os import getcwd as os_getcwd
 
-        dotnet_version = self.get_version()
+        dotnet_version = self.version
 
         if (
             dotnet_version
@@ -50,7 +62,7 @@ class Dotnet:
                 (
                     f"{separator(self.config)}{prefix}"
                     f"{Color(self.color)}{self.symbol}"
-                    f"{dotnet_version}{Color().NONE}"
+                    f"{dotnet_version}{self.space_elem}{Color().NONE}"
                 )
             )
         return ""

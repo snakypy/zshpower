@@ -1,5 +1,10 @@
+from zshpower import HOME
 from zshpower.config.base import Base
 from snakypy.ansi import FG, NONE
+from zshpower.utils.data.generators import Manager
+from zshpower.utils.data.database import Database
+from zshpower.utils.data.generators import create_table
+from os.path import join
 
 
 instruction_not_omz = f"""{FG.YELLOW}
@@ -43,11 +48,20 @@ class InitCommand(Base):
             f". $HOME/.{package.info['pkg_name']}/init", self.zsh_rc
         )
 
-        snakypy_path_create(self.config_root)
+        snakypy_path_create(self.config_root, self.data_root)
 
         create_config(config_content, self.config_file)
 
         snakypy_file_create(set_zshpower_content, self.init_file, force=True)
+
+        # Create table and database if not exists
+        create_table(Database(HOME), join(HOME, self.data_root, self.database_name))
+
+        # Insert registers in database
+        Manager(Database(HOME)).dart("insert")
+        Manager(Database(HOME)).docker("update")
+        Manager(Database(HOME)).dotnet("insert")
+        Manager(Database(HOME)).elixir("insert")
 
         if arguments["--omz"]:
             omz_install(self.omz_root)

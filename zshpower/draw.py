@@ -8,6 +8,7 @@ from zshpower.utils.decorators import silent_errors
 from zshpower import HOME
 from zshpower.config import package
 from zshpower.config.base import Base
+from zshpower.utils.data.database import Database
 
 # Test timer
 # from zshpower.utils.decorators import runtime
@@ -54,22 +55,26 @@ class Draw(Base):
             from zshpower.prompt.sections.command import Command
             from zshpower.prompt.sections.username import Username
             from zshpower.prompt.sections.package import package
-            from zshpower.prompt.sections.docker import docker
-            from zshpower.prompt.sections.node import nodejs
+            from zshpower.prompt.sections.docker import Docker
+            from zshpower.prompt.sections.nodejs import NodeJs
             from zshpower.prompt.sections.python import python
-            from zshpower.prompt.sections.rust import rust
-            from zshpower.prompt.sections.golang import golang
-            from zshpower.prompt.sections.php import php
-            from zshpower.prompt.sections.elixir import elixir
-            from zshpower.prompt.sections.julia import julia
-            from zshpower.prompt.sections.dotnet import dotnet
-            from zshpower.prompt.sections.ruby import ruby
-            from zshpower.prompt.sections.java import java
-            from zshpower.prompt.sections.dart import dart
+            from zshpower.prompt.sections.rust import Rust
+            from zshpower.prompt.sections.golang import Golang
+            from zshpower.prompt.sections.php import Php
+            from zshpower.prompt.sections.elixir import Elixir
+            from zshpower.prompt.sections.julia import Julia
+            from zshpower.prompt.sections.dotnet import Dotnet
+            from zshpower.prompt.sections.ruby import Ruby
+            from zshpower.prompt.sections.java import Java
+            from zshpower.prompt.sections.dart import Dart
             from zshpower.prompt.sections.virtualenv import virtualenv
+            from zshpower.utils.data.controller import select_database_all
 
             # Loading the settings to a local variable and thus improving performance
             config_loaded = self.config_load
+
+            # Register database
+            reg = select_database_all(Database(HOME))
 
             if not config_loaded["general"]["jump_line"]["enable"]:
                 jump_line = ""
@@ -94,37 +99,37 @@ class Draw(Base):
                 "package": package(config_loaded)
                 if config_loaded["package"]["enable"]
                 else "",
-                "nodejs": nodejs(config_loaded)
+                "nodejs": NodeJs(config_loaded, reg["nodejs"])
                 if config_loaded["nodejs"]["version"]["enable"]
                 else "",
-                "rust": rust(config_loaded)
+                "rust": Rust(config_loaded, reg["rust"])
                 if config_loaded["rust"]["version"]["enable"]
                 else "",
-                "golang": golang(config_loaded)
+                "golang": Golang(config_loaded, reg["golang"])
                 if config_loaded["golang"]["version"]["enable"]
                 else "",
-                "ruby": ruby(config_loaded)
+                "ruby": Ruby(config_loaded, reg["ruby"])
                 if config_loaded["ruby"]["version"]["enable"]
                 else "",
-                "dart": dart(config_loaded)
+                "dart": Dart(config_loaded, reg["dart"])
                 if config_loaded["dart"]["version"]["enable"]
                 else "",
-                "php": php(config_loaded)
+                "php": Php(config_loaded, reg["php"])
                 if config_loaded["php"]["version"]["enable"]
                 else "",
-                "java": java(config_loaded)
+                "java": Java(config_loaded, reg["java"])
                 if config_loaded["java"]["version"]["enable"]
                 else "",
-                "julia": julia(config_loaded)
+                "julia": Julia(config_loaded, reg["julia"])
                 if config_loaded["julia"]["version"]["enable"]
                 else "",
-                "dotnet": dotnet(config_loaded)
+                "dotnet": Dotnet(config_loaded, reg["dotnet"])
                 if config_loaded["dotnet"]["version"]["enable"]
                 else "",
-                "elixir": elixir(config_loaded)
+                "elixir": Elixir(config_loaded, reg["elixir"])
                 if config_loaded["elixir"]["version"]["enable"]
                 else "",
-                "docker": docker(config_loaded)
+                "docker": Docker(config_loaded, reg["docker"])
                 if config_loaded["docker"]["version"]["enable"]
                 else "",
                 "git": Git(config_loaded) if config_loaded["git"]["enable"] else "",
@@ -150,6 +155,7 @@ class Draw(Base):
 
             sections = "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"
             return sections.format(static_section, *ordered_section, cmd)
+
         except (NonExistentKey, UnexpectedCharError, ValueError):
             return (
                 f"{FG.ERROR}>>> {package.info['name']} Error: Key error in "
@@ -169,13 +175,6 @@ class Draw(Base):
                 f"{FG.ERROR}>>> {package.info['name']} Error: Key error in "
                 f"the configuration file.\n > "
             )
-
-
-"""
-PERFORMANCE NOTE: AS ZSHPOWER NEEDS TO LOAD AN EXTERNAL CONFIGURATION TOML FILE AT ALL
-TIMES WHEN A TERMINAL COMMAND IS LAUNCHED, PERFORMANCE IN LOADING THE ZSHPOWER VISUAL
-MODEL SHOULD FALL A FEW MILLISECONDS.
-"""
 
 
 @silent_errors

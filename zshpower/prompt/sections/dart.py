@@ -1,8 +1,10 @@
 class Dart:
-    def __init__(self, config):
+    def __init__(self, config, version, space_elem=" "):
         from .lib.utils import symbol_ssh, element_spacing
 
         self.config = config
+        self.version = version
+        self.space_elem = space_elem
         self.extensions = (".dart",)
         self.files = (
             "pubspec.yaml",
@@ -16,28 +18,28 @@ class Dart:
         self.prefix_text = element_spacing(config["dart"]["prefix"]["text"])
         self.micro_version_enable = config["dart"]["version"]["micro"]["enable"]
 
-    def get_version(self, space_elem=" "):
-        from subprocess import run
+    # def get_version(self, space_elem=" "):
+    #     from subprocess import run
 
-        dart_version = run(
-            "dart --version 2>&1", capture_output=True, shell=True, text=True
-        )
+    #     dart_version = run(
+    #         "dart --version 2>&1", capture_output=True, shell=True, text=True
+    #     )
 
-        if not dart_version.returncode == 0:
-            return False
+    #     if not dart_version.returncode == 0:
+    #         return False
 
-        dart_version = dart_version.stdout.replace("\n", "").split(" ")[3].split(".")
+    #     dart_version = dart_version.stdout.replace("\n", "").split(" ")[3].split(".")
 
-        if not self.micro_version_enable:
-            return f"{'{0[0]}.{0[1]}'.format(dart_version)}{space_elem}"
-        return f"{'{0[0]}.{0[1]}.{0[2]}'.format(dart_version)}{space_elem}"
+    #     if not self.micro_version_enable:
+    #         return f"{'{0[0]}.{0[1]}'.format(dart_version)}{space_elem}"
+    #     return f"{'{0[0]}.{0[1]}.{0[2]}'.format(dart_version)}{space_elem}"
 
     def __str__(self):
         from .lib.utils import Color, separator
         from zshpower.utils.catch import find_objects
         from os import getcwd as os_getcwd
 
-        dart_version = self.get_version()
+        dart_version = self.version
 
         if (
             dart_version
@@ -54,7 +56,7 @@ class Dart:
                 (
                     f"{separator(self.config)}{prefix}"
                     f"{Color(self.color)}{self.symbol}"
-                    f"{dart_version}{Color().NONE}"
+                    f"{dart_version}{self.space_elem}{Color().NONE}"
                 )
             )
         return ""
