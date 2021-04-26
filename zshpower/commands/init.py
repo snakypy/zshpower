@@ -55,20 +55,20 @@ class InitCommand(Base):
         snakypy_file_create(set_zshpower_content, self.init_file, force=True)
 
         # Create table and database if not exists
-        create_table(Database(HOME), join(HOME, self.data_root, self.database_name))
+        create_table(Database(HOME), self.table_name, join(HOME, self.data_root, self.database_name))
 
         # Insert registers in database
-        Manager(Database(HOME)).dart(option="insert")
-        Manager(Database(HOME)).docker(option="insert")
-        Manager(Database(HOME)).dotnet(option="insert")
-        Manager(Database(HOME)).elixir(option="insert")
-        Manager(Database(HOME)).golang(option="insert")
-        Manager(Database(HOME)).java(option="insert")
-        Manager(Database(HOME)).julia(option="insert")
-        Manager(Database(HOME)).nodejs(option="insert")
-        Manager(Database(HOME)).php(option="insert")
-        Manager(Database(HOME)).ruby(option="insert")
-        Manager(Database(HOME)).rust(option="insert")
+        Manager(Database(HOME)).dart(self.table_name, option="insert")
+        Manager(Database(HOME)).docker(self.table_name, option="insert")
+        Manager(Database(HOME)).dotnet(self.table_name, option="insert")
+        Manager(Database(HOME)).elixir(self.table_name, option="insert")
+        Manager(Database(HOME)).golang(self.table_name, option="insert")
+        Manager(Database(HOME)).java(self.table_name, option="insert")
+        Manager(Database(HOME)).julia(self.table_name, option="insert")
+        Manager(Database(HOME)).nodejs(self.table_name, option="insert")
+        Manager(Database(HOME)).php(self.table_name, option="insert")
+        Manager(Database(HOME)).ruby(self.table_name, option="insert")
+        Manager(Database(HOME)).rust(self.table_name, option="insert")
 
         if arguments["--omz"]:
             omz_install(self.omz_root)

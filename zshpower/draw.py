@@ -3,7 +3,6 @@ try:
     from tomlkit.exceptions import NonExistentKey, UnexpectedCharError
 except KeyboardInterrupt:
     pass
-from genericpath import exists
 from sqlite3 import OperationalError
 from snakypy.utils.decorators import only_for_linux
 from zshpower.utils.decorators import silent_errors
@@ -28,7 +27,7 @@ from zshpower.prompt.sections.git import Git
 from zshpower.prompt.sections.hostname import Hostname
 from zshpower.prompt.sections.command import Command
 from zshpower.prompt.sections.username import Username
-from zshpower.prompt.sections.package import package
+from zshpower.prompt.sections.package import package as pkg_version
 from zshpower.prompt.sections.docker import Docker
 from zshpower.prompt.sections.nodejs import NodeJs
 from zshpower.prompt.sections.python import Python
@@ -73,34 +72,34 @@ class Draw(Base):
             return parsed
 
     def db_restore(self):
-        create_table(Database(HOME), join(HOME, self.data_root, self.database_name))
-        Manager(Database(HOME)).dart(option="insert")
-        Manager(Database(HOME)).docker(option="insert")
-        Manager(Database(HOME)).dotnet(option="insert")
-        Manager(Database(HOME)).elixir(option="insert")
-        Manager(Database(HOME)).golang(option="insert")
-        Manager(Database(HOME)).java(option="insert")
-        Manager(Database(HOME)).julia(option="insert")
-        Manager(Database(HOME)).nodejs(option="insert")
-        Manager(Database(HOME)).php(option="insert")
-        Manager(Database(HOME)).ruby(option="insert")
-        Manager(Database(HOME)).rust(option="insert")
+        create_table(Database(HOME), self.table_name, join(HOME, self.data_root, self.database_name))
+        Manager(Database(HOME)).dart(self.table_name, option="insert")
+        Manager(Database(HOME)).docker(self.table_name, option="insert")
+        Manager(Database(HOME)).dotnet(self.table_name, option="insert")
+        Manager(Database(HOME)).elixir(self.table_name, option="insert")
+        Manager(Database(HOME)).golang(self.table_name, option="insert")
+        Manager(Database(HOME)).java(self.table_name, option="insert")
+        Manager(Database(HOME)).julia(self.table_name, option="insert")
+        Manager(Database(HOME)).nodejs(self.table_name, option="insert")
+        Manager(Database(HOME)).php(self.table_name, option="insert")
+        Manager(Database(HOME)).ruby(self.table_name, option="insert")
+        Manager(Database(HOME)).rust(self.table_name, option="insert")
 
     def db_fetchall(self):
         try:
-            reg = select_database_all(Database(HOME))
+            reg = select_database_all(Database(HOME), self.table_name)
             if not reg:
                 self.db_restore()
-                reg = select_database_all(Database(HOME))
+                reg = select_database_all(Database(HOME), self.table_name)
             return reg
         except (OperationalError, KeyError):
             self.db_restore()
-            reg = select_database_all(Database(HOME))
+            reg = select_database_all(Database(HOME), self.table_name)
             return reg
 
     # @runtime
     def prompt(self, jump_line="\n"):
-        # self.reg = select_database_all(Database(HOME))
+        # self.reg = select_database_all(Database(HOME), self.table_name)
 
         # Loading the settings to a local variable and thus improving performance
         config_loaded = self.config_load()
@@ -129,7 +128,7 @@ class Draw(Base):
                 "python": Python(config_loaded)
                 if config_loaded["python"]["version"]["enable"]
                 else "",
-                "package": package(config_loaded)
+                "package": pkg_version(config_loaded)
                 if config_loaded["package"]["enable"]
                 else "",
                 "nodejs": NodeJs(config_loaded, reg["nodejs"])
