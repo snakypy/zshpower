@@ -56,7 +56,7 @@ class Manager:
 
         if option:
             docker_version = run(
-                "docker version --format '{{.Server.Version}}'",
+                "docker version",
                 capture_output=True,
                 text=True,
                 shell=True,
@@ -65,7 +65,7 @@ class Manager:
             if not docker_version.replace("\n", ""):
                 return False
 
-            docker_version = docker_version.replace("\n", "")
+            docker_version = docker_version.split("Version")[1].strip().split("\n")[0].replace(":", "").strip()
 
             if option == "insert":
                 sql = f"""SELECT version FROM {table_name} WHERE name = 'docker';"""
