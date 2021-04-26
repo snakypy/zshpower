@@ -58,10 +58,17 @@ class InitCommand(Base):
         create_table(Database(HOME), join(HOME, self.data_root, self.database_name))
 
         # Insert registers in database
-        Manager(Database(HOME)).dart("insert")
-        Manager(Database(HOME)).docker("update")
-        Manager(Database(HOME)).dotnet("insert")
-        Manager(Database(HOME)).elixir("insert")
+        Manager(Database(HOME)).dart(option="insert")
+        Manager(Database(HOME)).docker(option="insert")
+        Manager(Database(HOME)).dotnet(option="insert")
+        Manager(Database(HOME)).elixir(option="insert")
+        Manager(Database(HOME)).golang(option="insert")
+        Manager(Database(HOME)).java(option="insert")
+        Manager(Database(HOME)).julia(option="insert")
+        Manager(Database(HOME)).nodejs(option="insert")
+        Manager(Database(HOME)).php(option="insert")
+        Manager(Database(HOME)).ruby(option="insert")
+        Manager(Database(HOME)).rust(option="insert")
 
         if arguments["--omz"]:
             omz_install(self.omz_root)

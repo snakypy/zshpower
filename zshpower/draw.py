@@ -3,13 +3,45 @@ try:
     from tomlkit.exceptions import NonExistentKey, UnexpectedCharError
 except KeyboardInterrupt:
     pass
+from genericpath import exists
+from sqlite3 import OperationalError
 from snakypy.utils.decorators import only_for_linux
 from zshpower.utils.decorators import silent_errors
 from zshpower import HOME
 from zshpower.config import package
 from zshpower.config.base import Base
 from zshpower.utils.data.database import Database
+from zshpower.utils.data.controller import select_database_all
+from os.path import join
+from zshpower.utils.data.generators import create_table
+from zshpower.utils.data.generators import Manager
 
+from zshpower.config.config import content as config_content
+from zshpower.utils.shift import create_config
+from snakypy.path import create as snakypy_path_create
+from snakypy.file import read as snakypy_file_red
+from tomlkit import parse as toml_parse
+
+
+from zshpower.prompt.sections.directory import Directory
+from zshpower.prompt.sections.git import Git
+from zshpower.prompt.sections.hostname import Hostname
+from zshpower.prompt.sections.command import Command
+from zshpower.prompt.sections.username import Username
+from zshpower.prompt.sections.package import package
+from zshpower.prompt.sections.docker import Docker
+from zshpower.prompt.sections.nodejs import NodeJs
+from zshpower.prompt.sections.python import Python
+from zshpower.prompt.sections.rust import Rust
+from zshpower.prompt.sections.golang import Golang
+from zshpower.prompt.sections.php import Php
+from zshpower.prompt.sections.elixir import Elixir
+from zshpower.prompt.sections.julia import Julia
+from zshpower.prompt.sections.dotnet import Dotnet
+from zshpower.prompt.sections.ruby import Ruby
+from zshpower.prompt.sections.java import Java
+from zshpower.prompt.sections.dart import Dart
+from zshpower.prompt.sections.virtualenv import virtualenv
 # Test timer
 # from zshpower.utils.decorators import runtime
 
@@ -22,18 +54,12 @@ class Draw(Base):
     def __init__(self):
         Base.__init__(self, HOME)
 
-    @property
     def config_load(self):
         try:
-            from zshpower.config.config import content as config_content
-            from zshpower.utils.shift import create_config
-            from snakypy.path import create as snakypy_path_create
-            from snakypy.file import read as snakypy_file_red
-            from tomlkit import parse as toml_parse
-
             read_conf = snakypy_file_red(self.config_file)
             parsed = toml_parse(read_conf)
             return parsed
+
         except (FileNotFoundError, NonExistentKey):
             snakypy_path_create(self.config_root)
             create_config(config_content, self.config_file)
@@ -46,35 +72,42 @@ class Draw(Base):
             # )
             return parsed
 
+    def db_restore(self):
+        create_table(Database(HOME), join(HOME, self.data_root, self.database_name))
+        Manager(Database(HOME)).dart(option="insert")
+        Manager(Database(HOME)).docker(option="insert")
+        Manager(Database(HOME)).dotnet(option="insert")
+        Manager(Database(HOME)).elixir(option="insert")
+        Manager(Database(HOME)).golang(option="insert")
+        Manager(Database(HOME)).java(option="insert")
+        Manager(Database(HOME)).julia(option="insert")
+        Manager(Database(HOME)).nodejs(option="insert")
+        Manager(Database(HOME)).php(option="insert")
+        Manager(Database(HOME)).ruby(option="insert")
+        Manager(Database(HOME)).rust(option="insert")
+
+    def db_fetchall(self):
+        try:
+            reg = select_database_all(Database(HOME))
+            if not reg:
+                self.db_restore()
+                reg = select_database_all(Database(HOME))
+            return reg
+        except (OperationalError, KeyError):
+            self.db_restore()
+            reg = select_database_all(Database(HOME))
+            return reg
+
     # @runtime
     def prompt(self, jump_line="\n"):
+        # self.reg = select_database_all(Database(HOME))
+
+        # Loading the settings to a local variable and thus improving performance
+        config_loaded = self.config_load()
+
+        reg = self.db_fetchall()
+
         try:
-            from zshpower.prompt.sections.directory import Directory
-            from zshpower.prompt.sections.git import Git
-            from zshpower.prompt.sections.hostname import Hostname
-            from zshpower.prompt.sections.command import Command
-            from zshpower.prompt.sections.username import Username
-            from zshpower.prompt.sections.package import package
-            from zshpower.prompt.sections.docker import Docker
-            from zshpower.prompt.sections.nodejs import NodeJs
-            from zshpower.prompt.sections.python import python
-            from zshpower.prompt.sections.rust import Rust
-            from zshpower.prompt.sections.golang import Golang
-            from zshpower.prompt.sections.php import Php
-            from zshpower.prompt.sections.elixir import Elixir
-            from zshpower.prompt.sections.julia import Julia
-            from zshpower.prompt.sections.dotnet import Dotnet
-            from zshpower.prompt.sections.ruby import Ruby
-            from zshpower.prompt.sections.java import Java
-            from zshpower.prompt.sections.dart import Dart
-            from zshpower.prompt.sections.virtualenv import virtualenv
-            from zshpower.utils.data.controller import select_database_all
-
-            # Loading the settings to a local variable and thus improving performance
-            config_loaded = self.config_load
-
-            # Register database
-            reg = select_database_all(Database(HOME))
 
             if not config_loaded["general"]["jump_line"]["enable"]:
                 jump_line = ""
@@ -93,7 +126,7 @@ class Draw(Base):
                 "virtualenv": virtualenv(config_loaded)
                 if config_loaded["virtualenv"]["enable"]
                 else "",
-                "python": python(config_loaded)
+                "python": Python(config_loaded)
                 if config_loaded["python"]["version"]["enable"]
                 else "",
                 "package": package(config_loaded)

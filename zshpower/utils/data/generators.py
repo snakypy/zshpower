@@ -4,19 +4,19 @@ from subprocess import run
 def create_table(database, db_filepath):
     from os.path import exists
 
-    if exists(db_filepath):
-        database.execute("""
-            CREATE TABLE IF NOT EXISTS info (
-                id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
-                version TEXT NOT NULL,
-                date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            );
-            """)
-        database.commit()
-        database.connection.close()
-        return True
-    return False
+    # if exists(db_filepath):
+    database.execute("""
+        CREATE TABLE IF NOT EXISTS info (
+            id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            version TEXT NOT NULL,
+            date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+        """)
+    database.commit()
+    database.connection.close()
+    #     return True
+    # return False
 
 
 class Manager:
@@ -41,7 +41,7 @@ class Manager:
 
                 if not query:
                     sql = f"""INSERT INTO info (name, version)
-                    VALUES ('dart', '{"{0[0]}.{0[1]}.{0[2]}".format(dart_version)}');"""
+                    VALUES ('dart', '{dart_version}');"""
                     self.database.execute(sql)
                     self.database.commit()
 
@@ -73,7 +73,7 @@ class Manager:
 
                 if not query:
                     sql = f"""INSERT INTO info (name, version)
-                    VALUES ('docker', '{"{0[0]}.{0[1]}.{0[2]}".format(docker_version)}');"""
+                    VALUES ('docker', '{docker_version}');"""
                     self.database.execute(sql)
                     self.database.commit()
 
@@ -102,7 +102,7 @@ class Manager:
 
                 if not query:
                     sql = f"""INSERT INTO info (name, version)
-                    VALUES ('dotnet', '{"{0[0]}.{0[1]}.{0[2]}".format(dotnet_version)}');"""
+                    VALUES ('dotnet', '{dotnet_version}');"""
                     self.database.execute(sql)
                     self.database.commit()
 
@@ -134,12 +134,221 @@ class Manager:
 
                 if not query:
                     sql = f"""INSERT INTO info (name, version)
-                    VALUES ('elixir', '{"{0[0]}.{0[1]}.{0[2]}".format(elixir_version)}');"""
+                    VALUES ('elixir', '{elixir_version}');"""
                     self.database.execute(sql)
                     self.database.commit()
 
             elif option == "update":
                 sql = f"""UPDATE info SET version = '{elixir_version}' WHERE name = 'elixir';"""
+                self.database.execute(sql)
+                self.database.commit()
+
+            self.database.connection.close()
+
+    def golang(self, /, option=None):
+
+        if option:
+            golang_version = run(
+                "go version", capture_output=True, shell=True, text=True
+            ).stdout
+
+            if not golang_version.replace("\n", ""):
+                return False
+
+            golang_version = golang_version.replace("go", "").split(" ")[2]
+
+            if option == "insert":
+                sql = """SELECT version FROM info WHERE name = 'golang';"""
+                query = self.database.query(sql)
+
+                if not query:
+                    sql = f"""INSERT INTO info (name, version)
+                    VALUES ('golang', '{golang_version}');"""
+                    self.database.execute(sql)
+                    self.database.commit()
+
+            elif option == "update":
+                sql = f"""UPDATE info SET version = '{golang_version}' WHERE name = 'golang';"""
+                self.database.execute(sql)
+                self.database.commit()
+
+            self.database.connection.close()
+
+    def java(self, /, option=None):
+
+        if option:
+            java_version = run(
+                """java -version 2>&1 | awk -F '"' '/version/ {print $2}'""",
+                capture_output=True,
+                shell=True,
+                text=True,
+            ).stdout
+
+            if not java_version.replace("\n", ""):
+                return False
+
+            java_version = java_version.replace("\n", "").split("_")[0]
+
+            if option == "insert":
+                sql = """SELECT version FROM info WHERE name = 'java';"""
+                query = self.database.query(sql)
+
+                if not query:
+                    sql = f"""INSERT INTO info (name, version)
+                    VALUES ('java', '{java_version}');"""
+                    self.database.execute(sql)
+                    self.database.commit()
+
+            elif option == "update":
+                sql = f"""UPDATE info SET version = '{java_version}' WHERE name = 'java';"""
+                self.database.execute(sql)
+                self.database.commit()
+
+            self.database.connection.close()
+
+    def julia(self, /, option=None):
+
+        if option:
+            julia_version = run(
+                "julia --version", capture_output=True, shell=True, text=True
+            ).stdout
+
+            if not julia_version.replace("\n", ""):
+                return False
+
+            julia_version = julia_version.replace("\n", "").split(" ")[2]
+
+            if option == "insert":
+                sql = """SELECT version FROM info WHERE name = 'julia';"""
+                query = self.database.query(sql)
+
+                if not query:
+                    sql = f"""INSERT INTO info (name, version)
+                    VALUES ('julia', '{julia_version}');"""
+                    self.database.execute(sql)
+                    self.database.commit()
+
+            elif option == "update":
+                sql = f"""UPDATE info SET version = '{julia_version}' WHERE name = 'julia';"""
+                self.database.execute(sql)
+                self.database.commit()
+
+            self.database.connection.close()
+
+    def nodejs(self, /, option=None):
+
+        if option:
+            nodejs_version = run(
+                "node -v 2>/dev/null", capture_output=True, shell=True, text=True
+            ).stdout
+
+            if not nodejs_version.replace("\n", ""):
+                return False
+
+            nodejs_version = nodejs_version[1:].replace("\n", "")
+
+            if option == "insert":
+                sql = """SELECT version FROM info WHERE name = 'nodejs';"""
+                query = self.database.query(sql)
+
+                if not query:
+                    sql = f"""INSERT INTO info (name, version)
+                    VALUES ('nodejs', '{nodejs_version}');"""
+                    self.database.execute(sql)
+                    self.database.commit()
+
+            elif option == "update":
+                sql = f"""UPDATE info SET version = '{nodejs_version}' WHERE name = 'nodejs';"""
+                self.database.execute(sql)
+                self.database.commit()
+
+            self.database.connection.close()
+
+    def php(self, /, option=None):
+
+        if option:
+            php_version = run(
+                """php -v 2>&1 | grep "^PHP\\s*[0-9.]\\+" | awk '{print $2}'""",
+                capture_output=True,
+                shell=True,
+                text=True,
+            ).stdout
+
+            php_version = php_version.replace("\n", "")
+
+            if not php_version:
+                return False
+
+            if option == "insert":
+                sql = """SELECT version FROM info WHERE name = 'php';"""
+                query = self.database.query(sql)
+
+                if not query:
+                    sql = f"""INSERT INTO info (name, version)
+                    VALUES ('php', '{php_version}');"""
+                    self.database.execute(sql)
+                    self.database.commit()
+
+            elif option == "update":
+                sql = f"""UPDATE info SET version = '{php_version}' WHERE name = 'php';"""
+                self.database.execute(sql)
+                self.database.commit()
+
+            self.database.connection.close()
+
+    def ruby(self, /, option=None):
+
+        if option:
+            ruby_version = run(
+                "ruby --version 2>/dev/null", capture_output=True, shell=True, text=True
+            ).stdout
+
+            if not ruby_version.replace("\n", ""):
+                return False
+
+            ruby_version = ruby_version.replace("\n", " ").split(" ")[1].split("p")[0]
+
+            if option == "insert":
+                sql = """SELECT version FROM info WHERE name = 'ruby';"""
+                query = self.database.query(sql)
+
+                if not query:
+                    sql = f"""INSERT INTO info (name, version)
+                    VALUES ('ruby', '{ruby_version}');"""
+                    self.database.execute(sql)
+                    self.database.commit()
+
+            elif option == "update":
+                sql = f"""UPDATE info SET version = '{ruby_version}' WHERE name = 'ruby';"""
+                self.database.execute(sql)
+                self.database.commit()
+
+            self.database.connection.close()
+
+    def rust(self, /, option=None):
+
+        if option:
+            rust_version = run(
+                "rustc --version", capture_output=True, shell=True, text=True
+            ).stdout
+
+            if not rust_version.replace("\n", ""):
+                return False
+
+            rust_version = rust_version.split(" ")[1].replace("\n", "")
+
+            if option == "insert":
+                sql = """SELECT version FROM info WHERE name = 'rust';"""
+                query = self.database.query(sql)
+
+                if not query:
+                    sql = f"""INSERT INTO info (name, version)
+                    VALUES ('rust', '{rust_version}');"""
+                    self.database.execute(sql)
+                    self.database.commit()
+
+            elif option == "update":
+                sql = f"""UPDATE info SET version = '{rust_version}' WHERE name = 'rust';"""
                 self.database.execute(sql)
                 self.database.commit()
 
