@@ -58,6 +58,8 @@ class Julia:
         ):
             prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
 
+            print("JU")
+
             return str(
                 (
                     f"{separator(self.config)}{prefix}"

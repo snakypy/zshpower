@@ -88,6 +88,8 @@ class Draw(Base):
     def db_fetchall(self):
         try:
             reg = select_database_all(Database(HOME), self.table_name)
+            # TODO: se faltar uma registro apenas tratar.
+            # TODO: Apagar datos para depois salvar
             if not reg:
                 self.db_restore()
                 reg = select_database_all(Database(HOME), self.table_name)
