@@ -1,18 +1,12 @@
 from subprocess import run
+from zshpower.database.sql import SQLTables
 
 
-def create_table(database, table_name, db_filepath):
+def create_table(database, db_filepath):
     from os.path import exists
 
     if exists(db_filepath):
-        database.execute(f"""
-            CREATE TABLE IF NOT EXISTS {table_name} (
-                id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
-                version TEXT NOT NULL,
-                date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            );
-            """)
+        database.execute(SQLTables()["zshpower"])
         database.commit()
         database.connection.close()
         return True
@@ -117,7 +111,7 @@ class Manager:
 
         if option:
             elixir_version = run(
-                "elixir -v 2>/dev/null | grep 'Elixir' | cut -d ' ' -f2",
+                "elixir -v 2>/dev/null | grep 'ElixirGetVersion' | cut -d ' ' -f2",
                 capture_output=True,
                 shell=True,
                 text=True,

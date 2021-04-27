@@ -1,4 +1,9 @@
-class Elixir:
+from subprocess import run
+
+from zshpower.database.dao import DAO
+
+
+class ElixirGetVersion:
     def __init__(self, config, version, space_elem=" "):
         from .lib.utils import symbol_ssh, element_spacing
 
@@ -13,25 +18,6 @@ class Elixir:
         self.prefix_color = config["elixir"]["prefix"]["color"]
         self.prefix_text = element_spacing(config["elixir"]["prefix"]["text"])
         self.micro_version_enable = config["elixir"]["version"]["micro"]["enable"]
-
-    # def get_version(self, space_elem=" "):
-    #     from subprocess import run
-
-    #     elixir_version = run(
-    #         "elixir -v 2>/dev/null | grep 'Elixir' | cut -d ' ' -f2",
-    #         capture_output=True,
-    #         shell=True,
-    #         text=True,
-    #     ).stdout
-
-    #     if not elixir_version.replace("\n", ""):
-    #         return False
-
-    #     elixir_version = elixir_version.replace("\n", "").split(".")
-
-    #     if not self.micro_version_enable:
-    #         return f"{'{0[0]}.{0[1]}'.format(elixir_version)}{space_elem}"
-    #     return f"{'{0[0]}.{0[1]}.{0[2]}'.format(elixir_version)}{space_elem}"
 
     def __str__(self):
         from .lib.utils import Color, separator
@@ -61,10 +47,40 @@ class Elixir:
         return ""
 
 
-def elixir(config):
-    import concurrent.futures
+class ElixirSetVersion(DAO):
+    def __init__(self):
+        DAO.__init__(self)
 
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        future = executor.submit(Elixir, config)
-        return_value = future.result()
-        return return_value
+    def main(self, /, action=None):
+        if action:
+            elixir_version = run(
+                "elixir -v 2>/dev/null | grep 'Elixir' | cut -d ' ' -f2",
+                capture_output=True,
+                shell=True,
+                text=True,
+            ).stdout
+
+            if not elixir_version.replace("\n", ""):
+                return False
+
+            elixir_version = elixir_version.replace("\n", "")
+
+            if action == "insert":
+                sql = f"""SELECT version FROM main WHERE name = 'elixir';"""
+                query = self.query(sql)
+
+                if not query:
+                    sql = f"""INSERT INTO main (name, version)
+                    VALUES ('elixir', '{elixir_version}');"""
+                    self.execute(sql)
+                    self.commit()
+
+            elif action == "update":
+                sql = f"""UPDATE main SET version = '{elixir_version}' WHERE name = 'elixir';"""
+                self.execute(sql)
+                self.commit()
+
+            self.connection.close()
+            return True
+
+        return False

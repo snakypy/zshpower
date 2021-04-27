@@ -1,11 +1,19 @@
+from zshpower.prompt.sections.elixir import ElixirSetVersion
+
+from zshpower.prompt.sections.dotnet import DotnetSetVersion
+
+from zshpower.prompt.sections.docker import DockerSetVersion
 from zshpower import HOME
 from zshpower.config.base import Base
 from snakypy.ansi import FG, NONE
-from zshpower.utils.data.generators import Manager
-from zshpower.utils.data.database import Database
-from zshpower.utils.data.generators import create_table
-from os.path import join
 
+from zshpower.prompt.sections.golang import GolangSetVersion
+from zshpower.prompt.sections.java import JavaSetVersion
+from zshpower.database.generators import Manager
+from zshpower.database.dao import DAO
+from zshpower.database.generators import create_table
+from os.path import join
+from zshpower.prompt.sections.dart import DartSetVersion
 
 instruction_not_omz = f"""{FG.YELLOW}
 ********************** WARNING **********************
@@ -55,20 +63,20 @@ class InitCommand(Base):
         snakypy_file_create(set_zshpower_content, self.init_file, force=True)
 
         # Create table and database if not exists
-        create_table(Database(HOME), self.table_name, join(HOME, self.data_root, self.database_name))
+        create_table(DAO(), join(HOME, self.data_root, self.database_name))
 
-        # Insert registers in database
-        Manager(Database(HOME)).dart(self.table_name, option="insert")
-        Manager(Database(HOME)).docker(self.table_name, option="insert")
-        Manager(Database(HOME)).dotnet(self.table_name, option="insert")
-        Manager(Database(HOME)).elixir(self.table_name, option="insert")
-        Manager(Database(HOME)).golang(self.table_name, option="insert")
-        Manager(Database(HOME)).java(self.table_name, option="insert")
-        Manager(Database(HOME)).julia(self.table_name, option="insert")
-        Manager(Database(HOME)).nodejs(self.table_name, option="insert")
-        Manager(Database(HOME)).php(self.table_name, option="insert")
-        Manager(Database(HOME)).ruby(self.table_name, option="insert")
-        Manager(Database(HOME)).rust(self.table_name, option="insert")
+        # Insert database in database
+        DartSetVersion().main(action="insert")
+        DockerSetVersion().main(action="insert")
+        DotnetSetVersion().main(action="insert")
+        ElixirSetVersion().main(action="insert")
+        GolangSetVersion().main(action="insert")
+        JavaSetVersion().main(action="insert")
+        # Manager(DAO()).julia(self.table_name, option="insert")
+        # Manager(DAO()).nodejs(self.table_name, option="insert")
+        # Manager(DAO()).php(self.table_name, option="insert")
+        # Manager(DAO()).ruby(self.table_name, option="insert")
+        # Manager(DAO()).rust(self.table_name, option="insert")
 
         if arguments["--omz"]:
             omz_install(self.omz_root)

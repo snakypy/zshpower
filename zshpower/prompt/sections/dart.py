@@ -1,7 +1,11 @@
-class Dart:
-    def __init__(self, config, version, space_elem=" "):
-        from .lib.utils import symbol_ssh, element_spacing
+from zshpower.database.dao import DAO
+from .lib.utils import symbol_ssh, element_spacing
+from subprocess import run
+from zshpower.database.sql import SQLSelectVersionByName, SQLInsert, SQLUpdateVersionByName
 
+
+class DartGetVersion:
+    def __init__(self, config, version, space_elem=" "):
         self.config = config
         self.version = version
         self.space_elem = space_elem
@@ -12,39 +16,23 @@ class Dart:
             "analysis_options.yaml",
         )
         self.folders = ()
-        self.symbol = symbol_ssh(config["dart"]["symbol"], "dart-")
-        self.color = config["dart"]["color"]
-        self.prefix_color = config["dart"]["prefix"]["color"]
-        self.prefix_text = element_spacing(config["dart"]["prefix"]["text"])
-        self.micro_version_enable = config["dart"]["version"]["micro"]["enable"]
-
-    # def get_version(self, space_elem=" "):
-    #     from subprocess import run
-
-    #     dart_version = run(
-    #         "dart --version 2>&1", capture_output=True, shell=True, text=True
-    #     )
-
-    #     if not dart_version.returncode == 0:
-    #         return False
-
-    #     dart_version = dart_version.stdout.replace("\n", "").split(" ")[3].split(".")
-
-    #     if not self.micro_version_enable:
-    #         return f"{'{0[0]}.{0[1]}'.format(dart_version)}{space_elem}"
-    #     return f"{'{0[0]}.{0[1]}.{0[2]}'.format(dart_version)}{space_elem}"
+        self.symbol = symbol_ssh(self.config["dart"]["symbol"], "dart-")
+        self.color = self.config["dart"]["color"]
+        self.prefix_color = self.config["dart"]["prefix"]["color"]
+        self.prefix_text = element_spacing(self.config["dart"]["prefix"]["text"])
+        self.micro_version_enable = self.config["dart"]["version"]["micro"]["enable"]
 
     def __str__(self):
         from .lib.utils import Color, separator
         from zshpower.utils.catch import find_objects
-        from os import getcwd as os_getcwd
+        from os import getcwd
 
         dart_version = self.version
 
         if (
             dart_version
             and find_objects(
-                os_getcwd(),
+                getcwd(),
                 files=self.files,
                 folders=self.folders,
                 extension=self.extensions,
@@ -62,10 +50,40 @@ class Dart:
         return ""
 
 
-def dart(config):
-    import concurrent.futures
+class DartSetVersion(DAO):
+    def __init__(self):
+        DAO.__init__(self)
 
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        future = executor.submit(Dart, config)
-        return_value = future.result()
-        return return_value
+    def main(self, /, action=None):
+        if action:
+            dart_version = run(
+                "dart --version 2>&1", capture_output=True, shell=True, text=True
+            )
+            if not dart_version.returncode == 0:
+                return False
+
+            dart_version = dart_version.stdout.replace("\n", "").split(" ")[3]
+
+            if action == "insert":
+                query = self.query(SQLSelectVersionByName("main", "dart"))
+
+                if not query:
+                    self.execute(SQLInsert("main", columns=("name", "version"), values=("dart", dart_version)))
+                    self.commit()
+
+            elif action == "update":
+                self.execute(SQLUpdateVersionByName("main", dart_version, "dart"))
+                self.commit()
+
+            self.connection.close()
+            return True
+
+        return False
+
+# def dart(config):
+#     import concurrent.futures
+#
+#     with concurrent.futures.ThreadPoolExecutor() as executor:
+#         future = executor.submit(DartGetVersion, config)
+#         return_value = future.result()
+#         return return_value

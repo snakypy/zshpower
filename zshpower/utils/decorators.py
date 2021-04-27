@@ -1,3 +1,5 @@
+from contextlib import suppress
+from datetime import datetime
 from functools import wraps
 
 
@@ -22,8 +24,6 @@ def runtime(func):
 
     @wraps(func)
     def wrapper(*args, **kwargs):
-        from datetime import datetime
-
         start_time = datetime.now()
         context = func(*args, **kwargs)
         print(f"Time taken: {datetime.now() - start_time}")
@@ -33,8 +33,6 @@ def runtime(func):
 
 
 def silent_errors(func):
-    from contextlib import suppress
-
     @wraps(func)
     def wrapper(*args, **kwargs):
         with suppress(NameError, TypeError, KeyboardInterrupt):

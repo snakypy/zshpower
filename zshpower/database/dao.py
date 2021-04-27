@@ -1,23 +1,23 @@
-from sqlite3 import connect as connect_sqlite
+from sqlite3 import connect as connect_sqlite, Error
 import sys
 from os.path import join
 from zshpower.config.base import Base
+from zshpower import HOME
 
 
-class Database(Base):
-
-    def __init__(self, home):
+class DAO(Base):
+    def __init__(self):
         try:
-            Base.__init__(self, home)
-            connection_data = join(home, self.data_root, self.database_name)
+            Base.__init__(self, HOME)
+            connection_data = join(HOME, self.data_root, self.database_name)
             self.conn = connect_sqlite(connection_data)
             self.get_cursor = self.conn.cursor()
 
-        except Exception:
-            msg = 'A connection error has occurred.' \
-                  f' Check connectivity data ({join(self.data_root, "database.sqlite3")})' \
-                  ' make sure database is powered on, or if there is a database.'
-            print(msg)
+        except Error as err:
+            print(
+                f"A connection error has occurred. Check connectivity data ({join(self.data_root, self.database_name)})"
+                f"make sure database is powered on, or if there is a database. {err}"
+            )
             sys.exit(1)
 
     def __enter__(self):

@@ -1,4 +1,9 @@
-class Dotnet:
+from subprocess import run
+
+from zshpower.database.dao import DAO
+
+
+class DotnetGetVersion:
     def __init__(self, config, version, space_elem=" "):
         from .lib.utils import symbol_ssh, element_spacing
 
@@ -13,32 +18,6 @@ class Dotnet:
         self.prefix_color = config["dotnet"]["prefix"]["color"]
         self.prefix_text = element_spacing(config["dotnet"]["prefix"]["text"])
         self.micro_version_enable = config["dotnet"]["version"]["micro"]["enable"]
-
-    # def get_version(self, database, space_elem=" "):
-    #     sql = """SELECT version FROM info WHERE name = 'dotnet';"""
-    #     query = database.query(sql)[0][0]
-    #     if query:
-    #         dotnet_version = query.split(".")
-    #         if not self.micro_version_enable:
-    #             return f"{'{0[0]}.{0[1]}'.format(dotnet_version)}{space_elem}"
-    #         return f"{'{0[0]}.{0[1]}.{0[2]}'.format(dotnet_version)}{space_elem}"
-    #     return ""
-
-    # def get_version(self, space_elem=" "):
-    #     from subprocess import run
-
-    #     dotnet_version = run(
-    #         "dotnet --version 2>/dev/null", capture_output=True, shell=True, text=True
-    #     ).stdout
-
-    #     if not dotnet_version.replace("\n", ""):
-    #         return False
-
-    #     dotnet_version = dotnet_version.replace("\n", "").split(".")
-
-    #     if not self.micro_version_enable:
-    #         return f"{'{0[0]}.{0[1]}'.format(dotnet_version)}{space_elem}"
-    #     return f"{'{0[0]}.{0[1]}.{0[2]}'.format(dotnet_version)}{space_elem}"
 
     def __str__(self):
         from .lib.utils import Color, separator
@@ -68,10 +47,37 @@ class Dotnet:
         return ""
 
 
-def dotnet(config):
-    import concurrent.futures
+class DotnetSetVersion(DAO):
+    def __init__(self):
+        DAO.__init__(self)
 
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        future = executor.submit(Dotnet, config)
-        return_value = future.result()
-        return return_value
+    def main(self, /, action=None):
+        if action:
+            dotnet_version = run(
+                "dotnet --version 2>/dev/null", capture_output=True, shell=True, text=True
+            ).stdout
+
+            if not dotnet_version.replace("\n", ""):
+                return False
+
+            dotnet_version = dotnet_version.replace("\n", "")
+
+            if action == "insert":
+                sql = f"""SELECT version FROM main WHERE name = 'dotnet';"""
+                query = self.query(sql)
+
+                if not query:
+                    sql = f"""INSERT INTO main (name, version)
+                    VALUES ('dotnet', '{dotnet_version}');"""
+                    self.execute(sql)
+                    self.commit()
+
+            elif action == "update":
+                sql = f"""UPDATE main SET version = '{dotnet_version}' WHERE name = 'dotnet';"""
+                self.execute(sql)
+                self.commit()
+
+            self.connection.close()
+            return True
+
+        return False

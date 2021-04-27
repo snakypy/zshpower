@@ -1,15 +1,23 @@
+from tomlkit import dumps as toml_dumps
+from tomlkit import parse as toml_parse
+from os.path import isdir
+from shutil import copyfile as shutil_copyfile
+from datetime import datetime
 from snakypy.console import cmd as cmd_snakypy
 from snakypy.file import create as snakypy_file_create
 from re import sub as re_sub, M as re_m
 from os.path import join, exists
 from snakypy import printer, FG
 from zshpower.utils.catch import read_zshrc_omz, read_zshrc
+from sys import platform
+from os.path import isfile
+from zipfile import ZipFile
+from os import remove as os_remove
+from snakypy.path import create as snakypy_path_create
+from zshpower.utils.catch import plugins_current_zshrc
 
 
 def create_config(content, file_path, force=False):
-    from tomlkit import dumps as toml_dumps
-    from tomlkit import parse as toml_parse
-
     if not exists(file_path) or force:
         parsed_toml = toml_parse(content)
         write_toml = toml_dumps(parsed_toml)
@@ -19,9 +27,6 @@ def create_config(content, file_path, force=False):
 
 
 def create_zshrc(content, zshrc):
-    from shutil import copyfile as shutil_copyfile
-    from datetime import datetime
-
     if exists(zshrc):
         if not read_zshrc_omz(zshrc):
             shutil_copyfile(zshrc, f"{zshrc}-{datetime.today().isoformat()}")
@@ -66,8 +71,6 @@ def omz_install(omz_root):
 
 
 def omz_install_plugins(omz_root, plugins):
-    from os.path import isdir
-
     try:
 
         url_master = "https://github.com/zsh-users"
@@ -83,12 +86,6 @@ def omz_install_plugins(omz_root, plugins):
 
 
 def install_fonts(home, force=False):
-    from sys import platform
-    from os.path import isfile
-    from zipfile import ZipFile
-    from os import remove as os_remove
-    from snakypy.path import create as snakypy_path_create
-
     url = "https://github.com/snakypy/snakypy-static"
     base_url = "blob/master/zshpower/fonts/fonts.zip?raw=true"
     font_name = "DejaVu Sans Mono Nerd Font"
@@ -122,8 +119,6 @@ def install_fonts(home, force=False):
 
 
 def add_plugins_zshrc(zshrc):
-    from zshpower.utils.catch import plugins_current_zshrc
-
     plugins = (
         "python",
         "django",

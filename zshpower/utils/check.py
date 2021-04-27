@@ -1,3 +1,5 @@
+from snakypy import printer, FG
+from os.path import join, exists
 from shutil import which
 from zshpower.config import package
 
@@ -21,8 +23,6 @@ def tools_requirements(*args):
 def checking_init(home):
     """Function that ends commands that depend on the created repository, but
     the repository was not created."""
-    from snakypy import printer, FG
-    from os.path import join, exists
 
     if not exists(join(home, f".{package.info['pkg_name']}")):
         printer(

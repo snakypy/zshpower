@@ -12,8 +12,15 @@
 #     """
 #     return shell_command(cmd)[0]
 
+from subprocess import run
+from zshpower.database.dao import DAO
+from .lib.utils import Color
+from .lib.utils import separator
+from zshpower.utils.catch import find_objects
+from os import getcwd as os_getcwd
 
-class Docker:
+
+class DockerGetVersion:
     def __init__(self, config, version, space_elem=" "):
         from .lib.utils import symbol_ssh, element_spacing
 
@@ -29,41 +36,7 @@ class Docker:
         self.prefix_text = element_spacing(config["docker"]["prefix"]["text"])
         self.micro_version_enable = config["docker"]["version"]["micro"]["enable"]
 
-    # def get_version(self, space_elem=" "):
-    #     from subprocess import run
-
-    #     docker_version = run(
-    #         "docker version --format '{{.Server.Version}}'",
-    #         capture_output=True,
-    #         text=True,
-    #         shell=True,
-    #     ).stdout
-
-    #     if not docker_version.replace("\n", ""):
-    #         return False
-
-    #     docker_version = docker_version.replace("\n", "").split(".")
-
-    #     if not self.micro_version_enable:
-    #         return f"{'{0[0]}.{0[1]}'.format(docker_version)}{space_elem}"
-    #     return f"{'{0[0]}.{0[1]}.{0[2]}'.format(docker_version)}{space_elem}"
-
-    # def get_version(self, database, space_elem=" "):
-    #     sql = """SELECT version FROM info WHERE name = 'docker';"""
-    #     query = database.query(sql)[0][0]
-    #     if query:
-    #         julia_version = query.split(".")
-    #         if not self.micro_version_enable:
-    #             return f"{'{0[0]}.{0[1]}'.format(julia_version)}{space_elem}"
-    #         return f"{'{0[0]}.{0[1]}.{0[2]}'.format(julia_version)}{space_elem}"
-    #     return ""
-
     def __str__(self):
-        from .lib.utils import Color
-        from .lib.utils import separator
-        from zshpower.utils.catch import find_objects
-        from os import getcwd as os_getcwd
-
         docker_version = self.version
 
         if (
@@ -84,36 +57,41 @@ class Docker:
         return ""
 
 
-def docker(config):
-    import concurrent.futures
+class DockerSetVersion(DAO):
+    def __init__(self):
+        DAO.__init__(self)
 
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        future = executor.submit(Docker, config)
-        return_value = future.result()
-        return return_value
+    def main(self, /, action=None):
+        if action:
+            docker_version = run(
+                "docker version",
+                capture_output=True,
+                text=True,
+                shell=True,
+            ).stdout
 
+            if not docker_version.replace("\n", ""):
+                return False
 
-def register(database, /, option=None):
-    from subprocess import run
+            docker_version = docker_version.split("Version")[1].strip().split("\n")[0].replace(":", "").strip()
 
-    docker_version = run(
-        "docker version --format '{{.Server.Version}}'",
-        capture_output=True,
-        text=True,
-        shell=True,
-    ).stdout
+            if action == "insert":
+                sql = f"""SELECT version FROM main WHERE name = 'docker';"""
+                query = self.query(sql)
 
-    if not docker_version.replace("\n", ""):
+                if not query:
+                    sql = f"""INSERT INTO main (name, version)
+                    VALUES ('docker', '{docker_version}');"""
+                    self.execute(sql)
+                    self.commit()
+
+            elif action == "update":
+                sql = f"""UPDATE main SET version = '{docker_version}' WHERE name = 'docker';"""
+                self.execute(sql)
+                self.commit()
+
+            self.connection.close()
+            return True
+
         return False
 
-    docker_version = docker_version.replace("\n", "")
-
-    if option:
-        if option == "insert":
-            sql = f"""INSERT INTO info (name, version) VALUES ('docker', '{docker_version}')"""
-        elif option == "update":
-            sql = f"""UPDATE info SET version = '{docker_version}' WHERE name = 'docker';"""
-        database.execute(sql)
-        database.commit()
-        return True
-    return

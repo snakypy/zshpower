@@ -1,3 +1,6 @@
+from snakypy import printer
+from zshpower.utils.catch import current_user, current_shell
+from snakypy.ansi import FG
 from subprocess import call as subprocess_call
 
 
@@ -6,9 +9,6 @@ def reload_zsh():
 
 
 def change_shell():
-    from snakypy import printer
-    from zshpower.utils.catch import current_user, current_shell
-    from snakypy.ansi import FG
 
     if current_shell()[0] != "zsh":
         try:

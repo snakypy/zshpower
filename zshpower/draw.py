@@ -1,3 +1,4 @@
+from zshpower.database.sql import select_all
 try:
     from snakypy import FG
     from tomlkit.exceptions import NonExistentKey, UnexpectedCharError
@@ -8,38 +9,32 @@ from snakypy.utils.decorators import only_for_linux
 from zshpower.utils.decorators import silent_errors
 from zshpower import HOME
 from zshpower.config import package
-from zshpower.config.base import Base
-from zshpower.utils.data.database import Database
-from zshpower.utils.data.controller import select_database_all
+from zshpower.database.dao import DAO
 from os.path import join
-from zshpower.utils.data.generators import create_table
-from zshpower.utils.data.generators import Manager
-
+from zshpower.database.generators import create_table
 from zshpower.config.config import content as config_content
 from zshpower.utils.shift import create_config
 from snakypy.path import create as snakypy_path_create
 from snakypy.file import read as snakypy_file_red
 from tomlkit import parse as toml_parse
-
-
 from zshpower.prompt.sections.directory import Directory
 from zshpower.prompt.sections.git import Git
 from zshpower.prompt.sections.hostname import Hostname
 from zshpower.prompt.sections.command import Command
 from zshpower.prompt.sections.username import Username
 from zshpower.prompt.sections.package import package as pkg_version
-from zshpower.prompt.sections.docker import Docker
+from zshpower.prompt.sections.docker import DockerGetVersion, DockerSetVersion
 from zshpower.prompt.sections.nodejs import NodeJs
 from zshpower.prompt.sections.python import Python
 from zshpower.prompt.sections.rust import Rust
-from zshpower.prompt.sections.golang import Golang
+from zshpower.prompt.sections.golang import GolangGetVersion, GolangSetVersion
 from zshpower.prompt.sections.php import Php
-from zshpower.prompt.sections.elixir import Elixir
+from zshpower.prompt.sections.elixir import ElixirGetVersion, ElixirSetVersion
 from zshpower.prompt.sections.julia import Julia
-from zshpower.prompt.sections.dotnet import Dotnet
+from zshpower.prompt.sections.dotnet import DotnetGetVersion, DotnetSetVersion
 from zshpower.prompt.sections.ruby import Ruby
-from zshpower.prompt.sections.java import Java
-from zshpower.prompt.sections.dart import Dart
+from zshpower.prompt.sections.java import JavaGetVersion, JavaSetVersion
+from zshpower.prompt.sections.dart import DartGetVersion, DartSetVersion
 from zshpower.prompt.sections.virtualenv import virtualenv
 # Test timer
 # from zshpower.utils.decorators import runtime
@@ -47,11 +42,9 @@ from zshpower.prompt.sections.virtualenv import virtualenv
 
 # TODO: Create a cache file containing the versions so that you
 # don't run the command repeatedly.
-class Draw(Base):
-    """Class to perform the impression of the PROMPT style"""
-
+class Draw(DAO):
     def __init__(self):
-        Base.__init__(self, HOME)
+        DAO.__init__(self)
 
     def config_load(self):
         try:
@@ -72,36 +65,36 @@ class Draw(Base):
             return parsed
 
     def db_restore(self):
-        create_table(Database(HOME), self.table_name, join(HOME, self.data_root, self.database_name))
-        Manager(Database(HOME)).dart(self.table_name, option="insert")
-        Manager(Database(HOME)).docker(self.table_name, option="insert")
-        Manager(Database(HOME)).dotnet(self.table_name, option="insert")
-        Manager(Database(HOME)).elixir(self.table_name, option="insert")
-        Manager(Database(HOME)).golang(self.table_name, option="insert")
-        Manager(Database(HOME)).java(self.table_name, option="insert")
-        Manager(Database(HOME)).julia(self.table_name, option="insert")
-        Manager(Database(HOME)).nodejs(self.table_name, option="insert")
-        Manager(Database(HOME)).php(self.table_name, option="insert")
-        Manager(Database(HOME)).ruby(self.table_name, option="insert")
-        Manager(Database(HOME)).rust(self.table_name, option="insert")
+        create_table(DAO(), join(HOME, self.data_root, self.database_name))
+        DartSetVersion().main(action="insert")
+        DockerSetVersion().main(action="insert")
+        DotnetSetVersion().main(action="insert")
+        ElixirSetVersion().main(action="insert")
+        GolangSetVersion().main(action="insert")
+        JavaSetVersion().main(action="insert")
+        # Manager(DAO()).julia(self.table_name, option="insert")
+        # Manager(DAO()).nodejs(self.table_name, option="insert")
+        # Manager(DAO()).php(self.table_name, option="insert")
+        # Manager(DAO()).ruby(self.table_name, option="insert")
+        # Manager(DAO()).rust(self.table_name, option="insert")
 
     def db_fetchall(self):
         try:
-            reg = select_database_all(Database(HOME), self.table_name)
+            reg = select_all(DAO(), columns=("name", "version"), table="main")
             # TODO: se faltar uma registro apenas tratar.
-            # TODO: Apagar datos para depois salvar
+            # TODO: Apagar dados para depois salvar
             if not reg:
                 self.db_restore()
-                reg = select_database_all(Database(HOME), self.table_name)
+                reg = select_all(DAO(), columns=("name", "version"), table="main")
             return reg
         except (OperationalError, KeyError):
             self.db_restore()
-            reg = select_database_all(Database(HOME), self.table_name)
+            reg = select_all(DAO(), columns=("name", "version"), table="main")
             return reg
 
     # @runtime
     def prompt(self, jump_line="\n"):
-        # self.reg = select_database_all(Database(HOME), self.table_name)
+        # self.reg = select_database_all(DAO(HOME), self.table_name)
 
         # Loading the settings to a local variable and thus improving performance
         config_loaded = self.config_load()
@@ -139,31 +132,31 @@ class Draw(Base):
                 "rust": Rust(config_loaded, reg["rust"])
                 if config_loaded["rust"]["version"]["enable"]
                 else "",
-                "golang": Golang(config_loaded, reg["golang"])
+                "golang": GolangGetVersion(config_loaded, reg["golang"])
                 if config_loaded["golang"]["version"]["enable"]
                 else "",
                 "ruby": Ruby(config_loaded, reg["ruby"])
                 if config_loaded["ruby"]["version"]["enable"]
                 else "",
-                "dart": Dart(config_loaded, reg["dart"])
+                "dart": DartGetVersion(config_loaded, reg["dart"])
                 if config_loaded["dart"]["version"]["enable"]
                 else "",
                 "php": Php(config_loaded, reg["php"])
                 if config_loaded["php"]["version"]["enable"]
                 else "",
-                "java": Java(config_loaded, reg["java"])
+                "java": JavaGetVersion(config_loaded, reg["java"])
                 if config_loaded["java"]["version"]["enable"]
                 else "",
                 "julia": Julia(config_loaded, reg["julia"])
                 if config_loaded["julia"]["version"]["enable"]
                 else "",
-                "dotnet": Dotnet(config_loaded, reg["dotnet"])
+                "dotnet": DotnetGetVersion(config_loaded, reg["dotnet"])
                 if config_loaded["dotnet"]["version"]["enable"]
                 else "",
-                "elixir": Elixir(config_loaded, reg["elixir"])
+                "elixir": ElixirGetVersion(config_loaded, reg["elixir"])
                 if config_loaded["elixir"]["version"]["enable"]
                 else "",
-                "docker": Docker(config_loaded, reg["docker"])
+                "docker": DockerGetVersion(config_loaded, reg["docker"])
                 if config_loaded["docker"]["version"]["enable"]
                 else "",
                 "git": Git(config_loaded) if config_loaded["git"]["enable"] else "",
@@ -204,7 +197,7 @@ class Draw(Base):
 
             timer = str(Timer(config_loaded) if config_loaded["timer"]["enable"] else "")
             return timer
-        except (NonExistentKey):
+        except NonExistentKey:
             return (
                 f"{FG.ERROR}>>> {package.info['name']} Error: Key error in "
                 f"the configuration file.\n > "

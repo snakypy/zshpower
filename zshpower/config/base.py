@@ -1,14 +1,14 @@
+from zshpower.config import package
+from zshpower import __version__
+from os.path import join
+
+
 class Base:
     def __init__(self, home):
-        from zshpower.config import package
-        from zshpower import __version__
-        from os.path import join
-
         self.HOME = home
         self.config_root = join(
             self.HOME, f".{package.info['pkg_name']}/config/{__version__}"
         )
-        self.table_name = 'zshpower'
         self.data_root = f".{package.info['pkg_name']}/.data"
         self.database_name = 'db.sqlite3'
         self.init_file = join(self.HOME, f".{package.info['pkg_name']}/init")
