@@ -1,4 +1,4 @@
-from zshpower.database.sql import select_all
+# from zshpower.database.sql_inject import ret_all_name_version
 try:
     from snakypy import FG
     from tomlkit.exceptions import NonExistentKey, UnexpectedCharError
@@ -36,6 +36,7 @@ from zshpower.prompt.sections.ruby import Ruby
 from zshpower.prompt.sections.java import JavaGetVersion, JavaSetVersion
 from zshpower.prompt.sections.dart import DartGetVersion, DartSetVersion
 from zshpower.prompt.sections.virtualenv import virtualenv
+from zshpower.database.sql_inject import RetAllNameVersion
 # Test timer
 # from zshpower.utils.decorators import runtime
 
@@ -80,16 +81,21 @@ class Draw(DAO):
 
     def db_fetchall(self):
         try:
-            reg = select_all(DAO(), columns=("name", "version"), table="main")
+            # reg = ret_all_name_version(DAO(), columns=("name", "version"), table="main")
+
+            reg = RetAllNameVersion(DAO(), columns=("name", "version"), table="main")
+
             # TODO: se faltar uma registro apenas tratar.
             # TODO: Apagar dados para depois salvar
             if not reg:
                 self.db_restore()
-                reg = select_all(DAO(), columns=("name", "version"), table="main")
+                # reg = ret_all_name_version(DAO(), columns=("name", "version"), table="main")
+                reg = RetAllNameVersion(DAO(), columns=("name", "version"), table="main")
             return reg
         except (OperationalError, KeyError):
             self.db_restore()
-            reg = select_all(DAO(), columns=("name", "version"), table="main")
+            # reg = ret_all_name_version(DAO(), columns=("name", "version"), table="main")
+            reg = RetAllNameVersion(DAO(), columns=("name", "version"), table="main")
             return reg
 
     # @runtime

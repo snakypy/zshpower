@@ -1,12 +1,12 @@
-def select_all(database, columns=(), table=None):
-    if table is not None and columns:
-        sql = f"""SELECT {columns} FROM {table};"""
-        sql = sql.replace("(", "").replace(")", "").replace("'", "")
-        query = database.query(sql)
-        data = {key: value for (key, value) in query}
-        database.connection.close()
-        return data
-    return
+# def ret_all_name_version(database, columns=(), table=None):
+#     if table is not None and columns:
+#         sql = f"""SELECT {columns} FROM {table};"""
+#         sql = sql.replace("(", "").replace(")", "").replace("'", "")
+#         query = database.query(sql)
+#         data = {key: value for (key, value) in query}
+#         database.connection.close()
+#         return data
+#     return
 
 
 # class SQLBase:
@@ -24,8 +24,8 @@ class SQLTables:
             "  date TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
             ")")}
 
-    def __getitem__(self, key):
-        return self.tables[key]
+    def __getitem__(self, item):
+        return self.tables[item]
 
 
 class SQLSelectVersionByName:
@@ -52,3 +52,19 @@ class SQLUpdateVersionByName:
         return self.sql
 
 
+class RetAllNameVersion:
+    """
+        Returns all records by name and version.
+    """
+    def __init__(self, database, columns=(), table=None):
+        sql = f"""SELECT {columns} FROM {table};"""
+        sql = sql.replace("(", "").replace(")", "").replace("'", "")
+        query = database.query(sql)
+        self.data = {key: value for (key, value) in query}
+        database.connection.close()
+
+    def __getitem__(self, item):
+        return self.data[item]
+
+    def __repr__(self):
+        return repr(self.data)

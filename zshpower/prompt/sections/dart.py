@@ -1,7 +1,7 @@
 from zshpower.database.dao import DAO
 from .lib.utils import symbol_ssh, element_spacing
 from subprocess import run
-from zshpower.database.sql import SQLSelectVersionByName, SQLInsert, SQLUpdateVersionByName
+from zshpower.database.sql_inject import SQLSelectVersionByName, SQLInsert, SQLUpdateVersionByName
 
 
 class DartGetVersion:

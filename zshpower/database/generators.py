@@ -1,5 +1,5 @@
 from subprocess import run
-from zshpower.database.sql import SQLTables
+from zshpower.database.sql_inject import SQLTables
 
 
 def create_table(database, db_filepath):
