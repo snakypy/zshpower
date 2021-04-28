@@ -17,6 +17,7 @@
     <a href="#theme-configuration">Theme configuration</a> |
     <a href="#reset-settings">Reset settings</a> |
     <a href="#upgrading">Upgrade</a> |
+    <a href="#syncronize">Syncronize</a> |
     <a href="#disable-and-enable-theme-for-oh-my-zsh">Disable/Enable for Oh My ZSH</a> |
     <a href="#uninstalling">Uninstall</a> |
     <a href="#donation">Donation</a> |
@@ -772,6 +773,38 @@ seconds.enable = false
 
 * **seconds.enable** - Receive `true` or` false`. If it has `true`, show the seconds of the clock. `Default:` false
 
+## Syncronize
+
+`ZSHPower` stores some information in a database (SQLite 3) to obtain better performance and speed in the display of data. This data is currently the versions of the applications that `ZSHPower` shows on the console. Before, `ZSHPower` showed this information in real time, but it compromised performance and display time.
+
+With that, every time you update the program you work on, you need to synchronize. To synchronize you have two options, the first is manual and the other automatically using a task scheduler, such as [Cronie](https://github.com/cronie-crond/cronie/).
+
+### Sync manually:
+
+```shell
+$ zshpower sync
+```
+
+### Automatically sync:
+
+As stated before, you can use a task scheduler. `ZSHPower` already comes with a pre-configured script to support **Crontab**, which is located at: * ~/.zshpower/config/zshpower_sync.sh *. Just go to Crontab to schedule a task at the time you want, and call this script. You can use the [Crontab Guru](https://crontab.guru/) website to facilitate understanding of Crontab.
+
+
+**An example using the [Cronie](https://github.com/cronie-crond/cronie/) scheduling synchronization every 2 hours:**
+
+Create a file  `/etc/cron.d/zshpower_sync.sh` and put the following line
+
+```shell
+0 */2 * * * <USER> ~/.zshpower/config/cron/sync.sh
+```
+
+> In `<USER>` put the logged in user on the machine.
+
+Run command:
+
+```shell
+sudo chmod +x /etc/cron.d/zshpower_sync.sh ~/.zshpower/config/cron/sync.sh 
+```
 
 ## Upgrading
 
