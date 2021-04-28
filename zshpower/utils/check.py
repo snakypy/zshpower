@@ -32,4 +32,3 @@ def checking_init(home):
         )
         exit(1)
     return True
-

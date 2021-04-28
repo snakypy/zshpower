@@ -37,9 +37,19 @@ class Sync(Base):
             PhpSetVersion().main(action="update")
             RubySetVersion().main(action="update")
             RustSetVersion().main(action="update")
-            loading(set_time=0.03, bar=False, header='[Synchronizing versions with database ...]', foreground=FG.CYAN)
+            loading(
+                set_time=0.03,
+                bar=False,
+                header="[Synchronizing versions with database ...]",
+                foreground=FG.CYAN,
+            )
             printer("Done!", foreground=FG.FINISH)
         except OperationalError:
             printer("The database does not exist or is corrupted.", foreground=FG.ERROR)
-            loading(set_time=0.03, bar=False, header='[Restoring database ...]', foreground=FG.CYAN)
+            loading(
+                set_time=0.03,
+                bar=False,
+                header="[Restoring database ...]",
+                foreground=FG.CYAN,
+            )
             sys.exit(1)

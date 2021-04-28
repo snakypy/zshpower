@@ -66,11 +66,13 @@ class RubySetVersion(DAO):
 
                 if not query:
                     self.execute(
-                        str(SQLInsert(
-                            "main",
-                            columns=("name", "version"),
-                            values=("ruby", ruby_version),
-                        ))
+                        str(
+                            SQLInsert(
+                                "main",
+                                columns=("name", "version"),
+                                values=("ruby", ruby_version),
+                            )
+                        )
                     )
                     self.commit()
 

@@ -64,16 +64,20 @@ class NodeJsSetVersion(DAO):
 
                 if not query:
                     self.execute(
-                        str(SQLInsert(
-                            "main",
-                            columns=("name", "version"),
-                            values=("nodejs", nodejs_version),
-                        ))
+                        str(
+                            SQLInsert(
+                                "main",
+                                columns=("name", "version"),
+                                values=("nodejs", nodejs_version),
+                            )
+                        )
                     )
                     self.commit()
 
             elif action == "update":
-                self.execute(str(SQLUpdateVersionByName("main", nodejs_version, "nodejs")))
+                self.execute(
+                    str(SQLUpdateVersionByName("main", nodejs_version, "nodejs"))
+                )
                 self.commit()
 
             self.connection.close()

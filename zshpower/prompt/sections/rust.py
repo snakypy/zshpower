@@ -66,11 +66,13 @@ class RustSetVersion(DAO):
 
                 if not query:
                     self.execute(
-                        str(SQLInsert(
-                            "main",
-                            columns=("name", "version"),
-                            values=("rust", rust_version),
-                        ))
+                        str(
+                            SQLInsert(
+                                "main",
+                                columns=("name", "version"),
+                                values=("rust", rust_version),
+                            )
+                        )
                     )
                     self.commit()
 

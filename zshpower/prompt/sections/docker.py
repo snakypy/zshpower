@@ -63,10 +63,10 @@ class DockerSetVersion(DAO):
 
             docker_version = (
                 docker_version.split("Version")[1]
-                    .strip()
-                    .split("\n")[0]
-                    .replace(":", "")
-                    .strip()
+                .strip()
+                .split("\n")[0]
+                .replace(":", "")
+                .strip()
             )
 
             if action == "insert":
@@ -74,22 +74,27 @@ class DockerSetVersion(DAO):
 
                 if not query:
                     self.execute(
-                        str(SQLInsert(
-                            "main",
-                            columns=("name", "version"),
-                            values=("docker", docker_version),
-                        ))
+                        str(
+                            SQLInsert(
+                                "main",
+                                columns=("name", "version"),
+                                values=("docker", docker_version),
+                            )
+                        )
                     )
                     self.commit()
 
             elif action == "update":
-                self.execute(str(SQLUpdateVersionByName("main", docker_version, "docker")))
+                self.execute(
+                    str(SQLUpdateVersionByName("main", docker_version, "docker"))
+                )
                 self.commit()
 
             self.connection.close()
             return True
 
         return False
+
 
 # TODO: Get version Docker by Shell script (DEPRECATED)
 # def docker_status():

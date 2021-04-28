@@ -66,11 +66,13 @@ class JavaSetVersion(DAO):
 
                 if not query:
                     self.execute(
-                        str(SQLInsert(
-                            "main",
-                            columns=("name", "version"),
-                            values=("java", java_version),
-                        ))
+                        str(
+                            SQLInsert(
+                                "main",
+                                columns=("name", "version"),
+                                values=("java", java_version),
+                            )
+                        )
                     )
                     self.commit()
 

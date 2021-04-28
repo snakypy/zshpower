@@ -68,16 +68,20 @@ class ElixirSetVersion(DAO):
 
                 if not query:
                     self.execute(
-                        str(SQLInsert(
-                            "main",
-                            columns=("name", "version"),
-                            values=("elixir", elixir_version),
-                        ))
+                        str(
+                            SQLInsert(
+                                "main",
+                                columns=("name", "version"),
+                                values=("elixir", elixir_version),
+                            )
+                        )
                     )
                     self.commit()
 
             elif action == "update":
-                self.execute(str(SQLUpdateVersionByName("main", elixir_version, "elixir")))
+                self.execute(
+                    str(SQLUpdateVersionByName("main", elixir_version, "elixir"))
+                )
                 self.commit()
 
             self.connection.close()

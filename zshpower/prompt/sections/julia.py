@@ -65,16 +65,20 @@ class JuliaSetVersion(DAO):
 
                 if not query:
                     self.execute(
-                        str(SQLInsert(
-                            "main",
-                            columns=("name", "version"),
-                            values=("julia", julia_version),
-                        ))
+                        str(
+                            SQLInsert(
+                                "main",
+                                columns=("name", "version"),
+                                values=("julia", julia_version),
+                            )
+                        )
                     )
                     self.commit()
 
             elif action == "update":
-                self.execute(str(SQLUpdateVersionByName("main", julia_version, "julia")))
+                self.execute(
+                    str(SQLUpdateVersionByName("main", julia_version, "julia"))
+                )
                 self.commit()
 
             self.connection.close()

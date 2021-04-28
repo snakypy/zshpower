@@ -65,11 +65,13 @@ class GolangSetVersion(DAO):
 
                 if not query:
                     self.execute(
-                        str(SQLInsert(
-                            "main",
-                            columns=("name", "version"),
-                            values=("golang", golang_version),
-                        ))
+                        str(
+                            SQLInsert(
+                                "main",
+                                columns=("name", "version"),
+                                values=("golang", golang_version),
+                            )
+                        )
                     )
                     self.commit()
 

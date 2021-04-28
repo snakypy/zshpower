@@ -68,11 +68,13 @@ class PhpSetVersion(DAO):
 
                 if not query:
                     self.execute(
-                        str(SQLInsert(
-                            "main",
-                            columns=("name", "version"),
-                            values=("php", php_version),
-                        ))
+                        str(
+                            SQLInsert(
+                                "main",
+                                columns=("name", "version"),
+                                values=("php", php_version),
+                            )
+                        )
                     )
                     self.commit()
 

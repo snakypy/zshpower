@@ -70,11 +70,13 @@ class DartSetVersion(DAO):
 
                 if not query:
                     self.execute(
-                        str(SQLInsert(
-                            "main",
-                            columns=("name", "version"),
-                            values=("dart", dart_version),
-                        ))
+                        str(
+                            SQLInsert(
+                                "main",
+                                columns=("name", "version"),
+                                values=("dart", dart_version),
+                            )
+                        )
                     )
                     self.commit()
 

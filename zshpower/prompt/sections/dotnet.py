@@ -68,16 +68,20 @@ class DotnetSetVersion(DAO):
 
                 if not query:
                     self.execute(
-                        str(SQLInsert(
-                            "main",
-                            columns=("name", "version"),
-                            values=("dotnet", dotnet_version),
-                        ))
+                        str(
+                            SQLInsert(
+                                "main",
+                                columns=("name", "version"),
+                                values=("dotnet", dotnet_version),
+                            )
+                        )
                     )
                     self.commit()
 
             elif action == "update":
-                self.execute(str(SQLUpdateVersionByName("main", dotnet_version, "dotnet")))
+                self.execute(
+                    str(SQLUpdateVersionByName("main", dotnet_version, "dotnet"))
+                )
                 self.commit()
 
             self.connection.close()
