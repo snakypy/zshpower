@@ -75,9 +75,9 @@ symbol.conflicts = "\\uf0e7"
 
 [command]
 new_line.enable = true
-symbol = "\\uf553"
+symbol = "\\u276f"
 color = "green"
-error.symbol = "\\uf553"
+error.symbol = "\\u276f"
 error.color = "red"
 
 [python]
