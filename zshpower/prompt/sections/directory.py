@@ -1,5 +1,8 @@
-# from .lib.utils import abspath_link
 from pathlib import Path
+from .lib.utils import symbol_ssh, element_spacing
+from os import environ, getcwd
+from os import geteuid
+from .lib.utils import Color
 
 
 def shorten_path(file_path, length):
@@ -8,8 +11,6 @@ def shorten_path(file_path, length):
 
 class Directory:
     def __init__(self, config):
-        from .lib.utils import symbol_ssh, element_spacing
-
         self.username_enable = config["username"]["enable"]
         self.hostname_enable = config["hostname"]["enable"]
         self.directory_truncate_value = config["directory"]["truncation_length"]
@@ -21,13 +22,9 @@ class Directory:
         )
 
     def __str__(self, prefix="", space_elem=" "):
-        from os import environ, getcwd
-        from os import geteuid as os_geteuid
-        from .lib.utils import Color
-
         if (
             self.username_enable
-            or os_geteuid() == 0
+            or geteuid() == 0
             or self.hostname_enable
             or "SSH_CONNECTION" in environ
         ):
@@ -46,9 +43,7 @@ class Directory:
 
         if dir_truncate.split("/")[-1:] == str(Path.home()).split("/")[-1:]:
             dir_truncate = "~"
-        directory_export = (
+        return (
             f"{prefix}{Color(self.directory_color)}{self.directory_symbol}"
             f"{dir_truncate}{space_elem}{Color().NONE}"
         )
-
-        return str(directory_export)

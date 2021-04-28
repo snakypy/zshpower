@@ -1,6 +1,18 @@
+from subprocess import run
+from zshpower.database.sql_inject import (
+    SQLSelectVersionByName,
+    SQLInsert,
+    SQLUpdateVersionByName,
+)
+from zshpower.database.dao import DAO
+from .lib.utils import symbol_ssh, element_spacing
+from .lib.utils import Color, separator
+from zshpower.utils.catch import find_objects
+from os import getcwd
+
+
 class Rust:
     def __init__(self, config, version, space_elem=" "):
-        from .lib.utils import symbol_ssh, element_spacing
 
         self.config = config
         self.version = version
@@ -14,38 +26,14 @@ class Rust:
         self.prefix_text = element_spacing(config["rust"]["prefix"]["text"])
         self.micro_version_enable = config["rust"]["version"]["micro"]["enable"]
 
-    # def get_version(self, space_elem=" "):
-    #     from subprocess import run
-
-    #     rust_version = run(
-    #         "rustc --version", capture_output=True, shell=True, text=True
-    #     ).stdout
-
-    #     if not rust_version.replace("\n", ""):
-    #         return False
-
-    #     rust_version = rust_version.split(" ")[1].replace("\n", "").split(".")
-
-    #     if not self.micro_version_enable:
-    #         return f"{'{0[0]}.{0[1]}'.format(rust_version)}{space_elem}"
-    #     return f"{'{0[0]}.{0[1]}.{0[2]}'.format(rust_version)}{space_elem}"
-
     def __str__(self):
-        from .lib.utils import Color, separator
-        from zshpower.utils.catch import find_objects
-        from os import getcwd as os_getcwd
 
         rust_version = self.version
 
-        if (
-            rust_version
-            and find_objects(
-                os_getcwd(),
-                files=self.files,
-                folders=self.folders,
-                extension=self.extensions,
-            )
+        if rust_version and find_objects(
+            getcwd(), files=self.files, folders=self.folders, extension=self.extensions
         ):
+
             prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
 
             return str(
@@ -58,10 +46,36 @@ class Rust:
         return ""
 
 
-def rust(config):
-    import concurrent.futures
+class RustSetVersion(DAO):
+    def __init__(self):
+        DAO.__init__(self)
 
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        future = executor.submit(Rust, config)
-        return_value = future.result()
-        return return_value
+    def main(self, /, action=None):
+        if action:
+            rust_version = run(
+                "rustc --version", capture_output=True, shell=True, text=True
+            ).stdout
+
+            rust_version = rust_version.split(" ")[1].replace("\n", "")
+
+            if not rust_version:
+                return False
+
+            if action == "insert":
+                query = self.query(str(SQLSelectVersionByName("main", "rust")))
+
+                if not query:
+                    self.execute(
+                        str(SQLInsert(
+                            "main",
+                            columns=("name", "version"),
+                            values=("rust", rust_version),
+                        ))
+                    )
+                    self.commit()
+
+            elif action == "update":
+                self.execute(str(SQLUpdateVersionByName("main", rust_version, "rust")))
+                self.commit()
+
+            self.connection.close()

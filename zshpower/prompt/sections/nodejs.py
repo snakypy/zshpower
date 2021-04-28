@@ -1,3 +1,16 @@
+from subprocess import run
+from zshpower.database.sql_inject import (
+    SQLSelectVersionByName,
+    SQLInsert,
+    SQLUpdateVersionByName,
+)
+from zshpower.database.dao import DAO
+from .lib.utils import separator
+from zshpower.utils.catch import find_objects
+from os import getcwd
+from .lib.utils import Color
+
+
 class NodeJs:
     def __init__(self, config, version, space_elem=" "):
         from .lib.utils import symbol_ssh, element_spacing
@@ -13,39 +26,12 @@ class NodeJs:
         self.prefix_text = element_spacing(self.config["nodejs"]["prefix"]["text"])
         self.micro_version_enable = self.config["nodejs"]["version"]["micro"]["enable"]
 
-    # def get_version(self, space_elem=" "):
-    #     from subprocess import run
-
-    #     output = run(
-    #         "node -v 2>/dev/null", capture_output=True, shell=True, text=True
-    #     ).stdout
-
-    #     nodejs_version = output.replace("\n", "")
-
-    #     if not nodejs_version:
-    #         return False
-
-    #     nodejs_version = nodejs_version[1:].split(".")
-
-    #     if not self.micro_version_enable:
-    #         return f"{'{0[0]}.{0[1]}'.format(nodejs_version)}{space_elem}"
-    #     return f"{'{0[0]}.{0[1]}.{0[2]}'.format(nodejs_version)}{space_elem}"
-
     def __str__(self):
-        from .lib.utils import separator
-        from zshpower.utils.catch import find_objects
-        from os import getcwd as os_getcwd
-        from .lib.utils import Color
 
         nodejs_version = self.version
 
-        if (
-            nodejs_version
-            and find_objects(
-                os_getcwd(),
-                files=self.files,
-                folders=self.folders,
-            )
+        if nodejs_version and find_objects(
+            getcwd(), files=self.files, folders=self.folders
         ):
 
             prefix = f"{Color(self.prefix_color)}" f"{self.prefix_text}{Color().NONE}"
@@ -58,10 +44,36 @@ class NodeJs:
         return ""
 
 
-def nodejs(config):
-    import concurrent.futures
+class NodeJsSetVersion(DAO):
+    def __init__(self):
+        DAO.__init__(self)
 
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        future = executor.submit(NodeJs, config)
-        return_value = future.result()
-        return return_value
+    def main(self, /, action=None):
+        if action:
+            nodejs_version = run(
+                "node -v 2>/dev/null", capture_output=True, shell=True, text=True
+            ).stdout
+
+            if not nodejs_version.replace("\n", ""):
+                return False
+
+            nodejs_version = nodejs_version.replace("\n", "").split("v")[1]
+
+            if action == "insert":
+                query = self.query(str(SQLSelectVersionByName("main", "nodejs")))
+
+                if not query:
+                    self.execute(
+                        str(SQLInsert(
+                            "main",
+                            columns=("name", "version"),
+                            values=("nodejs", nodejs_version),
+                        ))
+                    )
+                    self.commit()
+
+            elif action == "update":
+                self.execute(str(SQLUpdateVersionByName("main", nodejs_version, "nodejs")))
+                self.commit()
+
+            self.connection.close()

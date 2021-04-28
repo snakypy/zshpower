@@ -130,7 +130,7 @@ def add_plugins_zshrc(zshrc):
     )
     current = plugins_current_zshrc(zshrc)
 
-    # # Old: No List Comprehension
+    # TODO: No List Comprehension (DEPRECATED)
     # new_plugins = []
     # for plugin in plugins:
     #     if plugin not in current:

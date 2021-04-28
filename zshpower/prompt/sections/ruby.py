@@ -1,4 +1,13 @@
-from zshpower.prompt.sections.package import Rust
+from subprocess import run
+from zshpower.database.sql_inject import (
+    SQLSelectVersionByName,
+    SQLInsert,
+    SQLUpdateVersionByName,
+)
+from zshpower.database.dao import DAO
+from .lib.utils import Color, separator
+from zshpower.utils.catch import find_objects
+from os import getcwd
 
 
 class Ruby:
@@ -17,42 +26,12 @@ class Ruby:
         self.prefix_text = element_spacing(config["ruby"]["prefix"]["text"])
         self.micro_version_enable = config["ruby"]["version"]["micro"]["enable"]
 
-    # def get_version(self, space_elem=" "):
-    #     from subprocess import run
-
-    #     ruby_version = run(
-    #         "ruby --version 2>/dev/null", capture_output=True, shell=True, text=True
-    #     ).stdout
-
-    #     if not ruby_version.replace("\n", ""):
-    #         return False
-
-    #     # E.g: ['3', '0', '1p64']
-    #     ruby_version = ruby_version.replace("\n", " ").split(" ")[1].split(".")
-
-    #     # Format version. Remove p64. E.g: ['3', '0', '1']
-    #     ruby_version.append(ruby_version[2].split("p")[0])
-    #     ruby_version.pop(2)
-
-    #     if not self.micro_version_enable:
-    #         return f"{'{0[0]}.{0[1]}'.format(ruby_version)}{space_elem}"
-    #     return f"{'{0[0]}.{0[1]}.{0[2]}'.format(ruby_version)}{space_elem}"
-
     def __str__(self):
-        from .lib.utils import Color, separator
-        from zshpower.utils.catch import find_objects
-        from os import getcwd as os_getcwd
 
         ruby_version = self.version
 
-        if (
-            ruby_version
-            and find_objects(
-                os_getcwd(),
-                files=self.files,
-                folders=self.folders,
-                extension=self.extensions,
-            )
+        if ruby_version and find_objects(
+            getcwd(), files=self.files, folders=self.folders, extension=self.extensions
         ):
 
             prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
@@ -67,10 +46,36 @@ class Ruby:
         return ""
 
 
-def ruby(config):
-    import concurrent.futures
+class RubySetVersion(DAO):
+    def __init__(self):
+        DAO.__init__(self)
 
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        future = executor.submit(Ruby, config)
-        return_value = future.result()
-        return return_value
+    def main(self, /, action=None):
+        if action:
+            ruby_version = run(
+                "ruby --version 2>/dev/null", capture_output=True, shell=True, text=True
+            ).stdout
+
+            ruby_version = ruby_version.replace("\n", " ").split(" ")[1].split("p")[0]
+
+            if not ruby_version:
+                return False
+
+            if action == "insert":
+                query = self.query(str(SQLSelectVersionByName("main", "ruby")))
+
+                if not query:
+                    self.execute(
+                        str(SQLInsert(
+                            "main",
+                            columns=("name", "version"),
+                            values=("ruby", ruby_version),
+                        ))
+                    )
+                    self.commit()
+
+            elif action == "update":
+                self.execute(str(SQLUpdateVersionByName("main", ruby_version, "ruby")))
+                self.commit()
+
+            self.connection.close()

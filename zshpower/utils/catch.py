@@ -41,7 +41,6 @@ def read_zshrc_omz(zshrc):
 
 
 def current_shell():
-
     pw = pwd.getpwuid(getuid())
     path_shell = pw[-1]
     shell = str(path_shell).split("/")[-1]

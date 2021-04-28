@@ -14,7 +14,5 @@ class Timer:
         get_timer = str(strftime("%H:%M"))
         if self.seconds_enable:
             get_timer = str(strftime("%H:%M:%S"))
-        timer = (
-            f"{Color(self.color)}{self.symbol}" f"{get_timer}{c.NONE}"
-        )
+        timer = f"{Color(self.color)}{self.symbol}" f"{get_timer}{c.NONE}"
         return timer.strip()

@@ -10,7 +10,7 @@ class Base:
             self.HOME, f".{package.info['pkg_name']}/config/{__version__}"
         )
         self.data_root = f".{package.info['pkg_name']}/.data"
-        self.database_name = 'db.sqlite3'
+        self.database_name = "db.sqlite3"
         self.init_file = join(self.HOME, f".{package.info['pkg_name']}/init")
         self.config_file = join(self.config_root, "config.toml")
         self.zsh_rc = join(self.HOME, ".zshrc")

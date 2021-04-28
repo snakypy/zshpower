@@ -1,11 +1,15 @@
 from subprocess import run
-
+from zshpower.database.sql_inject import (
+    SQLSelectVersionByName,
+    SQLInsert,
+    SQLUpdateVersionByName,
+)
 from zshpower.database.dao import DAO
+from .lib.utils import symbol_ssh, element_spacing
 
 
 class GolangGetVersion:
     def __init__(self, config, version, space_elem=" "):
-        from .lib.utils import symbol_ssh, element_spacing
 
         self.config = config
         self.version = version
@@ -22,18 +26,12 @@ class GolangGetVersion:
     def __str__(self):
         from .lib.utils import Color, separator
         from zshpower.utils.catch import find_objects
-        from os import getcwd as os_getcwd
+        from os import getcwd
 
         golang_version = self.version
 
-        if (
-            golang_version
-            and find_objects(
-                os_getcwd(),
-                files=self.files,
-                folders=self.folders,
-                extension=self.extensions,
-            )
+        if golang_version and find_objects(
+            getcwd(), files=self.files, folders=self.folders, extension=self.extensions
         ):
             prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
 
@@ -60,21 +58,23 @@ class GolangSetVersion(DAO):
             if not golang_version.replace("\n", ""):
                 return False
 
-            golang_version = golang_version.replace("go", "").split(" ")[2]
+            golang_version = golang_version.replace("golang", "").split(" ")[2]
 
             if action == "insert":
-                sql = f"""SELECT version FROM main WHERE name = 'golang';"""
-                query = self.query(sql)
+                query = self.query(str(SQLSelectVersionByName("main", "golang")))
 
                 if not query:
-                    sql = f"""INSERT INTO main (name, version)
-                    VALUES ('golang', '{golang_version}');"""
-                    self.execute(sql)
+                    self.execute(
+                        str(SQLInsert(
+                            "main",
+                            columns=("name", "version"),
+                            values=("golang", golang_version),
+                        ))
+                    )
                     self.commit()
 
             elif action == "update":
-                sql = f"""UPDATE main SET version = '{golang_version}' WHERE name = 'golang';"""
-                self.execute(sql)
+                self.execute(str(SQLUpdateVersionByName("main", golang_version, "go")))
                 self.commit()
 
             self.connection.close()

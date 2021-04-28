@@ -1,11 +1,15 @@
 from subprocess import run
-
+from zshpower.database.sql_inject import (
+    SQLSelectVersionByName,
+    SQLInsert,
+    SQLUpdateVersionByName,
+)
 from zshpower.database.dao import DAO
+from .lib.utils import symbol_ssh, element_spacing
 
 
 class ElixirGetVersion:
     def __init__(self, config, version, space_elem=" "):
-        from .lib.utils import symbol_ssh, element_spacing
 
         self.config = config
         self.version = version
@@ -22,18 +26,12 @@ class ElixirGetVersion:
     def __str__(self):
         from .lib.utils import Color, separator
         from zshpower.utils.catch import find_objects
-        from os import getcwd as os_getcwd
+        from os import getcwd
 
         elixir_version = self.version
 
-        if (
-            elixir_version
-            and find_objects(
-                os_getcwd(),
-                files=self.files,
-                folders=self.folders,
-                extension=self.extensions,
-            )
+        if elixir_version and find_objects(
+            getcwd(), files=self.files, folders=self.folders, extension=self.extensions
         ):
             prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
 
@@ -66,18 +64,20 @@ class ElixirSetVersion(DAO):
             elixir_version = elixir_version.replace("\n", "")
 
             if action == "insert":
-                sql = f"""SELECT version FROM main WHERE name = 'elixir';"""
-                query = self.query(sql)
+                query = self.query(str(SQLSelectVersionByName("main", "elixir")))
 
                 if not query:
-                    sql = f"""INSERT INTO main (name, version)
-                    VALUES ('elixir', '{elixir_version}');"""
-                    self.execute(sql)
+                    self.execute(
+                        str(SQLInsert(
+                            "main",
+                            columns=("name", "version"),
+                            values=("elixir", elixir_version),
+                        ))
+                    )
                     self.commit()
 
             elif action == "update":
-                sql = f"""UPDATE main SET version = '{elixir_version}' WHERE name = 'elixir';"""
-                self.execute(sql)
+                self.execute(str(SQLUpdateVersionByName("main", elixir_version, "elixir")))
                 self.commit()
 
             self.connection.close()

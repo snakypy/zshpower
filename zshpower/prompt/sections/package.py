@@ -1,11 +1,14 @@
 from os import getcwd
 from os.path import join
+from subprocess import run
+from .lib.utils import symbol_ssh, element_spacing
+from .lib.utils import Color, separator
+from zshpower.utils.catch import find_objects
+from os import getcwd
 
 
 class Base:
     def __init__(self, config):
-        from .lib.utils import symbol_ssh, element_spacing
-
         self.config = config
         self.files = ()
         self.folders = ()
@@ -15,21 +18,14 @@ class Base:
         self.prefix_color = config["package"]["prefix"]["color"]
         self.prefix_text = element_spacing(config["package"]["prefix"]["text"])
 
-    def __str__(self):
-        from .lib.utils import Color, separator
-        from zshpower.utils.catch import find_objects
-        from os import getcwd as os_getcwd
+    def get_version(self):
+        pass
 
+    def __str__(self):
         package_version = self.get_version()
 
-        if (
-            package_version
-            and find_objects(
-                os_getcwd(),
-                files=self.files,
-                folders=self.folders,
-                extension=self.extensions,
-            )
+        if package_version and find_objects(
+            getcwd(), files=self.files, folders=self.folders, extension=self.extensions
         ):
             prefix = f"{Color(self.prefix_color)}" f"{self.prefix_text}{Color().NONE}"
             return (
@@ -52,8 +48,6 @@ class Python(Base):
         )
 
     def get_version(self, space_elem=" "):
-        from subprocess import run
-
         python_package_version = run(
             f"""< {self.files[0]} grep "^version = *" | cut -d'"' -f2 | cut -d"'" -f2""",
             capture_output=True,

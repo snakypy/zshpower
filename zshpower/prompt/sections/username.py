@@ -18,8 +18,6 @@ class Username:
 
         if self.username_enable or "SSH_CONNECTION" in os_environ or os_geteuid() == 0:
             user = current_user()
-            username_export = (
-                f"{Color(self.username_color)}{self.symbol}{user}{space_elem}{Color().NONE}"
-            )
+            username_export = f"{Color(self.username_color)}{self.symbol}{user}{space_elem}{Color().NONE}"
             return str(username_export)
         return ""

@@ -11,7 +11,6 @@ from zshpower import HOME
 from zshpower.config import package
 from zshpower.database.dao import DAO
 from os.path import join
-from zshpower.database.generators import create_table
 from zshpower.config.config import content as config_content
 from zshpower.utils.shift import create_config
 from snakypy.path import create as snakypy_path_create
@@ -24,19 +23,21 @@ from zshpower.prompt.sections.command import Command
 from zshpower.prompt.sections.username import Username
 from zshpower.prompt.sections.package import package as pkg_version
 from zshpower.prompt.sections.docker import DockerGetVersion, DockerSetVersion
-from zshpower.prompt.sections.nodejs import NodeJs
+from zshpower.prompt.sections.nodejs import NodeJs, NodeJsSetVersion
 from zshpower.prompt.sections.python import Python
-from zshpower.prompt.sections.rust import Rust
+from zshpower.prompt.sections.rust import Rust, RustSetVersion
 from zshpower.prompt.sections.golang import GolangGetVersion, GolangSetVersion
-from zshpower.prompt.sections.php import Php
+from zshpower.prompt.sections.php import PhpGetVersion, PhpSetVersion
 from zshpower.prompt.sections.elixir import ElixirGetVersion, ElixirSetVersion
-from zshpower.prompt.sections.julia import Julia
+from zshpower.prompt.sections.julia import Julia, JuliaSetVersion
 from zshpower.prompt.sections.dotnet import DotnetGetVersion, DotnetSetVersion
-from zshpower.prompt.sections.ruby import Ruby
+from zshpower.prompt.sections.ruby import Ruby, RubySetVersion
 from zshpower.prompt.sections.java import JavaGetVersion, JavaSetVersion
 from zshpower.prompt.sections.dart import DartGetVersion, DartSetVersion
 from zshpower.prompt.sections.virtualenv import virtualenv
-from zshpower.database.sql_inject import RetAllNameVersion
+from zshpower.database.sql_inject import RetAllNameVersion, create_table
+
+
 # Test timer
 # from zshpower.utils.decorators import runtime
 
@@ -73,11 +74,11 @@ class Draw(DAO):
         ElixirSetVersion().main(action="insert")
         GolangSetVersion().main(action="insert")
         JavaSetVersion().main(action="insert")
-        # Manager(DAO()).julia(self.table_name, option="insert")
-        # Manager(DAO()).nodejs(self.table_name, option="insert")
-        # Manager(DAO()).php(self.table_name, option="insert")
-        # Manager(DAO()).ruby(self.table_name, option="insert")
-        # Manager(DAO()).rust(self.table_name, option="insert")
+        JuliaSetVersion().main(action="insert")
+        NodeJsSetVersion().main(action="insert")
+        PhpSetVersion().main(action="insert")
+        RubySetVersion().main(action="insert")
+        RustSetVersion().main(action="insert")
 
     def db_fetchall(self):
         try:
@@ -90,7 +91,9 @@ class Draw(DAO):
             if not reg:
                 self.db_restore()
                 # reg = ret_all_name_version(DAO(), columns=("name", "version"), table="main")
-                reg = RetAllNameVersion(DAO(), columns=("name", "version"), table="main")
+                reg = RetAllNameVersion(
+                    DAO(), columns=("name", "version"), table="main"
+                )
             return reg
         except (OperationalError, KeyError):
             self.db_restore()
@@ -147,7 +150,7 @@ class Draw(DAO):
                 "dart": DartGetVersion(config_loaded, reg["dart"])
                 if config_loaded["dart"]["version"]["enable"]
                 else "",
-                "php": Php(config_loaded, reg["php"])
+                "php": PhpGetVersion(config_loaded, reg["php"])
                 if config_loaded["php"]["version"]["enable"]
                 else "",
                 "java": JavaGetVersion(config_loaded, reg["java"])
@@ -171,7 +174,7 @@ class Draw(DAO):
 
             static_section = f"{jump_line}{username}{hostname}{directory}"
 
-            # # No List Comprehension/Generator expressions
+            # TODO: No List Comprehension/Generator expressions (DEPRECATED)
             # ordered_section = []
             # for element in config_loaded["general"]["position"]:
             #     for item in dinamic_section.keys():
@@ -201,7 +204,9 @@ class Draw(DAO):
 
             config_loaded = self.config_load
 
-            timer = str(Timer(config_loaded) if config_loaded["timer"]["enable"] else "")
+            timer = str(
+                Timer(config_loaded) if config_loaded["timer"]["enable"] else ""
+            )
             return timer
         except NonExistentKey:
             return (

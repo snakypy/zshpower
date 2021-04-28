@@ -1,19 +1,20 @@
+from zshpower.database.sql_inject import create_table
+from zshpower.prompt.sections.julia import JuliaSetVersion
 from zshpower.prompt.sections.elixir import ElixirSetVersion
-
 from zshpower.prompt.sections.dotnet import DotnetSetVersion
-
 from zshpower.prompt.sections.docker import DockerSetVersion
 from zshpower import HOME
 from zshpower.config.base import Base
 from snakypy.ansi import FG, NONE
-
 from zshpower.prompt.sections.golang import GolangSetVersion
 from zshpower.prompt.sections.java import JavaSetVersion
-from zshpower.database.generators import Manager
 from zshpower.database.dao import DAO
-from zshpower.database.generators import create_table
 from os.path import join
 from zshpower.prompt.sections.dart import DartSetVersion
+from zshpower.prompt.sections.nodejs import NodeJsSetVersion
+from zshpower.prompt.sections.php import PhpSetVersion
+from zshpower.prompt.sections.ruby import RubySetVersion
+from zshpower.prompt.sections.rust import RustSetVersion
 
 instruction_not_omz = f"""{FG.YELLOW}
 ********************** WARNING **********************
@@ -72,11 +73,11 @@ class InitCommand(Base):
         ElixirSetVersion().main(action="insert")
         GolangSetVersion().main(action="insert")
         JavaSetVersion().main(action="insert")
-        # Manager(DAO()).julia(self.table_name, option="insert")
-        # Manager(DAO()).nodejs(self.table_name, option="insert")
-        # Manager(DAO()).php(self.table_name, option="insert")
-        # Manager(DAO()).ruby(self.table_name, option="insert")
-        # Manager(DAO()).rust(self.table_name, option="insert")
+        JuliaSetVersion().main(action="insert")
+        NodeJsSetVersion().main(action="insert")
+        PhpSetVersion().main(action="insert")
+        RubySetVersion().main(action="insert")
+        RustSetVersion().main(action="insert")
 
         if arguments["--omz"]:
             omz_install(self.omz_root)

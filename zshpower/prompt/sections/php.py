@@ -1,6 +1,18 @@
-class Php:
+from subprocess import run
+from zshpower.database.sql_inject import (
+    SQLSelectVersionByName,
+    SQLInsert,
+    SQLUpdateVersionByName,
+)
+from zshpower.database.dao import DAO
+from .lib.utils import Color, separator
+from zshpower.utils.catch import find_objects
+from os import getcwd
+from .lib.utils import symbol_ssh, element_spacing
+
+
+class PhpGetVersion:
     def __init__(self, config, version, space_elem=" "):
-        from .lib.utils import symbol_ssh, element_spacing
 
         self.config = config
         self.version = version
@@ -14,42 +26,12 @@ class Php:
         self.prefix_text = element_spacing(config["php"]["prefix"]["text"])
         self.micro_version_enable = config["php"]["version"]["micro"]["enable"]
 
-    # def get_version(self, space_elem=" "):
-    #     from subprocess import run
-
-    #     php_version = run(
-    #         """php -v 2>&1 | grep "^PHP\\s*[0-9.]\\+" | awk '{print $2}'""",
-    #         capture_output=True,
-    #         shell=True,
-    #         text=True,
-    #     ).stdout
-
-    #     php_version = php_version.replace("\n", "")
-
-    #     if not php_version:
-    #         return False
-
-    #     php_version = php_version.replace("\n", "").split(".")
-
-    #     if not self.micro_version_enable:
-    #         return f"{'{0[0]}.{0[1]}'.format(php_version)}{space_elem}"
-    #     return f"{'{0[0]}.{0[1]}.{0[2]}'.format(php_version)}{space_elem}"
-
     def __str__(self):
-        from .lib.utils import Color, separator
-        from zshpower.utils.catch import find_objects
-        from os import getcwd as os_getcwd
 
         php_version = self.version
 
-        if (
-            php_version
-            and find_objects(
-                os_getcwd(),
-                files=self.files,
-                folders=self.folders,
-                extension=self.extensions,
-            )
+        if php_version and find_objects(
+            getcwd(), files=self.files, folders=self.folders, extension=self.extensions
         ):
             prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
 
@@ -63,10 +45,39 @@ class Php:
         return ""
 
 
-def php(config):
-    import concurrent.futures
+class PhpSetVersion(DAO):
+    def __init__(self):
+        DAO.__init__(self)
 
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        future = executor.submit(Php, config)
-        return_value = future.result()
-        return return_value
+    def main(self, /, action=None):
+        if action:
+            php_version = run(
+                """php -v 2>&1 | grep "^PHP\\s*[0-9.]\\+" | awk '{print $2}'""",
+                capture_output=True,
+                shell=True,
+                text=True,
+            ).stdout
+
+            php_version = php_version.replace("\n", "")
+
+            if not php_version:
+                return False
+
+            if action == "insert":
+                query = self.query(str(SQLSelectVersionByName("main", "php")))
+
+                if not query:
+                    self.execute(
+                        str(SQLInsert(
+                            "main",
+                            columns=("name", "version"),
+                            values=("php", php_version),
+                        ))
+                    )
+                    self.commit()
+
+            elif action == "update":
+                self.execute(str(SQLUpdateVersionByName("main", php_version, "php")))
+                self.commit()
+
+            self.connection.close()

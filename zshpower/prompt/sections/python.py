@@ -1,9 +1,13 @@
 from sys import version_info as sys_version_info
+from .lib.utils import symbol_ssh, element_spacing
+from .lib.utils import Color, separator
+from zshpower.utils.catch import find_objects
+from zshpower.utils.check import is_tool
+from os import environ as os_environ, getcwd
 
 
 class Python:
     def __init__(self, config):
-        from .lib.utils import symbol_ssh, element_spacing
 
         self.config = config
         self.files = (
@@ -30,24 +34,18 @@ class Python:
         return f"{'{0[0]}.{0[1]}.{0[2]}'.format(sys_version_info)}{space_elem}"
 
     def __str__(self):
-        from .lib.utils import Color, separator
-        from zshpower.utils.catch import find_objects
-        from zshpower.utils.check import is_tool
-        from os import environ as os_environ, getcwd as os_getcwd
 
         if is_tool("python", f"python{'{0[0]}'.format(sys_version_info)}"):
             if (
                 find_objects(
-                    os_getcwd(),
+                    getcwd(),
                     files=self.files,
                     folders=self.folders,
                     extension=self.extensions,
                 )
                 or "VIRTUAL_ENV" in os_environ
             ):
-                prefix = (
-                    f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
-                )
+                prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
 
                 return str(
                     f"{separator(self.config)}{prefix}"
@@ -55,12 +53,3 @@ class Python:
                     f"{self.get_version()}{Color().NONE}"
                 )
         return ""
-
-
-def python(config):
-    import concurrent.futures
-
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        future = executor.submit(Python, config)
-        return_value = future.result()
-        return return_value

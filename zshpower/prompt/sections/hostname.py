@@ -1,6 +1,11 @@
+from .lib.utils import symbol_ssh, element_spacing
+from .lib.utils import Color
+from os import environ as os_environ
+from socket import gethostname
+
+
 class Hostname:
     def __init__(self, config):
-        from .lib.utils import symbol_ssh, element_spacing
 
         self.config = config
         self.symbol = symbol_ssh(config["hostname"]["symbol"], "")
@@ -12,10 +17,6 @@ class Hostname:
         )
 
     def __str__(self, prefix="", space_elem=" "):
-        from .lib.utils import Color
-        from os import environ as os_environ
-        from socket import gethostname as socket_gethostname
-
         if self.config["username"]["enable"] or "SSH_CONNECTION" in os_environ:
             prefix = (
                 f"{Color(self.hostname_prefix_color)}"
@@ -24,10 +25,8 @@ class Hostname:
             )
 
         if "SSH_CONNECTION" in os_environ or self.hostname_enable:
-            hostname_export = (
+            return (
                 f"{prefix}{Color(self.hostname_color)}{self.symbol}"
-                f"{socket_gethostname()}{space_elem}{Color().NONE}"
+                f"{gethostname()}{space_elem}{Color().NONE}"
             )
-            return str(hostname_export)
-
         return ""

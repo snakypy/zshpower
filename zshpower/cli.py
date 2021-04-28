@@ -55,6 +55,13 @@ def run_uninstall():
     UninstallCommand(HOME).main()
 
 
+@assign_cli(args, "sync")
+def run_sync():
+    from zshpower.commands.sync import Sync
+
+    Sync(HOME).main()
+
+
 @assign_cli(args, "--credits")
 def run_credits():
     from zshpower.commands.credits import CreditsCommand
@@ -71,4 +78,5 @@ def main():
     run_deactivate()
     run_reset()
     run_uninstall()
+    run_sync()
     run_credits()

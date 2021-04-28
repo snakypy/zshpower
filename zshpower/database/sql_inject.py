@@ -1,28 +1,26 @@
-# def ret_all_name_version(database, columns=(), table=None):
-#     if table is not None and columns:
-#         sql = f"""SELECT {columns} FROM {table};"""
-#         sql = sql.replace("(", "").replace(")", "").replace("'", "")
-#         query = database.query(sql)
-#         data = {key: value for (key, value) in query}
-#         database.connection.close()
-#         return data
-#     return
+def create_table(database, db_filepath):
+    from os.path import exists
 
-
-# class SQLBase:
-#     def __int__(self):
-#         self.tbl_name = "zshpower"
+    if exists(db_filepath):
+        database.execute(SQLTables()["main"])
+        database.commit()
+        database.connection.close()
+        return True
+    return False
 
 
 class SQLTables:
     def __init__(self):
-        self.tables = {f'main': (
-            f"CREATE TABLE IF NOT EXISTS `main` ("
-            "  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
-            "  name TEXT(100) NOT NULL,"
-            "  version TEXT(50) NOT NULL,"
-            "  date TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
-            ")")}
+        self.tables = {
+            f"main": (
+                f"CREATE TABLE IF NOT EXISTS `main` ("
+                "  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
+                "  name TEXT(100) NOT NULL,"
+                "  version TEXT(50) NOT NULL,"
+                "  date TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+                ")"
+            )
+        }
 
     def __getitem__(self, item):
         return self.tables[item]
@@ -38,7 +36,7 @@ class SQLSelectVersionByName:
 
 class SQLInsert:
     def __init__(self, table, /, columns=(), values=()):
-        self.sql = f"""INSERT INTO {table} {columns} VALUES {values};"""
+        self.sql = f"INSERT INTO {table} {columns} VALUES {values};"
 
     def __str__(self):
         return self.sql
@@ -46,7 +44,7 @@ class SQLInsert:
 
 class SQLUpdateVersionByName:
     def __init__(self, table, version, name):
-        self.sql = f"""UPDATE {table} SET version = '{version}' WHERE name = '{name}';"""
+        self.sql = f"UPDATE {table} SET version = '{version}' WHERE name = '{name}';"
 
     def __str__(self):
         return self.sql
@@ -54,14 +52,17 @@ class SQLUpdateVersionByName:
 
 class RetAllNameVersion:
     """
-        Returns all records by name and version.
+    Returns all records by name and version.
     """
-    def __init__(self, database, columns=(), table=None):
-        sql = f"""SELECT {columns} FROM {table};"""
-        sql = sql.replace("(", "").replace(")", "").replace("'", "")
-        query = database.query(sql)
-        self.data = {key: value for (key, value) in query}
-        database.connection.close()
+
+    def __init__(self, database, /, columns=(), table=None):
+        self.data = dict()
+        if len(columns) == 2:
+            sql = f"""SELECT {columns} FROM {table};"""
+            sql = sql.replace("(", "").replace(")", "").replace("'", "")
+            query = database.query(sql)
+            self.data = {key: value for (key, value) in query}
+            database.connection.close()
 
     def __getitem__(self, item):
         return self.data[item]
