@@ -172,7 +172,7 @@ symbol = "\\ue77f"
 color = "cyan"
 prefix.color = "white"
 prefix.text = "via"
-version.enable = true
+version.enable = false
 version.micro.enable = true
 
 [ruby]
