@@ -4,9 +4,6 @@ author = package.info["author"]["name"]
 website_author = package.info["author"]["website"]
 email = package.info["author"]["email"]
 
-# TODO: A lógica e estrutura de como chamar a impressão do zshpower
-# com shell script, vai dar resultado na questão performance.
-# Quanto menos comando e verificação, mais rápido o retorno.
 content = f"""#!/usr/bin/env zsh
 
 ## Information:

@@ -76,7 +76,9 @@ class GolangSetVersion(DAO):
                     self.commit()
 
             elif action == "update":
-                self.execute(str(SQLUpdateVersionByName("main", golang_version, "go")))
+                self.execute(
+                    str(SQLUpdateVersionByName("main", golang_version, "golang"))
+                )
                 self.commit()
 
             self.connection.close()

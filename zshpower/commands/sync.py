@@ -1,9 +1,7 @@
 import sys
 from sqlite3 import OperationalError
-
 from snakypy import FG
 from snakypy.console import loading, printer
-
 from zshpower.utils.check import checking_init
 from zshpower.prompt.sections.rust import RustSetVersion
 from zshpower.prompt.sections.ruby import RubySetVersion

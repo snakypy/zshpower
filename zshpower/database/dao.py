@@ -1,6 +1,9 @@
 from sqlite3 import connect as connect_sqlite, Error
 import sys
 from os.path import join
+
+from snakypy import printer, FG
+
 from zshpower.config.base import Base
 from zshpower import HOME
 
@@ -13,10 +16,11 @@ class DAO(Base):
             self.conn = connect_sqlite(connection_data)
             self.get_cursor = self.conn.cursor()
 
-        except Error as err:
-            print(
-                f"A connection error has occurred. Check connectivity data ({join(self.data_root, self.database_name)})"
-                f"make sure database is powered on, or if there is a database. {err}"
+        except Error:
+            printer(
+                "An error occurred while connecting to the database. Make sure that the SQLite database is turned on."
+                "One way to resolve it is by running the command 'zshpower init [--omz]'",
+                foreground=FG.ERROR,
             )
             sys.exit(1)
 

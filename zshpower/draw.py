@@ -1,4 +1,3 @@
-# from zshpower.database.sql_inject import ret_all_name_version
 try:
     from snakypy import FG
     from tomlkit.exceptions import NonExistentKey, UnexpectedCharError
@@ -37,13 +36,20 @@ from zshpower.prompt.sections.dart import DartGetVersion, DartSetVersion
 from zshpower.prompt.sections.virtualenv import virtualenv
 from zshpower.database.sql_inject import RetAllNameVersion, create_table
 
-
 # Test timer
 # from zshpower.utils.decorators import runtime
 
 
-# TODO: Create a cache file containing the versions so that you
-# don't run the command repeatedly.
+# def checking_items_db_config(config, reg):
+#     """ Checking data DB in file configuration."""
+#     config_keys = [i for i in config.keys()]
+#     db_values = [j for i in reg.__dict__.values() for j in i]
+#     for item in db_values:
+#         if item not in config_keys:
+#             return False
+#     return True
+
+
 class Draw(DAO):
     def __init__(self):
         DAO.__init__(self)
@@ -82,37 +88,29 @@ class Draw(DAO):
 
     def db_fetchall(self):
         try:
-            # reg = ret_all_name_version(DAO(), columns=("name", "version"), table="main")
-
             reg = RetAllNameVersion(DAO(), columns=("name", "version"), table="main")
 
-            # TODO: se faltar uma registro apenas tratar.
-            # TODO: Apagar dados para depois salvar
             if not reg:
                 self.db_restore()
-                # reg = ret_all_name_version(DAO(), columns=("name", "version"), table="main")
                 reg = RetAllNameVersion(
                     DAO(), columns=("name", "version"), table="main"
                 )
             return reg
         except (OperationalError, KeyError):
             self.db_restore()
-            # reg = ret_all_name_version(DAO(), columns=("name", "version"), table="main")
             reg = RetAllNameVersion(DAO(), columns=("name", "version"), table="main")
             return reg
 
     # @runtime
     def prompt(self, jump_line="\n"):
-        # self.reg = select_database_all(DAO(HOME), self.table_name)
-
         # Loading the settings to a local variable and thus improving performance
         config_loaded = self.config_load()
 
-        reg = self.db_fetchall()
+        db_reg = self.db_fetchall()
 
         try:
-
             if not config_loaded["general"]["jump_line"]["enable"]:
+
                 jump_line = ""
 
             username = (
@@ -135,37 +133,37 @@ class Draw(DAO):
                 "package": pkg_version(config_loaded)
                 if config_loaded["package"]["enable"]
                 else "",
-                "nodejs": NodeJs(config_loaded, reg["nodejs"])
+                "nodejs": NodeJs(config_loaded, db_reg["nodejs"])
                 if config_loaded["nodejs"]["version"]["enable"]
                 else "",
-                "rust": Rust(config_loaded, reg["rust"])
+                "rust": Rust(config_loaded, db_reg["rust"])
                 if config_loaded["rust"]["version"]["enable"]
                 else "",
-                "golang": GolangGetVersion(config_loaded, reg["golang"])
+                "golang": GolangGetVersion(config_loaded, db_reg["golang"])
                 if config_loaded["golang"]["version"]["enable"]
                 else "",
-                "ruby": Ruby(config_loaded, reg["ruby"])
+                "ruby": Ruby(config_loaded, db_reg["ruby"])
                 if config_loaded["ruby"]["version"]["enable"]
                 else "",
-                "dart": DartGetVersion(config_loaded, reg["dart"])
+                "dart": DartGetVersion(config_loaded, db_reg["dart"])
                 if config_loaded["dart"]["version"]["enable"]
                 else "",
-                "php": PhpGetVersion(config_loaded, reg["php"])
+                "php": PhpGetVersion(config_loaded, db_reg["php"])
                 if config_loaded["php"]["version"]["enable"]
                 else "",
-                "java": JavaGetVersion(config_loaded, reg["java"])
+                "java": JavaGetVersion(config_loaded, db_reg["java"])
                 if config_loaded["java"]["version"]["enable"]
                 else "",
-                "julia": Julia(config_loaded, reg["julia"])
+                "julia": Julia(config_loaded, db_reg["julia"])
                 if config_loaded["julia"]["version"]["enable"]
                 else "",
-                "dotnet": DotnetGetVersion(config_loaded, reg["dotnet"])
+                "dotnet": DotnetGetVersion(config_loaded, db_reg["dotnet"])
                 if config_loaded["dotnet"]["version"]["enable"]
                 else "",
-                "elixir": ElixirGetVersion(config_loaded, reg["elixir"])
+                "elixir": ElixirGetVersion(config_loaded, db_reg["elixir"])
                 if config_loaded["elixir"]["version"]["enable"]
                 else "",
-                "docker": DockerGetVersion(config_loaded, reg["docker"])
+                "docker": DockerGetVersion(config_loaded, db_reg["docker"])
                 if config_loaded["docker"]["version"]["enable"]
                 else "",
                 "git": Git(config_loaded) if config_loaded["git"]["enable"] else "",
@@ -202,12 +200,10 @@ class Draw(DAO):
         try:
             from zshpower.prompt.sections.timer import Timer
 
-            config_loaded = self.config_load
+            config_loaded = self.config_load()
 
-            timer = str(
-                Timer(config_loaded) if config_loaded["timer"]["enable"] else ""
-            )
-            return timer
+            timer = Timer(config_loaded) if config_loaded["timer"]["enable"] else ""
+            return str(timer)
         except NonExistentKey:
             return (
                 f"{FG.ERROR}>>> {package.info['name']} Error: Key error in "
