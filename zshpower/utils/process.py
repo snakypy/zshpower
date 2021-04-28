@@ -9,7 +9,6 @@ def reload_zsh():
 
 
 def change_shell():
-
     if current_shell()[0] != "zsh":
         try:
             subprocess_call(f"chsh -s $(which zsh) {current_user()}", shell=True)

@@ -1,6 +1,7 @@
-def create_table(database, db_filepath):
-    from os.path import exists
+from os.path import exists
 
+
+def create_table(database, db_filepath):
     if exists(db_filepath):
         database.execute(SQLTables()["main"])
         database.commit()

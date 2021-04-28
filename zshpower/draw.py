@@ -33,7 +33,7 @@ from zshpower.prompt.sections.dotnet import DotnetGetVersion, DotnetSetVersion
 from zshpower.prompt.sections.ruby import Ruby, RubySetVersion
 from zshpower.prompt.sections.java import JavaGetVersion, JavaSetVersion
 from zshpower.prompt.sections.dart import DartGetVersion, DartSetVersion
-from zshpower.prompt.sections.virtualenv import virtualenv
+from zshpower.prompt.sections.virtualenv import Virtualenv
 from zshpower.database.sql_inject import RetAllNameVersion, create_table
 
 # Test timer
@@ -124,7 +124,7 @@ class Draw(DAO):
             directory = Directory(config_loaded)
 
             dinamic_section = {
-                "virtualenv": virtualenv(config_loaded)
+                "virtualenv": Virtualenv(config_loaded)
                 if config_loaded["virtualenv"]["enable"]
                 else "",
                 "python": Python(config_loaded)

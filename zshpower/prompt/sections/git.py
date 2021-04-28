@@ -1,9 +1,12 @@
 from .lib.utils import Color
+from .lib.utils import element_spacing, symbol_ssh
+from .lib.utils import separator, git_status
+from os import getcwd, environ
+from os.path import join, isdir
 
 
 class Git:
     def __init__(self, config, icon_space=" "):
-        from .lib.utils import element_spacing, symbol_ssh
 
         self.config = config
         self.symbol = symbol_ssh(config["git"]["symbol"], "git:")
@@ -95,10 +98,6 @@ class Git:
         self.icons["UD"] = self.icons["UU"]
 
     def __str__(self):
-        from .lib.utils import separator, git_status
-        from os import getcwd, environ
-        from os.path import join, isdir
-
         if isdir(join(getcwd(), ".git")):
             status_git = git_status(porcelain=True)
             status_git_text = git_status()
@@ -142,7 +141,7 @@ class Git:
             if len(status_git) == 0:
                 status_current.append("CL")
 
-            # # Old: No List Comprehension
+            # TODO: No List Comprehension (DEPRECATED)
             # status_icons = []
             # for item in status_current:
             #     if "SSH_CONNECTION" not in environ:

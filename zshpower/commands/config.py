@@ -1,11 +1,10 @@
 from zshpower.config.base import Base
+from subprocess import call as subprocess_call
+from os import environ
+from shutil import which as shutil_which
 
 
 def editor_run(editor, config):
-    from subprocess import call as subprocess_call
-    from os import environ
-    from shutil import which as shutil_which
-
     if shutil_which(editor):
         get_editor = environ.get("EDITOR", editor)
         with open(config) as f:

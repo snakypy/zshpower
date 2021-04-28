@@ -1,9 +1,7 @@
+from sys import exit
 from sqlite3 import connect as connect_sqlite, Error
-import sys
 from os.path import join
-
 from snakypy import printer, FG
-
 from zshpower.config.base import Base
 from zshpower import HOME
 
@@ -22,7 +20,7 @@ class DAO(Base):
                 "One way to resolve it is by running the command 'zshpower init [--omz]'",
                 foreground=FG.ERROR,
             )
-            sys.exit(1)
+            exit(1)
 
     def __enter__(self):
         return self

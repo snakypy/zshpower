@@ -15,6 +15,27 @@ from zshpower.prompt.sections.nodejs import NodeJsSetVersion
 from zshpower.prompt.sections.php import PhpSetVersion
 from zshpower.prompt.sections.ruby import RubySetVersion
 from zshpower.prompt.sections.rust import RustSetVersion
+from snakypy import printer
+from zshpower.config import package
+from snakypy.path import create as snakypy_path_create
+from snakypy.file import create as snakypy_file_create
+from zshpower.utils.check import tools_requirements
+from zshpower.utils.catch import get_line_source
+from zshpower.config.config import content as config_content
+from zshpower.config.zshrc import content as zshrc_content
+from zshpower.config.set_zshpower import content as set_zshpower_content
+from zshpower.utils.process import change_shell, reload_zsh
+from zshpower.utils.shift import (
+    create_config,
+    omz_install,
+    omz_install_plugins,
+    install_fonts,
+    create_zshrc,
+    change_theme_in_zshrc,
+    add_plugins_zshrc,
+    create_zshrc_not_exists,
+)
+
 
 instruction_not_omz = f"""{FG.YELLOW}
 ********************** WARNING **********************
@@ -30,26 +51,6 @@ class InitCommand(Base):
         Base.__init__(self, home)
 
     def main(self, arguments, *, reload=False, message=False):
-        from snakypy import printer
-        from zshpower.config import package
-        from snakypy.path import create as snakypy_path_create
-        from snakypy.file import create as snakypy_file_create
-        from zshpower.utils.check import tools_requirements
-        from zshpower.utils.catch import get_line_source
-        from zshpower.config.config import content as config_content
-        from zshpower.config.zshrc import content as zshrc_content
-        from zshpower.config.set_zshpower import content as set_zshpower_content
-        from zshpower.utils.process import change_shell, reload_zsh
-        from zshpower.utils.shift import (
-            create_config,
-            omz_install,
-            omz_install_plugins,
-            install_fonts,
-            create_zshrc,
-            change_theme_in_zshrc,
-            add_plugins_zshrc,
-            create_zshrc_not_exists,
-        )
 
         tools_requirements("zsh", "vim", "git", "cut", "grep")
 

@@ -1,4 +1,10 @@
 from zshpower.config.base import Base
+from zshpower.utils.process import reload_zsh
+from zshpower.utils.shift import change_theme_in_zshrc
+from zshpower.utils.catch import read_zshrc_omz
+from zshpower.utils.check import checking_init
+from snakypy import printer
+from snakypy.ansi import FG
 
 
 class DeactivateCommand(Base):
@@ -6,12 +12,6 @@ class DeactivateCommand(Base):
         Base.__init__(self, home)
 
     def main(self, arguments, *, theme_name="robbyrussell"):
-        from zshpower.utils.process import reload_zsh
-        from zshpower.utils.shift import change_theme_in_zshrc
-        from zshpower.utils.catch import read_zshrc_omz
-        from zshpower.utils.check import checking_init
-        from snakypy import printer
-        from snakypy.ansi import FG
 
         checking_init(self.HOME)
 
