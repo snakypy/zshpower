@@ -1,5 +1,5 @@
 from getpass import getpass
-from subprocess import run, call, Popen, PIPE, check_output
+from subprocess import Popen, PIPE
 from tomlkit import dumps as toml_dumps
 from tomlkit import parse as toml_parse
 from os.path import isdir
