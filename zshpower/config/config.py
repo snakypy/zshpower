@@ -28,6 +28,7 @@ position = [
     "dart",
     "dotnet",
     "docker",
+    "perl",
     "git"
     ]
 
@@ -162,6 +163,14 @@ version.micro.enable = true
 [julia]
 symbol = "\\ue624"
 color = "blue"
+prefix.color = "white"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+
+[scala]
+symbol = "\\ue737"
+color = "red"
 prefix.color = "white"
 prefix.text = "via"
 version.enable = false
