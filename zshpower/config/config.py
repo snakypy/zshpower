@@ -29,6 +29,7 @@ position = [
     "dotnet",
     "docker",
     "perl",
+    "scala",
     "git"
     ]
 
@@ -154,6 +155,14 @@ version.micro.enable = true
 
 [elixir]
 symbol = "\\ue62d"
+color = "blue"
+prefix.color = "white"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+
+[perl]
+symbol = "\\ue769"
 color = "blue"
 prefix.color = "white"
 prefix.text = "via"
