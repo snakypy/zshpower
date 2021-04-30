@@ -1,13 +1,14 @@
 from os.path import exists
 
 
-def create_table(database, db_filepath):
-    if exists(db_filepath):
+def create_table(database):
+    try:
         database.execute(SQLTables()["main"])
         database.commit()
         database.connection.close()
         return True
-    return False
+    except FileNotFoundError:
+        return False
 
 
 class SQLTables:

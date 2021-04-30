@@ -1,3 +1,4 @@
+from zshpower.config.cron import cron_task, sync
 from zshpower.database.sql_inject import create_table
 from zshpower.prompt.sections.julia import JuliaSetVersion
 from zshpower.prompt.sections.elixir import ElixirSetVersion
@@ -34,6 +35,7 @@ from zshpower.utils.shift import (
     change_theme_in_zshrc,
     add_plugins_zshrc,
     create_zshrc_not_exists,
+    create_file_superuser,
 )
 
 
@@ -58,14 +60,14 @@ class InitCommand(Base):
             f". $HOME/.{package.info['pkg_name']}/init", self.zsh_rc
         )
 
-        snakypy_path_create(self.config_root, self.data_root)
+        snakypy_path_create(self.config_root, self.data_root, self.cron_folder)
 
         create_config(config_content, self.config_file)
 
         snakypy_file_create(set_zshpower_content, self.init_file, force=True)
 
         # Create table and database if not exists
-        create_table(DAO(), join(HOME, self.data_root, self.database_name))
+        create_table(DAO())
 
         # Insert database in database
         DartSetVersion().main(action="insert")
@@ -92,9 +94,24 @@ class InitCommand(Base):
 
         change_shell()
 
-        printer("Done!", foreground=FG.FINISH) if message else None
+        try:
+            create_file_superuser(
+                context=(sync, cron_task),
+                filepath=(self.script_sync, self.zshpower_task_file),
+            )
+            printer("Done!", foreground=FG.FINISH) if message else None
 
-        if not arguments["--omz"] and not get_line_source(self.zsh_rc):
-            printer(instruction_not_omz, foreground=FG.YELLOW)
+            if not arguments["--omz"] and not get_line_source(self.zsh_rc):
+                printer(instruction_not_omz, foreground=FG.YELLOW)
 
-        reload_zsh() if reload else None
+            if reload:
+                reload_zsh()
+        except KeyboardInterrupt:
+            printer("Canceled by user", foreground=FG.WARNING)
+            printer("Done!", foreground=FG.FINISH) if message else None
+
+            if not arguments["--omz"] and not get_line_source(self.zsh_rc):
+                printer(instruction_not_omz, foreground=FG.YELLOW)
+
+            if reload:
+                reload_zsh()

@@ -59,7 +59,6 @@ def plugins_current_zshrc(zshrc):
         lst = get.split("=")
         current = [i.strip('"').replace("(", "").replace(")", "") for i in lst][1]
         return current.split()
-    return
 
 
 def get_line_source(zshrc):
@@ -67,7 +66,6 @@ def get_line_source(zshrc):
     m = re_search(r"source \$HOME/.zshpower", current_zshrc)
     if m is not None:
         return m.group(0)
-    return
 
 
 def find_objects(directory, /, files=(), folders=(), extension=()):

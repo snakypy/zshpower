@@ -1,3 +1,5 @@
+from getpass import getpass
+from subprocess import run, call, Popen, PIPE, check_output
 from tomlkit import dumps as toml_dumps
 from tomlkit import parse as toml_parse
 from os.path import isdir
@@ -23,7 +25,7 @@ def create_config(content, file_path, force=False):
         write_toml = toml_dumps(parsed_toml)
         snakypy_file_create(write_toml, file_path, force=force)
         return True
-    return
+    return False
 
 
 def create_zshrc(content, zshrc):
@@ -35,12 +37,50 @@ def create_zshrc(content, zshrc):
     elif not exists(zshrc):
         snakypy_file_create(content, zshrc)
         return True
-    return
+    return False
 
 
 def create_zshrc_not_exists(content, zshrc):
     if not exists(zshrc):
         snakypy_file_create(content, zshrc)
+
+
+def create_file_superuser(context=(), filepath=()):
+
+    pass_ok = False
+
+    message = """
+            At this point, you need to INFORM the root password to create the Crontab task.
+            If you do not want this configuration to be made, you can cancel with Ctrl + C.
+            """
+
+    printer(message, foreground=FG.WARNING)
+
+    while not pass_ok:
+
+        sudo_password = getpass()
+
+        communicate = ()
+        for context_ in context:
+            for filepath_ in filepath:
+
+                command = f"""su -c 'echo "{context_}" > {filepath_}; chmod a+x {filepath_}'"""
+
+                p = Popen(
+                    command,
+                    stdin=PIPE,
+                    stderr=PIPE,
+                    stdout=PIPE,
+                    universal_newlines=True,
+                    shell=True,
+                )
+
+                communicate = p.communicate(sudo_password)
+
+        if "failure" in communicate[1].split():
+            printer("Password incorrect.", foreground=FG.ERROR)
+        else:
+            pass_ok = True
 
 
 def change_theme_in_zshrc(zshrc, theme_name):
@@ -51,7 +91,7 @@ def change_theme_in_zshrc(zshrc, theme_name):
         new_zsh_rc = re_sub(rf"{current_theme}", new_theme, current_zshrc, flags=re_m)
         snakypy_file_create(new_zsh_rc, zshrc, force=True)
         return True
-    return
+    return False
 
 
 def omz_install(omz_root):
@@ -111,10 +151,10 @@ def install_fonts(home, force=False):
                     os_remove(curl_output)
                     printer("Done!", foreground=FG.FINISH)
                 return True
-            return
+            return False
         except Exception as err:
             raise Exception(f'Error downloading font "{font_name}"', err)
-    return
+    return False
 
 
 def add_plugins_zshrc(zshrc):

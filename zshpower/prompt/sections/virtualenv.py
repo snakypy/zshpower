@@ -28,10 +28,7 @@ class Virtualenv:
         involved_suffix = ""
 
         if "VIRTUAL_ENV" in os_environ:
-            prefix = (
-                f"{Color(self.prefix_color)}"
-                f"{self.prefix_text}{Color().NONE}"
-            )
+            prefix = f"{Color(self.prefix_color)}" f"{self.prefix_text}{Color().NONE}"
 
             if len(self.involved) == 2:
                 involved_prefix = self.involved[0]

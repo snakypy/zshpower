@@ -19,13 +19,13 @@ def change_shell():
 # # TODO: DEPRECATED
 # def bash_command(cmd):
 #     from subprocess import Popen as subprocess_popen
-
-#     subprocess_popen(["/bin/bash", "-c", cmd])
-
-
+#
+#     subprocess_popen(["su", "-c", cmd])
+#
+#
 # def shell_command(cmd):
 #     from subprocess import PIPE, Popen as subprocess_popen
-
+#
 #     p = subprocess_popen(
 #         cmd, shell=True, stdout=PIPE, stderr=PIPE, universal_newlines=True
 #     )

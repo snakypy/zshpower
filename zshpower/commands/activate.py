@@ -11,7 +11,7 @@ class ActivateCommand(Base):
     def __init__(self, home):
         Base.__init__(self, home)
 
-    def main(self):
+    def main(self) -> bool:
 
         checking_init(self.HOME)
 
@@ -23,6 +23,7 @@ class ActivateCommand(Base):
             printer("Activation process finish.", foreground=FG.FINISH)
             reload_zsh()
             return True
-        return printer(
+        printer(
             "You are not using Oh My ZSH to run this command.", foreground=FG.WARNING
         )
+        return False

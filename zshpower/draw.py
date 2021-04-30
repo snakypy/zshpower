@@ -1,5 +1,7 @@
+from zshpower.config.cron import cron_task
+
 try:
-    from snakypy import FG
+    from snakypy import FG, printer
     from tomlkit.exceptions import NonExistentKey, UnexpectedCharError
 except KeyboardInterrupt:
     pass
@@ -11,7 +13,7 @@ from zshpower.config import package
 from zshpower.database.dao import DAO
 from os.path import join
 from zshpower.config.config import content as config_content
-from zshpower.utils.shift import create_config
+from zshpower.utils.shift import create_config, create_file_superuser
 from snakypy.path import create as snakypy_path_create
 from snakypy.file import read as snakypy_file_red
 from tomlkit import parse as toml_parse
@@ -50,6 +52,37 @@ from zshpower.database.sql_inject import RetAllNameVersion, create_table
 #     return True
 
 
+def db_restore():
+    create_table(DAO())
+    DartSetVersion().main(action="insert")
+    DockerSetVersion().main(action="insert")
+    DotnetSetVersion().main(action="insert")
+    ElixirSetVersion().main(action="insert")
+    GolangSetVersion().main(action="insert")
+    JavaSetVersion().main(action="insert")
+    JuliaSetVersion().main(action="insert")
+    NodeJsSetVersion().main(action="insert")
+    PhpSetVersion().main(action="insert")
+    RubySetVersion().main(action="insert")
+    RustSetVersion().main(action="insert")
+
+
+def db_fetchall():
+    try:
+        reg = RetAllNameVersion(DAO(), columns=("name", "version"), table="main")
+
+        if not reg:
+            db_restore()
+            reg = RetAllNameVersion(
+                DAO(), columns=("name", "version"), table="main"
+            )
+        return reg
+    except (OperationalError, KeyError):
+        db_restore()
+        reg = RetAllNameVersion(DAO(), columns=("name", "version"), table="main")
+        return reg
+
+
 class Draw(DAO):
     def __init__(self):
         DAO.__init__(self)
@@ -72,41 +105,12 @@ class Draw(DAO):
             # )
             return parsed
 
-    def db_restore(self):
-        create_table(DAO(), join(HOME, self.data_root, self.database_name))
-        DartSetVersion().main(action="insert")
-        DockerSetVersion().main(action="insert")
-        DotnetSetVersion().main(action="insert")
-        ElixirSetVersion().main(action="insert")
-        GolangSetVersion().main(action="insert")
-        JavaSetVersion().main(action="insert")
-        JuliaSetVersion().main(action="insert")
-        NodeJsSetVersion().main(action="insert")
-        PhpSetVersion().main(action="insert")
-        RubySetVersion().main(action="insert")
-        RustSetVersion().main(action="insert")
-
-    def db_fetchall(self):
-        try:
-            reg = RetAllNameVersion(DAO(), columns=("name", "version"), table="main")
-
-            if not reg:
-                self.db_restore()
-                reg = RetAllNameVersion(
-                    DAO(), columns=("name", "version"), table="main"
-                )
-            return reg
-        except (OperationalError, KeyError):
-            self.db_restore()
-            reg = RetAllNameVersion(DAO(), columns=("name", "version"), table="main")
-            return reg
-
     # @runtime
     def prompt(self, jump_line="\n"):
         # Loading the settings to a local variable and thus improving performance
         config_loaded = self.config_load()
 
-        db_reg = self.db_fetchall()
+        db_reg = db_fetchall()
 
         try:
             if not config_loaded["general"]["jump_line"]["enable"]:
