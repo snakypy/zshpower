@@ -3,17 +3,17 @@ from sqlite3 import OperationalError
 from snakypy import FG
 from snakypy.console import loading, printer
 from zshpower.utils.check import checking_init
-from zshpower.prompt.sections.rust import RustSetVersion
-from zshpower.prompt.sections.ruby import RubySetVersion
-from zshpower.prompt.sections.php import PhpSetVersion
-from zshpower.prompt.sections.nodejs import NodeJsSetVersion
-from zshpower.prompt.sections.julia import JuliaSetVersion
-from zshpower.prompt.sections.java import JavaSetVersion
-from zshpower.prompt.sections.golang import GolangSetVersion
-from zshpower.prompt.sections.elixir import ElixirSetVersion
-from zshpower.prompt.sections.docker import DockerSetVersion
-from zshpower.prompt.sections.dotnet import DotnetSetVersion
-from zshpower.prompt.sections.dart import DartSetVersion
+from zshpower.prompt.sections.rust import Rust
+from zshpower.prompt.sections.ruby import Ruby
+from zshpower.prompt.sections.php import Php
+from zshpower.prompt.sections.nodejs import NodeJs
+from zshpower.prompt.sections.julia import Julia
+from zshpower.prompt.sections.java import Java
+from zshpower.prompt.sections.golang import Golang
+from zshpower.prompt.sections.elixir import Elixir
+from zshpower.prompt.sections.docker import Docker
+from zshpower.prompt.sections.dotnet import Dotnet
+from zshpower.prompt.sections.dart import Dart
 from zshpower.config.base import Base
 
 
@@ -24,17 +24,17 @@ class Sync(Base):
     def main(self):
         try:
             checking_init(self.HOME)
-            DockerSetVersion().main(action="update")
-            DartSetVersion().main(action="update")
-            DotnetSetVersion().main(action="update")
-            ElixirSetVersion().main(action="update")
-            GolangSetVersion().main(action="update")
-            JavaSetVersion().main(action="update")
-            JuliaSetVersion().main(action="update")
-            NodeJsSetVersion().main(action="update")
-            PhpSetVersion().main(action="update")
-            RubySetVersion().main(action="update")
-            RustSetVersion().main(action="update")
+            Docker().set_version(action="update")
+            Dart().set_version(action="update")
+            Dotnet().set_version(action="update")
+            Elixir().set_version(action="update")
+            Golang().set_version(action="update")
+            Java().set_version(action="update")
+            Julia().set_version(action="update")
+            NodeJs().set_version(action="update")
+            Php().set_version(action="update")
+            Ruby().set_version(action="update")
+            Rust().set_version(action="update")
             loading(
                 set_time=0.03,
                 bar=False,

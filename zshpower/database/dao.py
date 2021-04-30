@@ -4,6 +4,7 @@ from os.path import join
 from snakypy import printer, FG
 from zshpower.config.base import Base
 from zshpower import HOME
+from zshpower.database.sql import sql
 
 
 class DAO(Base):
@@ -40,8 +41,8 @@ class DAO(Base):
     def commit(self):
         self.connection.commit()
 
-    def execute(self, sql, params=None):
-        self.cursor.execute(sql, params or ())
+    def execute(self, sql_, params=None):
+        self.cursor.execute(sql_, params or ())
 
     def fetchall(self):
         return self.cursor.fetchall()
@@ -49,10 +50,58 @@ class DAO(Base):
     def fetchone(self):
         return self.cursor.fetchone()
 
-    def query(self, sql, params=None):
-        self.cursor.execute(sql, params or ())
+    def query(self, sql_, params=None):
+        self.cursor.execute(sql_, params or ())
         return self.fetchall()
 
-    def query_one(self, sql, params=None):
-        self.cursor.execute(sql, params or ())
+    def query_one(self, sql_, params=None):
+        self.cursor.execute(sql_, params or ())
         return self.fetchone()
+
+    def create_table(self, tbl_name):
+        try:
+            self.execute(sql()[tbl_name])
+            self.commit()
+            self.connection.close()
+            return True
+        except FileNotFoundError:
+            return False
+
+    def select_columns(self, /, columns=(), table=None) -> dict:
+        sql_ = f"SELECT {','.join(columns)} FROM {table};"
+        # sql = sql.replace("(", "").replace(")", "").replace("'", "")
+        try:
+            query = self.query(sql_)
+            data = {key: value for (key, value) in query}
+            self.connection.close()
+            return data
+        except Exception:
+            raise Exception("Error select in database.")
+
+    def select_where(self, table, value, where, select=()):
+        sql_ = f"SELECT {','.join(select)} FROM {table} WHERE {where} = '{value}';"
+        try:
+            data = self.query(sql_)
+            self.commit()
+            self.connection.close()
+            return data
+        except Exception:
+            raise Exception("Error select data.")
+
+    def insert(self, table, /, columns=(), values=()):
+        sql_ = f"INSERT INTO {table} {columns} VALUES {values};"
+        try:
+            self.execute(sql_)
+            self.commit()
+            self.connection.close()
+        except Exception:
+            raise Exception("Error insert database.")
+
+    def update(self, table, set_, version, where, value):
+        sql_ = f"UPDATE {table} SET {set_} = '{version}' WHERE {where} = '{value}';"
+        try:
+            self.execute(sql_)
+            self.commit()
+            self.connection.close()
+        except Exception:
+            raise Exception("Error update database.")

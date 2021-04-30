@@ -1,85 +1,27 @@
 from subprocess import run
-from zshpower.database.sql_inject import (
-    SQLSelectVersionByName,
-    SQLInsert,
-    SQLUpdateVersionByName,
-)
-from zshpower.database.dao import DAO
-from .lib.utils import Color, separator
-from zshpower.utils.catch import find_objects
-from os import getcwd
-from .lib.utils import symbol_ssh, element_spacing
+from zshpower.prompt.sections.lib.utils import Version
 
 
-class PhpGetVersion:
-    def __init__(self, config, version, space_elem=" "):
-
-        self.config = config
-        self.version = version
-        self.space_elem = space_elem
+class Php(Version):
+    def __init__(self):
+        super(Php, self).__init__()
         self.files = ("composer.json",)
         self.extensions = (".php",)
-        self.folders = ()
-        self.symbol = symbol_ssh(config["php"]["symbol"], "php-")
-        self.color = config["php"]["color"]
-        self.prefix_color = config["php"]["prefix"]["color"]
-        self.prefix_text = element_spacing(config["php"]["prefix"]["text"])
-        self.micro_version_enable = config["php"]["version"]["micro"]["enable"]
 
-    def __str__(self):
+    def get_version(self, config, version, key="php", ext="php-", space_elem=" "):
+        return super().get(config, version, key=key, ext=ext, space_elem=space_elem)
 
-        php_version = self.version
+    def set_version(self, key="php", action=None):
+        version = run(
+            """php -v 2>&1 | grep "^PHP\\s*[0-9.]\\+" | awk '{print $2}'""",
+            capture_output=True,
+            shell=True,
+            text=True,
+        ).stdout
 
-        if php_version and find_objects(
-            getcwd(), files=self.files, folders=self.folders, extension=self.extensions
-        ):
-            prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
+        version = version.replace("\n", "")
 
-            return str(
-                (
-                    f"{separator(self.config)}{prefix}"
-                    f"{Color(self.color)}{self.symbol}"
-                    f"{php_version}{self.space_elem}{Color().NONE}"
-                )
-            )
-        return ""
+        if not version:
+            return False
 
-
-class PhpSetVersion(DAO):
-    def __init__(self):
-        DAO.__init__(self)
-
-    def main(self, /, action=None):
-        if action:
-            php_version = run(
-                """php -v 2>&1 | grep "^PHP\\s*[0-9.]\\+" | awk '{print $2}'""",
-                capture_output=True,
-                shell=True,
-                text=True,
-            ).stdout
-
-            php_version = php_version.replace("\n", "")
-
-            if not php_version:
-                return False
-
-            if action == "insert":
-                query = self.query(str(SQLSelectVersionByName("main", "php")))
-
-                if not query:
-                    self.execute(
-                        str(
-                            SQLInsert(
-                                "main",
-                                columns=("name", "version"),
-                                values=("php", php_version),
-                            )
-                        )
-                    )
-                    self.commit()
-
-            elif action == "update":
-                self.execute(str(SQLUpdateVersionByName("main", php_version, "php")))
-                self.commit()
-
-            self.connection.close()
+        return super().set(version, key, action)

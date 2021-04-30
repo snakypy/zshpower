@@ -1,90 +1,25 @@
-from zshpower.database.dao import DAO
-from .lib.utils import symbol_ssh, element_spacing
 from subprocess import run
-from zshpower.database.sql_inject import (
-    SQLSelectVersionByName,
-    SQLInsert,
-    SQLUpdateVersionByName,
-)
-from .lib.utils import Color, separator
-from zshpower.utils.catch import find_objects
-from os import getcwd
+from zshpower.prompt.sections.lib.utils import Version
 
 
-class DartGetVersion:
-    def __init__(self, config, version, space_elem=" "):
-        self.config = config
-        self.version = version
-        self.space_elem = space_elem
+class Dart(Version):
+    def __init__(self):
+        super(Dart, self).__init__()
         self.extensions = (".dart",)
         self.files = (
             "pubspec.yaml",
             "config.src.yaml",
             "analysis_options.yaml",
         )
-        self.folders = ()
-        self.symbol = symbol_ssh(self.config["dart"]["symbol"], "dart-")
-        self.color = self.config["dart"]["color"]
-        self.prefix_color = self.config["dart"]["prefix"]["color"]
-        self.prefix_text = element_spacing(self.config["dart"]["prefix"]["text"])
-        self.micro_version_enable = self.config["dart"]["version"]["micro"]["enable"]
 
-    def __str__(self):
+    def get_version(self, config, version, key="dart", ext="dt-", space_elem=" "):
+        return super().get(config, version, key=key, ext=ext, space_elem=space_elem)
 
-        dart_version = self.version
+    def set_version(self, key="dart", action=None):
+        version = run("dart --version 2>&1", capture_output=True, shell=True, text=True)
+        if not version.returncode == 0:
+            return False
 
-        if dart_version and find_objects(
-            getcwd(),
-            files=self.files,
-            folders=self.folders,
-            extension=self.extensions,
-        ):
-            prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
+        version = version.stdout.replace("\n", "").split(" ")[3]
 
-            return str(
-                (
-                    f"{separator(self.config)}{prefix}"
-                    f"{Color(self.color)}{self.symbol}"
-                    f"{dart_version}{self.space_elem}{Color().NONE}"
-                )
-            )
-        return ""
-
-
-class DartSetVersion(DAO):
-    def __init__(self):
-        DAO.__init__(self)
-
-    def main(self, /, action=None):
-        if action:
-            dart_version = run(
-                "dart --version 2>&1", capture_output=True, shell=True, text=True
-            )
-            if not dart_version.returncode == 0:
-                return False
-
-            dart_version = dart_version.stdout.replace("\n", "").split(" ")[3]
-
-            if action == "insert":
-                query = self.query(str(SQLSelectVersionByName("main", "dart")))
-
-                if not query:
-                    self.execute(
-                        str(
-                            SQLInsert(
-                                "main",
-                                columns=("name", "version"),
-                                values=("dart", dart_version),
-                            )
-                        )
-                    )
-                    self.commit()
-
-            elif action == "update":
-                self.execute(str(SQLUpdateVersionByName("main", dart_version, "dart")))
-                self.commit()
-
-            self.connection.close()
-            return True
-
-        return False
+        return super().set(version, key, action)

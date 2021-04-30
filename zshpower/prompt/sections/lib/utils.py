@@ -1,49 +1,6 @@
-# from snakypy import FG
-# from snakypy.ansi import NONE as s_none
-
-
-# class Color:
-#     """Colors bash"""
-#
-#     NONE = s_none
-#
-#     def __init__(self, set_color="none"):
-#         self.set_color = set_color
-#         self.color = {"green": FG.GREEN,
-#                       "red": FG.RED,
-#                       "blue": FG.BLUE,
-#                       "yellow": FG.YELLOW,
-#                       "cyan": FG.CYAN,
-#                       "magenta": FG.MAGENTA,
-#                       "white": FG.WHITE,
-#                       "black": FG.BLACK,
-#                       "none": ""}
-#
-#     def __str__(self):
-#         return self.color.get(self.set_color, "")
-
-
-# class Color:
-#     """Color application compatible only with Oh My ZSH."""
-#     NONE = "%{$reset_color%}"
-#
-#     def __init__(self, set_color=None):
-#         self.color = f"%{{$fg[{set_color}]%}}"
-#
-#     def __str__(self):
-#         return self.color
-
-class Color:
-    """Color application compatible only ZSH."""
-    NONE = "%f"
-
-    def __init__(self, set_color=""):
-        self.color = f"%F{{{set_color}}}"
-        if set_color == "white":
-            self.color = ""
-
-    def __str__(self):
-        return self.color
+from zshpower.database.dao import DAO
+from zshpower.utils.catch import find_objects
+from os import getcwd
 
 
 def symbol_ssh(symbol1, symbol2, spacing=" "):
@@ -54,12 +11,6 @@ def symbol_ssh(symbol1, symbol2, spacing=" "):
     if "SSH_CONNECTION" in os.environ:
         symbol1 = symbol2
     return symbol1
-
-
-# DEPRECATED
-# def abspath_link():
-#     cwd = check_output("pwd -L", shell=True, universal_newlines=True).strip()
-#     return cwd
 
 
 def git_status(*, porcelain=False, branch=False):
@@ -95,3 +46,105 @@ def element_spacing(element, spacing=" "):
     if element != "":
         element += spacing
     return element
+
+
+class Color:
+    """Color application compatible only ZSH."""
+    NONE = "%f"
+
+    def __init__(self, set_color=""):
+        self.color = f"%F{{{set_color}}}"
+        if set_color == "white":
+            self.color = ""
+
+    def __str__(self):
+        return self.color
+
+
+class Version(DAO):
+    def __init__(self):
+        DAO.__init__(self)
+        self.extensions = ()
+        self.files = ()
+        self.folders = ()
+
+    def get(self, config, version, key="", ext="", space_elem=""):
+        symbol = symbol_ssh(config[key]["symbol"], ext)
+        color = config[key]["color"]
+        prefix_color = config[key]["prefix"]["color"]
+        prefix_text = element_spacing(config[key]["prefix"]["text"])
+        micro_version_enable = config[key]["version"]["micro"]["enable"]
+
+        if version and find_objects(
+            getcwd(),
+            files=self.files,
+            folders=self.folders,
+            extension=self.extensions,
+        ):
+            prefix = f"{Color(prefix_color)}{prefix_text}{Color().NONE}"
+
+            if micro_version_enable:
+                version_format = f"{'{0[0]}.{0[1]}.{0[2]}'.format(version.split('.'))}{space_elem}"
+            else:
+                version_format = f"{'{0[0]}.{0[1]}'.format(version.split('.'))}{space_elem}"
+
+            return str(
+                (
+                    f"{separator(config)}{prefix}"
+                    f"{Color(color)}{symbol}"
+                    f"{version_format}{Color().NONE}"
+                )
+            )
+        return ""
+
+    @staticmethod
+    def set(version, key="", action=None):
+        if action:
+            if action == "insert":
+                query = DAO().select_where("main", key, "name", select=("version",))
+                if not query:
+                    DAO().insert("main", columns=("name", "version"), values=(key, version))
+
+            elif action == "update":
+                DAO().update("main", "version", version, "name", key)
+            return True
+        return False
+
+
+# from snakypy import FG
+# from snakypy.ansi import NONE as s_none
+# class Color:
+#     """Colors bash"""
+#
+#     NONE = s_none
+#
+#     def __init__(self, set_color="none"):
+#         self.set_color = set_color
+#         self.color = {"green": FG.GREEN,
+#                       "red": FG.RED,
+#                       "blue": FG.BLUE,
+#                       "yellow": FG.YELLOW,
+#                       "cyan": FG.CYAN,
+#                       "magenta": FG.MAGENTA,
+#                       "white": FG.WHITE,
+#                       "black": FG.BLACK,
+#                       "none": ""}
+#
+#     def __str__(self):
+#         return self.color.get(self.set_color, "")
+
+
+# class Color:
+#     """Color application compatible only with Oh My ZSH."""
+#     NONE = "%{$reset_color%}"
+#
+#     def __init__(self, set_color=None):
+#         self.color = f"%{{$fg[{set_color}]%}}"
+#
+#     def __str__(self):
+#         return self.color
+
+# DEPRECATED
+# def abspath_link():
+#     cwd = check_output("pwd -L", shell=True, universal_newlines=True).strip()
+#     return cwd

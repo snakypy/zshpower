@@ -1,21 +1,18 @@
 from zshpower.config.cron import cron_task, sync
-from zshpower.database.sql_inject import create_table
-from zshpower.prompt.sections.julia import JuliaSetVersion
-from zshpower.prompt.sections.elixir import ElixirSetVersion
-from zshpower.prompt.sections.dotnet import DotnetSetVersion
-from zshpower.prompt.sections.docker import DockerSetVersion
-from zshpower import HOME
+from zshpower.prompt.sections.julia import Julia
+from zshpower.prompt.sections.elixir import Elixir
+from zshpower.prompt.sections.dotnet import Dotnet
+from zshpower.prompt.sections.docker import Docker
 from zshpower.config.base import Base
 from snakypy.ansi import FG, NONE
-from zshpower.prompt.sections.golang import GolangSetVersion
-from zshpower.prompt.sections.java import JavaSetVersion
+from zshpower.prompt.sections.golang import Golang
+from zshpower.prompt.sections.java import Java
 from zshpower.database.dao import DAO
-from os.path import join
-from zshpower.prompt.sections.dart import DartSetVersion
-from zshpower.prompt.sections.nodejs import NodeJsSetVersion
-from zshpower.prompt.sections.php import PhpSetVersion
-from zshpower.prompt.sections.ruby import RubySetVersion
-from zshpower.prompt.sections.rust import RustSetVersion
+from zshpower.prompt.sections.dart import Dart
+from zshpower.prompt.sections.nodejs import NodeJs
+from zshpower.prompt.sections.php import Php
+from zshpower.prompt.sections.ruby import Ruby
+from zshpower.prompt.sections.rust import Rust
 from snakypy import printer
 from zshpower.config import package
 from snakypy.path import create as snakypy_path_create
@@ -54,7 +51,7 @@ class InitCommand(Base):
 
     def main(self, arguments, *, reload=False, message=False):
 
-        tools_requirements("zsh", "vim", "git", "cut", "grep")
+        tools_requirements("zsh", "vim", "git", "cut", "grep", "whoami")
 
         create_zshrc_not_exists(
             f". $HOME/.{package.info['pkg_name']}/init", self.zsh_rc
@@ -67,20 +64,20 @@ class InitCommand(Base):
         snakypy_file_create(set_zshpower_content, self.init_file, force=True)
 
         # Create table and database if not exists
-        create_table(DAO())
+        DAO().create_table("main")
 
         # Insert database in database
-        DartSetVersion().main(action="insert")
-        DockerSetVersion().main(action="insert")
-        DotnetSetVersion().main(action="insert")
-        ElixirSetVersion().main(action="insert")
-        GolangSetVersion().main(action="insert")
-        JavaSetVersion().main(action="insert")
-        JuliaSetVersion().main(action="insert")
-        NodeJsSetVersion().main(action="insert")
-        PhpSetVersion().main(action="insert")
-        RubySetVersion().main(action="insert")
-        RustSetVersion().main(action="insert")
+        Dart().set_version(action="insert")
+        Docker().set_version(action="insert")
+        Dotnet().set_version(action="insert")
+        Elixir().set_version(action="insert")
+        Golang().set_version(action="insert")
+        Java().set_version(action="insert")
+        Julia().set_version(action="insert")
+        NodeJs().set_version(action="insert")
+        Php().set_version(action="insert")
+        Ruby().set_version(action="insert")
+        Rust().set_version(action="insert")
 
         if arguments["--omz"]:
             omz_install(self.omz_root)
