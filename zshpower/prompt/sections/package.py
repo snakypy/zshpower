@@ -112,6 +112,10 @@ class Rust(Base):
         return super().__str__()
 
 
+class Scala:
+    pass
+
+
 def package(config):
     from os.path import exists
 

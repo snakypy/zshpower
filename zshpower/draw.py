@@ -1,3 +1,5 @@
+from zshpower.prompt.sections.perl import Perl
+
 try:
     from snakypy import FG, printer
     from tomlkit.exceptions import NonExistentKey, UnexpectedCharError
@@ -27,6 +29,7 @@ from zshpower.prompt.sections.golang import Golang
 from zshpower.prompt.sections.php import Php
 from zshpower.prompt.sections.elixir import Elixir
 from zshpower.prompt.sections.julia import Julia
+from zshpower.prompt.sections.scala import Scala
 from zshpower.prompt.sections.ruby import Ruby
 from zshpower.prompt.sections.dotnet import Dotnet
 from zshpower.prompt.sections.java import Java
@@ -60,6 +63,7 @@ def db_restore():
     Php().set_version(action="insert")
     Ruby().set_version(action="insert")
     Rust().set_version(action="insert")
+    Scala().set_version(action="insert")
 
 
 def db_fetchall():
@@ -159,6 +163,12 @@ class Draw(DAO):
                 "elixir": Elixir().get_version(config_loaded, db_reg["elixir"])
                 if config_loaded["elixir"]["version"]["enable"]
                 else "",
+                "scala": Scala().get_version(config_loaded, db_reg["scala"])
+                if config_loaded["scala"]["version"]["enable"]
+                else "",
+                "perl": Perl().get_version(config_loaded, db_reg["perl"])
+                if config_loaded["perl"]["version"]["enable"]
+                else "",
                 "docker": Docker().get_version(config_loaded, db_reg["docker"])
                 if config_loaded["docker"]["version"]["enable"]
                 else "",
@@ -183,7 +193,7 @@ class Draw(DAO):
                 if item in element
             )
 
-            sections = "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"
+            sections = "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"
             return sections.format(static_section, *ordered_section, cmd)
 
         except (NonExistentKey, UnexpectedCharError, ValueError):

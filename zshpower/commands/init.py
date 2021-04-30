@@ -1,3 +1,5 @@
+from zshpower.prompt.sections.perl import Perl
+
 from zshpower.config.cron import cron_task, sync
 from zshpower.prompt.sections.julia import Julia
 from zshpower.prompt.sections.elixir import Elixir
@@ -7,6 +9,7 @@ from zshpower.config.base import Base
 from snakypy.ansi import FG, NONE
 from zshpower.prompt.sections.golang import Golang
 from zshpower.prompt.sections.java import Java
+from zshpower.prompt.sections.scala import Scala
 from zshpower.database.dao import DAO
 from zshpower.prompt.sections.dart import Dart
 from zshpower.prompt.sections.nodejs import NodeJs
@@ -78,6 +81,8 @@ class InitCommand(Base):
         Php().set_version(action="insert")
         Ruby().set_version(action="insert")
         Rust().set_version(action="insert")
+        Scala().set_version(action="insert")
+        Perl().set_version(action="insert")
 
         if arguments["--omz"]:
             omz_install(self.omz_root)
