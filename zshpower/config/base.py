@@ -10,7 +10,6 @@ class Base:
             self.HOME, f".{package.info['pkg_name']}/config/{__version__}"
         )
         self.data_root = f".{package.info['pkg_name']}/.data"
-        self.cron_folder = join(home, f".{package.info['pkg_name']}/cron")
         self.sync_path = "/usr/local/bin/zshpower_sync.sh"
         self.crontab_root = "/etc/cron.d"
         self.cron_path = join(self.crontab_root, "zshpower_task.sh")

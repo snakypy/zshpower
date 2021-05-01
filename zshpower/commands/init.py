@@ -69,7 +69,7 @@ class InitCommand(Base):
             f". $HOME/.{package.info['pkg_name']}/init", self.zsh_rc
         )
 
-        snakypy_path_create(self.config_root, self.data_root, self.cron_folder)
+        snakypy_path_create(self.config_root, self.data_root)
 
         create_config(config_content, self.config_file)
 
