@@ -11,7 +11,9 @@ class Kotlin(Version):
         return super().get(config, version, key=key, ext=ext, space_elem=space_elem)
 
     def set_version(self, key="kotlin", action=None):
-        version = run("kotlin -version 2>&1", capture_output=True, shell=True, text=True)
+        version = run(
+            "kotlin -version 2>&1", capture_output=True, shell=True, text=True
+        )
 
         if not version.returncode == 0:
             return False

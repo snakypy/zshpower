@@ -152,7 +152,9 @@ class Crystal(Base):
         ).stdout
 
         try:
-            crystal_package_version = crystal_package_version.replace("\n", "").split()[1]
+            crystal_package_version = crystal_package_version.replace("\n", "").split()[
+                1
+            ]
         except IndexError:
             crystal_package_version = crystal_package_version.replace("\n", "")
 
