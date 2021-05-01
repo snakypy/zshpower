@@ -1,3 +1,22 @@
+from zshpower.prompt.sections.zig import Zig
+
+from zshpower.prompt.sections.vagrant import Vagrant
+
+from zshpower.prompt.sections.ocaml import Ocaml
+
+from zshpower.prompt.sections.nim import Nim
+
+from zshpower.prompt.sections.kotlin import Kotlin
+
+from zshpower.prompt.sections.helm import Helm
+
+from zshpower.prompt.sections.erlang import Erlang
+
+from zshpower.prompt.sections.deno import Deno
+
+from zshpower.prompt.sections.crystal import Crystal
+
+from zshpower.prompt.sections.cmake import CMake
 from zshpower.prompt.sections.perl import Perl
 
 from zshpower.config.cron import cron_task, sync
@@ -83,6 +102,16 @@ class InitCommand(Base):
         Rust().set_version(action="insert")
         Scala().set_version(action="insert")
         Perl().set_version(action="insert")
+        CMake().set_version(action="insert")
+        Crystal().set_version(action="insert")
+        Deno().set_version(action="insert")
+        Erlang().set_version(action="insert")
+        Helm().set_version(action="insert")
+        Kotlin().set_version(action="insert")
+        Nim().set_version(action="insert")
+        Ocaml().set_version(action="insert")
+        Vagrant().set_version(action="insert")
+        Zig().set_version(action="insert")
 
         if arguments["--omz"]:
             omz_install(self.omz_root)

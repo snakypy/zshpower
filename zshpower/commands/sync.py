@@ -2,6 +2,25 @@ import sys
 from sqlite3 import OperationalError
 from snakypy import FG
 from snakypy.console import loading, printer
+from zshpower.prompt.sections.zig import Zig
+
+from zshpower.prompt.sections.vagrant import Vagrant
+
+from zshpower.prompt.sections.ocaml import Ocaml
+
+from zshpower.prompt.sections.nim import Nim
+
+from zshpower.prompt.sections.kotlin import Kotlin
+
+from zshpower.prompt.sections.helm import Helm
+
+from zshpower.prompt.sections.erlang import Erlang
+
+from zshpower.prompt.sections.deno import Deno
+
+from zshpower.prompt.sections.crystal import Crystal
+
+from zshpower.prompt.sections.cmake import CMake
 from zshpower.prompt.sections.perl import Perl
 from zshpower.utils.check import checking_init
 from zshpower.prompt.sections.rust import Rust
@@ -39,6 +58,16 @@ class Sync(Base):
             Rust().set_version(action="update")
             Scala().set_version(action="update")
             Perl().set_version(action="update")
+            CMake().set_version(action="update")
+            Crystal().set_version(action="update")
+            Deno().set_version(action="update")
+            Erlang().set_version(action="update")
+            Helm().set_version(action="update")
+            Kotlin().set_version(action="update")
+            Nim().set_version(action="update")
+            Ocaml().set_version(action="update")
+            Vagrant().set_version(action="update")
+            Zig().set_version(action="update")
             loading(
                 set_time=0.03,
                 bar=False,

@@ -15,7 +15,7 @@ class Perl(Version):
 
     def set_version(self, key="perl", action=None):
         version = run(
-            "perl -version | awk '/version/'",
+            "perl -version | awk '/version/' 2>&1",
             capture_output=True,
             text=True,
             shell=True,

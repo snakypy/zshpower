@@ -13,7 +13,7 @@ class Scala(Version):
 
     def set_version(self, key="scala", action=None):
         version = run(
-            "scalac -version",
+            "scala -version 2>&1",
             capture_output=True,
             text=True,
             shell=True,
@@ -22,6 +22,6 @@ class Scala(Version):
         if not version.replace("\n", ""):
             return False
 
-        version = version.split("-")[0].split()[3]
+        version = version.split("-")[0].split()[4]
 
         return super().set(version, key, action)

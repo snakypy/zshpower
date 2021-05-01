@@ -8,6 +8,8 @@ from contextlib import suppress
 from os.path import isfile
 from subprocess import run
 
+# TODO: REFACTOR
+
 
 class Base:
     def __init__(self, config):
@@ -108,6 +110,11 @@ class Rust(Base):
         return super().__str__()
 
 
+# class CMake:
+#     # CMakeLists.txt
+#     pass
+
+
 class Scala(Base):
     def __init__(self, config):
         Base.__init__(self, config)
@@ -121,10 +128,59 @@ class Scala(Base):
             text=True,
         ).stdout
 
-        scala_package_version = scala_package_version.replace("\n", "")
+        try:
+            scala_package_version = scala_package_version.replace("\n", "").split()[-1]
+        except IndexError:
+            scala_package_version = scala_package_version.replace("\n", "")
 
         if scala_package_version:
             return f"{scala_package_version}{space_elem}"
+        return ""
+
+
+class Crystal(Base):
+    def __init__(self, config):
+        Base.__init__(self, config)
+        self.files = ("shard.yml",)
+
+    def get_version(self, space_elem=" "):
+        crystal_package_version = run(
+            f"""< {self.files[0]} grep "^version: *" | cut -d'"' -f2 | cut -d"'" -f2""",
+            capture_output=True,
+            shell=True,
+            text=True,
+        ).stdout
+
+        try:
+            crystal_package_version = crystal_package_version.replace("\n", "").split()[1]
+        except IndexError:
+            crystal_package_version = crystal_package_version.replace("\n", "")
+
+        if crystal_package_version:
+            return f"{crystal_package_version}{space_elem}"
+        return ""
+
+
+class Helm(Base):
+    def __init__(self, config):
+        Base.__init__(self, config)
+        self.files = ("Chart.yaml",)
+
+    def get_version(self, space_elem=" "):
+        helm_package_version = run(
+            f"""< {self.files[0]} grep "^version: *" | cut -d'"' -f2 | cut -d"'" -f2""",
+            capture_output=True,
+            shell=True,
+            text=True,
+        ).stdout
+
+        try:
+            helm_package_version = helm_package_version.replace("\n", "").split()[1]
+        except IndexError:
+            helm_package_version = helm_package_version.replace("\n", "")
+
+        if helm_package_version:
+            return f"{helm_package_version}{space_elem}"
         return ""
 
 
@@ -139,4 +195,8 @@ def package(config):
         return NodeJS(config)
     elif exists(join(getcwd(), Scala(config).files[0])):
         return Scala(config)
+    elif exists(join(getcwd(), Crystal(config).files[0])):
+        return Crystal(config)
+    elif exists(join(getcwd(), Helm(config).files[0])):
+        return Helm(config)
     return ""

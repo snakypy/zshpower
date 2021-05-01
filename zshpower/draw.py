@@ -1,3 +1,18 @@
+from zshpower.prompt.sections.zig import Zig
+
+from zshpower.prompt.sections.vagrant import Vagrant
+
+from zshpower.prompt.sections.ocaml import Ocaml
+
+from zshpower.prompt.sections.nim import Nim
+
+from zshpower.prompt.sections.kotlin import Kotlin
+
+from zshpower.prompt.sections.helm import Helm
+from zshpower.prompt.sections.erlang import Erlang
+from zshpower.prompt.sections.deno import Deno
+from zshpower.prompt.sections.crystal import Crystal
+from zshpower.prompt.sections.cmake import CMake
 from zshpower.prompt.sections.perl import Perl
 
 try:
@@ -63,7 +78,17 @@ def db_restore():
     Php().set_version(action="insert")
     Ruby().set_version(action="insert")
     Rust().set_version(action="insert")
+    Perl().set_version(action="insert")
     Scala().set_version(action="insert")
+    CMake().set_version(action="insert")
+    Deno().set_version(action="insert")
+    Erlang().set_version(action="insert")
+    Helm().set_version(action="insert")
+    Kotlin().set_version(action="insert")
+    Nim().set_version(action="insert")
+    Ocaml().set_version(action="insert")
+    Vagrant().set_version(action="insert")
+    Zig().set_version(action="insert")
 
 
 def db_fetchall():
@@ -169,6 +194,36 @@ class Draw(DAO):
                 "perl": Perl().get_version(config_loaded, db_reg["perl"])
                 if config_loaded["perl"]["version"]["enable"]
                 else "",
+                "cmake": CMake().get_version(config_loaded, db_reg["cmake"])
+                if config_loaded["cmake"]["version"]["enable"]
+                else "",
+                "crystal": Crystal().get_version(config_loaded, db_reg["crystal"])
+                if config_loaded["crystal"]["version"]["enable"]
+                else "",
+                "deno": Deno().get_version(config_loaded, db_reg["deno"])
+                if config_loaded["deno"]["version"]["enable"]
+                else "",
+                "erlang": Erlang().get_version(config_loaded, db_reg["erlang"])
+                if config_loaded["erlang"]["version"]["enable"]
+                else "",
+                "helm": Helm().get_version(config_loaded, db_reg["helm"])
+                if config_loaded["helm"]["version"]["enable"]
+                else "",
+                "kotlin": Kotlin().get_version(config_loaded, db_reg["kotlin"])
+                if config_loaded["kotlin"]["version"]["enable"]
+                else "",
+                "nim": Nim().get_version(config_loaded, db_reg["nim"])
+                if config_loaded["nim"]["version"]["enable"]
+                else "",
+                "ocaml": Ocaml().get_version(config_loaded, db_reg["ocaml"])
+                if config_loaded["ocaml"]["version"]["enable"]
+                else "",
+                "vagrant": Vagrant().get_version(config_loaded, db_reg["vagrant"])
+                if config_loaded["vagrant"]["version"]["enable"]
+                else "",
+                "zig": Zig().get_version(config_loaded, db_reg["zig"])
+                if config_loaded["zig"]["version"]["enable"]
+                else "",
                 "docker": Docker().get_version(config_loaded, db_reg["docker"])
                 if config_loaded["docker"]["version"]["enable"]
                 else "",
@@ -193,7 +248,7 @@ class Draw(DAO):
                 if item in element
             )
 
-            sections = "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"
+            sections = "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"
             return sections.format(static_section, *ordered_section, cmd)
 
         except (NonExistentKey, UnexpectedCharError, ValueError):

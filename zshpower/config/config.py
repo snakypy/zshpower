@@ -30,6 +30,16 @@ position = [
     "docker",
     "perl",
     "scala",
+    "cmake",
+    "crystal",
+    "deno",
+    "erlang",
+    "helm",
+    "kotlin",
+    "nim",
+    "ocaml",
+    "vagrant",
+    "zig",
     "git"
     ]
 
@@ -129,9 +139,89 @@ prefix.text = "via"
 version.enable = false
 version.micro.enable = true
 
+[helm]
+symbol = "\\ufd31"
+color = "cyan"
+prefix.color = "white"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+
+[deno]
+symbol = "\\u1f995"
+color = "green"
+prefix.color = "white"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+
+[erlang]
+symbol = "\\ue7b1"
+color = "red"
+prefix.color = "white"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+
+[ocaml]
+symbol = "?"
+color = "yellow"
+prefix.color = "white"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+
+[vagrant]
+symbol = "\\ue62b"
+color = "yellow"
+prefix.color = "white"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+
+[zig]
+symbol = "\\u26a1"
+color = "yellow"
+prefix.color = "white"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+
+[nim]
+symbol = "\\uf6a4"
+color = "yellow"
+prefix.color = "white"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+
+[kotlin]
+symbol = "\\ue622"
+color = "blue"
+prefix.color = "white"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+
 [php]
 symbol = "\\ue608"
 color = "magenta"
+prefix.color = "white"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+
+[crystal]
+symbol = "\\uf111"
+color = "magenta"
+prefix.color = "white"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+
+[cmake]
+symbol = "\\ufa35"
+color = "green"
 prefix.color = "white"
 prefix.text = "via"
 version.enable = false
