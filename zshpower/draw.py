@@ -66,7 +66,7 @@ from zshpower.prompt.sections.virtualenv import Virtualenv
 
 
 def db_restore():
-    DAO().create_table("main")
+    DAO().create_table("tbl_main")
     Dart().set_version(action="insert")
     Docker().set_version(action="insert")
     Dotnet().set_version(action="insert")
@@ -93,14 +93,14 @@ def db_restore():
 
 def db_fetchall():
     try:
-        reg = DAO().select_columns(columns=("name", "version"), table="main")
+        reg = DAO().select_columns(columns=("name", "version"), table="tbl_main")
         if not reg:
             db_restore()
-            reg = DAO().select_columns(columns=("name", "version"), table="main")
+            reg = DAO().select_columns(columns=("name", "version"), table="tbl_main")
         return reg
     except (OperationalError, KeyError):
         db_restore()
-        reg = DAO().select_columns(columns=("name", "version"), table="main")
+        reg = DAO().select_columns(columns=("name", "version"), table="tbl_main")
         return reg
 
 

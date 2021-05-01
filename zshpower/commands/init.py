@@ -86,7 +86,7 @@ class InitCommand(Base):
         snakypy_file_create(set_zshpower_content, self.init_file, force=True)
 
         # Create table and database if not exists
-        DAO().create_table("main")
+        DAO().create_table("tbl_main")
 
         # Insert database in database
         Dart().set_version(action="insert")
