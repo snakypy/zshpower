@@ -10,6 +10,8 @@ from snakypy.file import create as snakypy_file_create
 from re import sub as re_sub, M as re_m
 from os.path import join, exists
 from snakypy import printer, FG
+from zshpower import HOME
+from zshpower.config.base import Base
 from zshpower.utils.catch import read_zshrc_omz, read_zshrc
 from sys import platform
 from os.path import isfile
@@ -57,26 +59,19 @@ def create_file_superuser(context=(), filepath=()):
     printer(message, foreground=FG.WARNING)
 
     while not pass_ok:
-
         sudo_password = getpass()
-
         communicate = ()
-        for context_ in context:
-            for filepath_ in filepath:
-
-                command = f"""su -c 'echo "{context_}" > {filepath_}; chmod a+x {filepath_}'"""
-
-                p = Popen(
-                    command,
-                    stdin=PIPE,
-                    stderr=PIPE,
-                    stdout=PIPE,
-                    universal_newlines=True,
-                    shell=True,
-                )
-
-                communicate = p.communicate(sudo_password)
-
+        for item in tuple(zip(context, filepath)):
+            command = f"""su -c 'echo "{item[0]}" > {item[1]}; chmod a+x {Base(HOME).script_sync}'"""
+            p = Popen(
+                command,
+                stdin=PIPE,
+                stderr=PIPE,
+                stdout=PIPE,
+                universal_newlines=True,
+                shell=True,
+            )
+            communicate = p.communicate(sudo_password)
         if "failure" in communicate[1].split():
             printer("Password incorrect.", foreground=FG.ERROR)
         else:

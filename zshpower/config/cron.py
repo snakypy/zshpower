@@ -5,6 +5,9 @@ from zshpower import HOME
 cron_task = f"""
 #!/bin/sh
 
+PATH="~/.local/bin:/bin:/usr/local/bin:\\$PATH"
+export PATH
+
 # Hourly in minute 0
 # 0 * * * * {current_user()} {Base(HOME).script_sync}
 
@@ -20,7 +23,7 @@ cron_task = f"""
 sync = """
 #!/bin/sh
 
-PATH="~/.local/bin:/bin:/usr/local/bin:$PATH"
+PATH="~/.local/bin:/bin:/usr/local/bin:\\$PATH"
 export PATH
 
 zshpower sync
