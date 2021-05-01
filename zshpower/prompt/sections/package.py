@@ -1,10 +1,12 @@
 from os import getcwd
 from os.path import join
-from subprocess import run
 from .lib.utils import symbol_ssh, element_spacing
 from .lib.utils import Color, separator
 from zshpower.utils.catch import find_objects
-from os import getcwd
+from snakypy.json import read as snakypy_json_read
+from contextlib import suppress
+from os.path import isfile
+from subprocess import run
 
 
 class Base:
@@ -19,7 +21,7 @@ class Base:
         self.prefix_text = element_spacing(config["package"]["prefix"]["text"])
 
     def get_version(self):
-        pass
+        return ""
 
     def __str__(self):
         package_version = self.get_version()
@@ -31,7 +33,7 @@ class Base:
             return (
                 f"{separator(self.config)}{prefix}"
                 f"{Color(self.color)}"
-                f"{self.symbol}{self.get_version()}{Color().NONE}"
+                f"{self.symbol}{package_version}{Color().NONE}"
             )
         return ""
 
@@ -72,10 +74,6 @@ class NodeJS(Base):
         self.folders = ("node_modules",)
 
     def get_version(self, space_elem=" "):
-        from snakypy.json import read as snakypy_json_read
-        from contextlib import suppress
-        from os.path import isfile
-
         if isfile(join(getcwd(), self.files[0])):
             with suppress(Exception):
                 parsed = snakypy_json_read(join(getcwd(), self.files[0]))
@@ -93,10 +91,8 @@ class Rust(Base):
         self.files = ("Cargo.toml",)
 
     def get_version(self, space_elem=" "):
-        from subprocess import run
-
         python_package_version = run(
-            f"""< {self.files[0]} grep "^version = *" | cut -d'"' -f2 | cut -d"'" -f2""",
+            f"""< {self.files[0]} grep "^version := *" | cut -d'"' -f2 | cut -d"'" -f2""",
             capture_output=True,
             shell=True,
             text=True,
@@ -112,8 +108,24 @@ class Rust(Base):
         return super().__str__()
 
 
-class Scala:
-    pass
+class Scala(Base):
+    def __init__(self, config):
+        Base.__init__(self, config)
+        self.files = ("build.sbt",)
+
+    def get_version(self, space_elem=" "):
+        scala_package_version = run(
+            f"""< {self.files[0]} grep "^version := *" | cut -d'"' -f2 | cut -d"'" -f2""",
+            capture_output=True,
+            shell=True,
+            text=True,
+        ).stdout
+
+        scala_package_version = scala_package_version.replace("\n", "")
+
+        if scala_package_version:
+            return f"{scala_package_version}{space_elem}"
+        return ""
 
 
 def package(config):
@@ -125,4 +137,6 @@ def package(config):
         return Rust(config)
     elif exists(join(getcwd(), NodeJS(config).files[0])):
         return NodeJS(config)
+    elif exists(join(getcwd(), Scala(config).files[0])):
+        return Scala(config)
     return ""
