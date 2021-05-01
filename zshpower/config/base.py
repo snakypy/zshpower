@@ -11,9 +11,9 @@ class Base:
         )
         self.data_root = f".{package.info['pkg_name']}/.data"
         self.cron_folder = join(home, f".{package.info['pkg_name']}/cron")
-        self.script_sync = "/usr/local/bin/zshpower_sync.sh"
+        self.sync_path = "/usr/local/bin/zshpower_sync.sh"
         self.crontab_root = "/etc/cron.d"
-        self.zshpower_task_file = join(self.crontab_root, "zshpower_task.sh")
+        self.cron_path = join(self.crontab_root, "zshpower_task.sh")
         self.database_name = "db.sqlite3"
         self.init_file = join(self.HOME, f".{package.info['pkg_name']}/init")
         self.config_file = join(self.config_root, "config.toml")

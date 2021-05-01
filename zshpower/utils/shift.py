@@ -10,8 +10,6 @@ from snakypy.file import create as snakypy_file_create
 from re import sub as re_sub, M as re_m
 from os.path import join, exists
 from snakypy import printer, FG
-from zshpower import HOME
-from zshpower.config.base import Base
 from zshpower.utils.catch import read_zshrc_omz, read_zshrc
 from sys import platform
 from os.path import isfile
@@ -47,7 +45,38 @@ def create_zshrc_not_exists(content, zshrc):
         snakypy_file_create(content, zshrc)
 
 
-def create_file_superuser(context=(), filepath=()):
+# def create_file_superuser(context=(), filepath=()):
+#
+#     pass_ok = False
+#
+#     message = """
+#             At this point, you need to INFORM the root password to create the Crontab task.
+#             If you do not want this configuration to be made, you can cancel with Ctrl + C.
+#             """
+#
+#     printer(message, foreground=FG.WARNING)
+#
+#     while not pass_ok:
+#         sudo_password = getpass()
+#         communicate = ()
+#         for item in tuple(zip(context, filepath)):
+#             command = f"""su -c 'echo "{item[0]}" > {item[1]}; chmod a+x {Base(HOME).script_sync}'"""
+#             p = Popen(
+#                 command,
+#                 stdin=PIPE,
+#                 stderr=PIPE,
+#                 stdout=PIPE,
+#                 universal_newlines=True,
+#                 shell=True,
+#             )
+#             communicate = p.communicate(sudo_password)
+#         if "failure" in communicate[1].split():
+#             printer("Password incorrect.", foreground=FG.ERROR)
+#         else:
+#             pass_ok = True
+
+
+def cron_task(sync_context, sync_path, cron_context, cron_path):
 
     pass_ok = False
 
@@ -60,18 +89,19 @@ def create_file_superuser(context=(), filepath=()):
 
     while not pass_ok:
         sudo_password = getpass()
-        communicate = ()
-        for item in tuple(zip(context, filepath)):
-            command = f"""su -c 'echo "{item[0]}" > {item[1]}; chmod a+x {Base(HOME).script_sync}'"""
-            p = Popen(
-                command,
-                stdin=PIPE,
-                stderr=PIPE,
-                stdout=PIPE,
-                universal_newlines=True,
-                shell=True,
-            )
-            communicate = p.communicate(sudo_password)
+
+        command = f"""
+            su -c 'echo "{sync_context}" > {sync_path}; chmod a+x {sync_path}; echo "{cron_context}" > {cron_path};'"""
+        p = Popen(
+            command,
+            stdin=PIPE,
+            stderr=PIPE,
+            stdout=PIPE,
+            universal_newlines=True,
+            shell=True,
+        )
+        communicate = p.communicate(sudo_password)
+
         if "failure" in communicate[1].split():
             printer("Password incorrect.", foreground=FG.ERROR)
         else:

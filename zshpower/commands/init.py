@@ -1,25 +1,15 @@
 from zshpower.prompt.sections.zig import Zig
-
 from zshpower.prompt.sections.vagrant import Vagrant
-
 from zshpower.prompt.sections.ocaml import Ocaml
-
 from zshpower.prompt.sections.nim import Nim
-
 from zshpower.prompt.sections.kotlin import Kotlin
-
 from zshpower.prompt.sections.helm import Helm
-
 from zshpower.prompt.sections.erlang import Erlang
-
 from zshpower.prompt.sections.deno import Deno
-
 from zshpower.prompt.sections.crystal import Crystal
-
 from zshpower.prompt.sections.cmake import CMake
 from zshpower.prompt.sections.perl import Perl
-
-from zshpower.config.cron import cron_task, sync
+from zshpower.config.cron import cron_content, sync_content
 from zshpower.prompt.sections.julia import Julia
 from zshpower.prompt.sections.elixir import Elixir
 from zshpower.prompt.sections.dotnet import Dotnet
@@ -54,7 +44,7 @@ from zshpower.utils.shift import (
     change_theme_in_zshrc,
     add_plugins_zshrc,
     create_zshrc_not_exists,
-    create_file_superuser,
+    cron_task,
 )
 
 
@@ -126,10 +116,7 @@ class InitCommand(Base):
         change_shell()
 
         try:
-            create_file_superuser(
-                context=(sync, cron_task),
-                filepath=(self.script_sync, self.zshpower_task_file),
-            )
+            cron_task(sync_content, self.sync_path, cron_content, self.cron_path)
             printer("Done!", foreground=FG.FINISH) if message else None
 
             if not arguments["--omz"] and not get_line_source(self.zsh_rc):
