@@ -60,7 +60,7 @@ def create_zshrc_not_exists(content, zshrc):
 #         sudo_password = getpass()
 #         communicate = ()
 #         for item in tuple(zip(context, filepath)):
-#             command = f"""su -c 'echo "{item[0]}" > {item[1]}; chmod a+x {Base(HOME).script_sync}'"""
+#             command = f"""su -c 'echo "{item[0]}" > {item[1]}; chmod a+x {item[1]}'"""
 #             p = Popen(
 #                 command,
 #                 stdin=PIPE,
