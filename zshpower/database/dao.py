@@ -70,23 +70,17 @@ class DAO(Base):
     def select_columns(self, /, columns=(), table=None) -> dict:
         sql_ = f"SELECT {','.join(columns)} FROM {table};"
         # sql = sql.replace("(", "").replace(")", "").replace("'", "")
-        try:
-            query = self.query(sql_)
-            data = {key: value for (key, value) in query}
-            self.connection.close()
-            return data
-        except Exception:
-            raise Exception("Error select in database.")
+        query = self.query(sql_)
+        data = {key: value for (key, value) in query}
+        self.connection.close()
+        return data
 
     def select_where(self, table, value, where, select=()):
         sql_ = f"SELECT {','.join(select)} FROM {table} WHERE {where} = '{value}';"
-        try:
-            data = self.query(sql_)
-            self.commit()
-            self.connection.close()
-            return data
-        except Exception:
-            raise Exception("Error select data.")
+        data = self.query(sql_)
+        self.commit()
+        self.connection.close()
+        return data
 
     def insert(self, table, /, columns=(), values=()):
         sql_ = f"INSERT INTO {table} {columns} VALUES {values};"

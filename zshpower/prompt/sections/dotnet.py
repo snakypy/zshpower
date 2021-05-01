@@ -11,7 +11,7 @@ class Dotnet(Version):
     def get_version(self, config, version, key="dotnet", ext=".net-", space_elem=" "):
         return super().get(config, version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, key="docker", action=None):
+    def set_version(self, key="dotnet", action=None):
 
         version = run(
             "dotnet --version 2>/dev/null",

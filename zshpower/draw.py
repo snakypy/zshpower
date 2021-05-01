@@ -66,6 +66,7 @@ from zshpower.prompt.sections.virtualenv import Virtualenv
 
 
 def db_restore():
+    printer("Wait...restoring database...", foreground=FG.WARNING)
     DAO().create_table("tbl_main")
     Dart().set_version(action="insert")
     Docker().set_version(action="insert")
@@ -85,10 +86,12 @@ def db_restore():
     Erlang().set_version(action="insert")
     Helm().set_version(action="insert")
     Kotlin().set_version(action="insert")
+    Crystal().set_version(action="insert")
     Nim().set_version(action="insert")
     Ocaml().set_version(action="insert")
     Vagrant().set_version(action="insert")
     Zig().set_version(action="insert")
+    printer("Restore completed.", foreground=FG.FINISH)
 
 
 def db_fetchall():

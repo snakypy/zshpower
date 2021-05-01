@@ -212,7 +212,7 @@ version.enable = false
 version.micro.enable = true
 
 [crystal]
-symbol = "\\uf111"
+symbol = "\\uf7d7"
 color = "magenta"
 prefix.color = "white"
 prefix.text = "via"
