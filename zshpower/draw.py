@@ -138,7 +138,6 @@ class Draw(DAO):
 
         try:
             if not config_loaded["general"]["jump_line"]["enable"]:
-
                 jump_line = ""
 
             username = (

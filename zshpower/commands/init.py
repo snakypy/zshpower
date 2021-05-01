@@ -63,6 +63,8 @@ class InitCommand(Base):
 
     def main(self, arguments, *, reload=False, message=False):
 
+        printer("Please wait ... assigning settings ...", foreground=FG.WARNING)
+
         tools_requirements("zsh", "vim", "git", "cut", "grep", "whoami")
 
         create_zshrc_not_exists(
