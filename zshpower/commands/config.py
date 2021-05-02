@@ -43,19 +43,3 @@ class ConfigCommand(Base):
             read_config = snakypy_file_read(self.config_file)
             pydoc_pager(read_config)
             return True
-
-        #     try:
-        #         read_conf = snakypy_file_red(self.config_file)
-        #         parsed = toml_parse(read_conf)
-        #         editor_conf = parsed["general"]["config"]["editor"]
-        #     except (FileNotFoundError, Exception):
-        #         editor_conf = False
-        #     if editor_conf:
-        #         editor_run(editor_conf, self.config_file)
-        #     else:
-        #         editors = ("vim", "nano", "emacs", "micro")
-        #         for edt in editors:
-        #             editor_run(edt, self.config_file)
-        # elif arguments["--view"]:
-        #     read_config = snakypy_file_read(self.config_file)
-        #     pydoc_pager(read_config)

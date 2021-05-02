@@ -1,17 +1,16 @@
-from snakypy import printer, FG
 from os.path import join, exists
 from shutil import which
 from zshpower.config import package
 
 
-def is_tool(*args):
+def is_tool(*args) -> bool:
     for tool in args:
         if which(tool) is not None:
             return True
         return False
 
 
-def tools_requirements(*args):
+def tools_requirements(*args) -> None:
     for tool in args:
         if which(tool) is None:
             raise Exception(
@@ -20,15 +19,13 @@ def tools_requirements(*args):
             )
 
 
-def checking_init(home):
+def checking_init(home) -> True or FileNotFoundError:
     """Function that ends commands that depend on the created repository, but
     the repository was not created."""
 
     if not exists(join(home, f".{package.info['pkg_name']}")):
-        printer(
+        raise FileNotFoundError(
             f'Command "{package.info["pkg_name"]} init" has not been started.'
             "Aborted",
-            foreground=FG.WARNING,
         )
-        exit(1)
     return True

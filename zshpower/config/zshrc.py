@@ -102,3 +102,13 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
     """
+
+zshrc_sample = """
+PATH=\\$PATH:~/.local/bin:/bin:/usr/local/bin
+export PATH
+
+autoload -Uz compinit promptinit
+compinit
+promptinit
+PROMPT='%F{{green}}%n%f@%F{{magenta}}%m%f %F{{blue}}%B%~%b%f %# '
+"""

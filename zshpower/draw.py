@@ -1,13 +1,8 @@
 from zshpower.prompt.sections.zig import Zig
-
 from zshpower.prompt.sections.vagrant import Vagrant
-
 from zshpower.prompt.sections.ocaml import Ocaml
-
 from zshpower.prompt.sections.nim import Nim
-
 from zshpower.prompt.sections.kotlin import Kotlin
-
 from zshpower.prompt.sections.helm import Helm
 from zshpower.prompt.sections.erlang import Erlang
 from zshpower.prompt.sections.deno import Deno
@@ -53,16 +48,6 @@ from zshpower.prompt.sections.virtualenv import Virtualenv
 
 # Test timer
 # from zshpower.utils.decorators import runtime
-
-
-# def checking_items_db_config(config, reg):
-#     """ Checking data DB in file configuration."""
-#     config_keys = [i for i in config.keys()]
-#     db_values = [j for i in reg.__dict__.values() for j in i]
-#     for item in db_values:
-#         if item not in config_keys:
-#             return False
-#     return True
 
 
 def db_restore():
@@ -122,11 +107,6 @@ class Draw(DAO):
             create_config(config_content, self.config_file)
             read_conf = snakypy_file_red(self.config_file)
             parsed = toml_parse(read_conf)
-            # printer(
-            #     f"[ZSHPower Warning] A new configuration file for that version "
-            #     f'has been created in "{self.config_root}".',
-            #     foreground=FG.YELLOW,
-            # )
             return parsed
 
     # @runtime
@@ -232,24 +212,13 @@ class Draw(DAO):
                 "git": Git(config_loaded) if config_loaded["git"]["enable"] else "",
             }
             cmd = Command(config_loaded)
-
             static_section = f"{jump_line}{username}{hostname}{directory}"
-
-            # TODO: No List Comprehension/Generator expressions (DEPRECATED)
-            # ordered_section = []
-            # for element in config_loaded["general"]["position"]:
-            #     for item in dinamic_section.keys():
-            #         if item == element:
-            #             # stdout.write(str(dinamic_section[item]))
-            #             ordered_section.append(dinamic_section[item])
-
             ordered_section = (
                 dinamic_section[item]
                 for element in config_loaded["general"]["position"]
                 for item in dinamic_section.keys()
                 if item in element
             )
-
             sections = "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"
             return sections.format(static_section, *ordered_section, cmd)
 

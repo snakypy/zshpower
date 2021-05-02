@@ -1,7 +1,5 @@
-from sys import exit
-from sqlite3 import connect as connect_sqlite, Error
+import sqlite3
 from os.path import join
-from snakypy import printer, FG
 from zshpower.config.base import Base
 from zshpower import HOME
 from zshpower.database.sql import sql
@@ -11,31 +9,28 @@ class DAO(Base):
     def __init__(self):
         try:
             Base.__init__(self, HOME)
-            connection_data = join(HOME, self.data_root, self.database_name)
-            self.conn = connect_sqlite(connection_data)
+            self.conn = sqlite3.connect(self.database_path)
             self.get_cursor = self.conn.cursor()
 
-        except Error:
-            printer(
+        except sqlite3.Connection.Error:
+            raise sqlite3.Connection.Error(
                 "An error occurred while connecting to the database. Make sure that the SQLite database is turned on."
-                "One way to resolve it is by running the command 'zshpower init [--omz]'",
-                foreground=FG.ERROR,
+                "One way to resolve it is by running the command 'zshpower init [--omz]'"
             )
-            exit(1)
 
     def __enter__(self):
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(self, exc_type, exc_val, exc_tb) -> sqlite3.Connection.close:
         self.commit()
         self.connection.close()
 
     @property
-    def connection(self):
+    def connection(self) -> sqlite3.Connection:
         return self.conn
 
     @property
-    def cursor(self):
+    def cursor(self) -> sqlite3.Cursor:
         return self.get_cursor
 
     def commit(self):
@@ -64,38 +59,39 @@ class DAO(Base):
             self.commit()
             self.connection.close()
             return True
-        except FileNotFoundError:
+        except (sqlite3.DatabaseError, sqlite3.DataError):
             return False
 
     def select_columns(self, /, columns=(), table=None) -> dict:
         sql_ = f"SELECT {','.join(columns)} FROM {table};"
-        # sql = sql.replace("(", "").replace(")", "").replace("'", "")
         query = self.query(sql_)
         data = {key: value for (key, value) in query}
         self.connection.close()
         return data
 
-    def select_where(self, table, value, where, select=()):
+    def select_where(self, table, value, where, select=()) -> list:
         sql_ = f"SELECT {','.join(select)} FROM {table} WHERE {where} = '{value}';"
         data = self.query(sql_)
         self.commit()
         self.connection.close()
         return data
 
-    def insert(self, table, /, columns=(), values=()):
+    def insert(self, table, /, columns=(), values=()) -> bool:
         sql_ = f"INSERT INTO {table} {columns} VALUES {values};"
         try:
             self.execute(sql_)
             self.commit()
             self.connection.close()
+            return True
         except Exception:
             raise Exception("Error insert database.")
 
-    def update(self, table, set_, version, where, value):
+    def update(self, table, set_, version, where, value) -> bool:
         sql_ = f"UPDATE {table} SET {set_} = '{version}' WHERE {where} = '{value}';"
         try:
             self.execute(sql_)
             self.commit()
             self.connection.close()
+            return True
         except Exception:
             raise Exception("Error update database.")

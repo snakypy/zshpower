@@ -1,3 +1,4 @@
+from zshpower import __version__
 from zshpower.prompt.sections.zig import Zig
 from zshpower.prompt.sections.vagrant import Vagrant
 from zshpower.prompt.sections.ocaml import Ocaml
@@ -43,7 +44,7 @@ from zshpower.utils.shift import (
     create_zshrc,
     change_theme_in_zshrc,
     add_plugins_zshrc,
-    create_zshrc_not_exists,
+    # create_zshrc_not_exists,
     cron_task,
 )
 
@@ -52,7 +53,7 @@ instruction_not_omz = f"""{FG.YELLOW}
 ********************** WARNING **********************
 Add the following code to the {FG.MAGENTA}$HOME/.zshrc{NONE} {FG.YELLOW}file:
 
-CODE: {FG.CYAN}source $HOME/.zshpower/init {NONE}
+CODE: {FG.CYAN}source $HOME/.zshpower/{__version__}/init.sh {NONE}
 {FG.YELLOW}*****************************************************{NONE}
 """
 
@@ -64,22 +65,15 @@ class InitCommand(Base):
     def main(self, arguments, *, reload=False, message=False):
 
         printer("Please wait ... assigning settings ...", foreground=FG.WARNING)
-
         tools_requirements("zsh", "vim", "git", "cut", "grep", "whoami")
-
-        create_zshrc_not_exists(
-            f". $HOME/.{package.info['pkg_name']}/init", self.zsh_rc
-        )
-
-        snakypy_path_create(self.config_root, self.data_root)
-
+        # create_zshrc_not_exists(
+        #     f". $HOME/.{package.info['pkg_name']}/{__version__}/init.sh", self.zsh_rc
+        # )
+        snakypy_path_create(self.data_root)
         create_config(config_content, self.config_file)
-
         snakypy_file_create(set_zshpower_content, self.init_file, force=True)
-
         # Create table and database if not exists
         DAO().create_table("tbl_main")
-
         # Insert database in database
         Dart().set_version(action="insert")
         Docker().set_version(action="insert")
@@ -114,7 +108,6 @@ class InitCommand(Base):
             snakypy_file_create(set_zshpower_content, self.theme_file, force=True)
 
         install_fonts(self.HOME)
-
         change_shell()
 
         try:

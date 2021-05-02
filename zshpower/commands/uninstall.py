@@ -1,30 +1,20 @@
-from os import remove as os_remove
+from zshpower.config.zshrc import zshrc_sample
+
 from zshpower.config import package
 from zshpower.config.base import Base
-from contextlib import suppress as contextlib_suppress
-from shutil import which as shutil_which
-from subprocess import check_output
-from zshpower.utils.shift import change_theme_in_zshrc, rm_source_zshrc
+from zshpower.utils.shift import (
+    change_theme_in_zshrc,
+    rm_source_zshrc,
+    remove_objects,
+    uninstall_by_pip,
+    backup_copy,
+)
 from zshpower.utils.check import checking_init
-from shutil import copyfile as shutil_copyfile
-from shutil import rmtree as shutil_rmtree
 from zshpower.utils.process import reload_zsh
 from zshpower.utils.catch import read_zshrc_omz
 from snakypy.file import create as snakypy_file_create
 from snakypy.ansi import FG
 from snakypy import printer, pick
-from datetime import datetime
-
-
-def rm_init_file_package(init_file):
-    with contextlib_suppress(Exception):
-        os_remove(init_file)
-    if shutil_which("pip") is not None:
-        check_output(
-            f'pip uninstall {package.info["name"]} -y',
-            shell=True,
-            universal_newlines=True,
-        )
 
 
 class UninstallCommand(Base):
@@ -41,7 +31,8 @@ class UninstallCommand(Base):
             if reply is None or reply[0] == 1:
                 printer("Whew! Thanks! :)", foreground=FG.GREEN)
                 exit(0)
-            rm_init_file_package(self.init_file)
+            remove_objects(objects=(self.init_file, self.data_root))
+            uninstall_by_pip(packages=(package.info["name"],))
             rm_source_zshrc(self.zsh_rc)
         else:
             title = "What did you want to uninstall?"
@@ -52,27 +43,21 @@ class UninstallCommand(Base):
             ]
             reply = pick(title, options, colorful=True, index=True)
 
+            # Cancel
             if reply is None or reply[0] == 2:
                 printer("Whew! Thanks! :)", foreground=FG.GREEN)
                 exit(0)
 
-            with contextlib_suppress(Exception):
-                os_remove(self.theme_file)
-
-            rm_init_file_package(self.init_file)
-
+            remove_objects(objects=(self.theme_file, self.init_file, self.data_root))
+            uninstall_by_pip(packages=(package.info["name"],))
             change_theme_in_zshrc(self.zsh_rc, "robbyrussell")
 
+            # ZSHPower and Oh My ZSH
             if reply[0] == 1:
-                shutil_rmtree(self.omz_root, ignore_errors=True)
-                with contextlib_suppress(Exception):
-                    shutil_copyfile(
-                        self.zsh_rc, f"{self.zsh_rc}-D{datetime.today().isoformat()}"
-                    )
-                with contextlib_suppress(Exception):
-                    os_remove(self.zsh_rc)
+                backup_copy(self.zsh_rc, self.zsh_rc, date=True)
+                remove_objects(objects=(self.omz_root, self.zsh_rc))
 
-            snakypy_file_create("", f"{self.HOME}/.zshrc", force=True)
+            snakypy_file_create(zshrc_sample, self.zsh_rc, force=True)
 
         reload_zsh()
         printer("Uninstall process finished.", foreground=FG.FINISH)

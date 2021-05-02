@@ -1,9 +1,10 @@
+from contextlib import suppress
 from getpass import getpass
-from subprocess import Popen, PIPE
+from subprocess import Popen, PIPE, check_output
 from tomlkit import dumps as toml_dumps
 from tomlkit import parse as toml_parse
 from os.path import isdir
-from shutil import copyfile as shutil_copyfile
+from shutil import copyfile, rmtree, which, SameFileError
 from datetime import datetime
 from snakypy.console import cmd as cmd_snakypy
 from snakypy.file import create as snakypy_file_create
@@ -14,12 +15,12 @@ from zshpower.utils.catch import read_zshrc_omz, read_zshrc
 from sys import platform
 from os.path import isfile
 from zipfile import ZipFile
-from os import remove as os_remove
+from os import remove as os_remove, remove
 from snakypy.path import create as snakypy_path_create
 from zshpower.utils.catch import plugins_current_zshrc
 
 
-def create_config(content, file_path, force=False):
+def create_config(content, file_path, force=False) -> bool:
     if not exists(file_path) or force:
         parsed_toml = toml_parse(content)
         write_toml = toml_dumps(parsed_toml)
@@ -28,10 +29,10 @@ def create_config(content, file_path, force=False):
     return False
 
 
-def create_zshrc(content, zshrc):
+def create_zshrc(content, zshrc) -> bool:
     if exists(zshrc):
         if not read_zshrc_omz(zshrc):
-            shutil_copyfile(zshrc, f"{zshrc}-{datetime.today().isoformat()}")
+            copyfile(zshrc, f"{zshrc}-{datetime.today().isoformat()}")
             snakypy_file_create(content, zshrc, force=True)
             return True
     elif not exists(zshrc):
@@ -40,9 +41,9 @@ def create_zshrc(content, zshrc):
     return False
 
 
-def create_zshrc_not_exists(content, zshrc):
-    if not exists(zshrc):
-        snakypy_file_create(content, zshrc)
+# def create_zshrc_not_exists(content, zshrc):
+#     if not exists(zshrc):
+#         snakypy_file_create(content, zshrc)
 
 
 def cron_task(sync_context, sync_path, cron_context, cron_path):
@@ -79,7 +80,7 @@ def cron_task(sync_context, sync_path, cron_context, cron_path):
                 pass_ok = True
 
 
-def change_theme_in_zshrc(zshrc, theme_name):
+def change_theme_in_zshrc(zshrc, theme_name) -> bool:
     if read_zshrc_omz(zshrc):
         current_zshrc = read_zshrc(zshrc)
         current_theme = read_zshrc_omz(zshrc)[1]
@@ -120,7 +121,7 @@ def omz_install_plugins(omz_root, plugins):
         raise Exception("There was an error installing the plugin")
 
 
-def install_fonts(home, force=False):
+def install_fonts(home, force=False) -> bool:
     url = "https://github.com/snakypy/snakypy-static"
     base_url = "blob/master/zshpower/fonts/fonts.zip?raw=true"
     font_name = "DejaVu Sans Mono Nerd Font"
@@ -153,7 +154,7 @@ def install_fonts(home, force=False):
     return False
 
 
-def add_plugins_zshrc(zshrc):
+def add_plugins_zshrc(zshrc) -> str:
     plugins = (
         "python",
         "django",
@@ -165,12 +166,6 @@ def add_plugins_zshrc(zshrc):
     )
     current = plugins_current_zshrc(zshrc)
 
-    # TODO: No List Comprehension (DEPRECATED)
-    # new_plugins = []
-    # for plugin in plugins:
-    #     if plugin not in current:
-    #         new_plugins.append(plugin)
-
     new_plugins = [plugin for plugin in plugins if plugin not in current]
 
     if len(new_plugins) > 0:
@@ -179,7 +174,7 @@ def add_plugins_zshrc(zshrc):
         new_zsh_rc = re_sub(r"^plugins=\(.*", plugins, current_zshrc, flags=re_m)
         snakypy_file_create(new_zsh_rc, zshrc, force=True)
         return new_zsh_rc
-    return
+    return ""
 
 
 def rm_source_zshrc(zshrc):
@@ -187,3 +182,30 @@ def rm_source_zshrc(zshrc):
     line_rm = "source\\ \\$HOME/.zshpower"
     new_zshrc = re_sub(rf"{line_rm}", "", current_zshrc, flags=re_m)
     snakypy_file_create(new_zshrc, zshrc, force=True)
+
+
+def remove_objects(*, objects=()) -> tuple:
+    with suppress(FileNotFoundError):
+        for item in objects:
+            rmtree(item, ignore_errors=True) if isdir(item) else remove(item)
+    return objects
+
+
+def uninstall_by_pip(*, packages=()) -> tuple:
+    if which("pip") is not None:
+        for pkg in packages:
+            check_output(
+                f"pip uninstall {pkg} -y",
+                shell=True,
+                universal_newlines=True,
+            )
+    return packages
+
+
+def backup_copy(origin, destiny, date=False):
+    if date and len(destiny.split(".")) > 1:
+        destiny_format = f"{'.'.join(destiny.split('.')[:-1])}-D{datetime.today().isoformat()}.{destiny.split('.')[-1]}"
+    else:
+        destiny_format = destiny
+    with suppress(FileNotFoundError, SameFileError):
+        copyfile(origin, destiny_format)

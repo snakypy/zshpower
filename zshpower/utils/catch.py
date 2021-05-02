@@ -14,7 +14,7 @@ from os.path import exists, isdir
 from contextlib import suppress
 
 
-def read_zshrc(zshrc):
+def read_zshrc(zshrc) -> str:
     try:
         with open(zshrc) as f:
             return f.read()
@@ -22,13 +22,13 @@ def read_zshrc(zshrc):
         printer(f"File not found {fnf_err}", foreground=FG.ERROR)
 
 
-def arguments(argv=None):
+def arguments(argv=None) -> dict:
     formatted_version = f"{package.info['name']} version: {FG.CYAN}{__version__}{NONE}"
     data = docopt(menu.options, argv=argv, version=formatted_version)
     return data
 
 
-def read_zshrc_omz(zshrc):
+def read_zshrc_omz(zshrc) -> tuple:
     """ """
     current_zshrc = read_zshrc(zshrc)
     m = re_search(r"ZSH_THEME=\".*", current_zshrc)
@@ -37,21 +37,21 @@ def read_zshrc_omz(zshrc):
         lst = var_zsh_theme.split("=")
         theme_name = [s.strip('"') for s in lst][1]
         return theme_name, var_zsh_theme
-    return
+    return ()
 
 
-def current_shell():
+def current_shell() -> tuple:
     pw = pwd.getpwuid(getuid())
     path_shell = pw[-1]
     shell = str(path_shell).split("/")[-1]
     return shell, path_shell
 
 
-def current_user():
+def current_user() -> str:
     return str(popen("whoami").read()).replace("\n", "")
 
 
-def plugins_current_zshrc(zshrc):
+def plugins_current_zshrc(zshrc) -> list:
     current_zshrc = read_zshrc(zshrc)
     m = re_search(r"^plugins=\(.*", current_zshrc, flags=re_m)
     if m is not None:
@@ -59,16 +59,18 @@ def plugins_current_zshrc(zshrc):
         lst = get.split("=")
         current = [i.strip('"').replace("(", "").replace(")", "") for i in lst][1]
         return current.split()
+    return []
 
 
-def get_line_source(zshrc):
+def get_line_source(zshrc) -> str or tuple:
     current_zshrc = read_zshrc(zshrc)
     m = re_search(r"source \$HOME/.zshpower", current_zshrc)
     if m is not None:
         return m.group(0)
+    return ()
 
 
-def find_objects(directory, /, files=(), folders=(), extension=()):
+def find_objects(directory, /, files=(), folders=(), extension=()) -> bool:
     with suppress(PermissionError):
         for file in os.listdir(directory):
             if folders:

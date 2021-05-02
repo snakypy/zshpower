@@ -6,16 +6,15 @@ from os.path import join
 class Base:
     def __init__(self, home):
         self.HOME = home
-        self.config_root = join(
-            self.HOME, f".{package.info['pkg_name']}/config/{__version__}"
+        self.zshpower_home = join(
+            self.HOME, f".{package.info['pkg_name']}", __version__
         )
-        self.data_root = f".{package.info['pkg_name']}/.data"
-        self.sync_path = "/usr/local/bin/zshpower_sync.sh"
-        self.crontab_root = "/etc/cron.d"
-        self.cron_path = join(self.crontab_root, "zshpower_task.sh")
-        self.database_name = "db.sqlite3"
-        self.init_file = join(self.HOME, f".{package.info['pkg_name']}/init")
-        self.config_file = join(self.config_root, "config.toml")
+        self.config_file = join(self.zshpower_home, "config.toml")
+        self.data_root = join(self.zshpower_home, ".data")
+        self.database_path = join(self.data_root, "db.sqlite3")
+        self.sync_path = f"/usr/local/bin/{package.info['pkg_name']}_sync.sh"
+        self.cron_path = f"/etc/cron.d/{package.info['pkg_name']}_task.sh"
+        self.init_file = join(self.zshpower_home, "init.sh")
         self.zsh_rc = join(self.HOME, ".zshrc")
         self.omz_root = join(self.HOME, ".oh-my-zsh")
         self.themes_folder = join(self.omz_root, "custom/themes")
