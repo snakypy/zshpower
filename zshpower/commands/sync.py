@@ -3,23 +3,14 @@ from sqlite3 import OperationalError
 from snakypy import FG
 from snakypy.console import loading, printer
 from zshpower.prompt.sections.zig import Zig
-
 from zshpower.prompt.sections.vagrant import Vagrant
-
 from zshpower.prompt.sections.ocaml import Ocaml
-
 from zshpower.prompt.sections.nim import Nim
-
 from zshpower.prompt.sections.kotlin import Kotlin
-
 from zshpower.prompt.sections.helm import Helm
-
 from zshpower.prompt.sections.erlang import Erlang
-
 from zshpower.prompt.sections.deno import Deno
-
 from zshpower.prompt.sections.crystal import Crystal
-
 from zshpower.prompt.sections.cmake import CMake
 from zshpower.prompt.sections.perl import Perl
 from zshpower.utils.check import checking_init

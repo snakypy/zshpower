@@ -1,5 +1,4 @@
 import sqlite3
-from os.path import join
 from zshpower.config.base import Base
 from zshpower import HOME
 from zshpower.database.sql import sql
@@ -12,10 +11,10 @@ class DAO(Base):
             self.conn = sqlite3.connect(self.database_path)
             self.get_cursor = self.conn.cursor()
 
-        except sqlite3.Connection.Error:
-            raise sqlite3.Connection.Error(
+        except sqlite3.Error:
+            raise sqlite3.Error(
                 "An error occurred while connecting to the database. Make sure that the SQLite database is turned on."
-                "One way to resolve it is by running the command 'zshpower init [--omz]'"
+                "One way to resolve it is by running the command 'zshpower init [--omz]'\n>"
             )
 
     def __enter__(self):

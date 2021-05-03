@@ -1,15 +1,3 @@
-from zshpower.prompt.sections.zig import Zig
-from zshpower.prompt.sections.vagrant import Vagrant
-from zshpower.prompt.sections.ocaml import Ocaml
-from zshpower.prompt.sections.nim import Nim
-from zshpower.prompt.sections.kotlin import Kotlin
-from zshpower.prompt.sections.helm import Helm
-from zshpower.prompt.sections.erlang import Erlang
-from zshpower.prompt.sections.deno import Deno
-from zshpower.prompt.sections.crystal import Crystal
-from zshpower.prompt.sections.cmake import CMake
-from zshpower.prompt.sections.perl import Perl
-
 try:
     from snakypy import FG, printer
     from tomlkit.exceptions import NonExistentKey, UnexpectedCharError
@@ -45,6 +33,17 @@ from zshpower.prompt.sections.dotnet import Dotnet
 from zshpower.prompt.sections.java import Java
 from zshpower.prompt.sections.dart import Dart
 from zshpower.prompt.sections.virtualenv import Virtualenv
+from zshpower.prompt.sections.zig import Zig
+from zshpower.prompt.sections.vagrant import Vagrant
+from zshpower.prompt.sections.ocaml import Ocaml
+from zshpower.prompt.sections.nim import Nim
+from zshpower.prompt.sections.kotlin import Kotlin
+from zshpower.prompt.sections.helm import Helm
+from zshpower.prompt.sections.erlang import Erlang
+from zshpower.prompt.sections.deno import Deno
+from zshpower.prompt.sections.crystal import Crystal
+from zshpower.prompt.sections.cmake import CMake
+from zshpower.prompt.sections.perl import Perl
 
 # Test timer
 # from zshpower.utils.decorators import runtime
@@ -103,7 +102,7 @@ class Draw(DAO):
             return parsed
 
         except (FileNotFoundError, NonExistentKey):
-            snakypy_path_create(self.config_root)
+            snakypy_path_create(self.zshpower_home)
             create_config(config_content, self.config_file)
             read_conf = snakypy_file_red(self.config_file)
             parsed = toml_parse(read_conf)
@@ -206,6 +205,9 @@ class Draw(DAO):
                 "zig": Zig().get_version(config_loaded, db_reg["zig"])
                 if config_loaded["zig"]["version"]["enable"]
                 else "",
+                # "gulp": Gulp().get_version(config_loaded)
+                # if config_loaded["gulp"]["version"]["enable"]
+                # else "",
                 "docker": Docker().get_version(config_loaded, db_reg["docker"])
                 if config_loaded["docker"]["version"]["enable"]
                 else "",

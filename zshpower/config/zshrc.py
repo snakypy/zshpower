@@ -104,7 +104,7 @@ source $ZSH/oh-my-zsh.sh
     """
 
 zshrc_sample = """
-PATH=\\$PATH:~/.local/bin:/bin:/usr/local/bin
+PATH=\\$PATH:~/.local/bin:/usr/bin:/usr/local/bin
 export PATH
 
 autoload -Uz compinit promptinit

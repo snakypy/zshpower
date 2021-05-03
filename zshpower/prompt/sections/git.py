@@ -1,6 +1,6 @@
-from .lib.utils import Color
-from .lib.utils import element_spacing, symbol_ssh
-from .lib.utils import separator, git_status
+from zshpower.prompt.sections.lib.utils import Color
+from zshpower.prompt.sections.lib.utils import element_spacing, symbol_ssh
+from zshpower.prompt.sections.lib.utils import separator, git_status
 from os import getcwd, environ
 from os.path import join, isdir
 
@@ -9,7 +9,13 @@ class Git:
     def __init__(self, config, icon_space=" "):
 
         self.config = config
-        self.symbol = symbol_ssh(config["git"]["symbol"], "git:")
+        # TODO: ZSHPower version 0.8.0 - In the future, the configuration
+        #  file (config.toml) will no longer be mandatory in ZSHPower, as it
+        #  is necessary to check if there are keys in the configuration file.
+        try:
+            self.symbol = symbol_ssh(config["git"]["symbol"], "git:")
+        except KeyError:
+            self.symbol = symbol_ssh("\uf418", "git:")
         self.color_symbol = config["git"]["color"]["symbol"]
         self.branch_color = config["git"]["branch"]["color"]
         self.prefix_color = config["git"]["prefix"]["color"]

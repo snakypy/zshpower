@@ -1,6 +1,6 @@
 from sys import version_info as sys_version_info
-from .lib.utils import symbol_ssh, element_spacing
-from .lib.utils import Color, separator
+from zshpower.prompt.sections.lib.utils import symbol_ssh, element_spacing
+from zshpower.prompt.sections.lib.utils import Color, separator
 from zshpower.utils.catch import find_objects
 from zshpower.utils.check import is_tool
 from os import environ as os_environ, getcwd

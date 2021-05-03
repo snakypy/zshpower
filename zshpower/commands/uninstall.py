@@ -1,5 +1,4 @@
 from zshpower.config.zshrc import zshrc_sample
-
 from zshpower.config import package
 from zshpower.config.base import Base
 from zshpower.utils.shift import (
@@ -48,6 +47,7 @@ class UninstallCommand(Base):
                 printer("Whew! Thanks! :)", foreground=FG.GREEN)
                 exit(0)
 
+            # Remove default
             remove_objects(objects=(self.theme_file, self.init_file, self.data_root))
             uninstall_by_pip(packages=(package.info["name"],))
             change_theme_in_zshrc(self.zsh_rc, "robbyrussell")

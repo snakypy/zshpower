@@ -20,7 +20,7 @@ from snakypy.path import create as snakypy_path_create
 from zshpower.utils.catch import plugins_current_zshrc
 
 
-def create_config(content, file_path, force=False) -> bool:
+def create_config(content, file_path, *, force=False) -> bool:
     if not exists(file_path) or force:
         parsed_toml = toml_parse(content)
         write_toml = toml_dumps(parsed_toml)
@@ -121,7 +121,7 @@ def omz_install_plugins(omz_root, plugins):
         raise Exception("There was an error installing the plugin")
 
 
-def install_fonts(home, force=False) -> bool:
+def install_fonts(home, *, force=False) -> bool:
     url = "https://github.com/snakypy/snakypy-static"
     base_url = "blob/master/zshpower/fonts/fonts.zip?raw=true"
     font_name = "DejaVu Sans Mono Nerd Font"
@@ -202,10 +202,23 @@ def uninstall_by_pip(*, packages=()) -> tuple:
     return packages
 
 
-def backup_copy(origin, destiny, date=False):
+def backup_copy(origin, destiny, *, date=False):
     if date and len(destiny.split(".")) > 1:
         destiny_format = f"{'.'.join(destiny.split('.')[:-1])}-D{datetime.today().isoformat()}.{destiny.split('.')[-1]}"
     else:
         destiny_format = destiny
     with suppress(FileNotFoundError, SameFileError):
         copyfile(origin, destiny_format)
+
+
+def remove_garbage():
+    pass
+
+
+def verify_kv(element, value):
+    from tomlkit.exceptions import NonExistentKey
+
+    try:
+        return element
+    except NonExistentKey:
+        return value
