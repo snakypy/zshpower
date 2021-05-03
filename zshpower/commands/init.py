@@ -1,3 +1,4 @@
+from os.path import join
 from zshpower import __version__
 from zshpower.prompt.sections.zig import Zig
 from zshpower.prompt.sections.vagrant import Vagrant
@@ -44,8 +45,7 @@ from zshpower.utils.shift import (
     create_zshrc,
     change_theme_in_zshrc,
     add_plugins_zshrc,
-    # create_zshrc_not_exists,
-    cron_task,
+    cron_task, remove_versions_garbage,
 )
 
 
@@ -109,6 +109,7 @@ class InitCommand(Base):
 
         install_fonts(self.HOME)
         change_shell()
+        remove_versions_garbage(join(self.HOME, f".{package.info['pkg_name']}"))
 
         try:
             cron_task(sync_content, self.sync_path, cron_content, self.cron_path)

@@ -1,4 +1,5 @@
 from contextlib import suppress
+from zshpower import __version__
 from getpass import getpass
 from subprocess import Popen, PIPE, check_output
 from tomlkit import dumps as toml_dumps
@@ -15,7 +16,7 @@ from zshpower.utils.catch import read_zshrc_omz, read_zshrc
 from sys import platform
 from os.path import isfile
 from zipfile import ZipFile
-from os import remove as os_remove, remove
+from os import remove, walk
 from snakypy.path import create as snakypy_path_create
 from zshpower.utils.catch import plugins_current_zshrc
 
@@ -32,7 +33,7 @@ def create_config(content, file_path, *, force=False) -> bool:
 def create_zshrc(content, zshrc) -> bool:
     if exists(zshrc):
         if not read_zshrc_omz(zshrc):
-            copyfile(zshrc, f"{zshrc}-{datetime.today().isoformat()}")
+            backup_copy(zshrc, zshrc, date=True, extension=False)
             snakypy_file_create(content, zshrc, force=True)
             return True
     elif not exists(zshrc):
@@ -145,7 +146,7 @@ def install_fonts(home, *, force=False) -> bool:
 
                 with ZipFile(curl_output, "r") as zip_ref:
                     zip_ref.extractall(fonts_dir)
-                    os_remove(curl_output)
+                    remove(curl_output)
                     printer("Done!", foreground=FG.FINISH)
                 return True
             return False
@@ -179,7 +180,7 @@ def add_plugins_zshrc(zshrc) -> str:
 
 def rm_source_zshrc(zshrc):
     current_zshrc = read_zshrc(zshrc)
-    line_rm = "source\\ \\$HOME/.zshpower"
+    line_rm = f"source\\ \\$HOME/.zshpower/{__version__}/init.sh"
     new_zshrc = re_sub(rf"{line_rm}", "", current_zshrc, flags=re_m)
     snakypy_file_create(new_zshrc, zshrc, force=True)
 
@@ -202,23 +203,23 @@ def uninstall_by_pip(*, packages=()) -> tuple:
     return packages
 
 
-def backup_copy(origin, destiny, *, date=False):
-    if date and len(destiny.split(".")) > 1:
-        destiny_format = f"{'.'.join(destiny.split('.')[:-1])}-D{datetime.today().isoformat()}.{destiny.split('.')[-1]}"
-    else:
-        destiny_format = destiny
+def backup_copy(origin, destiny, *, date=False, extension=True):
+    ext = ""
+    if extension:
+        ext = f".{origin.split('.')[-1]}"
+    destiny_format = destiny
+    if date or origin == destiny and not date:
+        destiny_format = f"{destiny}__BACKUP-{datetime.today().isoformat()}{ext}"
     with suppress(FileNotFoundError, SameFileError):
         copyfile(origin, destiny_format)
 
 
-def remove_garbage():
-    pass
+def remove_versions_garbage(path):
+    folders = []
+    for root, dirs, files in walk(path):
+        for item in dirs:
+            folders.append(item)
 
-
-def verify_kv(element, value):
-    from tomlkit.exceptions import NonExistentKey
-
-    try:
-        return element
-    except NonExistentKey:
-        return value
+    for folder in folders:
+        if join(path, folder) != join(path, __version__):
+            rmtree(join(path, folder), ignore_errors=True)
