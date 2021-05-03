@@ -40,6 +40,7 @@ position = [
     "ocaml",
     "vagrant",
     "zig",
+    "gulp",
     "git"
     ]
 
@@ -206,6 +207,14 @@ version.micro.enable = true
 [php]
 symbol = "\\ue608"
 color = "magenta"
+prefix.color = "white"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+
+[gulp]
+symbol = "\\ue763"
+color = "red"
 prefix.color = "white"
 prefix.text = "via"
 version.enable = false
