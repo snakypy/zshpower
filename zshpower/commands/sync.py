@@ -87,7 +87,7 @@ class Sync(Base):
             Thread(target=Zig().set_version, kwargs={"action": "update"}).start()
 
             loading(
-                set_time=0.05,
+                set_time=0.08,
                 bar=False,
                 header="[Synchronizing versions with database ...]",
                 foreground=FG.CYAN,

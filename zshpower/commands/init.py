@@ -1,7 +1,7 @@
 from os.path import join
 from threading import Thread
-
 from snakypy.console import loading
+from zshpower.database.sql import sql
 
 from zshpower import __version__
 from zshpower.prompt.sections.zig import Zig
@@ -78,7 +78,7 @@ class InitCommand(Base):
         create_config(config_content, self.config_file)
         snakypy_file_create(set_zshpower_content, self.init_file, force=True)
         # Create table and database if not exists
-        DAO().create_table("tbl_main")
+        DAO().create_table([item for item in sql().keys()][0])
 
         # Insert database in database
         Thread(target=Dart().set_version, kwargs={"action": "insert"}).start()

@@ -1,9 +1,10 @@
 from contextlib import suppress
-from threading import Thread
 from snakypy import FG, printer
 from tomlkit.exceptions import NonExistentKey, UnexpectedCharError
 from sqlite3 import OperationalError
 from snakypy.utils.decorators import only_for_linux
+from zshpower.database.sql import sql
+
 from zshpower.utils.decorators import silent_errors
 from zshpower.config import package
 from zshpower.database.dao import DAO
@@ -50,7 +51,7 @@ from zshpower.prompt.sections.perl import Perl
 
 def corrupted_db():
     # printer("Wait...restoring database...", foreground=FG.WARNING)
-    # DAO().create_table("tbl_main")
+    # DAO().create_table([item for item in sql().keys()][0])
     # Dart().set_version(action="insert")
     # Docker().set_version(action="insert")
     # Dotnet().set_version(action="insert")
@@ -83,17 +84,19 @@ def corrupted_db():
 
 def db_fetchall():
     try:
-        reg = DAO().select_columns(columns=("name", "version"), table="tbl_main")
+        reg = DAO().select_columns(
+            columns=("name", "version"), table=[item for item in sql().keys()][0]
+        )
         # if not reg:
         #     corrupted_db()
-        #     reg = DAO().select_columns(columns=("name", "version"), table="tbl_main")
+        #     reg = DAO().select_columns(columns=("name", "version"), table=[item for item in sql().keys()][0])
         return reg
     except (KeyError, OperationalError):
         # corrupted_db()
-        # reg = DAO().select_columns(columns=("name", "version"), table="tbl_main")
+        # reg = DAO().select_columns(columns=("name", "version"), table=[item for item in sql().keys()][0])
         # return reg
         return printer(
-            'Database corrupted. Run command: "zshpower init [--omz]" to restore.\n>> ',
+            f'{package.info["name"]} Error: Database corrupted. Run command: "zshpower init [--omz]" to restore.\n>> ',
             foreground=FG.ERROR,
         )
 
@@ -153,75 +156,84 @@ class Draw(DAO):
                     else "",
                     "nodejs": NodeJs().get_version(config_loaded, db_reg["nodejs"])
                     if config_loaded["nodejs"]["version"]["enable"]
+                    and "nodejs" in db_reg
                     else "",
                     "rust": Rust().get_version(config_loaded, db_reg["rust"])
-                    if config_loaded["rust"]["version"]["enable"]
+                    if config_loaded["rust"]["version"]["enable"] and "rust" in db_reg
                     else "",
                     "golang": Golang().get_version(config_loaded, db_reg["golang"])
                     if config_loaded["golang"]["version"]["enable"]
+                    and "golang" in db_reg
                     else "",
                     "ruby": Ruby().get_version(config_loaded, db_reg["ruby"])
-                    if config_loaded["ruby"]["version"]["enable"]
+                    if config_loaded["ruby"]["version"]["enable"] and "ruby" in db_reg
                     else "",
                     "dart": Dart().get_version(config_loaded, db_reg["dart"])
-                    if config_loaded["dart"]["version"]["enable"]
+                    if config_loaded["dart"]["version"]["enable"] and "dart" in db_reg
                     else "",
                     "php": Php().get_version(config_loaded, db_reg["php"])
-                    if config_loaded["php"]["version"]["enable"]
+                    if config_loaded["php"]["version"]["enable"] and "php" in db_reg
                     else "",
                     "java": Java().get_version(config_loaded, db_reg["java"])
-                    if config_loaded["java"]["version"]["enable"]
+                    if config_loaded["java"]["version"]["enable"] and "java" in db_reg
                     else "",
                     "julia": Julia().get_version(config_loaded, db_reg["julia"])
-                    if config_loaded["julia"]["version"]["enable"]
+                    if config_loaded["julia"]["version"]["enable"] and "julia" in db_reg
                     else "",
                     "dotnet": Dotnet().get_version(config_loaded, db_reg["dotnet"])
                     if config_loaded["dotnet"]["version"]["enable"]
+                    and "dotnet" in db_reg
                     else "",
                     "elixir": Elixir().get_version(config_loaded, db_reg["elixir"])
                     if config_loaded["elixir"]["version"]["enable"]
+                    and "elixir" in db_reg
                     else "",
                     "scala": Scala().get_version(config_loaded, db_reg["scala"])
-                    if config_loaded["scala"]["version"]["enable"]
+                    if config_loaded["scala"]["version"]["enable"] and "scala" in db_reg
                     else "",
                     "perl": Perl().get_version(config_loaded, db_reg["perl"])
-                    if config_loaded["perl"]["version"]["enable"]
+                    if config_loaded["perl"]["version"]["enable"] and "perl" in db_reg
                     else "",
                     "cmake": CMake().get_version(config_loaded, db_reg["cmake"])
-                    if config_loaded["cmake"]["version"]["enable"]
+                    if config_loaded["cmake"]["version"]["enable"] and "cmake" in db_reg
                     else "",
                     "crystal": Crystal().get_version(config_loaded, db_reg["crystal"])
                     if config_loaded["crystal"]["version"]["enable"]
+                    and "crystal" in db_reg
                     else "",
                     "deno": Deno().get_version(config_loaded, db_reg["deno"])
-                    if config_loaded["deno"]["version"]["enable"]
+                    if config_loaded["deno"]["version"]["enable"] and "deno" in db_reg
                     else "",
                     "erlang": Erlang().get_version(config_loaded, db_reg["erlang"])
                     if config_loaded["erlang"]["version"]["enable"]
+                    and "erlang" in db_reg
                     else "",
                     "helm": Helm().get_version(config_loaded, db_reg["helm"])
-                    if config_loaded["helm"]["version"]["enable"]
+                    if config_loaded["helm"]["version"]["enable"] and "helm" in db_reg
                     else "",
                     "kotlin": Kotlin().get_version(config_loaded, db_reg["kotlin"])
                     if config_loaded["kotlin"]["version"]["enable"]
+                    and "kotlin" in db_reg
                     else "",
                     "nim": Nim().get_version(config_loaded, db_reg["nim"])
-                    if config_loaded["nim"]["version"]["enable"]
+                    if config_loaded["nim"]["version"]["enable"] and "nim" in db_reg
                     else "",
                     "ocaml": Ocaml().get_version(config_loaded, db_reg["ocaml"])
-                    if config_loaded["ocaml"]["version"]["enable"]
+                    if config_loaded["ocaml"]["version"]["enable"] and "ocaml" in db_reg
                     else "",
                     "vagrant": Vagrant().get_version(config_loaded, db_reg["vagrant"])
                     if config_loaded["vagrant"]["version"]["enable"]
+                    and "vagrant" in db_reg
                     else "",
                     "zig": Zig().get_version(config_loaded, db_reg["zig"])
-                    if config_loaded["zig"]["version"]["enable"]
+                    if config_loaded["zig"]["version"]["enable"] and "zig" in db_reg
                     else "",
                     # "gulp": Gulp().get_version(config_loaded)
                     # if config_loaded["gulp"]["version"]["enable"]
                     # else "",
                     "docker": Docker().get_version(config_loaded, db_reg["docker"])
                     if config_loaded["docker"]["version"]["enable"]
+                    and "docker" in db_reg
                     else "",
                     "git": Git(config_loaded) if config_loaded["git"]["enable"] else "",
                 }

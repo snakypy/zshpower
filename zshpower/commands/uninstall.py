@@ -1,8 +1,6 @@
 from getpass import getpass
 from os.path import exists
 from subprocess import Popen, PIPE
-
-from zshpower.config.base import Base
 from zshpower.config.zshrc import zshrc_sample
 from zshpower.config import package
 from zshpower.config.base import Base

@@ -92,5 +92,9 @@ class DAO(Base):
             self.commit()
             self.connection.close()
             return True
+        except sqlite3.OperationalError as err:
+            raise sqlite3.OperationalError(
+                "Error writing to table. Table does not exist.", err
+            )
         except Exception:
             raise Exception("Error update database.")
