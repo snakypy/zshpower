@@ -1,8 +1,7 @@
-try:
-    from snakypy import FG, printer
-    from tomlkit.exceptions import NonExistentKey, UnexpectedCharError
-except KeyboardInterrupt:
-    pass
+from contextlib import suppress
+from threading import Thread
+from snakypy import FG, printer
+from tomlkit.exceptions import NonExistentKey, UnexpectedCharError
 from sqlite3 import OperationalError
 from snakypy.utils.decorators import only_for_linux
 from zshpower.utils.decorators import silent_errors
@@ -45,50 +44,58 @@ from zshpower.prompt.sections.crystal import Crystal
 from zshpower.prompt.sections.cmake import CMake
 from zshpower.prompt.sections.perl import Perl
 
-# Test timer
+# ## Test timer ## #
 # from zshpower.utils.decorators import runtime
 
 
-def db_restore():
-    printer("Wait...restoring database...", foreground=FG.WARNING)
-    DAO().create_table("tbl_main")
-    Dart().set_version(action="insert")
-    Docker().set_version(action="insert")
-    Dotnet().set_version(action="insert")
-    Elixir().set_version(action="insert")
-    Golang().set_version(action="insert")
-    Java().set_version(action="insert")
-    Julia().set_version(action="insert")
-    NodeJs().set_version(action="insert")
-    Php().set_version(action="insert")
-    Ruby().set_version(action="insert")
-    Rust().set_version(action="insert")
-    Perl().set_version(action="insert")
-    Scala().set_version(action="insert")
-    CMake().set_version(action="insert")
-    Deno().set_version(action="insert")
-    Erlang().set_version(action="insert")
-    Helm().set_version(action="insert")
-    Kotlin().set_version(action="insert")
-    Crystal().set_version(action="insert")
-    Nim().set_version(action="insert")
-    Ocaml().set_version(action="insert")
-    Vagrant().set_version(action="insert")
-    Zig().set_version(action="insert")
-    printer("Restore completed.", foreground=FG.FINISH)
+def corrupted_db():
+    # printer("Wait...restoring database...", foreground=FG.WARNING)
+    # DAO().create_table("tbl_main")
+    # Dart().set_version(action="insert")
+    # Docker().set_version(action="insert")
+    # Dotnet().set_version(action="insert")
+    # Elixir().set_version(action="insert")
+    # Golang().set_version(action="insert")
+    # Java().set_version(action="insert")
+    # Julia().set_version(action="insert")
+    # NodeJs().set_version(action="insert")
+    # Php().set_version(action="insert")
+    # Ruby().set_version(action="insert")
+    # Rust().set_version(action="insert")
+    # Perl().set_version(action="insert")
+    # Scala().set_version(action="insert")
+    # CMake().set_version(action="insert")
+    # Deno().set_version(action="insert")
+    # Erlang().set_version(action="insert")
+    # Helm().set_version(action="insert")
+    # Kotlin().set_version(action="insert")
+    # Crystal().set_version(action="insert")
+    # Nim().set_version(action="insert")
+    # Ocaml().set_version(action="insert")
+    # Vagrant().set_version(action="insert")
+    # Zig().set_version(action="insert")
+    # printer("Restore completed.", foreground=FG.FINISH)
+    printer(
+        'Database corrupted. Run command: "zshpower init [--omz]" to restore.\n>> ',
+        foreground=FG.ERROR,
+    )
 
 
 def db_fetchall():
     try:
         reg = DAO().select_columns(columns=("name", "version"), table="tbl_main")
-        if not reg:
-            db_restore()
-            reg = DAO().select_columns(columns=("name", "version"), table="tbl_main")
+        # if not reg:
+        #     corrupted_db()
+        #     reg = DAO().select_columns(columns=("name", "version"), table="tbl_main")
         return reg
-    except (OperationalError, KeyError):
-        db_restore()
-        reg = DAO().select_columns(columns=("name", "version"), table="tbl_main")
-        return reg
+    except (KeyError, OperationalError):
+        # corrupted_db()
+        # reg = DAO().select_columns(columns=("name", "version"), table="tbl_main")
+        # return reg
+        return printer(
+            'Database corrupted. Run command: "zshpower init [--omz]" to restore.\n>> ',
+            foreground=FG.ERROR,
+        )
 
 
 class Draw(DAO):
@@ -110,124 +117,134 @@ class Draw(DAO):
 
     # @runtime
     def prompt(self, jump_line="\n"):
-        # Loading the settings to a local variable and thus improving performance
-        config_loaded = self.config_load()
-
-        db_reg = db_fetchall()
-
         try:
-            if not config_loaded["general"]["jump_line"]["enable"]:
-                jump_line = ""
+            with suppress(KeyboardInterrupt):
+                # Loading the settings to a local variable and thus improving performance
+                config_loaded = self.config_load()
 
-            username = (
-                Username(config_loaded) if config_loaded["username"]["enable"] else ""
-            )
+                db_reg = db_fetchall()
 
-            hostname = (
-                Hostname(config_loaded) if config_loaded["hostname"]["enable"] else ""
-            )
+                if not config_loaded["general"]["jump_line"]["enable"]:
+                    jump_line = ""
 
-            directory = Directory(config_loaded)
+                username = (
+                    Username(config_loaded)
+                    if config_loaded["username"]["enable"]
+                    else ""
+                )
 
-            dinamic_section = {
-                "virtualenv": Virtualenv(config_loaded)
-                if config_loaded["virtualenv"]["enable"]
-                else "",
-                "python": Python(config_loaded)
-                if config_loaded["python"]["version"]["enable"]
-                else "",
-                "package": pkg_version(config_loaded)
-                if config_loaded["package"]["enable"]
-                else "",
-                "nodejs": NodeJs().get_version(config_loaded, db_reg["nodejs"])
-                if config_loaded["nodejs"]["version"]["enable"]
-                else "",
-                "rust": Rust().get_version(config_loaded, db_reg["rust"])
-                if config_loaded["rust"]["version"]["enable"]
-                else "",
-                "golang": Golang().get_version(config_loaded, db_reg["golang"])
-                if config_loaded["golang"]["version"]["enable"]
-                else "",
-                "ruby": Ruby().get_version(config_loaded, db_reg["ruby"])
-                if config_loaded["ruby"]["version"]["enable"]
-                else "",
-                "dart": Dart().get_version(config_loaded, db_reg["dart"])
-                if config_loaded["dart"]["version"]["enable"]
-                else "",
-                "php": Php().get_version(config_loaded, db_reg["php"])
-                if config_loaded["php"]["version"]["enable"]
-                else "",
-                "java": Java().get_version(config_loaded, db_reg["java"])
-                if config_loaded["java"]["version"]["enable"]
-                else "",
-                "julia": Julia().get_version(config_loaded, db_reg["julia"])
-                if config_loaded["julia"]["version"]["enable"]
-                else "",
-                "dotnet": Dotnet().get_version(config_loaded, db_reg["dotnet"])
-                if config_loaded["dotnet"]["version"]["enable"]
-                else "",
-                "elixir": Elixir().get_version(config_loaded, db_reg["elixir"])
-                if config_loaded["elixir"]["version"]["enable"]
-                else "",
-                "scala": Scala().get_version(config_loaded, db_reg["scala"])
-                if config_loaded["scala"]["version"]["enable"]
-                else "",
-                "perl": Perl().get_version(config_loaded, db_reg["perl"])
-                if config_loaded["perl"]["version"]["enable"]
-                else "",
-                "cmake": CMake().get_version(config_loaded, db_reg["cmake"])
-                if config_loaded["cmake"]["version"]["enable"]
-                else "",
-                "crystal": Crystal().get_version(config_loaded, db_reg["crystal"])
-                if config_loaded["crystal"]["version"]["enable"]
-                else "",
-                "deno": Deno().get_version(config_loaded, db_reg["deno"])
-                if config_loaded["deno"]["version"]["enable"]
-                else "",
-                "erlang": Erlang().get_version(config_loaded, db_reg["erlang"])
-                if config_loaded["erlang"]["version"]["enable"]
-                else "",
-                "helm": Helm().get_version(config_loaded, db_reg["helm"])
-                if config_loaded["helm"]["version"]["enable"]
-                else "",
-                "kotlin": Kotlin().get_version(config_loaded, db_reg["kotlin"])
-                if config_loaded["kotlin"]["version"]["enable"]
-                else "",
-                "nim": Nim().get_version(config_loaded, db_reg["nim"])
-                if config_loaded["nim"]["version"]["enable"]
-                else "",
-                "ocaml": Ocaml().get_version(config_loaded, db_reg["ocaml"])
-                if config_loaded["ocaml"]["version"]["enable"]
-                else "",
-                "vagrant": Vagrant().get_version(config_loaded, db_reg["vagrant"])
-                if config_loaded["vagrant"]["version"]["enable"]
-                else "",
-                "zig": Zig().get_version(config_loaded, db_reg["zig"])
-                if config_loaded["zig"]["version"]["enable"]
-                else "",
-                # "gulp": Gulp().get_version(config_loaded)
-                # if config_loaded["gulp"]["version"]["enable"]
-                # else "",
-                "docker": Docker().get_version(config_loaded, db_reg["docker"])
-                if config_loaded["docker"]["version"]["enable"]
-                else "",
-                "git": Git(config_loaded) if config_loaded["git"]["enable"] else "",
-            }
-            cmd = Command(config_loaded)
-            static_section = f"{jump_line}{username}{hostname}{directory}"
-            ordered_section = (
-                dinamic_section[item]
-                for element in config_loaded["general"]["position"]
-                for item in dinamic_section.keys()
-                if item in element
-            )
-            sections = "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"
-            return sections.format(static_section, *ordered_section, cmd)
+                hostname = (
+                    Hostname(config_loaded)
+                    if config_loaded["hostname"]["enable"]
+                    else ""
+                )
+
+                directory = Directory(config_loaded)
+
+                dinamic_section = {
+                    "virtualenv": Virtualenv(config_loaded)
+                    if config_loaded["virtualenv"]["enable"]
+                    else "",
+                    "python": Python(config_loaded)
+                    if config_loaded["python"]["version"]["enable"]
+                    else "",
+                    "package": pkg_version(config_loaded)
+                    if config_loaded["package"]["enable"]
+                    else "",
+                    "nodejs": NodeJs().get_version(config_loaded, db_reg["nodejs"])
+                    if config_loaded["nodejs"]["version"]["enable"]
+                    else "",
+                    "rust": Rust().get_version(config_loaded, db_reg["rust"])
+                    if config_loaded["rust"]["version"]["enable"]
+                    else "",
+                    "golang": Golang().get_version(config_loaded, db_reg["golang"])
+                    if config_loaded["golang"]["version"]["enable"]
+                    else "",
+                    "ruby": Ruby().get_version(config_loaded, db_reg["ruby"])
+                    if config_loaded["ruby"]["version"]["enable"]
+                    else "",
+                    "dart": Dart().get_version(config_loaded, db_reg["dart"])
+                    if config_loaded["dart"]["version"]["enable"]
+                    else "",
+                    "php": Php().get_version(config_loaded, db_reg["php"])
+                    if config_loaded["php"]["version"]["enable"]
+                    else "",
+                    "java": Java().get_version(config_loaded, db_reg["java"])
+                    if config_loaded["java"]["version"]["enable"]
+                    else "",
+                    "julia": Julia().get_version(config_loaded, db_reg["julia"])
+                    if config_loaded["julia"]["version"]["enable"]
+                    else "",
+                    "dotnet": Dotnet().get_version(config_loaded, db_reg["dotnet"])
+                    if config_loaded["dotnet"]["version"]["enable"]
+                    else "",
+                    "elixir": Elixir().get_version(config_loaded, db_reg["elixir"])
+                    if config_loaded["elixir"]["version"]["enable"]
+                    else "",
+                    "scala": Scala().get_version(config_loaded, db_reg["scala"])
+                    if config_loaded["scala"]["version"]["enable"]
+                    else "",
+                    "perl": Perl().get_version(config_loaded, db_reg["perl"])
+                    if config_loaded["perl"]["version"]["enable"]
+                    else "",
+                    "cmake": CMake().get_version(config_loaded, db_reg["cmake"])
+                    if config_loaded["cmake"]["version"]["enable"]
+                    else "",
+                    "crystal": Crystal().get_version(config_loaded, db_reg["crystal"])
+                    if config_loaded["crystal"]["version"]["enable"]
+                    else "",
+                    "deno": Deno().get_version(config_loaded, db_reg["deno"])
+                    if config_loaded["deno"]["version"]["enable"]
+                    else "",
+                    "erlang": Erlang().get_version(config_loaded, db_reg["erlang"])
+                    if config_loaded["erlang"]["version"]["enable"]
+                    else "",
+                    "helm": Helm().get_version(config_loaded, db_reg["helm"])
+                    if config_loaded["helm"]["version"]["enable"]
+                    else "",
+                    "kotlin": Kotlin().get_version(config_loaded, db_reg["kotlin"])
+                    if config_loaded["kotlin"]["version"]["enable"]
+                    else "",
+                    "nim": Nim().get_version(config_loaded, db_reg["nim"])
+                    if config_loaded["nim"]["version"]["enable"]
+                    else "",
+                    "ocaml": Ocaml().get_version(config_loaded, db_reg["ocaml"])
+                    if config_loaded["ocaml"]["version"]["enable"]
+                    else "",
+                    "vagrant": Vagrant().get_version(config_loaded, db_reg["vagrant"])
+                    if config_loaded["vagrant"]["version"]["enable"]
+                    else "",
+                    "zig": Zig().get_version(config_loaded, db_reg["zig"])
+                    if config_loaded["zig"]["version"]["enable"]
+                    else "",
+                    # "gulp": Gulp().get_version(config_loaded)
+                    # if config_loaded["gulp"]["version"]["enable"]
+                    # else "",
+                    "docker": Docker().get_version(config_loaded, db_reg["docker"])
+                    if config_loaded["docker"]["version"]["enable"]
+                    else "",
+                    "git": Git(config_loaded) if config_loaded["git"]["enable"] else "",
+                }
+                cmd = Command(config_loaded)
+                static_section = f"{jump_line}{username}{hostname}{directory}"
+                ordered_section = (
+                    dinamic_section[item]
+                    for element in config_loaded["general"]["position"]
+                    for item in dinamic_section.keys()
+                    if item in element
+                )
+                sections = "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"
+                return sections.format(static_section, *ordered_section, cmd)
 
         except (NonExistentKey, UnexpectedCharError, ValueError):
             return (
-                f"{FG.ERROR}>>> {package.info['name']} Error: Key error in "
+                f"{FG.ERROR}{package.info['name']} Error: Key error in "
                 f"the configuration file.\n> "
+            )
+        except KeyError:
+            return (
+                f"{FG.ERROR}{package.info['name']} Error: Database records are missing "
+                f"or corrupted. Run the command to correct: \"{package.info['executable']} init [--omz]\".\n>> "
             )
 
     def rprompt(self):

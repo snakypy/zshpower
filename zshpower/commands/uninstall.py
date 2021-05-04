@@ -104,5 +104,3 @@ class UninstallCommand(Base):
                 snakypy_file_create(zshrc_sample, self.zsh_rc, force=True)
 
             finished()
-
-

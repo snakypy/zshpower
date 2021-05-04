@@ -13,13 +13,11 @@ class Directory:
     def __init__(self, config):
         self.username_enable = config["username"]["enable"]
         self.hostname_enable = config["hostname"]["enable"]
-        self.directory_truncate_value = config["directory"]["truncation_length"]
-        self.directory_symbol = symbol_ssh(config["directory"]["symbol"], "")
-        self.directory_color = config["directory"]["color"]
-        self.directory_prefix_color = config["directory"]["prefix"]["color"]
-        self.directory_prefix_text = element_spacing(
-            config["directory"]["prefix"]["text"]
-        )
+        self.truncate_value = config["directory"]["truncation_length"]
+        self.symbol = symbol_ssh(config["directory"]["symbol"], "")
+        self.color = config["directory"]["color"]
+        self.prefix_color = config["directory"]["prefix"]["color"]
+        self.prefix_text = element_spacing(config["directory"]["prefix"]["text"])
 
     def __str__(self, prefix="", space_elem=" "):
         if (
@@ -28,22 +26,19 @@ class Directory:
             or self.hostname_enable
             or "SSH_CONNECTION" in environ
         ):
-            prefix = (
-                f"{Color(self.directory_prefix_color)}"
-                f"{self.directory_prefix_text}{Color().NONE}"
-            )
+            prefix = f"{Color(self.prefix_color)}" f"{self.prefix_text}{Color().NONE}"
 
-        if int(self.directory_truncate_value) < 0:
-            self.directory_truncate_value = 0
-        if int(self.directory_truncate_value) > 4:
-            self.directory_truncate_value = 4
+        if int(self.truncate_value) < 0:
+            self.truncate_value = 0
+        if int(self.truncate_value) > 4:
+            self.truncate_value = 4
 
         # Old "abspath_link()"
-        dir_truncate = str(shorten_path(getcwd(), self.directory_truncate_value))
+        dir_truncate = str(shorten_path(getcwd(), self.truncate_value))
 
         if dir_truncate.split("/")[-1:] == str(Path.home()).split("/")[-1:]:
             dir_truncate = "~"
         return (
-            f"{prefix}{Color(self.directory_color)}{self.directory_symbol}"
+            f"{prefix}{Color(self.color)}{self.symbol}"
             f"{dir_truncate}{space_elem}{Color().NONE}"
         )

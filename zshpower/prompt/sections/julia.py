@@ -11,13 +11,10 @@ class Julia(Version):
         return super().get(config, version, key=key, ext=ext, space_elem=space_elem)
 
     def set_version(self, key="julia", action=None):
-        version = run(
-            "julia --version", capture_output=True, shell=True, text=True
-        ).stdout
+        version = run("julia --version", capture_output=True, shell=True, text=True)
 
-        if not version.replace("\n", ""):
-            return False
+        if version.returncode != 127 and version.returncode != 1:
+            version = version.stdout.replace("\n", "").split(" ")[2]
+            return super().set(version, key, action)
 
-        version = version.replace("\n", "").split(" ")[2]
-
-        return super().set(version, key, action)
+        return False

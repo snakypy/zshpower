@@ -19,9 +19,8 @@ class Nim(Version):
             text=True,
         )
 
-        if not version.returncode == 0:
-            return False
+        if version.returncode != 127 and version.returncode != 1:
+            version = version.stdout.split()[-3]
+            return super().set(version, key, action)
 
-        version = version.stdout.split()[-3]
-
-        return super().set(version, key, action)
+        return False

@@ -16,16 +16,19 @@ class Docker(Version):
             capture_output=True,
             text=True,
             shell=True,
-        ).stdout
-
-        if not version.replace("\n", ""):
-            return False
-
-        version = (
-            version.split("Version")[1].strip().split("\n")[0].replace(":", "").strip()
         )
 
-        return super().set(version, key, action)
+        if version.returncode != 127 and version.returncode != 1:
+            version = (
+                version.stdout.split("Version")[1]
+                .strip()
+                .split("\n")[0]
+                .replace(":", "")
+                .strip()
+            )
+            return super().set(version, key, action)
+
+        return False
 
 
 # TODO: Get version Docker by Shell script (DEPRECATED)

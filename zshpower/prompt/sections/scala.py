@@ -17,11 +17,10 @@ class Scala(Version):
             capture_output=True,
             text=True,
             shell=True,
-        ).stdout
+        )
 
-        if not version.replace("\n", ""):
-            return False
+        if version.returncode != 127 and version.returncode != 1:
+            version = version.stdout.split("-")[0].split()[4]
+            return super().set(version, key, action)
 
-        version = version.split("-")[0].split()[4]
-
-        return super().set(version, key, action)
+        return False

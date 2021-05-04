@@ -20,9 +20,8 @@ class Elixir(Version):
             text=True,
         ).stdout
 
-        if not version.replace("\n", ""):
-            return False
+        if version.replace("\n", ""):
+            version = version.replace("\n", "")
+            return super().set(version, key, action)
 
-        version = version.replace("\n", "")
-
-        return super().set(version, key, action)
+        return False

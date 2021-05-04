@@ -13,11 +13,10 @@ class Golang(Version):
         return super().get(config, version, key=key, ext=ext, space_elem=space_elem)
 
     def set_version(self, key="golang", action=None):
-        version = run("go version", capture_output=True, shell=True, text=True).stdout
+        version = run("go version", capture_output=True, shell=True, text=True)
 
-        if not version.replace("\n", ""):
-            return False
+        if not version.stderr.replace("\n", ""):
+            version = version.stdout.replace("go", "").split(" ")[2]
+            return super().set(version, key, action)
 
-        version = version.replace("go", "").split(" ")[2]
-
-        return super().set(version, key, action)
+        return False

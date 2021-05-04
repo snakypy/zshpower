@@ -21,9 +21,10 @@ class Perl(Version):
             shell=True,
         ).stdout
 
-        if not version.replace("\n", ""):
-            return False
+        if version.replace("\n", ""):
+            version = (
+                version.split()[8].replace("v", "").replace("(", "").replace(")", "")
+            )
+            return super().set(version, key, action)
 
-        version = version.split()[8].replace("v", "").replace("(", "").replace(")", "")
-
-        return super().set(version, key, action)
+        return False

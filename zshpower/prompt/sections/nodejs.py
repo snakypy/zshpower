@@ -12,13 +12,10 @@ class NodeJs(Version):
         return super().get(config, version, key=key, ext=ext, space_elem=space_elem)
 
     def set_version(self, key="nodejs", action=None):
-        version = run(
-            "node -v 2>/dev/null", capture_output=True, shell=True, text=True
-        ).stdout
+        version = run("node -v 2>/dev/null", capture_output=True, shell=True, text=True)
 
-        if not version.replace("\n", ""):
-            return False
+        if version.returncode != 127 and version.returncode != 1:
+            version = version.stdout.replace("\n", "").split("v")[1]
+            return super().set(version, key, action)
 
-        version = version.replace("\n", "").split("v")[1]
-
-        return super().set(version, key, action)
+        return False

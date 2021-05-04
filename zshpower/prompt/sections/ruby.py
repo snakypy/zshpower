@@ -14,11 +14,10 @@ class Ruby(Version):
     def set_version(self, key="ruby", action=None):
         version = run(
             "ruby --version 2>/dev/null", capture_output=True, shell=True, text=True
-        ).stdout
+        )
 
-        version = version.replace("\n", " ").split(" ")[1].split("p")[0]
+        if version.returncode != 127 and version.returncode != 1:
+            version = version.stdout.replace("\n", " ").split(" ")[1].split("p")[0]
+            return super().set(version, key, action)
 
-        if not version:
-            return False
-
-        return super().set(version, key, action)
+        return False

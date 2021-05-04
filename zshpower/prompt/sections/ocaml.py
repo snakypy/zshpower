@@ -15,9 +15,8 @@ class Ocaml(Version):
     def set_version(self, key="ocaml", action=None):
         version = run("ocaml -version 2>&1", capture_output=True, shell=True, text=True)
 
-        if not version.returncode == 0:
-            return False
+        if version.returncode != 127 and version.returncode != 1:
+            version = version.stdout.split()[-1]
+            return super().set(version, key, action)
 
-        version = version.stdout.split()[-1]
-
-        return super().set(version, key, action)
+        return False

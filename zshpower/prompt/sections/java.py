@@ -16,11 +16,10 @@ class Java(Version):
             capture_output=True,
             shell=True,
             text=True,
-        ).stdout
+        )
 
-        if not version.replace("\n", ""):
-            return False
+        if version.stdout.replace("\n", ""):
+            version = version.stdout.replace("\n", "").split("_")[0]
+            return super().set(version, key, action)
 
-        version = version.replace("\n", "").split("_")[0]
-
-        return super().set(version, key, action)
+        return False

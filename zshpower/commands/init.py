@@ -1,4 +1,8 @@
 from os.path import join
+from threading import Thread
+
+from snakypy.console import loading
+
 from zshpower import __version__
 from zshpower.prompt.sections.zig import Zig
 from zshpower.prompt.sections.vagrant import Vagrant
@@ -45,7 +49,8 @@ from zshpower.utils.shift import (
     create_zshrc,
     change_theme_in_zshrc,
     add_plugins_zshrc,
-    cron_task, remove_versions_garbage,
+    cron_task,
+    remove_versions_garbage,
 )
 
 
@@ -64,7 +69,7 @@ class InitCommand(Base):
 
     def main(self, arguments, *, reload=False, message=False):
 
-        printer("Please wait ... assigning settings ...", foreground=FG.WARNING)
+        # printer("Please wait ... assigning settings ...", foreground=FG.WARNING)
         tools_requirements("zsh", "vim", "git", "cut", "grep", "whoami")
         # create_zshrc_not_exists(
         #     f". $HOME/.{package.info['pkg_name']}/{__version__}/init.sh", self.zsh_rc
@@ -74,30 +79,61 @@ class InitCommand(Base):
         snakypy_file_create(set_zshpower_content, self.init_file, force=True)
         # Create table and database if not exists
         DAO().create_table("tbl_main")
+
         # Insert database in database
-        Dart().set_version(action="insert")
-        Docker().set_version(action="insert")
-        Dotnet().set_version(action="insert")
-        Elixir().set_version(action="insert")
-        Golang().set_version(action="insert")
-        Java().set_version(action="insert")
-        Julia().set_version(action="insert")
-        NodeJs().set_version(action="insert")
-        Php().set_version(action="insert")
-        Ruby().set_version(action="insert")
-        Rust().set_version(action="insert")
-        Scala().set_version(action="insert")
-        Perl().set_version(action="insert")
-        CMake().set_version(action="insert")
-        Crystal().set_version(action="insert")
-        Deno().set_version(action="insert")
-        Erlang().set_version(action="insert")
-        Helm().set_version(action="insert")
-        Kotlin().set_version(action="insert")
-        Nim().set_version(action="insert")
-        Ocaml().set_version(action="insert")
-        Vagrant().set_version(action="insert")
-        Zig().set_version(action="insert")
+        Thread(target=Dart().set_version, kwargs={"action": "insert"}).start()
+        Thread(target=Docker().set_version, kwargs={"action": "insert"}).start()
+        Thread(target=Dotnet().set_version, kwargs={"action": "insert"}).start()
+        Thread(target=Elixir().set_version, kwargs={"action": "insert"}).start()
+        Thread(target=Golang().set_version, kwargs={"action": "insert"}).start()
+        Thread(target=Java().set_version, kwargs={"action": "insert"}).start()
+        Thread(target=Julia().set_version, kwargs={"action": "insert"}).start()
+        Thread(target=NodeJs().set_version, kwargs={"action": "insert"}).start()
+        Thread(target=Php().set_version, kwargs={"action": "insert"}).start()
+        Thread(target=Ruby().set_version, kwargs={"action": "insert"}).start()
+        Thread(target=Rust().set_version, kwargs={"action": "insert"}).start()
+        Thread(target=Scala().set_version, kwargs={"action": "insert"}).start()
+        Thread(target=Perl().set_version, kwargs={"action": "insert"}).start()
+        Thread(target=CMake().set_version, kwargs={"action": "insert"}).start()
+        Thread(target=Crystal().set_version, kwargs={"action": "insert"}).start()
+        Thread(target=Deno().set_version, kwargs={"action": "insert"}).start()
+        Thread(target=Erlang().set_version, kwargs={"action": "insert"}).start()
+        Thread(target=Helm().set_version, kwargs={"action": "insert"}).start()
+        Thread(target=Kotlin().set_version, kwargs={"action": "insert"}).start()
+        Thread(target=Nim().set_version, kwargs={"action": "insert"}).start()
+        Thread(target=Ocaml().set_version, kwargs={"action": "insert"}).start()
+        Thread(target=Vagrant().set_version, kwargs={"action": "insert"}).start()
+        Thread(target=Zig().set_version, kwargs={"action": "insert"}).start()
+        loading(
+            set_time=0.38,
+            bar=False,
+            header=["ZSHPower is creating the database. Wait a moment..."],
+            foreground=FG.WARNING,
+        )
+
+        # Dart().set_version(action="insert")
+        # Docker().set_version(action="insert")
+        # Dotnet().set_version(action="insert")
+        # Elixir().set_version(action="insert")
+        # Golang().set_version(action="insert")
+        # Java().set_version(action="insert")
+        # Julia().set_version(action="insert")
+        # NodeJs().set_version(action="insert")
+        # Php().set_version(action="insert")
+        # Ruby().set_version(action="insert")
+        # Rust().set_version(action="insert")
+        # Scala().set_version(action="insert")
+        # Perl().set_version(action="insert")
+        # CMake().set_version(action="insert")
+        # Crystal().set_version(action="insert")
+        # Deno().set_version(action="insert")
+        # Erlang().set_version(action="insert")
+        # Helm().set_version(action="insert")
+        # Kotlin().set_version(action="insert")
+        # Nim().set_version(action="insert")
+        # Ocaml().set_version(action="insert")
+        # Vagrant().set_version(action="insert")
+        # Zig().set_version(action="insert")
 
         if arguments["--omz"]:
             omz_install(self.omz_root)

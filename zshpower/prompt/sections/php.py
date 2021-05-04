@@ -21,7 +21,7 @@ class Php(Version):
 
         version = version.replace("\n", "")
 
-        if not version:
-            return False
+        if version:
+            return super().set(version, key, action)
 
-        return super().set(version, key, action)
+        return False
