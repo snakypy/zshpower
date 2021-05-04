@@ -57,10 +57,10 @@ class Python:
         return ""
 
 
-def _python(config):
-    import concurrent.futures
-
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        future = executor.submit(Python, config)
-        return_value = future.result()
-        return return_value
+# def _python(config):
+#     import concurrent.futures
+#
+#     with concurrent.futures.ThreadPoolExecutor() as executor:
+#         future = executor.submit(Python, config)
+#         return_value = future.result()
+#         return return_value

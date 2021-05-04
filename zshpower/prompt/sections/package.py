@@ -5,7 +5,7 @@ from .lib.utils import Color, separator
 from zshpower.utils.catch import find_objects
 from snakypy.json import read as snakypy_json_read
 from contextlib import suppress
-from os.path import isfile
+from os.path import isfile, exists
 from subprocess import run
 
 # TODO: REFACTOR
@@ -193,19 +193,37 @@ class Helm(Base):
         return ""
 
 
-def package(config):
-    from os.path import exists
+class Package:
+    def __init__(self, config):
+        self.config = config
 
-    if exists(join(getcwd(), Python(config).files[0])):
-        return Python(config)
-    elif exists(join(getcwd(), Rust(config).files[0])):
-        return Rust(config)
-    elif exists(join(getcwd(), NodeJS(config).files[0])):
-        return NodeJS(config)
-    elif exists(join(getcwd(), Scala(config).files[0])):
-        return Scala(config)
-    elif exists(join(getcwd(), Crystal(config).files[0])):
-        return Crystal(config)
-    elif exists(join(getcwd(), Helm(config).files[0])):
-        return Helm(config)
-    return ""
+    def __str__(self):
+        if exists(join(getcwd(), Python(self.config).files[0])):
+            return str(Python(self.config))
+        elif exists(join(getcwd(), Rust(self.config).files[0])):
+            return str(Rust(self.config))
+        elif exists(join(getcwd(), NodeJS(self.config).files[0])):
+            return str(NodeJS(self.config))
+        elif exists(join(getcwd(), Scala(self.config).files[0])):
+            return str(Scala(self.config))
+        elif exists(join(getcwd(), Crystal(self.config).files[0])):
+            return str(Crystal(self.config))
+        elif exists(join(getcwd(), Helm(self.config).files[0])):
+            return str(Helm(self.config))
+        return ""
+
+
+# def package(config):
+#     if exists(join(getcwd(), Python(config).files[0])):
+#         return Python(config)
+#     elif exists(join(getcwd(), Rust(config).files[0])):
+#         return Rust(config)
+#     elif exists(join(getcwd(), NodeJS(config).files[0])):
+#         return NodeJS(config)
+#     elif exists(join(getcwd(), Scala(config).files[0])):
+#         return Scala(config)
+#     elif exists(join(getcwd(), Crystal(config).files[0])):
+#         return Crystal(config)
+#     elif exists(join(getcwd(), Helm(config).files[0])):
+#         return Helm(config)
+#     return ""

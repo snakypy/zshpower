@@ -11,7 +11,7 @@ class ActivateCommand(Base):
     def __init__(self, home):
         Base.__init__(self, home)
 
-    def main(self) -> bool:
+    def run(self) -> bool:
 
         checking_init(self.HOME)
 

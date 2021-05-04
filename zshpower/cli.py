@@ -17,56 +17,56 @@ args = arguments()
 def run_init():
     from zshpower.commands.init import InitCommand
 
-    InitCommand(HOME).main(args, reload=True, message=True)
+    InitCommand(HOME).run(args, reload=True, message=True)
 
 
 @assign_cli(args, "config")
 def run_config():
     from zshpower.commands.config import ConfigCommand
 
-    ConfigCommand(HOME).main(args)
+    ConfigCommand(HOME).run(args)
 
 
 @assign_cli(args, "activate")
 def run_activate():
     from zshpower.commands.activate import ActivateCommand
 
-    ActivateCommand(HOME).main()
+    ActivateCommand(HOME).run()
 
 
 @assign_cli(args, "deactivate")
 def run_deactivate():
     from zshpower.commands.deactivate import DeactivateCommand
 
-    DeactivateCommand(HOME).main(args)
+    DeactivateCommand(HOME).run(args)
 
 
 @assign_cli(args, "reset")
 def run_reset():
     from zshpower.commands.reset import ResetCommand
 
-    ResetCommand(HOME).main()
+    ResetCommand(HOME).run(args)
 
 
 @assign_cli(args, "uninstall")
 def run_uninstall():
     from zshpower.commands.uninstall import UninstallCommand
 
-    UninstallCommand(HOME).main()
+    UninstallCommand(HOME).run()
 
 
 @assign_cli(args, "sync")
 def run_sync():
     from zshpower.commands.sync import Sync
 
-    Sync(HOME).main()
+    Sync(HOME).run()
 
 
 @assign_cli(args, "--credits")
 def run_credits():
     from zshpower.commands.credits import CreditsCommand
 
-    CreditsCommand().main()
+    CreditsCommand().run()
 
 
 @silent_errors

@@ -62,7 +62,7 @@ class UninstallCommand(Base):
     def __init__(self, home):
         Base.__init__(self, home)
 
-    def main(self):
+    def run(self):
         checking_init(self.HOME)
 
         if not read_zshrc_omz(self.zsh_rc):

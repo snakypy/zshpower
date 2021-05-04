@@ -19,10 +19,10 @@ from zshpower.prompt.sections.git import Git
 from zshpower.prompt.sections.hostname import Hostname
 from zshpower.prompt.sections.command import Command
 from zshpower.prompt.sections.username import Username
-from zshpower.prompt.sections.package import package as pkg_version
+from zshpower.prompt.sections.package import Package
 from zshpower.prompt.sections.docker import Docker
-from zshpower.prompt.sections.nodejs import NodeJs, _nodejs
-from zshpower.prompt.sections.python import Python, _python
+from zshpower.prompt.sections.nodejs import NodeJs
+from zshpower.prompt.sections.python import Python
 from zshpower.prompt.sections.rust import Rust
 from zshpower.prompt.sections.golang import Golang
 from zshpower.prompt.sections.php import Php
@@ -45,56 +45,10 @@ from zshpower.prompt.sections.deno import Deno
 from zshpower.prompt.sections.crystal import Crystal
 from zshpower.prompt.sections.cmake import CMake
 from zshpower.prompt.sections.perl import Perl
-
+from zshpower.prompt.sections.timer import Timer
+from sys import argv as sys_argv, stdout
 # ## Test timer ## #
 # from zshpower.utils.decorators import runtime
-
-
-# def corrupted_db():
-#     # printer("Wait...restoring database...", foreground=FG.WARNING)
-#     # DAO().create_table([item for item in sql().keys()][0])
-#     # Dart().set_version(action="insert")
-#     # Docker().set_version(action="insert")
-#     # Dotnet().set_version(action="insert")
-#     # Elixir().set_version(action="insert")
-#     # Golang().set_version(action="insert")
-#     # Java().set_version(action="insert")
-#     # Julia().set_version(action="insert")
-#     # NodeJs().set_version(action="insert")
-#     # Php().set_version(action="insert")
-#     # Ruby().set_version(action="insert")
-#     # Rust().set_version(action="insert")
-#     # Perl().set_version(action="insert")
-#     # Scala().set_version(action="insert")
-#     # CMake().set_version(action="insert")
-#     # Deno().set_version(action="insert")
-#     # Erlang().set_version(action="insert")
-#     # Helm().set_version(action="insert")
-#     # Kotlin().set_version(action="insert")
-#     # Crystal().set_version(action="insert")
-#     # Nim().set_version(action="insert")
-#     # Ocaml().set_version(action="insert")
-#     # Vagrant().set_version(action="insert")
-#     # Zig().set_version(action="insert")
-#     # printer("Restore completed.", foreground=FG.FINISH)
-#     printer(
-#         'Database corrupted. Run command: "zshpower init [--omz]" to restore.\n>> ',
-#         foreground=FG.ERROR,
-#     )
-
-
-# def get_register1():
-#     try:
-#         data = DAO().select_columns(
-#             columns=("name", "version"), table=[item for item in sql().keys()][0]
-#         )
-#         return data
-#     except (KeyError, OperationalError):
-#         return printer(
-#             f'{package.info["name"]} Error: Database corrupted. Run command:
-#             "zshpower init [--omz]" to restore.\n>> ',
-#             foreground=FG.ERROR,
-#         )
 
 
 class Draw(DAO):
@@ -125,14 +79,9 @@ class Draw(DAO):
         except (KeyError, OperationalError):
             return printer(
                 f'{package.info["name"]} Error: Database corrupted. Run command: '
-                f'"zshpower init [--omz]" to restore.\n>> ',
+                f'"zshpower reset --db" to restore.\n>> ',
                 foreground=FG.ERROR,
             )
-
-    # def version(self, instance, key):
-    #     if key in self.register:
-    #         return instance().get_version(self.config, self.register)
-    #     return ""
 
     def version(self, instance, key):
         with ThreadPoolExecutor(max_workers=10) as executor:
@@ -142,11 +91,9 @@ class Draw(DAO):
                 return return_value
             return ""
 
-    # def ret_object(self, instance):
-    #     with ThreadPoolExecutor(max_workers=10) as executor:
-    #         future = executor.submit(instance().get_version, self.config, self.register)
-    #         return_value = future.result()
-    #         return return_value
+    @staticmethod
+    def fn(dic, item):
+        return dic[item]
 
     # @runtime
     def prompt(self):
@@ -158,9 +105,9 @@ class Draw(DAO):
                 directory = Directory(self.config)
                 dinamic_section = {
                     "virtualenv": Virtualenv(self.config),
-                    "python": _python(self.config),
-                    "package": pkg_version(self.config),
-                    "nodejs": self.version(Ocaml, "nodejs"),
+                    "python": Python(self.config),
+                    "package": Package(self.config),
+                    "nodejs": self.version(NodeJs, "nodejs"),
                     "rust": self.version(Rust, "rust"),
                     "golang": self.version(Golang, "golang"),
                     "ruby": self.version(Ruby, "ruby"),
@@ -189,12 +136,23 @@ class Draw(DAO):
 
                 cmd = Command(self.config)
                 static_section = f"{jump_line}{username}{hostname}{directory}"
-                ordered_section = (
-                    dinamic_section[item]
-                    for element in self.config["general"]["position"]
-                    for item in dinamic_section.keys()
-                    if item in element
-                )
+
+                with ThreadPoolExecutor() as executor:
+                    ordered_section = []
+                    for elem in self.config["general"]["position"]:
+                        for item in dinamic_section.keys():
+                            if item == elem:
+                                future = executor.submit(self.fn, dinamic_section, item)
+                                ordered_section.append(future.result())
+
+                # # Using Generators, not ThreadPoolExecutor
+                # ordered_section = (
+                #     dinamic_section[item]
+                #     for element in self.config["general"]["position"]
+                #     for item in dinamic_section.keys()
+                #     if item in element
+                # )
+
                 sections = "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"
                 return sections.format(static_section, *ordered_section, cmd)
 
@@ -206,16 +164,12 @@ class Draw(DAO):
         except KeyError:
             return (
                 f"{FG.ERROR}{package.info['name']} Error: Database records are missing "
-                f"or corrupted. Run the command to correct: \"{package.info['executable']} init [--omz]\".\n>> "
+                f"or corrupted. Run the command to correct: \"{package.info['executable']} reset --db\".\n>> "
             )
 
     def rprompt(self):
         try:
-            from zshpower.prompt.sections.timer import Timer
-
-            config_loaded = self.get_config()
-
-            timer = Timer(config_loaded) if config_loaded["timer"]["enable"] else ""
+            timer = Timer(self.config)
             return str(timer)
         except NonExistentKey:
             return (
@@ -227,8 +181,6 @@ class Draw(DAO):
 @silent_errors
 @only_for_linux
 def main():
-    from sys import argv as sys_argv, stdout
-
     if len(sys_argv) < 2:
         raise TypeError("missing 1 required positional argument")
     if len(sys_argv) == 2 and sys_argv[1] == "prompt":

@@ -11,7 +11,7 @@ class DeactivateCommand(Base):
     def __init__(self, home):
         Base.__init__(self, home)
 
-    def main(self, arguments, *, theme_name="robbyrussell") -> bool:
+    def run(self, arguments, *, theme_name="robbyrussell") -> bool:
 
         checking_init(self.HOME)
 
