@@ -13,7 +13,7 @@ Usage:
     {package.info['executable']} config (--open | --view)
     {package.info['executable']} activate
     {package.info['executable']} deactivate [--theme=<name>]
-    {package.info['executable']} reset
+    {package.info['executable']} reset (--config | --db)
     {package.info['executable']} uninstall
     {package.info['executable']} --help
     {package.info['executable']} --version
@@ -34,6 +34,8 @@ Options:
     {FG.CYAN}--open{NONE} --------- Open the configuration file in edit mode and perform the automatic update
                      when you exit.
     {FG.CYAN}--view{NONE} --------- View the configuration file on the terminal.
+    {FG.CYAN}--config{NONE} ------- Restores the configuration file.
+    {FG.CYAN}--db{NONE} ----------- Restores the database.
     {FG.CYAN}--theme=<name>{NONE} - Get the name of a theme available on Oh My ZSH [Default: {dt_omz}].
     {FG.CYAN}--version{NONE} ------ Show version.
     {FG.CYAN}--credits{NONE} ------ Show credits.
