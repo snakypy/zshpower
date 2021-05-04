@@ -47,7 +47,9 @@ class Python:
                     )
                     or "VIRTUAL_ENV" in os_environ
                 ):
-                    prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
+                    prefix = (
+                        f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
+                    )
 
                     return str(
                         f"{separator(self.config)}{prefix}"

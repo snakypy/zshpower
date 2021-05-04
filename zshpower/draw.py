@@ -47,6 +47,7 @@ from zshpower.prompt.sections.cmake import CMake
 from zshpower.prompt.sections.perl import Perl
 from zshpower.prompt.sections.timer import Timer
 from sys import argv as sys_argv, stdout
+
 # ## Test timer ## #
 # from zshpower.utils.decorators import runtime
 
@@ -86,7 +87,9 @@ class Draw(DAO):
     def version(self, instance, key):
         with ThreadPoolExecutor(max_workers=10) as executor:
             if key in self.register:
-                future = executor.submit(instance().get_version, self.config, self.register)
+                future = executor.submit(
+                    instance().get_version, self.config, self.register
+                )
                 return_value = future.result()
                 return return_value
             return ""

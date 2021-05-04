@@ -30,9 +30,14 @@ class Base:
         if self.enable:
             package_version = self.get_version()
             if package_version and find_objects(
-                getcwd(), files=self.files, folders=self.folders, extension=self.extensions
+                getcwd(),
+                files=self.files,
+                folders=self.folders,
+                extension=self.extensions,
             ):
-                prefix = f"{Color(self.prefix_color)}" f"{self.prefix_text}{Color().NONE}"
+                prefix = (
+                    f"{Color(self.prefix_color)}" f"{self.prefix_text}{Color().NONE}"
+                )
                 return (
                     f"{separator(self.config)}{prefix}"
                     f"{Color(self.color)}"
@@ -134,7 +139,9 @@ class Scala(Base):
             ).stdout
 
             try:
-                scala_package_version = scala_package_version.replace("\n", "").split()[-1]
+                scala_package_version = scala_package_version.replace("\n", "").split()[
+                    -1
+                ]
             except IndexError:
                 scala_package_version = scala_package_version.replace("\n", "")
 
@@ -158,9 +165,9 @@ class Crystal(Base):
             ).stdout
 
             try:
-                crystal_package_version = crystal_package_version.replace("\n", "").split()[
-                    1
-                ]
+                crystal_package_version = crystal_package_version.replace(
+                    "\n", ""
+                ).split()[1]
             except IndexError:
                 crystal_package_version = crystal_package_version.replace("\n", "")
 
