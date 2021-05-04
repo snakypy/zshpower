@@ -16,6 +16,7 @@ class Git:
             self.symbol = symbol_ssh(config["git"]["symbol"], "git:")
         except KeyError:
             self.symbol = symbol_ssh("\uf418", "git:")
+        self.enable = config["git"]["enable"]
         self.color_symbol = config["git"]["color"]["symbol"]
         self.branch_color = config["git"]["branch"]["color"]
         self.prefix_color = config["git"]["prefix"]["color"]
@@ -104,7 +105,7 @@ class Git:
         self.icons["UD"] = self.icons["UU"]
 
     def __str__(self):
-        if isdir(join(getcwd(), ".git")):
+        if isdir(join(getcwd(), ".git")) and self.enable:
             status_git = git_status(porcelain=True)
             status_git_text = git_status()
             branch_current = git_status(branch=True)

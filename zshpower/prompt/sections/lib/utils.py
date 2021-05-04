@@ -70,33 +70,35 @@ class Version(DAO):
         self.files = ()
         self.folders = ()
 
-    def get(self, config, version, key="", ext="", space_elem=""):
+    def get(self, config, register, key="", ext="", space_elem=""):
+        enable = config[key]["version"]["enable"]
         symbol = symbol_ssh(config[key]["symbol"], ext)
         color = config[key]["color"]
         prefix_color = config[key]["prefix"]["color"]
         prefix_text = element_spacing(config[key]["prefix"]["text"])
         micro_version_enable = config[key]["version"]["micro"]["enable"]
 
-        if version and find_objects(
-            getcwd(),
-            files=self.files,
-            folders=self.folders,
-            extension=self.extensions,
-        ):
-            prefix = f"{Color(prefix_color)}{prefix_text}{Color().NONE}"
+        if enable:
+            if register[key] and find_objects(
+                getcwd(),
+                files=self.files,
+                folders=self.folders,
+                extension=self.extensions,
+            ):
+                prefix = f"{Color(prefix_color)}{prefix_text}{Color().NONE}"
 
-            if micro_version_enable:
-                version_format = f"{'{0[0]}.{0[1]}.{0[2]}'.format(version.split('.'))}{space_elem}"
-            else:
-                version_format = f"{'{0[0]}.{0[1]}'.format(version.split('.'))}{space_elem}"
+                if micro_version_enable:
+                    version_format = f"{'{0[0]}.{0[1]}.{0[2]}'.format(register[key].split('.'))}{space_elem}"
+                else:
+                    version_format = f"{'{0[0]}.{0[1]}'.format(register[key].split('.'))}{space_elem}"
 
-            return str(
-                (
-                    f"{separator(config)}{prefix}"
-                    f"{Color(color)}{symbol}"
-                    f"{version_format}{Color().NONE}"
+                return str(
+                    (
+                        f"{separator(config)}{prefix}"
+                        f"{Color(color)}{symbol}"
+                        f"{version_format}{Color().NONE}"
+                    )
                 )
-            )
         return ""
 
     @staticmethod

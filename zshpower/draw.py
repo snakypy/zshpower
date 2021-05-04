@@ -20,8 +20,8 @@ from zshpower.prompt.sections.command import Command
 from zshpower.prompt.sections.username import Username
 from zshpower.prompt.sections.package import package as pkg_version
 from zshpower.prompt.sections.docker import Docker
-from zshpower.prompt.sections.nodejs import NodeJs
-from zshpower.prompt.sections.python import Python
+from zshpower.prompt.sections.nodejs import NodeJs, _nodejs
+from zshpower.prompt.sections.python import Python, _python
 from zshpower.prompt.sections.rust import Rust
 from zshpower.prompt.sections.golang import Golang
 from zshpower.prompt.sections.php import Php
@@ -82,15 +82,15 @@ def corrupted_db():
     )
 
 
-def db_fetchall():
+def get_register():
     try:
-        reg = DAO().select_columns(
+        data = DAO().select_columns(
             columns=("name", "version"), table=[item for item in sql().keys()][0]
         )
-        # if not reg:
+        # if not data:
         #     corrupted_db()
-        #     reg = DAO().select_columns(columns=("name", "version"), table=[item for item in sql().keys()][0])
-        return reg
+        #     data = DAO().select_columns(columns=("name", "version"), table=[item for item in sql().keys()][0])
+        return data
     except (KeyError, OperationalError):
         # corrupted_db()
         # reg = DAO().select_columns(columns=("name", "version"), table=[item for item in sql().keys()][0])
@@ -104,8 +104,10 @@ def db_fetchall():
 class Draw(DAO):
     def __init__(self):
         DAO.__init__(self)
+        self.config = self.get_config()
+        self.register = get_register()
 
-    def config_load(self):
+    def get_config(self):
         try:
             read_conf = snakypy_file_red(self.config_file)
             parsed = toml_parse(read_conf)
@@ -118,130 +120,72 @@ class Draw(DAO):
             parsed = toml_parse(read_conf)
             return parsed
 
+    # def version(self, instance, key):
+    #     if key in self.register:
+    #         return instance().get_version(self.config, self.register)
+    #     return ""
+
+    def version(self, instance, key):
+        import concurrent.futures
+        with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+            if key in self.register:
+                future = executor.submit(instance().get_version, self.config, self.register)
+                return_value = future.result()
+                return return_value
+            return ""
+
     # @runtime
     def prompt(self, jump_line="\n"):
         try:
             with suppress(KeyboardInterrupt):
-                # Loading the settings to a local variable and thus improving performance
-                config_loaded = self.config_load()
-
-                db_reg = db_fetchall()
-
-                if not config_loaded["general"]["jump_line"]["enable"]:
-                    jump_line = ""
-
-                username = (
-                    Username(config_loaded)
-                    if config_loaded["username"]["enable"]
-                    else ""
+                jump_line = (
+                    "" if not self.config["general"]["jump_line"]["enable"] else jump_line
                 )
-
-                hostname = (
-                    Hostname(config_loaded)
-                    if config_loaded["hostname"]["enable"]
-                    else ""
-                )
-
-                directory = Directory(config_loaded)
-
+                username = Username(self.config) if self.config["username"]["enable"] else ""
+                hostname = Hostname(self.config) if self.config["hostname"]["enable"] else ""
+                directory = Directory(self.config)
                 dinamic_section = {
-                    "virtualenv": Virtualenv(config_loaded)
-                    if config_loaded["virtualenv"]["enable"]
+                    "virtualenv": Virtualenv(self.config)
+                    if self.config["virtualenv"]["enable"]
                     else "",
-                    "python": Python(config_loaded)
-                    if config_loaded["python"]["version"]["enable"]
+                    "python": _python(self.config)
+                    if self.config["python"]["version"]["enable"]
                     else "",
-                    "package": pkg_version(config_loaded)
-                    if config_loaded["package"]["enable"]
+                    "package": pkg_version(self.config)
+                    if self.config["package"]["enable"]
                     else "",
-                    "nodejs": NodeJs().get_version(config_loaded, db_reg["nodejs"])
-                    if config_loaded["nodejs"]["version"]["enable"]
-                    and "nodejs" in db_reg
-                    else "",
-                    "rust": Rust().get_version(config_loaded, db_reg["rust"])
-                    if config_loaded["rust"]["version"]["enable"] and "rust" in db_reg
-                    else "",
-                    "golang": Golang().get_version(config_loaded, db_reg["golang"])
-                    if config_loaded["golang"]["version"]["enable"]
-                    and "golang" in db_reg
-                    else "",
-                    "ruby": Ruby().get_version(config_loaded, db_reg["ruby"])
-                    if config_loaded["ruby"]["version"]["enable"] and "ruby" in db_reg
-                    else "",
-                    "dart": Dart().get_version(config_loaded, db_reg["dart"])
-                    if config_loaded["dart"]["version"]["enable"] and "dart" in db_reg
-                    else "",
-                    "php": Php().get_version(config_loaded, db_reg["php"])
-                    if config_loaded["php"]["version"]["enable"] and "php" in db_reg
-                    else "",
-                    "java": Java().get_version(config_loaded, db_reg["java"])
-                    if config_loaded["java"]["version"]["enable"] and "java" in db_reg
-                    else "",
-                    "julia": Julia().get_version(config_loaded, db_reg["julia"])
-                    if config_loaded["julia"]["version"]["enable"] and "julia" in db_reg
-                    else "",
-                    "dotnet": Dotnet().get_version(config_loaded, db_reg["dotnet"])
-                    if config_loaded["dotnet"]["version"]["enable"]
-                    and "dotnet" in db_reg
-                    else "",
-                    "elixir": Elixir().get_version(config_loaded, db_reg["elixir"])
-                    if config_loaded["elixir"]["version"]["enable"]
-                    and "elixir" in db_reg
-                    else "",
-                    "scala": Scala().get_version(config_loaded, db_reg["scala"])
-                    if config_loaded["scala"]["version"]["enable"] and "scala" in db_reg
-                    else "",
-                    "perl": Perl().get_version(config_loaded, db_reg["perl"])
-                    if config_loaded["perl"]["version"]["enable"] and "perl" in db_reg
-                    else "",
-                    "cmake": CMake().get_version(config_loaded, db_reg["cmake"])
-                    if config_loaded["cmake"]["version"]["enable"] and "cmake" in db_reg
-                    else "",
-                    "crystal": Crystal().get_version(config_loaded, db_reg["crystal"])
-                    if config_loaded["crystal"]["version"]["enable"]
-                    and "crystal" in db_reg
-                    else "",
-                    "deno": Deno().get_version(config_loaded, db_reg["deno"])
-                    if config_loaded["deno"]["version"]["enable"] and "deno" in db_reg
-                    else "",
-                    "erlang": Erlang().get_version(config_loaded, db_reg["erlang"])
-                    if config_loaded["erlang"]["version"]["enable"]
-                    and "erlang" in db_reg
-                    else "",
-                    "helm": Helm().get_version(config_loaded, db_reg["helm"])
-                    if config_loaded["helm"]["version"]["enable"] and "helm" in db_reg
-                    else "",
-                    "kotlin": Kotlin().get_version(config_loaded, db_reg["kotlin"])
-                    if config_loaded["kotlin"]["version"]["enable"]
-                    and "kotlin" in db_reg
-                    else "",
-                    "nim": Nim().get_version(config_loaded, db_reg["nim"])
-                    if config_loaded["nim"]["version"]["enable"] and "nim" in db_reg
-                    else "",
-                    "ocaml": Ocaml().get_version(config_loaded, db_reg["ocaml"])
-                    if config_loaded["ocaml"]["version"]["enable"] and "ocaml" in db_reg
-                    else "",
-                    "vagrant": Vagrant().get_version(config_loaded, db_reg["vagrant"])
-                    if config_loaded["vagrant"]["version"]["enable"]
-                    and "vagrant" in db_reg
-                    else "",
-                    "zig": Zig().get_version(config_loaded, db_reg["zig"])
-                    if config_loaded["zig"]["version"]["enable"] and "zig" in db_reg
-                    else "",
-                    # "gulp": Gulp().get_version(config_loaded)
-                    # if config_loaded["gulp"]["version"]["enable"]
-                    # else "",
-                    "docker": Docker().get_version(config_loaded, db_reg["docker"])
-                    if config_loaded["docker"]["version"]["enable"]
-                    and "docker" in db_reg
-                    else "",
-                    "git": Git(config_loaded) if config_loaded["git"]["enable"] else "",
+                    "nodejs": self.version(Ocaml, "nodejs"),
+                    "rust": self.version(Rust, "rust"),
+                    "golang": self.version(Golang, "golang"),
+                    "ruby": self.version(Ruby, "ruby"),
+                    "dart": self.version(Dart, "dart"),
+                    "php": self.version(Php, "php"),
+                    "java": self.version(Java, "java"),
+                    "julia": self.version(Julia, "julia"),
+                    "dotnet": self.version(Dotnet, "dotnet"),
+                    "elixir": self.version(Elixir, "elixir"),
+                    "scala": self.version(Scala, "scala"),
+                    "perl": self.version(Perl, "perl"),
+                    "cmake": self.version(CMake, "cmake"),
+                    "crystal": self.version(Crystal, "crystal"),
+                    "deno": self.version(Deno, "deno"),
+                    "erlang": self.version(Erlang, "erlang"),
+                    "helm": self.version(Helm, "helm"),
+                    "kotlin": self.version(Kotlin, "kotlin"),
+                    "nim": self.version(Nim, "nim"),
+                    "ocaml": self.version(Ocaml, "ocaml"),
+                    "vagrant": self.version(Vagrant, "vagrant"),
+                    "zig": self.version(Zig, "zig"),
+                    # # "gulp": Gulp().get_version(config_loaded),
+                    "docker": self.version(Docker, "docker"),
+                    "git": Git(self.config),
                 }
-                cmd = Command(config_loaded)
+
+                cmd = Command(self.config)
                 static_section = f"{jump_line}{username}{hostname}{directory}"
                 ordered_section = (
                     dinamic_section[item]
-                    for element in config_loaded["general"]["position"]
+                    for element in self.config["general"]["position"]
                     for item in dinamic_section.keys()
                     if item in element
                 )
@@ -263,7 +207,7 @@ class Draw(DAO):
         try:
             from zshpower.prompt.sections.timer import Timer
 
-            config_loaded = self.config_load()
+            config_loaded = self.get_config()
 
             timer = Timer(config_loaded) if config_loaded["timer"]["enable"] else ""
             return str(timer)
