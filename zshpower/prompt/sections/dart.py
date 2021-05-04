@@ -24,26 +24,3 @@ class Dart(Version):
         version = version.stdout.replace("\n", "").split(" ")[3]
 
         return super().set(version, key, action)
-
-
-# from threading import Thread
-# from time import sleep
-#
-# def a():
-#     with open() as f:
-#         f.write()
-#     return "a"
-#
-#
-# def b():
-#     x = a()
-#     return "b", x
-#
-#
-# def c():
-#     x = a()
-#     return "c", x
-#
-# Thread(target=a).start()
-# Thread(target=b).start()
-# Thread(target=c).start()

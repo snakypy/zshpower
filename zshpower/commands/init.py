@@ -2,7 +2,6 @@ from os.path import join
 from threading import Thread
 from snakypy.console import loading
 from zshpower.database.sql import sql
-
 from zshpower import __version__
 from zshpower.prompt.sections.zig import Zig
 from zshpower.prompt.sections.vagrant import Vagrant
@@ -68,6 +67,7 @@ class InitCommand(Base):
         Base.__init__(self, home)
 
     def main(self, arguments, *, reload=False, message=False):
+        # threaded_start = time.time()
 
         # printer("Please wait ... assigning settings ...", foreground=FG.WARNING)
         tools_requirements("zsh", "vim", "git", "cut", "grep", "whoami")
@@ -104,11 +104,11 @@ class InitCommand(Base):
         Thread(target=Ocaml().set_version, kwargs={"action": "insert"}).start()
         Thread(target=Vagrant().set_version, kwargs={"action": "insert"}).start()
         Thread(target=Zig().set_version, kwargs={"action": "insert"}).start()
+        # time.sleep(2)
         loading(
-            set_time=0.38,
             bar=False,
-            header=["ZSHPower is creating the database. Wait a moment..."],
-            foreground=FG.WARNING,
+            header="ZSHPower is creating the database. Wait a moment...",
+            foreground=FG.QUESTION,
         )
 
         # Dart().set_version(action="insert")
@@ -165,3 +165,5 @@ class InitCommand(Base):
 
             if reload:
                 reload_zsh()
+
+        # print("Threaded time:", time.time() - threaded_start)

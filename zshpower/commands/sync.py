@@ -1,7 +1,6 @@
 import sys
 from sqlite3 import OperationalError
 from threading import Thread
-
 from snakypy import FG
 from snakypy.console import loading, printer
 from zshpower.prompt.sections.zig import Zig
@@ -85,13 +84,12 @@ class Sync(Base):
             Thread(target=Ocaml().set_version, kwargs={"action": "update"}).start()
             Thread(target=Vagrant().set_version, kwargs={"action": "update"}).start()
             Thread(target=Zig().set_version, kwargs={"action": "update"}).start()
-
             loading(
-                set_time=0.08,
                 bar=False,
-                header="[Synchronizing versions with database ...]",
-                foreground=FG.CYAN,
+                header="Synchronizing versions with database ...",
+                foreground=FG.QUESTION,
             )
+
             printer("Done!", foreground=FG.FINISH)
         except OperationalError:
             printer("The database does not exist or is corrupted.", foreground=FG.ERROR)
