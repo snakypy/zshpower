@@ -10,6 +10,7 @@ class Python:
     def __init__(self, config):
 
         self.config = config
+        self.enable = config["python"]["version"]["enable"]
         self.files = (
             "__pycache__",
             "manage.py",
@@ -35,23 +36,24 @@ class Python:
 
     def __str__(self):
 
-        if is_tool("python", f"python{'{0[0]}'.format(sys_version_info)}"):
-            if (
-                find_objects(
-                    getcwd(),
-                    files=self.files,
-                    folders=self.folders,
-                    extension=self.extensions,
-                )
-                or "VIRTUAL_ENV" in os_environ
-            ):
-                prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
+        if self.enable:
+            if is_tool("python", f"python{'{0[0]}'.format(sys_version_info)}"):
+                if (
+                    find_objects(
+                        getcwd(),
+                        files=self.files,
+                        folders=self.folders,
+                        extension=self.extensions,
+                    )
+                    or "VIRTUAL_ENV" in os_environ
+                ):
+                    prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
 
-                return str(
-                    f"{separator(self.config)}{prefix}"
-                    f"{Color(self.color)}{self.symbol}"
-                    f"{self.get_version()}{Color().NONE}"
-                )
+                    return str(
+                        f"{separator(self.config)}{prefix}"
+                        f"{Color(self.color)}{self.symbol}"
+                        f"{self.get_version()}{Color().NONE}"
+                    )
         return ""
 
 

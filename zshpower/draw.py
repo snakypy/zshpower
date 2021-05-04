@@ -4,7 +4,7 @@ from tomlkit.exceptions import NonExistentKey, UnexpectedCharError
 from sqlite3 import OperationalError
 from snakypy.utils.decorators import only_for_linux
 from zshpower.database.sql import sql
-
+from zshpower.prompt.sections.jump_line import JumpLine
 from zshpower.utils.decorators import silent_errors
 from zshpower.config import package
 from zshpower.database.dao import DAO
@@ -13,6 +13,7 @@ from zshpower.utils.shift import create_config
 from snakypy.path import create as snakypy_path_create
 from snakypy.file import read as snakypy_file_red
 from tomlkit import parse as toml_parse
+from concurrent.futures import ThreadPoolExecutor
 from zshpower.prompt.sections.directory import Directory
 from zshpower.prompt.sections.git import Git
 from zshpower.prompt.sections.hostname import Hostname
@@ -49,63 +50,58 @@ from zshpower.prompt.sections.perl import Perl
 # from zshpower.utils.decorators import runtime
 
 
-def corrupted_db():
-    # printer("Wait...restoring database...", foreground=FG.WARNING)
-    # DAO().create_table([item for item in sql().keys()][0])
-    # Dart().set_version(action="insert")
-    # Docker().set_version(action="insert")
-    # Dotnet().set_version(action="insert")
-    # Elixir().set_version(action="insert")
-    # Golang().set_version(action="insert")
-    # Java().set_version(action="insert")
-    # Julia().set_version(action="insert")
-    # NodeJs().set_version(action="insert")
-    # Php().set_version(action="insert")
-    # Ruby().set_version(action="insert")
-    # Rust().set_version(action="insert")
-    # Perl().set_version(action="insert")
-    # Scala().set_version(action="insert")
-    # CMake().set_version(action="insert")
-    # Deno().set_version(action="insert")
-    # Erlang().set_version(action="insert")
-    # Helm().set_version(action="insert")
-    # Kotlin().set_version(action="insert")
-    # Crystal().set_version(action="insert")
-    # Nim().set_version(action="insert")
-    # Ocaml().set_version(action="insert")
-    # Vagrant().set_version(action="insert")
-    # Zig().set_version(action="insert")
-    # printer("Restore completed.", foreground=FG.FINISH)
-    printer(
-        'Database corrupted. Run command: "zshpower init [--omz]" to restore.\n>> ',
-        foreground=FG.ERROR,
-    )
+# def corrupted_db():
+#     # printer("Wait...restoring database...", foreground=FG.WARNING)
+#     # DAO().create_table([item for item in sql().keys()][0])
+#     # Dart().set_version(action="insert")
+#     # Docker().set_version(action="insert")
+#     # Dotnet().set_version(action="insert")
+#     # Elixir().set_version(action="insert")
+#     # Golang().set_version(action="insert")
+#     # Java().set_version(action="insert")
+#     # Julia().set_version(action="insert")
+#     # NodeJs().set_version(action="insert")
+#     # Php().set_version(action="insert")
+#     # Ruby().set_version(action="insert")
+#     # Rust().set_version(action="insert")
+#     # Perl().set_version(action="insert")
+#     # Scala().set_version(action="insert")
+#     # CMake().set_version(action="insert")
+#     # Deno().set_version(action="insert")
+#     # Erlang().set_version(action="insert")
+#     # Helm().set_version(action="insert")
+#     # Kotlin().set_version(action="insert")
+#     # Crystal().set_version(action="insert")
+#     # Nim().set_version(action="insert")
+#     # Ocaml().set_version(action="insert")
+#     # Vagrant().set_version(action="insert")
+#     # Zig().set_version(action="insert")
+#     # printer("Restore completed.", foreground=FG.FINISH)
+#     printer(
+#         'Database corrupted. Run command: "zshpower init [--omz]" to restore.\n>> ',
+#         foreground=FG.ERROR,
+#     )
 
 
-def get_register():
-    try:
-        data = DAO().select_columns(
-            columns=("name", "version"), table=[item for item in sql().keys()][0]
-        )
-        # if not data:
-        #     corrupted_db()
-        #     data = DAO().select_columns(columns=("name", "version"), table=[item for item in sql().keys()][0])
-        return data
-    except (KeyError, OperationalError):
-        # corrupted_db()
-        # reg = DAO().select_columns(columns=("name", "version"), table=[item for item in sql().keys()][0])
-        # return reg
-        return printer(
-            f'{package.info["name"]} Error: Database corrupted. Run command: "zshpower init [--omz]" to restore.\n>> ',
-            foreground=FG.ERROR,
-        )
+# def get_register1():
+#     try:
+#         data = DAO().select_columns(
+#             columns=("name", "version"), table=[item for item in sql().keys()][0]
+#         )
+#         return data
+#     except (KeyError, OperationalError):
+#         return printer(
+#             f'{package.info["name"]} Error: Database corrupted. Run command:
+#             "zshpower init [--omz]" to restore.\n>> ',
+#             foreground=FG.ERROR,
+#         )
 
 
 class Draw(DAO):
     def __init__(self):
         DAO.__init__(self)
         self.config = self.get_config()
-        self.register = get_register()
+        self.register = self.get_register()
 
     def get_config(self):
         try:
@@ -120,40 +116,50 @@ class Draw(DAO):
             parsed = toml_parse(read_conf)
             return parsed
 
+    def get_register(self):
+        try:
+            data = self.select_columns(
+                columns=("name", "version"), table=[item for item in sql().keys()][0]
+            )
+            return data
+        except (KeyError, OperationalError):
+            return printer(
+                f'{package.info["name"]} Error: Database corrupted. Run command: '
+                f'"zshpower init [--omz]" to restore.\n>> ',
+                foreground=FG.ERROR,
+            )
+
     # def version(self, instance, key):
     #     if key in self.register:
     #         return instance().get_version(self.config, self.register)
     #     return ""
 
     def version(self, instance, key):
-        import concurrent.futures
-        with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+        with ThreadPoolExecutor(max_workers=10) as executor:
             if key in self.register:
                 future = executor.submit(instance().get_version, self.config, self.register)
                 return_value = future.result()
                 return return_value
             return ""
 
+    # def ret_object(self, instance):
+    #     with ThreadPoolExecutor(max_workers=10) as executor:
+    #         future = executor.submit(instance().get_version, self.config, self.register)
+    #         return_value = future.result()
+    #         return return_value
+
     # @runtime
-    def prompt(self, jump_line="\n"):
+    def prompt(self):
         try:
             with suppress(KeyboardInterrupt):
-                jump_line = (
-                    "" if not self.config["general"]["jump_line"]["enable"] else jump_line
-                )
-                username = Username(self.config) if self.config["username"]["enable"] else ""
-                hostname = Hostname(self.config) if self.config["hostname"]["enable"] else ""
+                jump_line = JumpLine(self.config)
+                username = Username(self.config)
+                hostname = Hostname(self.config)
                 directory = Directory(self.config)
                 dinamic_section = {
-                    "virtualenv": Virtualenv(self.config)
-                    if self.config["virtualenv"]["enable"]
-                    else "",
-                    "python": _python(self.config)
-                    if self.config["python"]["version"]["enable"]
-                    else "",
-                    "package": pkg_version(self.config)
-                    if self.config["package"]["enable"]
-                    else "",
+                    "virtualenv": Virtualenv(self.config),
+                    "python": _python(self.config),
+                    "package": pkg_version(self.config),
                     "nodejs": self.version(Ocaml, "nodejs"),
                     "rust": self.version(Rust, "rust"),
                     "golang": self.version(Golang, "golang"),
@@ -176,7 +182,7 @@ class Draw(DAO):
                     "ocaml": self.version(Ocaml, "ocaml"),
                     "vagrant": self.version(Vagrant, "vagrant"),
                     "zig": self.version(Zig, "zig"),
-                    # # "gulp": Gulp().get_version(config_loaded),
+                    # # "gulp": Gulp().get_version(self.config),
                     "docker": self.version(Docker, "docker"),
                     "git": Git(self.config),
                 }
