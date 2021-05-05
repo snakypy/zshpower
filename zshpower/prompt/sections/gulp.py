@@ -31,7 +31,7 @@ class Gulp(Version):
             if isfile(join(getcwd(), version_local)):
                 parsed = snakypy_json_read(join(getcwd(), version_local))
                 if "version" in parsed:
-                    version_ = f"{parsed['version']}{space_elem}"
+                    version_ = parsed["version"]
 
                     if micro_version_enable:
                         version_format = f"{'{0[0]}.{0[1]}.{0[2]}'.format(version_.split('.'))}{space_elem}"
@@ -39,6 +39,7 @@ class Gulp(Version):
                         version_format = (
                             f"{'{0[0]}.{0[1]}'.format(version_.split('.'))}{space_elem}"
                         )
+
                     return str(
                         (
                             f"{separator(config)}{prefix}"
@@ -56,6 +57,6 @@ class Gulp(Version):
 
         if version.returncode != 127 and version.returncode != 1:
             version = version.stdout.split()[2]
-            return super().set(version, key, action)
+            return super().set(f"CLI {version}", key, action)
 
         return False
