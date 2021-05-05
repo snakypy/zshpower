@@ -1,5 +1,7 @@
 from concurrent.futures.thread import ThreadPoolExecutor
 
+from zshpower.prompt.sections.gulp import Gulp
+
 from zshpower.database.sql import sql
 
 from zshpower.database.dao import DAO
@@ -49,13 +51,14 @@ class ResetCommand(Base):
             reload_zsh()
         elif arguments["--db"]:
             DAO().create_table([item for item in sql().keys()][0])
-            with ThreadPoolExecutor(max_workers=25) as executor:
+            with ThreadPoolExecutor(max_workers=27) as executor:
                 executor.submit(Dart().set_version, action="insert")
                 executor.submit(Dart().set_version, action="insert")
                 executor.submit(Docker().set_version, action="insert")
                 executor.submit(Dotnet().set_version, action="insert")
                 executor.submit(Elixir().set_version, action="insert")
                 executor.submit(Golang().set_version, action="insert")
+                executor.submit(Gulp().set_version, action="insert")
                 executor.submit(Java().set_version, action="insert")
                 executor.submit(Julia().set_version, action="insert")
                 executor.submit(NodeJs().set_version, action="insert")

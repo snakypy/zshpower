@@ -3,6 +3,7 @@ from snakypy import FG, printer
 from tomlkit.exceptions import NonExistentKey, UnexpectedCharError
 from sqlite3 import OperationalError
 from snakypy.utils.decorators import only_for_linux
+from zshpower.prompt.sections.gulp import Gulp
 from zshpower.database.sql import sql
 from zshpower.prompt.sections.jump_line import JumpLine
 from zshpower.utils.decorators import silent_errors
@@ -47,7 +48,6 @@ from zshpower.prompt.sections.cmake import CMake
 from zshpower.prompt.sections.perl import Perl
 from zshpower.prompt.sections.timer import Timer
 from sys import argv as sys_argv, stdout
-
 # ## Test timer ## #
 # from zshpower.utils.decorators import runtime
 
@@ -95,7 +95,7 @@ class Draw(DAO):
             return ""
 
     @staticmethod
-    def fn(dic, item):
+    def get_keys(dic, item):
         return dic[item]
 
     # @runtime
@@ -132,7 +132,7 @@ class Draw(DAO):
                     "ocaml": self.version(Ocaml, "ocaml"),
                     "vagrant": self.version(Vagrant, "vagrant"),
                     "zig": self.version(Zig, "zig"),
-                    # # "gulp": Gulp().get_version(self.config),
+                    "gulp": self.version(Gulp, "gulp"),
                     "docker": self.version(Docker, "docker"),
                     "git": Git(self.config),
                 }
@@ -145,7 +145,9 @@ class Draw(DAO):
                     for elem in self.config["general"]["position"]:
                         for item in dinamic_section.keys():
                             if item == elem:
-                                future = executor.submit(self.fn, dinamic_section, item)
+                                future = executor.submit(
+                                    self.get_keys, dinamic_section, item
+                                )
                                 ordered_section.append(future.result())
 
                 # # Using Generators, not ThreadPoolExecutor
@@ -156,7 +158,9 @@ class Draw(DAO):
                 #     if item in element
                 # )
 
-                sections = "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"
+                sections = (
+                    "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"
+                )
                 return sections.format(static_section, *ordered_section, cmd)
 
         except (NonExistentKey, UnexpectedCharError, ValueError):

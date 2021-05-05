@@ -1,6 +1,7 @@
 from os import getcwd
+from os.path import join, isfile
 from subprocess import run
-from zshpower.utils.catch import find_objects
+from snakypy.json import read as snakypy_json_read
 from zshpower.prompt.sections.lib.utils import (
     Version,
     symbol_ssh,
@@ -14,48 +15,47 @@ class Gulp(Version):
     def __init__(self):
         super(Gulp, self).__init__()
         self.files = ("gulpfile.js",)
+        self.folders = ("node_modules",)
 
-    def get_version(self, config, key="gulp", ext="gulp-", space_elem=" "):
+    def get_version(self, config, version, key="gulp", ext="gulp-", space_elem=" "):
+        version_local = "node_modules/gulp/package.json"
+        enable = config[key]["version"]["enable"]
         symbol = symbol_ssh(config[key]["symbol"], ext)
         color = config[key]["color"]
         prefix_color = config[key]["prefix"]["color"]
         prefix_text = element_spacing(config[key]["prefix"]["text"])
         micro_version_enable = config[key]["version"]["micro"]["enable"]
 
+        if enable:
+            prefix = f"{Color(prefix_color)}{prefix_text}{Color().NONE}"
+            if isfile(join(getcwd(), version_local)):
+                parsed = snakypy_json_read(join(getcwd(), version_local))
+                if "version" in parsed:
+                    version_ = f"{parsed['version']}{space_elem}"
+
+                    if micro_version_enable:
+                        version_format = f"{'{0[0]}.{0[1]}.{0[2]}'.format(version_.split('.'))}{space_elem}"
+                    else:
+                        version_format = (
+                            f"{'{0[0]}.{0[1]}'.format(version_.split('.'))}{space_elem}"
+                        )
+                    return str(
+                        (
+                            f"{separator(config)}{prefix}"
+                            f"{Color(color)}{symbol}"
+                            f"Local {version_format}{Color().NONE}"
+                        )
+                    )
+            else:
+                return super().get(
+                    config, version, key=key, ext=ext, space_elem=space_elem
+                )
+
+    def set_version(self, key="gulp", action=None):
         version = run("gulp --version", capture_output=True, shell=True, text=True)
 
-        if not version.returncode == 0:
-            return False
+        if version.returncode != 127 and version.returncode != 1:
+            version = version.stdout.split()[2]
+            return super().set(version, key, action)
 
-        if version.stdout and find_objects(
-            getcwd(),
-            files=self.files,
-            folders=self.folders,
-            extension=self.extensions,
-        ):
-            prefix = f"{Color(prefix_color)}{prefix_text}{Color().NONE}"
-
-            version = version.stdout.split()
-
-            if not version[-1] == "Unknown":
-                version = version[-1]
-            else:
-                version = version[2]
-
-            if micro_version_enable:
-                version_format = (
-                    f"{'{0[0]}.{0[1]}.{0[2]}'.format(version.split('.'))}{space_elem}"
-                )
-            else:
-                version_format = (
-                    f"{'{0[0]}.{0[1]}'.format(version.split('.'))}{space_elem}"
-                )
-
-            return str(
-                (
-                    f"{separator(config)}{prefix}"
-                    f"{Color(color)}{symbol}"
-                    f"{version_format}{Color().NONE}"
-                )
-            )
-        return ""
+        return False

@@ -3,6 +3,8 @@ from concurrent.futures.thread import ThreadPoolExecutor
 from sqlite3 import OperationalError
 from snakypy import FG
 from snakypy.console import loading, printer
+from zshpower.prompt.sections.gulp import Gulp
+
 from zshpower.prompt.sections.zig import Zig
 from zshpower.prompt.sections.vagrant import Vagrant
 from zshpower.prompt.sections.ocaml import Ocaml
@@ -37,12 +39,13 @@ class Sync(Base):
     def run(self):
         try:
             checking_init(self.HOME)
-            with ThreadPoolExecutor(max_workers=25) as executor:
+            with ThreadPoolExecutor(max_workers=27) as executor:
                 executor.submit(Dart().set_version, action="update")
                 executor.submit(Docker().set_version, action="update")
                 executor.submit(Dotnet().set_version, action="update")
                 executor.submit(Elixir().set_version, action="update")
                 executor.submit(Golang().set_version, action="update")
+                executor.submit(Gulp().set_version, action="update")
                 executor.submit(Java().set_version, action="update")
                 executor.submit(Julia().set_version, action="update")
                 executor.submit(NodeJs().set_version, action="update")

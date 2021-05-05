@@ -1,7 +1,6 @@
 from datetime import datetime
 from zshpower import __version__
 
-
 content = f"""# Generate by: ZSHPower - D{datetime.today().isoformat()}
 # Version: {__version__}
 # ---------------------------------------------------------------------
@@ -44,17 +43,44 @@ position = [
     "git"
     ]
 
-[username]
-enable = false
-symbol = "\\uf007"
-color = "cyan"
+[command]
+new_line.enable = true
+symbol = "\\u276f"
+color = "green"
+error.symbol = "\\u276f"
+error.color = "red"
 
-[hostname]
-enable = false
-symbol = "\\ue0a2"
+[cmake]
+symbol = "\\ufa35"
+color = "green"
+prefix.color = "white"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+
+[crystal]
+symbol = "\\uf7d7"
 color = "magenta"
 prefix.color = "white"
-prefix.text = "at"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+
+[dart]
+symbol = "\\ue798"
+color = "cyan"
+prefix.color = "white"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+
+[deno]
+symbol = "\\u1f995"
+color = "green"
+prefix.color = "white"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
 
 [directory]
 truncation_length = 1
@@ -62,6 +88,38 @@ symbol = "\\ue5fe"
 color = "cyan"
 prefix.color = "white"
 prefix.text = "in"
+
+[docker]
+symbol = "\\uf308"
+color = "cyan"
+prefix.color = "white"
+prefix.text = "on"
+version.enable = false
+version.micro.enable = true
+
+[dotnet]
+symbol = "\\ue77f"
+color = "cyan"
+prefix.color = "white"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+
+[elixir]
+symbol = "\\ue62d"
+color = "blue"
+prefix.color = "white"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+
+[erlang]
+symbol = "\\ue7b1"
+color = "red"
+prefix.color = "white"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
 
 [git]
 enable = true
@@ -86,55 +144,17 @@ symbol.behind = "\\uf544"
 symbol.diverged = "\\ufb15"
 symbol.conflicts = "\\uf0e7"
 
-[command]
-new_line.enable = true
-symbol = "\\u276f"
-color = "green"
-error.symbol = "\\u276f"
-error.color = "red"
-
-[python]
-symbol = "\\uf81f"
-color = "yellow"
-prefix.color = "white"
-prefix.text = "via"
-version.enable = false
-version.micro.enable = true
-
-[package]
-enable = false
-symbol = "\\uf8d6"
-color = "red"
-prefix.color = "white"
-prefix.text = "is"
-
-[docker]
-symbol = "\\uf308"
-color = "cyan"
-prefix.color = "white"
-prefix.text = "on"
-version.enable = false
-version.micro.enable = true
-
-[nodejs]
-symbol = "\\uf898"
-color = "green"
-prefix.color = "white"
-prefix.text = "via"
-version.enable = false
-version.micro.enable = true
-
-[rust]
-symbol = "\\ue7a8"
-color = "red"
-prefix.color = "white"
-prefix.text = "via"
-version.enable = false
-version.micro.enable = true
-
 [golang]
 symbol = "\\ue627"
 color = "cyan"
+prefix.color = "white"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+
+[gulp]
+symbol = "\\ue763"
+color = "red"
 prefix.color = "white"
 prefix.text = "via"
 version.enable = false
@@ -148,41 +168,32 @@ prefix.text = "via"
 version.enable = false
 version.micro.enable = true
 
-[deno]
-symbol = "\\u1f995"
-color = "green"
+[hostname]
+enable = false
+symbol = "\\ue0a2"
+color = "magenta"
 prefix.color = "white"
-prefix.text = "via"
-version.enable = false
-version.micro.enable = true
+prefix.text = "at"
 
-[erlang]
-symbol = "\\ue7b1"
+[java]
+symbol = "\\ue256"
 color = "red"
 prefix.color = "white"
 prefix.text = "via"
 version.enable = false
 version.micro.enable = true
 
-[ocaml]
-symbol = "?"
-color = "yellow"
+[julia]
+symbol = "\\ue624"
+color = "blue"
 prefix.color = "white"
 prefix.text = "via"
 version.enable = false
 version.micro.enable = true
 
-[vagrant]
-symbol = "\\ue62b"
-color = "yellow"
-prefix.color = "white"
-prefix.text = "via"
-version.enable = false
-version.micro.enable = true
-
-[zig]
-symbol = "\\u26a1"
-color = "yellow"
+[kotlin]
+symbol = "\\ue622"
+color = "blue"
 prefix.color = "white"
 prefix.text = "via"
 version.enable = false
@@ -196,8 +207,31 @@ prefix.text = "via"
 version.enable = false
 version.micro.enable = true
 
-[kotlin]
-symbol = "\\ue622"
+[nodejs]
+symbol = "\\uf898"
+color = "green"
+prefix.color = "white"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+
+[ocaml]
+symbol = "?"
+color = "yellow"
+prefix.color = "white"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+
+[package]
+enable = false
+symbol = "\\uf8d6"
+color = "red"
+prefix.color = "white"
+prefix.text = "is"
+
+[perl]
+symbol = "\\ue769"
 color = "blue"
 prefix.color = "white"
 prefix.text = "via"
@@ -212,65 +246,25 @@ prefix.text = "via"
 version.enable = false
 version.micro.enable = true
 
-[gulp]
-symbol = "\\ue763"
+[python]
+symbol = "\\uf81f"
+color = "yellow"
+prefix.color = "white"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+
+[ruby]
+symbol = "\\ue21e"
 color = "red"
 prefix.color = "white"
 prefix.text = "via"
 version.enable = false
 version.micro.enable = true
 
-[crystal]
-symbol = "\\uf7d7"
-color = "magenta"
-prefix.color = "white"
-prefix.text = "via"
-version.enable = false
-version.micro.enable = true
-
-[cmake]
-symbol = "\\ufa35"
-color = "green"
-prefix.color = "white"
-prefix.text = "via"
-version.enable = false
-version.micro.enable = true
-
-[dart]
-symbol = "\\ue798"
-color = "cyan"
-prefix.color = "white"
-prefix.text = "via"
-version.enable = false
-version.micro.enable = true
-
-[java]
-symbol = "\\ue256"
+[rust]
+symbol = "\\ue7a8"
 color = "red"
-prefix.color = "white"
-prefix.text = "via"
-version.enable = false
-version.micro.enable = true
-
-[elixir]
-symbol = "\\ue62d"
-color = "blue"
-prefix.color = "white"
-prefix.text = "via"
-version.enable = false
-version.micro.enable = true
-
-[perl]
-symbol = "\\ue769"
-color = "blue"
-prefix.color = "white"
-prefix.text = "via"
-version.enable = false
-version.micro.enable = true
-
-[julia]
-symbol = "\\ue624"
-color = "blue"
 prefix.color = "white"
 prefix.text = "via"
 version.enable = false
@@ -284,17 +278,20 @@ prefix.text = "via"
 version.enable = false
 version.micro.enable = true
 
-[dotnet]
-symbol = "\\ue77f"
-color = "cyan"
-prefix.color = "white"
-prefix.text = "via"
-version.enable = false
-version.micro.enable = true
+[timer]
+enable = false
+symbol = "\\uf43a"
+color = "blue"
+seconds.enable = false
 
-[ruby]
-symbol = "\\ue21e"
-color = "red"
+[username]
+enable = false
+symbol = "\\uf007"
+color = "cyan"
+
+[vagrant]
+symbol = "\\ue62b"
+color = "yellow"
 prefix.color = "white"
 prefix.text = "via"
 version.enable = false
@@ -312,9 +309,11 @@ prefix.text = "via"
 normal.enable = true
 text = "venv"
 
-[timer]
-enable = false
-symbol = "\\uf43a"
-color = "blue"
-seconds.enable = false
+[zig]
+symbol = "\\ue00a"
+color = "yellow"
+prefix.color = "white"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
 """
