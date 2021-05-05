@@ -26,7 +26,7 @@ class Gulp(Version):
         prefix_text = element_spacing(config[key]["prefix"]["text"])
         micro_version_enable = config[key]["version"]["micro"]["enable"]
 
-        if enable:
+        if enable and isfile(join(getcwd(), self.files[0])):
             prefix = f"{Color(prefix_color)}{prefix_text}{Color().NONE}"
             if isfile(join(getcwd(), version_local)):
                 parsed = snakypy_json_read(join(getcwd(), version_local))
@@ -51,6 +51,7 @@ class Gulp(Version):
                 return super().get(
                     config, version, key=key, ext=ext, space_elem=space_elem
                 )
+        return ""
 
     def set_version(self, key="gulp", action=None):
         version = run("gulp --version", capture_output=True, shell=True, text=True)
