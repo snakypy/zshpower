@@ -48,6 +48,7 @@ from zshpower.prompt.sections.cmake import CMake
 from zshpower.prompt.sections.perl import Perl
 from zshpower.prompt.sections.timer import Timer
 from sys import argv as sys_argv, stdout
+
 # ## Test timer ## #
 # from zshpower.utils.decorators import runtime
 
