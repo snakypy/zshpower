@@ -43,7 +43,7 @@ class InitCommand(Base):
 
     def run(self, arguments, *, reload=False, message=False):
         # printer("Please wait ... assigning settings ...", foreground=FG.WARNING)
-        tools_requirements("zsh", "vim", "git", "cut", "grep", "whoami")
+        tools_requirements("zsh", "vim", "git", "cut", "grep", "whoami", "pwd")
         # create_zshrc_not_exists(
         #     f". $HOME/.{package.info['pkg_name']}/{__version__}/init.sh", self.zsh_rc
         # )
