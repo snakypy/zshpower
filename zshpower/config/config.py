@@ -254,6 +254,22 @@ prefix.text = "via"
 version.enable = false
 version.micro.enable = true
 
+[python.virtualenv]
+enable = false
+symbol = "\\uf7c9"
+involved = "()"
+color = "yellow"
+prefix.color = "white"
+prefix.text = "via"
+
+[python.virtualenv.name]
+normal.enable = true
+text = "venv"
+
+[python.virtualenv.poetry]
+py.enable = true
+hash.enable = true
+
 [ruby]
 symbol = "\\ue21e"
 color = "red"
@@ -296,18 +312,6 @@ prefix.color = "white"
 prefix.text = "via"
 version.enable = false
 version.micro.enable = true
-
-[virtualenv]
-enable = false
-symbol = "\\uf7c9"
-involved = "()"
-color = "yellow"
-prefix.color = "white"
-prefix.text = "via"
-
-[virtualenv.name]
-normal.enable = true
-text = "venv"
 
 [zig]
 symbol = "\\ue00a"
