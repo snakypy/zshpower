@@ -257,7 +257,7 @@ version.micro.enable = true
 [python.virtualenv]
 enable = false
 symbol = "\\uf7c9"
-involved = "()"
+involved = "[]"
 color = "yellow"
 prefix.color = "white"
 prefix.text = "via"
