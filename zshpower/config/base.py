@@ -1,3 +1,4 @@
+from zshpower.database.sql import sql
 from zshpower.config import package
 from zshpower import __version__
 from os.path import join
@@ -9,6 +10,7 @@ class Base:
         self.zshpower_home = join(
             self.HOME, f".{package.info['pkg_name']}", __version__
         )
+        self.tbl_main = [item for item in sql().keys()][0]
         self.config_file = join(self.zshpower_home, "config.toml")
         self.data_root = join(self.zshpower_home, ".data")
         self.database_path = join(self.data_root, "db.sqlite3")

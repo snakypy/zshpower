@@ -1,6 +1,8 @@
 from contextlib import suppress
 from datetime import datetime
 from functools import wraps
+import curses
+from time import sleep
 
 
 def assign_cli(arguments, command):
@@ -39,3 +41,15 @@ def silent_errors(func):
             return func(*args, **kwargs)
 
     return wrapper
+
+
+# def invisible_cursor(func):
+#     @wraps(func)
+#     def wrapper(*args, **kwargs):
+#         curses.initscr()
+#         curses.curs_set(0)
+#         f = func(*args, **kwargs)
+#         curses.curs_set(1)
+#         curses.endwin()
+#         return f
+#     return wrapper

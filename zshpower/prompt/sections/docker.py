@@ -10,7 +10,7 @@ class Docker(Version):
     def get_version(self, config, version, key="docker", ext="dkr-", space_elem=" "):
         return super().get(config, version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, key="docker", action=None):
+    def set_version(self, key="docker", action=None) -> bool:
         version = run(
             "docker version",
             capture_output=True,

@@ -3,8 +3,8 @@ def sql() -> dict:
         "tbl_main": (
             "CREATE TABLE IF NOT EXISTS `tbl_main` ("
             "  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
-            "  name TEXT(100) NOT NULL,"
-            "  version TEXT(50) NOT NULL,"
+            "  name TEXT(20) NOT NULL,"
+            "  version TEXT(20) NOT NULL,"
             "  date TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
             ")"
         )

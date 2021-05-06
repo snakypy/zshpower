@@ -1,5 +1,4 @@
 from zshpower.database.sql import sql
-
 from zshpower.database.dao import DAO
 from zshpower.utils.catch import find_objects
 from os import getcwd
@@ -101,16 +100,16 @@ class Version(DAO):
                 )
         return ""
 
-    @staticmethod
-    def set(version, key="", action=None):
+    def set(self, version, key="", action=None) -> bool:
         if action:
+            # Conditions
             if action == "insert":
-                query = DAO().select_where([item for item in sql().keys()][0], key, "name", select=("version",))
+                query = DAO().select_where(self.tbl_main, key, "name", select=("version",))
                 if not query:
-                    DAO().insert([item for item in sql().keys()][0], columns=("name", "version"), values=(key, version))
+                    DAO().insert(self.tbl_main, columns=("name", "version"), values=(key, version))
 
             elif action == "update":
-                DAO().update([item for item in sql().keys()][0], "version", version, "name", key)
+                DAO().update(self.tbl_main, "version", version, "name", key)
             return True
         return False
 
