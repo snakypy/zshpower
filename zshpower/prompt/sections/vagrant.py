@@ -7,8 +7,8 @@ class Vagrant(Version):
         super(Vagrant, self).__init__()
         self.files = ("Vagrantfile",)
 
-    def get_version(self, config, version, key="vagrant", ext="vag-", space_elem=" "):
-        return super().get(config, version, key=key, ext=ext, space_elem=space_elem)
+    def get_version(self, config, reg_version, key="vagrant", ext="vag-", space_elem=" "):
+        return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
     def set_version(self, key="vagrant", action=None):
         version = run(

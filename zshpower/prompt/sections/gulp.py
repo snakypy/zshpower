@@ -17,7 +17,7 @@ class Gulp(Version):
         self.files = ("gulpfile.js",)
         self.folders = ("node_modules",)
 
-    def get_version(self, config, version, key="gulp", ext="gulp-", space_elem=" "):
+    def get_version(self, config, reg_version, key="gulp", ext="gulp-", space_elem=" "):
         version_local = "node_modules/gulp/package.json"
         enable = config[key]["version"]["enable"]
         symbol = symbol_ssh(config[key]["symbol"], ext)
@@ -49,7 +49,7 @@ class Gulp(Version):
                     )
             else:
                 return super().get(
-                    config, version, key=key, ext=ext, space_elem=space_elem
+                    config, reg_version, key=key, ext=ext, space_elem=space_elem
                 )
         return ""
 

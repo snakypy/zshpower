@@ -86,7 +86,7 @@ class Draw(DAO):
             )
 
     def version(self, instance, key):
-        with ThreadPoolExecutor(max_workers=5) as executor:
+        with ThreadPoolExecutor(max_workers=2) as executor:
             if key in self.register:
                 future = executor.submit(
                     instance().get_version, self.config, self.register
@@ -141,7 +141,8 @@ class Draw(DAO):
                 cmd = Command(self.config)
                 static_section = f"{jump_line}{username}{hostname}{directory}"
 
-                with ThreadPoolExecutor() as executor:
+                # Using ThreadPoolExecutor, not Generators
+                with ThreadPoolExecutor(max_workers=2) as executor:
                     ordered_section = []
                     for elem in self.config["general"]["position"]:
                         for item in dinamic_section.keys():
@@ -151,17 +152,15 @@ class Draw(DAO):
                                 )
                                 ordered_section.append(future.result())
 
-                # # Using Generators, not ThreadPoolExecutor
+                # Using Generators, not ThreadPoolExecutor
                 # ordered_section = (
                 #     dinamic_section[item]
                 #     for element in self.config["general"]["position"]
                 #     for item in dinamic_section.keys()
-                #     if item in element
+                #     if item == element
                 # )
 
-                sections = (
-                    "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"
-                )
+                sections = ("{}{}" + "{}" * len(dinamic_section))
                 return sections.format(static_section, *ordered_section, cmd)
 
         except (NonExistentKey, UnexpectedCharError, ValueError):

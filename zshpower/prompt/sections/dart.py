@@ -12,8 +12,8 @@ class Dart(Version):
             "analysis_options.yaml",
         )
 
-    def get_version(self, config, version, key="dart", ext="dt-", space_elem=" "):
-        return super().get(config, version, key=key, ext=ext, space_elem=space_elem)
+    def get_version(self, config, reg_version, key="dart", ext="dt-", space_elem=" "):
+        return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
     def set_version(self, key="dart", action=None):
         version = run("dart --version 2>&1", capture_output=True, shell=True, text=True)

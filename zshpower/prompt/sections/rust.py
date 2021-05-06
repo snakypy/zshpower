@@ -8,8 +8,8 @@ class Rust(Version):
         self.files = ("Cargo.toml",)
         self.extensions = (".rs",)
 
-    def get_version(self, config, version, key="rust", ext="rs-", space_elem=" "):
-        return super().get(config, version, key=key, ext=ext, space_elem=space_elem)
+    def get_version(self, config, reg_version, key="rust", ext="rs-", space_elem=" "):
+        return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
     def set_version(self, key="rust", action=None):
         version = run("rustc --version", capture_output=True, shell=True, text=True)

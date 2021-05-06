@@ -8,8 +8,8 @@ class Ruby(Version):
         self.files = ("Gemfile", "Rakefile")
         self.extensions = (".rb",)
 
-    def get_version(self, config, version, key="ruby", ext="rb-", space_elem=" "):
-        return super().get(config, version, key=key, ext=ext, space_elem=space_elem)
+    def get_version(self, config, reg_version, key="ruby", ext="rb-", space_elem=" "):
+        return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
     def set_version(self, key="ruby", action=None):
         version = run(

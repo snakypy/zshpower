@@ -7,8 +7,8 @@ class Kotlin(Version):
         super(Kotlin, self).__init__()
         self.extensions = (".kt", ".kts")
 
-    def get_version(self, config, version, key="kotlin", ext="kt-", space_elem=" "):
-        return super().get(config, version, key=key, ext=ext, space_elem=space_elem)
+    def get_version(self, config, reg_version, key="kotlin", ext="kt-", space_elem=" "):
+        return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
     def set_version(self, key="kotlin", action=None):
         version = run(

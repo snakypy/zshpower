@@ -1,4 +1,3 @@
-from zshpower.database.sql import sql
 from zshpower.database.dao import DAO
 from zshpower.utils.catch import find_objects
 from os import getcwd
@@ -69,7 +68,7 @@ class Version(DAO):
         self.files = ()
         self.folders = ()
 
-    def get(self, config, register, key="", ext="", space_elem=""):
+    def get(self, config, reg_version: dict, key="", ext="", space_elem=""):
         enable = config[key]["version"]["enable"]
         symbol = symbol_ssh(config[key]["symbol"], ext)
         color = config[key]["color"]
@@ -78,7 +77,7 @@ class Version(DAO):
         micro_version_enable = config[key]["version"]["micro"]["enable"]
 
         if enable:
-            if register[key] and find_objects(
+            if reg_version[key] and find_objects(
                 getcwd(),
                 files=self.files,
                 folders=self.folders,
@@ -87,9 +86,9 @@ class Version(DAO):
                 prefix = f"{Color(prefix_color)}{prefix_text}{Color().NONE}"
 
                 if micro_version_enable:
-                    version_format = f"{'{0[0]}.{0[1]}.{0[2]}'.format(register[key].split('.'))}{space_elem}"
+                    version_format = f"{'{0[0]}.{0[1]}.{0[2]}'.format(reg_version[key].split('.'))}{space_elem}"
                 else:
-                    version_format = f"{'{0[0]}.{0[1]}'.format(register[key].split('.'))}{space_elem}"
+                    version_format = f"{'{0[0]}.{0[1]}'.format(reg_version[key].split('.'))}{space_elem}"
 
                 return str(
                     (

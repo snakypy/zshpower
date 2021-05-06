@@ -8,8 +8,8 @@ class Scala(Version):
         self.extensions = (".scala", ".sc")
         self.files = ("build.sbt",)
 
-    def get_version(self, config, version, key="scala", ext="sc-", space_elem=" "):
-        return super().get(config, version, key=key, ext=ext, space_elem=space_elem)
+    def get_version(self, config, reg_version, key="scala", ext="sc-", space_elem=" "):
+        return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
     def set_version(self, key="scala", action=None):
         version = run(

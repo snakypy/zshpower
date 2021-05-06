@@ -1,3 +1,4 @@
+from os import cpu_count
 from zshpower.prompt.sections.gulp import Gulp
 from zshpower.prompt.sections.zig import Zig
 from zshpower.prompt.sections.vagrant import Vagrant
@@ -26,7 +27,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 
 def records(action) -> None:
-    with ThreadPoolExecutor(max_workers=8) as executor:
+    with ThreadPoolExecutor(max_workers=cpu_count()) as executor:
         executor.submit(Dart().set_version, action=action)
         executor.submit(Docker().set_version, action=action)
         executor.submit(Dotnet().set_version, action=action)

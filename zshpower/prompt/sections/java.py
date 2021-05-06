@@ -7,8 +7,8 @@ class Java(Version):
         super(Java, self).__init__()
         self.extensions = (".java",)
 
-    def get_version(self, config, version, key="java", ext="java-", space_elem=" "):
-        return super().get(config, version, key=key, ext=ext, space_elem=space_elem)
+    def get_version(self, config, reg_version, key="java", ext="java-", space_elem=" "):
+        return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
     def set_version(self, key="java", action=None):
         version = run(

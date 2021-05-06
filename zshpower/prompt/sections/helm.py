@@ -7,8 +7,8 @@ class Helm(Version):
         super(Helm, self).__init__()
         self.files = ("helmfile.yaml", "Chart.yaml")
 
-    def get_version(self, config, version, key="helm", ext="helm-", space_elem=" "):
-        return super().get(config, version, key=key, ext=ext, space_elem=space_elem)
+    def get_version(self, config, reg_version, key="helm", ext="helm-", space_elem=" "):
+        return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
     def set_version(self, key="helm", action=None):
         version = run("helm version 2>&1", capture_output=True, shell=True, text=True)

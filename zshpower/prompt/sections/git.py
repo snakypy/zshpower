@@ -159,14 +159,14 @@ class Git:
             #     else:
             #         status_icons.append(f"{self.icons[item][1]}")
 
-            status_icons = [
+            status_icons = (
                 self.icons[item][0]
                 if self.symbol_enable
                 else self.icons[item][1]
                 if "SSH_CONNECTION" not in environ
                 else self.icons[item][1]
                 for item in status_current
-            ]
+            )
 
             # status = f'( {" ".join(sorted(status_icons)).strip()} )'
             # if len(status_current) == 1:

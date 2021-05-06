@@ -9,8 +9,8 @@ class Ocaml(Version):
         self.files = ("dune", "dune-project", "jbuild", "jbuild-ignore", ".merlin")
         self.folders = ("_opam", "esy.lock")
 
-    def get_version(self, config, version, key="ocaml", ext="opam-", space_elem=" "):
-        return super().get(config, version, key=key, ext=ext, space_elem=space_elem)
+    def get_version(self, config, reg_version, key="ocaml", ext="opam-", space_elem=" "):
+        return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
     def set_version(self, key="ocaml", action=None):
         version = run("ocaml -version 2>&1", capture_output=True, shell=True, text=True)

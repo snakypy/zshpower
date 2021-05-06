@@ -7,8 +7,8 @@ class Erlang(Version):
         super(Erlang, self).__init__()
         self.files = ("rebar.config", "erlang.mk")
 
-    def get_version(self, config, version, key="erlang", ext="erl-", space_elem=" "):
-        return super().get(config, version, key=key, ext=ext, space_elem=space_elem)
+    def get_version(self, config, reg_version, key="erlang", ext="erl-", space_elem=" "):
+        return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
     def set_version(self, key="erlang", action=None):
         version = run("erl -version 2>&1", capture_output=True, shell=True, text=True)
