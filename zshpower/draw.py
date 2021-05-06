@@ -23,7 +23,7 @@ from zshpower.prompt.sections.username import Username
 from zshpower.prompt.sections.package import Package
 from zshpower.prompt.sections.docker import Docker
 from zshpower.prompt.sections.nodejs import NodeJs
-from zshpower.prompt.sections.python import Python
+from zshpower.prompt.sections.python import Python, Virtualenv
 from zshpower.prompt.sections.rust import Rust
 from zshpower.prompt.sections.golang import Golang
 from zshpower.prompt.sections.php import Php
@@ -34,7 +34,6 @@ from zshpower.prompt.sections.ruby import Ruby
 from zshpower.prompt.sections.dotnet import Dotnet
 from zshpower.prompt.sections.java import Java
 from zshpower.prompt.sections.dart import Dart
-from zshpower.prompt.sections.virtualenv import Virtualenv
 from zshpower.prompt.sections.zig import Zig
 from zshpower.prompt.sections.vagrant import Vagrant
 from zshpower.prompt.sections.ocaml import Ocaml
