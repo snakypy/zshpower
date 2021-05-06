@@ -1,8 +1,7 @@
 from pathlib import Path
 from subprocess import run
-
 from .lib.utils import symbol_ssh, element_spacing
-from os import environ, getcwd
+from os import environ
 from os import geteuid
 from .lib.utils import Color
 
@@ -13,13 +12,14 @@ def get_pwd():
     # from os import environ, getcwd, getcwdb, getenvb
     # from pathlib import Path
     # from os import getcwd
-    from subprocess import run
 
     # NOTES: https://stackoverflow.com/questions/123958/how-to-get-set-logical-directory-path-in-python
     # return os.popen('pwd').read().strip('\n')
     # return getenv('PWD')
     # return getcwd()
-    return run("pwd", capture_output=True, shell=True, text=True).stdout.replace("\n", "")
+    return run("pwd", capture_output=True, shell=True, text=True).stdout.replace(
+        "\n", ""
+    )
 
 
 def shorten_path(file_path, length):

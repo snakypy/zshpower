@@ -8,7 +8,9 @@ class Dotnet(Version):
         self.files = ("project.json", "global.json", "paket.dependencies")
         self.extensions = (".csproj", ".fsproj", ".xproj", ".sln")
 
-    def get_version(self, config, reg_version, key="dotnet", ext=".net-", space_elem=" "):
+    def get_version(
+        self, config, reg_version, key="dotnet", ext=".net-", space_elem=" "
+    ):
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
     def set_version(self, key="dotnet", action=None):

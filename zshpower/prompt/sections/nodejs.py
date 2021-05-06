@@ -9,7 +9,9 @@ class NodeJs(Version):
         self.files = ("package.json",)
         self.folders = ("node_modules",)
 
-    def get_version(self, config, reg_version, key="nodejs", ext="node-", space_elem=" "):
+    def get_version(
+        self, config, reg_version, key="nodejs", ext="node-", space_elem=" "
+    ):
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
     def set_version(self, key="nodejs", action=None):

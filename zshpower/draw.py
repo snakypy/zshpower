@@ -160,7 +160,7 @@ class Draw(DAO):
                 #     if item == element
                 # )
 
-                sections = ("{}{}" + "{}" * len(dinamic_section))
+                sections = "{}{}" + "{}" * len(dinamic_section)
                 return sections.format(static_section, *ordered_section, cmd)
 
         except (NonExistentKey, UnexpectedCharError, ValueError):
