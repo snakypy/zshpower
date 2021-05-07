@@ -6,7 +6,13 @@ class Ocaml(Version):
     def __init__(self):
         super(Ocaml, self).__init__()
         self.extensions = (".opam", ".ml", ".mli", ".re", ".rei")
-        self.files = ("dune", "dune-project", "jbuild", "jbuild-ignore", ".merlin")
+        self.files = (
+            "dune",
+            "dune-project",
+            "jbuild",
+            "jbuild-ignore",
+            ".merlin",
+        )
         self.folders = ("_opam", "esy.lock")
 
     def get_version(

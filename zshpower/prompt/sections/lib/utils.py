@@ -105,7 +105,10 @@ class Version(DAO):
             if action == "insert":
                 query = DAO().select_where(self.tbl_main, key, "name", select=("version",))
                 if not query:
-                    DAO().insert(self.tbl_main, columns=("name", "version"), values=(key, version))
+                    DAO().insert(
+                        self.tbl_main, columns=(
+                            "name", "version"), values=(
+                            key, version))
 
             elif action == "update":
                 DAO().update(self.tbl_main, "version", version, "name", key)

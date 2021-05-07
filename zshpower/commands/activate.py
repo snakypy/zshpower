@@ -24,6 +24,7 @@ class ActivateCommand(Base):
             reload_zsh()
             return True
         printer(
-            "You are not using Oh My ZSH to run this command.", foreground=FG.WARNING
+            "You are not using Oh My ZSH to run this command.",
+            foreground=FG.WARNING,
         )
         return False

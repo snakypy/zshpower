@@ -13,7 +13,10 @@ class Ruby(Version):
 
     def set_version(self, key="ruby", action=None):
         version = run(
-            "ruby --version 2>/dev/null", capture_output=True, shell=True, text=True
+            "ruby --version 2>/dev/null",
+            capture_output=True,
+            shell=True,
+            text=True,
         )
 
         if version.returncode != 127 and version.returncode != 1:

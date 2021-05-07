@@ -28,5 +28,8 @@ class Sync(Base):
             curses.endwin()
             printer("Done!", foreground=FG.FINISH)
         except OperationalError:
-            printer("The database does not exist or is corrupted.", foreground=FG.ERROR)
+            printer(
+                "The database does not exist or is corrupted.",
+                foreground=FG.ERROR,
+            )
             sys.exit(1)

@@ -70,7 +70,9 @@ class Virtualenv:
         self.involved = config["python"]["virtualenv"]["involved"]
         self.color = config["python"]["virtualenv"]["color"]
         self.prefix_color = config["python"]["virtualenv"]["prefix"]["color"]
-        self.prefix_text = element_spacing(config["python"]["virtualenv"]["prefix"]["text"])
+        self.prefix_text = element_spacing(
+            config["python"]["virtualenv"]["prefix"]["text"]
+        )
         self.name_enable = config["python"]["virtualenv"]["name"]["normal"]["enable"]
         self.name_text = config["python"]["virtualenv"]["name"]["text"]
 

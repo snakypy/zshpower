@@ -11,7 +11,9 @@ class CreditsCommand:
         print("\n")
         printer("Offered by:".center(50), foreground=FG.GREEN)
         billboard(
-            package.info["organization_name"], justify="center", foreground=FG.YELLOW
+            package.info["organization_name"],
+            justify="center",
+            foreground=FG.YELLOW,
         )
         printer("copyright (c) since 2020\n".center(100), foreground=FG.GREEN)
         credence(

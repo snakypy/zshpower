@@ -74,7 +74,8 @@ class Draw(DAO):
     def get_register(self):
         try:
             data = self.select_columns(
-                columns=("name", "version"), table=[item for item in sql().keys()][0]
+                columns=("name", "version"),
+                table=[item for item in sql().keys()][0],
             )
             return data
         except (KeyError, OperationalError):
