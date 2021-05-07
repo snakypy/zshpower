@@ -1,4 +1,4 @@
-FROM python:3
+FROM python:3.9
 USER root
 WORKDIR /zshpower
 ENV LOCAL_BIN=/root/.local/bin
