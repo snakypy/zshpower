@@ -123,7 +123,7 @@ version.micro.enable = true
 
 [git]
 enable = true
-symbol = "\\uf418"
+symbol = "\\ue725"
 branch.color = "cyan"
 color.symbol = "magenta"
 prefix.color = "white"
