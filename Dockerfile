@@ -10,6 +10,6 @@ RUN apt-get update \
 ADD . /zshpower
 RUN cd /zshpower \
 && poetry install \
-&& echo "[[ -f /root/.zshpower/init ]] && . /root/.zshpower/init" > /root/.zshrc \
+&& echo "[[ -f /root/.zshpower/0.7.0/init.sh ]] && . /root/.zshpower/0.7.0/init.sh" > /root/.zshrc \
 && chmod +x docker.sh
 CMD poetry shell

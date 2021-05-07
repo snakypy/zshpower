@@ -61,7 +61,7 @@ Ready to contribute? Here's how to set up `zshpower` for local development.
 2. Clone your fork locally:
 
     $ git clone git@github.com:your_name_here/zshpower.git --branch dev
-   
+
 NOTE: It is recommended that you use the "dev" branch, which is the updated branch for future versions.
 
 3. Install your local copy on a virtualenv. Assuming you have poetry installed, this is how you set up your fork for local development:
@@ -96,9 +96,13 @@ Pull Request Guidelines
 Before you submit a pull request, check that it meets these guidelines:
 
 1. The pull request should include tests.
-2. The pull request should work for Python 3.8, and for PyPy. Check
-   https://travis-ci.com/snakypy/zshpower/pull_requests
-   and make sure that the tests pass for all supported Python versions.
+2. The pull request should work for Python 3.9, and for PyPy. Check
+
+		https://github.com/snakypy/zshpower/actions
+
+		https://travis-ci.com/snakypy/zshpower
+
+and make sure that the tests pass for all supported Python versions.
 
 
 Developing with Docker
