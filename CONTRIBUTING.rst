@@ -120,9 +120,9 @@ To do this, do:
 
     $ docker run --rm -it zshpower:<version>
 
-3 - Run the "docker.sh" script to create the ZSHPower configurations:
+3 - Run the command to create the ZSHPower configurations:
 
-    $ ./docker.sh
+    $ zshpower init [--omz]
 
 Appear in credits
 ------------------
