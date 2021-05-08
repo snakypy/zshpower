@@ -1,17 +1,17 @@
 from zshpower.config.base import Base
+from zshpower.utils.check import checking_init
+from zshpower.utils.catch import read_zshrc_omz
+from zshpower.utils.shift import change_theme_in_zshrc
+from zshpower.utils.process import reload_zsh
+from snakypy.ansi import FG
+from snakypy import printer
 
 
 class ActivateCommand(Base):
     def __init__(self, home):
         Base.__init__(self, home)
 
-    def main(self):
-        from zshpower.utils.check import checking_init
-        from zshpower.utils.catch import read_zshrc_omz
-        from zshpower.utils.shift import change_theme_in_zshrc
-        from zshpower.utils.process import reload_zsh
-        from snakypy.ansi import FG
-        from snakypy import printer
+    def run(self) -> bool:
 
         checking_init(self.HOME)
 
@@ -23,6 +23,8 @@ class ActivateCommand(Base):
             printer("Activation process finish.", foreground=FG.FINISH)
             reload_zsh()
             return True
-        return printer(
-            "You are not using Oh My ZSH to run this command.", foreground=FG.WARNING
+        printer(
+            "You are not using Oh My ZSH to run this command.",
+            foreground=FG.WARNING,
         )
+        return False

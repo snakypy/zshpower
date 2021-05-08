@@ -1,15 +1,22 @@
+from zshpower.database.sql import sql
+from zshpower.config import package
+from zshpower import __version__
+from os.path import join
+
+
 class Base:
     def __init__(self, home):
-        from zshpower.config import package
-        from zshpower import __version__
-        from os.path import join
-
         self.HOME = home
-        self.config_root = join(
-            self.HOME, f".{package.info['pkg_name']}/config/{__version__}"
+        self.zshpower_home = join(
+            self.HOME, f".{package.info['pkg_name']}", __version__
         )
-        self.init_file = join(self.HOME, f".{package.info['pkg_name']}/init")
-        self.config_file = join(self.config_root, "config.toml")
+        self.tbl_main = [item for item in sql().keys()][0]
+        self.config_file = join(self.zshpower_home, "config.toml")
+        self.data_root = join(self.zshpower_home, ".data")
+        self.database_path = join(self.data_root, "db.sqlite3")
+        self.sync_path = f"/usr/local/bin/{package.info['pkg_name']}_sync.sh"
+        self.cron_path = f"/etc/cron.d/{package.info['pkg_name']}_task.sh"
+        self.init_file = join(self.zshpower_home, "init.sh")
         self.zsh_rc = join(self.HOME, ".zshrc")
         self.omz_root = join(self.HOME, ".oh-my-zsh")
         self.themes_folder = join(self.omz_root, "custom/themes")

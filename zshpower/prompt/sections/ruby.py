@@ -1,71 +1,29 @@
-from zshpower.prompt.sections.package import Rust
+from subprocess import run
+from zshpower.prompt.sections.lib.utils import Version
 
 
-class Ruby:
-    def __init__(self, config):
-        from .lib.utils import symbol_ssh, element_spacing
-
-        self.config = config
+class Ruby(Version):
+    def __init__(self):
+        super(Ruby, self).__init__()
         self.files = ("Gemfile", "Rakefile")
         self.extensions = (".rb",)
-        self.folders = ()
-        self.symbol = symbol_ssh(config["ruby"]["symbol"], "rb-")
-        self.color = config["ruby"]["color"]
-        self.prefix_color = config["ruby"]["prefix"]["color"]
-        self.prefix_text = element_spacing(config["ruby"]["prefix"]["text"])
-        self.micro_version_enable = config["ruby"]["version"]["micro"]["enable"]
 
-    def get_version(self, space_elem=" "):
-        from subprocess import run
+    def get_version(
+        self, config, reg_version, key="ruby", ext="rb-", space_elem=" "
+    ) -> str:
+        return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-        ruby_version = run(
-            "ruby --version 2>/dev/null", capture_output=True, shell=True, text=True
-        ).stdout
+    def set_version(self, key="ruby", action=None) -> bool:
+        version = run(
+            "ruby --version 2>/dev/null",
+            capture_output=True,
+            shell=True,
+            text=True,
+        )
 
-        if not ruby_version.replace("\n", ""):
-            return False
-
-        # E.g: ['3', '0', '1p64']
-        ruby_version = ruby_version.replace("\n", " ").split(" ")[1].split(".")
-
-        # Format version. Remove p64. E.g: ['3', '0', '1']
-        ruby_version.append(ruby_version[2].split("p")[0])
-        ruby_version.pop(2)
-
-        if not self.micro_version_enable:
-            return f"{'{0[0]}.{0[1]}'.format(ruby_version)}{space_elem}"
-        return f"{'{0[0]}.{0[1]}.{0[2]}'.format(ruby_version)}{space_elem}"
-
-    def __str__(self):
-        from .lib.utils import Color, separator
-        from zshpower.utils.catch import find_objects
-        from os import getcwd as os_getcwd
-
-        ruby_version = self.get_version()
-
-        if ruby_version and find_objects(
-            os_getcwd(),
-            files=self.files,
-            folders=self.folders,
-            extension=self.extensions,
-        ):
-
-            prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
-
-            return str(
-                (
-                    f"{separator(self.config)}{prefix}"
-                    f"{Color(self.color)}{self.symbol}"
-                    f"{self.get_version()}{Color().NONE}"
-                )
+        if version.returncode != 127 and version.returncode != 1:
+            version_format = (
+                version.stdout.replace("\n", " ").split(" ")[1].split("p")[0]
             )
-        return ""
-
-
-def ruby(config):
-    import concurrent.futures
-
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        future = executor.submit(Ruby, config)
-        return_value = future.result()
-        return return_value
+            return super().set(version_format, key, action)
+        return False

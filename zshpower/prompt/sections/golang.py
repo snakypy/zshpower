@@ -1,60 +1,24 @@
-class Golang:
-    def __init__(self, config):
-        from .lib.utils import symbol_ssh, element_spacing
+from subprocess import run
+from zshpower.prompt.sections.lib.utils import Version
 
-        self.config = config
+
+class Golang(Version):
+    def __init__(self):
+        super(Golang, self).__init__()
         self.extensions = (".go",)
         self.files = ("go.mod", "glide.yaml")
         self.folders = ("Godeps",)
-        self.symbol = symbol_ssh(config["golang"]["symbol"], "go-")
-        self.color = config["golang"]["color"]
-        self.prefix_color = config["golang"]["prefix"]["color"]
-        self.prefix_text = element_spacing(config["golang"]["prefix"]["text"])
-        self.micro_version_enable = config["golang"]["version"]["micro"]["enable"]
 
-    def get_version(self, space_elem=" "):
-        from subprocess import run
+    def get_version(
+        self, config, reg_version, key="golang", ext="go-", space_elem=" "
+    ) -> str:
+        return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-        output_version = run(
-            "go version", capture_output=True, shell=True, text=True
-        ).stdout
+    def set_version(self, key="golang", action=None) -> bool:
+        version = run("go version", capture_output=True, shell=True, text=True)
 
-        if not output_version.replace("\n", ""):
-            return False
+        if not version.stderr.replace("\n", ""):
+            version_format = version.stdout.replace("go", "").split(" ")[2]
+            return super().set(version_format, key, action)
 
-        output_version = output_version.replace("go", "").split(" ")[2].split(".")
-
-        if not self.micro_version_enable:
-            return f"{'{0[0]}.{0[1]}'.format(output_version)}{space_elem}"
-        return f"{'{0[0]}.{0[1]}.{0[2]}'.format(output_version)}{space_elem}"
-
-    def __str__(self):
-        from .lib.utils import Color, separator
-        from zshpower.utils.catch import find_objects
-        from os import getcwd as os_getcwd
-
-        if self.get_version() and find_objects(
-            os_getcwd(),
-            files=self.files,
-            folders=self.folders,
-            extension=self.extensions,
-        ):
-            prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
-
-            return str(
-                (
-                    f"{separator(self.config)}{prefix}"
-                    f"{Color(self.color)}{self.symbol}"
-                    f"{self.get_version()}{Color().NONE}"
-                )
-            )
-        return ""
-
-
-def golang(config):
-    import concurrent.futures
-
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        future = executor.submit(Golang, config)
-        return_value = future.result()
-        return return_value
+        return False

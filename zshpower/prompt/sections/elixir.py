@@ -1,65 +1,28 @@
-class Elixir:
-    def __init__(self, config):
-        from .lib.utils import symbol_ssh, element_spacing
+from subprocess import run
+from zshpower.prompt.sections.lib.utils import Version
 
-        self.config = config
+
+class Elixir(Version):
+    def __init__(self):
+        super(Elixir, self).__init__()
         self.files = ("mix.exs",)
         self.extensions = (".ex",)
-        self.folders = ()
-        self.symbol = symbol_ssh(config["elixir"]["symbol"], "ex-")
-        self.color = config["elixir"]["color"]
-        self.prefix_color = config["elixir"]["prefix"]["color"]
-        self.prefix_text = element_spacing(config["elixir"]["prefix"]["text"])
-        self.micro_version_enable = config["elixir"]["version"]["micro"]["enable"]
 
-    def get_version(self, space_elem=" "):
-        from subprocess import run
+    def get_version(
+        self, config, reg_version, key="elixir", ext="ex-", space_elem=" "
+    ) -> str:
+        return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-        elixir_version = run(
+    def set_version(self, key="elixir", action=None) -> bool:
+
+        version = run(
             "elixir -v 2>/dev/null | grep 'Elixir' | cut -d ' ' -f2",
             capture_output=True,
             shell=True,
             text=True,
         ).stdout
 
-        if not elixir_version.replace("\n", ""):
-            return False
-
-        elixir_version = elixir_version.replace("\n", "").split(".")
-
-        if not self.micro_version_enable:
-            return f"{'{0[0]}.{0[1]}'.format(elixir_version)}{space_elem}"
-        return f"{'{0[0]}.{0[1]}.{0[2]}'.format(elixir_version)}{space_elem}"
-
-    def __str__(self):
-        from .lib.utils import Color, separator
-        from zshpower.utils.catch import find_objects
-        from os import getcwd as os_getcwd
-
-        elixir_version = self.get_version()
-
-        if elixir_version and find_objects(
-            os_getcwd(),
-            files=self.files,
-            folders=self.folders,
-            extension=self.extensions,
-        ):
-            prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
-
-            return str(
-                (
-                    f"{separator(self.config)}{prefix}"
-                    f"{Color(self.color)}{self.symbol}"
-                    f"{elixir_version}{Color().NONE}"
-                )
-            )
-        return ""
-
-
-def elixir(config):
-    import concurrent.futures
-
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        future = executor.submit(Elixir, config)
-        return_value = future.result()
-        return return_value
+        if version.replace("\n", ""):
+            version_format = version.replace("\n", "")
+            return super().set(version_format, key, action)
+        return False

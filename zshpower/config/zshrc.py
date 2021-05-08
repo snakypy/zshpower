@@ -1,6 +1,6 @@
 from zshpower.config import package
 
-content = f"""# Generate by: ZSHPower
+content: str = f"""# Generate by: ZSHPower
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -102,3 +102,13 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
     """
+
+zshrc_sample: str = """
+PATH=\\$PATH:~/.local/bin:/usr/bin:/usr/local/bin
+export PATH
+
+autoload -Uz compinit promptinit
+compinit
+promptinit
+PROMPT='%F{green}%n%f@%F{magenta}%m%f %F{blue}%B%~%b%f %# '
+"""

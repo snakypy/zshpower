@@ -1,17 +1,17 @@
 from zshpower.config.base import Base
+from zshpower.utils.process import reload_zsh
+from zshpower.utils.shift import change_theme_in_zshrc
+from zshpower.utils.catch import read_zshrc_omz
+from zshpower.utils.check import checking_init
+from snakypy import printer
+from snakypy.ansi import FG
 
 
 class DeactivateCommand(Base):
     def __init__(self, home):
         Base.__init__(self, home)
 
-    def main(self, arguments, *, theme_name="robbyrussell"):
-        from zshpower.utils.process import reload_zsh
-        from zshpower.utils.shift import change_theme_in_zshrc
-        from zshpower.utils.catch import read_zshrc_omz
-        from zshpower.utils.check import checking_init
-        from snakypy import printer
-        from snakypy.ansi import FG
+    def run(self, arguments, *, theme_name="robbyrussell") -> bool:
 
         checking_init(self.HOME)
 
@@ -26,6 +26,8 @@ class DeactivateCommand(Base):
             printer("Deactivation process finish.", foreground=FG.FINISH)
             reload_zsh()
             return True
-        return printer(
-            "You are not using Oh My ZSH to run this command.", foreground=FG.WARNING
+        printer(
+            "You are not using Oh My ZSH to run this command.",
+            foreground=FG.WARNING,
         )
+        return False

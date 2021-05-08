@@ -1,54 +1,61 @@
-# from .lib.utils import abspath_link
 from pathlib import Path
+from subprocess import run
+from .lib.utils import symbol_ssh, element_spacing
+from os import environ
+from os import geteuid
+from .lib.utils import Color
 
 
-def shorten_path(file_path, length):
+def get_pwd() -> str:
+    # import os
+    # from os import getenv, system
+    # from os import environ, getcwd, getcwdb, getenvb
+    # from pathlib import Path
+    # from os import getcwd
+
+    # NOTES: https://stackoverflow.com/questions/123958/how-to-get-set-logical-directory-path-in-python
+    # return os.popen('pwd').read().strip('\n')
+    # return getenv('PWD')
+    # return getcwd()
+    return run("pwd", capture_output=True, shell=True, text=True).stdout.replace(
+        "\n", ""
+    )
+
+
+def shorten_path(file_path, length) -> Path:
     return Path(*Path(file_path).parts[-length:])
 
 
 class Directory:
     def __init__(self, config):
-        from .lib.utils import symbol_ssh, element_spacing
-
         self.username_enable = config["username"]["enable"]
         self.hostname_enable = config["hostname"]["enable"]
-        self.directory_truncate_value = config["directory"]["truncation_length"]
-        self.directory_symbol = symbol_ssh(config["directory"]["symbol"], "")
-        self.directory_color = config["directory"]["color"]
-        self.directory_prefix_color = config["directory"]["prefix"]["color"]
-        self.directory_prefix_text = element_spacing(
-            config["directory"]["prefix"]["text"]
-        )
+        self.truncate_value = config["directory"]["truncation_length"]
+        self.symbol = symbol_ssh(config["directory"]["symbol"], "")
+        self.color = config["directory"]["color"]
+        self.prefix_color = config["directory"]["prefix"]["color"]
+        self.prefix_text = element_spacing(config["directory"]["prefix"]["text"])
 
     def __str__(self, prefix="", space_elem=" "):
-        from os import environ, getcwd
-        from os import geteuid as os_geteuid
-        from .lib.utils import Color
-
         if (
             self.username_enable
-            or os_geteuid() == 0
+            or geteuid() == 0
             or self.hostname_enable
             or "SSH_CONNECTION" in environ
         ):
-            prefix = (
-                f"{Color(self.directory_prefix_color)}"
-                f"{self.directory_prefix_text}{Color().NONE}"
-            )
+            prefix = f"{Color(self.prefix_color)}" f"{self.prefix_text}{Color().NONE}"
 
-        if int(self.directory_truncate_value) < 0:
-            self.directory_truncate_value = 0
-        if int(self.directory_truncate_value) > 4:
-            self.directory_truncate_value = 4
+        if int(self.truncate_value) < 0:
+            self.truncate_value = 0
+        if int(self.truncate_value) > 4:
+            self.truncate_value = 4
 
         # Old "abspath_link()"
-        dir_truncate = str(shorten_path(getcwd(), self.directory_truncate_value))
+        dir_truncate = str(shorten_path(get_pwd(), self.truncate_value))
 
         if dir_truncate.split("/")[-1:] == str(Path.home()).split("/")[-1:]:
             dir_truncate = "~"
-        directory_export = (
-            f"{prefix}{Color(self.directory_color)}{self.directory_symbol}"
+        return (
+            f"{prefix}{Color(self.color)}{self.symbol}"
             f"{dir_truncate}{space_elem}{Color().NONE}"
         )
-
-        return str(directory_export)

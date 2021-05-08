@@ -1,12 +1,22 @@
-from .lib.utils import Color
+from zshpower.prompt.sections.lib.utils import Color
+from zshpower.prompt.sections.lib.utils import element_spacing, symbol_ssh
+from zshpower.prompt.sections.lib.utils import separator, git_status
+from os import getcwd, environ
+from os.path import join, isdir
 
 
 class Git:
     def __init__(self, config, icon_space=" "):
-        from .lib.utils import element_spacing, symbol_ssh
 
         self.config = config
-        self.symbol = symbol_ssh(config["git"]["symbol"], "git:")
+        # TODO: ZSHPower version 0.8.0 - In the future, the configuration
+        #  file (config.toml) will no longer be mandatory in ZSHPower, as it
+        #  is necessary to check if there are keys in the configuration file.
+        try:
+            self.symbol = symbol_ssh(config["git"]["symbol"], "git:")
+        except KeyError:
+            self.symbol = symbol_ssh("\uf418", "git:")
+        self.enable = config["git"]["enable"]
         self.color_symbol = config["git"]["color"]["symbol"]
         self.branch_color = config["git"]["branch"]["color"]
         self.prefix_color = config["git"]["prefix"]["color"]
@@ -95,11 +105,7 @@ class Git:
         self.icons["UD"] = self.icons["UU"]
 
     def __str__(self):
-        from .lib.utils import separator, git_status
-        from os import getcwd, environ
-        from os.path import join, isdir
-
-        if isdir(join(getcwd(), ".git")):
+        if isdir(join(getcwd(), ".git")) and self.enable:
             status_git = git_status(porcelain=True)
             status_git_text = git_status()
             branch_current = git_status(branch=True)
@@ -142,7 +148,7 @@ class Git:
             if len(status_git) == 0:
                 status_current.append("CL")
 
-            # # Old: No List Comprehension
+            # TODO: No List Comprehension (DEPRECATED)
             # status_icons = []
             # for item in status_current:
             #     if "SSH_CONNECTION" not in environ:
@@ -153,14 +159,14 @@ class Git:
             #     else:
             #         status_icons.append(f"{self.icons[item][1]}")
 
-            status_icons = [
+            status_icons = (
                 self.icons[item][0]
                 if self.symbol_enable
                 else self.icons[item][1]
                 if "SSH_CONNECTION" not in environ
                 else self.icons[item][1]
                 for item in status_current
-            ]
+            )
 
             # status = f'( {" ".join(sorted(status_icons)).strip()} )'
             # if len(status_current) == 1:

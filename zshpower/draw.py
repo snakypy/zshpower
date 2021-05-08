@@ -1,190 +1,192 @@
-try:
-    from snakypy import FG
-    from tomlkit.exceptions import NonExistentKey, UnexpectedCharError
-except KeyboardInterrupt:
-    pass
+from contextlib import suppress
+from snakypy import FG, printer
+from tomlkit.exceptions import NonExistentKey, UnexpectedCharError
+from sqlite3 import OperationalError
 from snakypy.utils.decorators import only_for_linux
+from zshpower.prompt.sections.gulp import Gulp
+from zshpower.prompt.sections.jump_line import JumpLine
 from zshpower.utils.decorators import silent_errors
-from zshpower import HOME
 from zshpower.config import package
-from zshpower.config.base import Base
+from zshpower.database.dao import DAO
+from zshpower.config.config import content as config_content
+from zshpower.utils.shift import create_config
+from snakypy.path import create as snakypy_path_create
+from snakypy.file import read as snakypy_file_red
+from tomlkit import parse as toml_parse
+from concurrent.futures import ThreadPoolExecutor
+from zshpower.prompt.sections.directory import Directory
+from zshpower.prompt.sections.git import Git
+from zshpower.prompt.sections.hostname import Hostname
+from zshpower.prompt.sections.command import Command
+from zshpower.prompt.sections.username import Username
+from zshpower.prompt.sections.package import Package
+from zshpower.prompt.sections.docker import Docker
+from zshpower.prompt.sections.nodejs import NodeJs
+from zshpower.prompt.sections.python import Python, Virtualenv
+from zshpower.prompt.sections.rust import Rust
+from zshpower.prompt.sections.golang import Golang
+from zshpower.prompt.sections.php import Php
+from zshpower.prompt.sections.elixir import Elixir
+from zshpower.prompt.sections.julia import Julia
+from zshpower.prompt.sections.scala import Scala
+from zshpower.prompt.sections.ruby import Ruby
+from zshpower.prompt.sections.dotnet import Dotnet
+from zshpower.prompt.sections.java import Java
+from zshpower.prompt.sections.dart import Dart
+from zshpower.prompt.sections.zig import Zig
+from zshpower.prompt.sections.vagrant import Vagrant
+from zshpower.prompt.sections.ocaml import Ocaml
+from zshpower.prompt.sections.nim import Nim
+from zshpower.prompt.sections.kotlin import Kotlin
+from zshpower.prompt.sections.helm import Helm
+from zshpower.prompt.sections.erlang import Erlang
+from zshpower.prompt.sections.deno import Deno
+from zshpower.prompt.sections.crystal import Crystal
+from zshpower.prompt.sections.cmake import CMake
+from zshpower.prompt.sections.perl import Perl
+from zshpower.prompt.sections.timer import Timer
+from sys import argv as sys_argv, stdout
 
-# Test timer
+# ## Test timer ## #
 # from zshpower.utils.decorators import runtime
 
 
-# TODO: Create a cache file containing the versions so that you
-# don't run the command repeatedly.
-class Draw(Base):
-    """Class to perform the impression of the PROMPT style"""
-
+class Draw(DAO):
     def __init__(self):
-        Base.__init__(self, HOME)
+        DAO.__init__(self)
+        self.config = self.get_config()
+        self.register = self.get_register()
 
-    @property
-    def config_load(self):
+    def get_config(self) -> dict:
         try:
-            from zshpower.config.config import content as config_content
-            from zshpower.utils.shift import create_config
-            from snakypy.path import create as snakypy_path_create
-            from snakypy.file import read as snakypy_file_red
-            from tomlkit import parse as toml_parse
-
             read_conf = snakypy_file_red(self.config_file)
             parsed = toml_parse(read_conf)
             return parsed
+
         except (FileNotFoundError, NonExistentKey):
-            snakypy_path_create(self.config_root)
+            snakypy_path_create(self.zshpower_home)
             create_config(config_content, self.config_file)
             read_conf = snakypy_file_red(self.config_file)
             parsed = toml_parse(read_conf)
-            # printer(
-            #     f"[ZSHPower Warning] A new configuration file for that version "
-            #     f'has been created in "{self.config_root}".',
-            #     foreground=FG.YELLOW,
-            # )
             return parsed
 
-    # @runtime
-    def prompt(self, jump_line="\n"):
+    def get_register(self):
         try:
-            from zshpower.prompt.sections.directory import Directory
-            from zshpower.prompt.sections.git import Git
-            from zshpower.prompt.sections.hostname import Hostname
-            from zshpower.prompt.sections.command import Command
-            from zshpower.prompt.sections.username import Username
-            from zshpower.prompt.sections.package import package
-            from zshpower.prompt.sections.docker import docker
-            from zshpower.prompt.sections.node import nodejs
-            from zshpower.prompt.sections.python import python
-            from zshpower.prompt.sections.rust import rust
-            from zshpower.prompt.sections.golang import golang
-            from zshpower.prompt.sections.php import php
-            from zshpower.prompt.sections.elixir import elixir
-            from zshpower.prompt.sections.julia import julia
-            from zshpower.prompt.sections.dotnet import dotnet
-            from zshpower.prompt.sections.ruby import ruby
-            from zshpower.prompt.sections.java import java
-            from zshpower.prompt.sections.dart import dart
-            from zshpower.prompt.sections.virtualenv import virtualenv
-
-            # Loading the settings to a local variable and thus improving performance
-            config_loaded = self.config_load
-
-            if not config_loaded["general"]["jump_line"]["enable"]:
-                jump_line = ""
-
-            username = (
-                Username(config_loaded) if config_loaded["username"]["enable"] else ""
+            data = self.select_columns(
+                columns=("name", "version"),
+                table=self.tbl_main,
+            )
+            return data
+        except (KeyError, OperationalError):
+            printer(
+                f'{package.info["name"]} Error: Database corrupted. Run command: '
+                f'"zshpower reset --db" to restore.\n>> ',
+                foreground=FG.ERROR,
             )
 
-            hostname = (
-                Hostname(config_loaded) if config_loaded["hostname"]["enable"] else ""
-            )
+    def version(self, instance, key) -> str:
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            if key in self.register:
+                future = executor.submit(
+                    instance().get_version, self.config, self.register
+                )
+                return_value = future.result()
+                return return_value
+            return ""
 
-            directory = Directory(config_loaded)
+    @staticmethod
+    def get_keys(dic, item) -> str:
+        return dic[item]
 
-            dinamic_section = {
-                "virtualenv": virtualenv(config_loaded)
-                if config_loaded["virtualenv"]["enable"]
-                else "",
-                "python": python(config_loaded)
-                if config_loaded["python"]["version"]["enable"]
-                else "",
-                "package": package(config_loaded)
-                if config_loaded["package"]["enable"]
-                else "",
-                "nodejs": nodejs(config_loaded)
-                if config_loaded["nodejs"]["version"]["enable"]
-                else "",
-                "rust": rust(config_loaded)
-                if config_loaded["rust"]["version"]["enable"]
-                else "",
-                "golang": golang(config_loaded)
-                if config_loaded["golang"]["version"]["enable"]
-                else "",
-                "ruby": ruby(config_loaded)
-                if config_loaded["ruby"]["version"]["enable"]
-                else "",
-                "dart": dart(config_loaded)
-                if config_loaded["dart"]["version"]["enable"]
-                else "",
-                "php": php(config_loaded)
-                if config_loaded["php"]["version"]["enable"]
-                else "",
-                "java": java(config_loaded)
-                if config_loaded["java"]["version"]["enable"]
-                else "",
-                "julia": julia(config_loaded)
-                if config_loaded["julia"]["version"]["enable"]
-                else "",
-                "dotnet": dotnet(config_loaded)
-                if config_loaded["dotnet"]["version"]["enable"]
-                else "",
-                "elixir": elixir(config_loaded)
-                if config_loaded["elixir"]["version"]["enable"]
-                else "",
-                "docker": docker(config_loaded)
-                if config_loaded["docker"]["version"]["enable"]
-                else "",
-                "git": Git(config_loaded) if config_loaded["git"]["enable"] else "",
-            }
-            cmd = Command(config_loaded)
+    # @runtime
+    def prompt(self):
+        try:
+            with suppress(KeyboardInterrupt):
+                jump_line = JumpLine(self.config)
+                username = Username(self.config)
+                hostname = Hostname(self.config)
+                directory = Directory(self.config)
+                dinamic_section = {
+                    "virtualenv": Virtualenv(self.config),
+                    "python": Python(self.config),
+                    "package": Package(self.config),
+                    "nodejs": self.version(NodeJs, "nodejs"),
+                    "rust": self.version(Rust, "rust"),
+                    "golang": self.version(Golang, "golang"),
+                    "ruby": self.version(Ruby, "ruby"),
+                    "dart": self.version(Dart, "dart"),
+                    "php": self.version(Php, "php"),
+                    "java": self.version(Java, "java"),
+                    "julia": self.version(Julia, "julia"),
+                    "dotnet": self.version(Dotnet, "dotnet"),
+                    "elixir": self.version(Elixir, "elixir"),
+                    "scala": self.version(Scala, "scala"),
+                    "perl": self.version(Perl, "perl"),
+                    "cmake": self.version(CMake, "cmake"),
+                    "crystal": self.version(Crystal, "crystal"),
+                    "deno": self.version(Deno, "deno"),
+                    "erlang": self.version(Erlang, "erlang"),
+                    "helm": self.version(Helm, "helm"),
+                    "kotlin": self.version(Kotlin, "kotlin"),
+                    "nim": self.version(Nim, "nim"),
+                    "ocaml": self.version(Ocaml, "ocaml"),
+                    "vagrant": self.version(Vagrant, "vagrant"),
+                    "zig": self.version(Zig, "zig"),
+                    "gulp": self.version(Gulp, "gulp"),
+                    "docker": self.version(Docker, "docker"),
+                    "git": Git(self.config),
+                }
 
-            static_section = f"{jump_line}{username}{hostname}{directory}"
+                cmd = Command(self.config)
+                static_section = f"{jump_line}{username}{hostname}{directory}"
 
-            # # No List Comprehension/Generator expressions
-            # ordered_section = []
-            # for element in config_loaded["general"]["position"]:
-            #     for item in dinamic_section.keys():
-            #         if item == element:
-            #             # stdout.write(str(dinamic_section[item]))
-            #             ordered_section.append(dinamic_section[item])
+                # Using ThreadPoolExecutor, not Generators
+                with ThreadPoolExecutor(max_workers=2) as executor:
+                    ordered_section = []
+                    for elem in self.config["general"]["position"]:
+                        for item in dinamic_section.keys():
+                            if item == elem:
+                                future = executor.submit(
+                                    self.get_keys, dinamic_section, item
+                                )
+                                ordered_section.append(future.result())
 
-            ordered_section = (
-                dinamic_section[item]
-                for element in config_loaded["general"]["position"]
-                for item in dinamic_section.keys()
-                if item in element
-            )
+                # Using Generators, not ThreadPoolExecutor
+                # ordered_section = (
+                #     dinamic_section[item]
+                #     for element in self.config["general"]["position"]
+                #     for item in dinamic_section.keys()
+                #     if item == element
+                # )
 
-            sections = "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"
-            return sections.format(static_section, *ordered_section, cmd)
+                sections = "{}{}" + "{}" * len(dinamic_section)
+                return sections.format(static_section, *ordered_section, cmd)
+
         except (NonExistentKey, UnexpectedCharError, ValueError):
-            return (
-                f"{FG.ERROR}>>> {package.info['name']} Error: Key error in "
+            raise (
+                f"{FG.ERROR}{package.info['name']} Error: Key error in "
                 f"the configuration file.\n> "
             )
-
-    def rprompt(self):
-        try:
-            from zshpower.prompt.sections.timer import Timer
-
-            config_loaded = self.config_load
-
-            timer = str(
-                Timer(config_loaded) if config_loaded["timer"]["enable"] else ""
+        except KeyError:
+            raise KeyError(
+                f"{FG.ERROR}{package.info['name']} Error: Database records are missing "
+                f"or corrupted. Run the command to correct: \"{package.info['executable']} reset --db\".\n>> "
             )
-            return timer
-        except (NonExistentKey):
+
+    def rprompt(self) -> str:
+        try:
+            timer = Timer(self.config)
+            return str(timer)
+        except NonExistentKey:
             return (
                 f"{FG.ERROR}>>> {package.info['name']} Error: Key error in "
                 f"the configuration file.\n > "
             )
 
 
-"""
-PERFORMANCE NOTE: AS ZSHPOWER NEEDS TO LOAD AN EXTERNAL CONFIGURATION TOML FILE AT ALL
-TIMES WHEN A TERMINAL COMMAND IS LAUNCHED, PERFORMANCE IN LOADING THE ZSHPOWER VISUAL
-MODEL SHOULD FALL A FEW MILLISECONDS.
-"""
-
-
 @silent_errors
 @only_for_linux
-def main():
-    from sys import argv as sys_argv, stdout
-
+def main() -> None:
     if len(sys_argv) < 2:
         raise TypeError("missing 1 required positional argument")
     if len(sys_argv) == 2 and sys_argv[1] == "prompt":

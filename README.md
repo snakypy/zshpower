@@ -17,6 +17,7 @@
     <a href="#theme-configuration">Theme configuration</a> |
     <a href="#reset-settings">Reset settings</a> |
     <a href="#upgrading">Upgrade</a> |
+    <a href="#syncronize">Syncronize</a> |
     <a href="#disable-and-enable-theme-for-oh-my-zsh">Disable/Enable for Oh My ZSH</a> |
     <a href="#uninstalling">Uninstall</a> |
     <a href="#donation">Donation</a> |
@@ -34,7 +35,7 @@
 <br>
 <br>
 
-`ZSHPower` is a theme for ZSH; especially for the [Python](https://www.python.org/) developer. Pleasant to look at, the **ZSHPower** comforts you with its colors and icons vibrant.
+**ZSHPower** is a theme for [ZSH](https://www.zsh.org/); especially for the developer of various programming languages and [Linux](https://www.kernel.org/) users. Pleasant to look at, the **ZSHPower** comforts you with its vibrant colors and icons.
 
 Installing **ZSHPower** is the easiest thing you will see in any existing theme for **ZSH**, because there is a manager.
 
@@ -65,24 +66,38 @@ Here is an example of the installed **ZSHPower**:
 ## Features
 
 - [Oh My Zsh](https://ohmyz.sh) installation automatically;*
+
 - Automatically install [`zsh-autosuggestions`](https://github.com/zsh-users/zsh-autosuggestions) and [`zsh-syntax-highlighting`](https://github.com/zsh-users/zsh-syntax-highlighting);*
+
 - Automated installation and uninstallation;
+
 - Enable and disable `ZSHPower` anytime;*
+
 - Open configuration file in the terminal itself;
+
 - Reset the settings with one command only;
+
+- Personalized directory with truncate option;
+
 - Current Git branch and rich repo status;
   - untracked changes;
   - new files added;
   - deleted files;
   - new modified files;
   - commits made;
-- Python version shown (*with pyenv support*) on the active virtual machine (E.g: `[python_logo] 3.8`);
-- NodeJS version shown (*with nodenv support*)  if NodeJS is installed (E.g: `[node_logo] 13.12.0`);
-- Shows the version of the project if you use "**pyproject.toml**" (E.g: [package_logo] 0.1.0);
-- Shows the version of the project if you use "**package.json**" (E.g: [package_logo] 1.0.0);
-- Show version Docker (E.g: [docker_logo] 19.03.10-ce);
-- Enables **username** and **hostname** when connecting with SSH. (can change in the settings to show permanently);
-- and, many other dynamic settings in ```$HOME/.zshpower/config/<version>/config.toml```.
+  - and more.
+  
+- Application versions shown with [icons](https://www.nerdfonts.com), they are:
+
+  > CMake, Crystal, Dart, Deno, Docker, Docker, Dotnet, Elixir, Erlang, Go, Gulp, Helm, Java, Julia, Kotlin,
+  >
+  > Nim, NodeJS, Ocaml, Perl, Php, Python, Ruby, Rust, Scala, Vagrant, Zig
+
+- Package versions such as Crystal, Helm, NodeJS, Python, Rust shown;
+
+- Shows the time in the upper right corner;
+
+- and, many other dynamic settings in ```$HOME/.zshpower/<VERSION>/config.toml```.
 
 **features if used with __Oh My ZSH__.*
 
@@ -101,6 +116,8 @@ To work correctly, you will first need:
 ## Installing
 
 **1** - It's time to install `ZSHPower` manager. To do this, do:
+
+> NOTE: Global installation is not recommended. The easiest and most convenient way to use **ZSHPower** is to install for each different user on the machine, including for the super user (root)
 
 Globally:
 
@@ -205,40 +222,17 @@ The **symbol** keys, receive icons or their values in `Unicode`. By default, the
 
 ### Configuration file
 
-The configuration file is found in **[HOME USER]/.zshpower/config/[VERSION]/config.toml**, where in **VERSION** is the current version of **ZSHPower**. By default, the preview of the version of certain tools is set to **false**.
+The configuration file is found in **$HOME/.zshpower/<VERSION>/config.toml**, where in **VERSION** is the current version of **ZSHPower**. 
 
 ```shell
 $ zshpower --version
 ```
 
-Know the file and its settings:
+By default, most settings are set to **false**. 
+
+The **ZSHPower** configuration file is very intuitive, and just a glance gives you an idea of what each option does. However, even so we will understand some of them below:
 
 **General**:
-
-```toml
-[general]
-jump_line.enable = true
-separator.element = "-"
-config.editor = "vim"
-separator.color = "white"
-position = [
-    "virtualenv",
-    "python",
-    "package",
-    "nodejs",
-    "rust",
-    "golang",
-    "java",
-    "php",
-    "ruby",
-    "elixir",
-    "julia",
-    "dart",
-    "dotnet",
-    "docker",
-    "git"
-    ]
-```
 
 * **jump_line.enable** - If this option is `true`, you will skip a line each time you execute a command. `Default:` *true*
 
@@ -248,33 +242,10 @@ position = [
 
 * **separator.color** - Changes the color of the separator. `Default:` *white*
 
-* **position** -  This option changes the position of certain sections. To show the information for a given tool, it must be listed in **position**. *Default:*
-position = [
-    "virtualenv",
-    "python",
-    "package",
-    "nodejs",
-    "rust",
-    "golang",
-    "php",
-    "ruby",
-    "elixir",
-    "dart",
-    "julia",
-    "dotnet",
-    "docker",
-    "git"
-    ]
+* **position** -  This option changes the position of certain sections. To show the information for a given tool, it must be listed in **position**. *Default:* 
 
 
 **Username**:
-
-```toml
-[username]
-enable = false
-symbol = "\uf007"
-color = "cyan"
-```
 
 * **enable** - If it is active, it will show the username of the machine. When using SSH, even with the value `false` the username will be shown. `Default:` *false*
 
@@ -282,17 +253,7 @@ color = "cyan"
 
 * **color** - Changes the color of the username. `Default:` *cyan*
 
-
 **Hostname**:
-
-```toml
-[hostname]
-enable = false
-symbol = "\ue0a2"
-color = "magenta"
-prefix.color = "white"
-prefix.text = "at"
-```
 
 * **enable** -  If it is active, it will show the hostname of the machine. When using SSH, even with the value `false` the hostname will be shown.  `Default:` *false*
 
@@ -304,18 +265,7 @@ prefix.text = "at"
 
 * **prefix.text** - Before showing the hostname of the machine, it will have a prefix text. In this option you can change the text you want. `Default:` *at*
 
-
-
 **Directory:**
-
-```toml
-[directory]
-truncation_length = 1
-symbol = "\ufc6e"
-color = "cyan"
-prefix.color = "white"
-prefix.text = "in"
-```
 
 * **truncation_length** - This option receives an integer from 0 to 4. You will be responsible for truncating the path levels of the directory. `Default:` *1* (Note: Value 0 (zero), show all path.)
 
@@ -329,16 +279,6 @@ prefix.text = "in"
 
 
 **Git:**
-
-```toml
-[git]
-enable = true
-symbol = "\uf418"
-color.symbol = "white"
-branch.color = "cyan"
-prefix.color = "white"
-prefix.text = "on"
-```
 
 * **enable** -  If it is `true`, it will show git information if it is in a directory started with git. `Default:` *true*
 
@@ -355,36 +295,9 @@ prefix.text = "on"
 
 **Git Status:**
 
-```toml
-[git.status]
-symbols.enable = true
-symbol.clean = "\uf62c"
-symbol.added = "\ufc03"
-symbol.modified = "\ufba8"
-symbol.deleted = "\ufbc7"
-symbol.renamed = "\uf101"
-symbol.unmerged = "\uf6fb"
-symbol.untracked = "\uf41e"
-symbol.copied = "\ufab1"
-symbol.ahead = "\uf55c"
-symbol.behind = "\uf544"
-symbol.diverged = "\ufb15"
-symbol.conflicts = "\uf0e7"
-```
-
 * **symbols.enable** -  Receives `true` or` false`. If `true`, shows the git status icons through each defined value. Remember that these icons will not be shown if you are via SSH. `Default:` *true*
 
-
 **Command**:
-
-```toml
-[command]
-new_line.enable = true
-symbol = "\uf553"
-color = "green"
-error.symbol = "\uf553"
-error.color = "red"
-```
 
 * **new_line.enable** - Receive `true` or` false`. If `true`, skip a line in the command entry. `Default:` *true*
 
@@ -401,15 +314,6 @@ error.color = "red"
 
 **Package:**
 
-```toml
-[package]
-enable = false
-symbol = "\uf8d6"
-color = "red"
-prefix.color = "white"
-prefix.text = "is"
-```
-
 * **enable** - If the option is `true`, it will show the version information (with icon) of the Python project if it contains the file **pyproject.toml**, **Cargo.toml**, and **package.json** in the directory.  `Default:` *false*
 
 * **symbol** - Must receive an icon, whether in unicode or not. `Default:` \uf8d6
@@ -420,291 +324,7 @@ prefix.text = "is"
 
 * **prefix.text** - Before showing the package information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *is*
 
-
-**Docker:**
-
-```toml
-[docker]
-symbol = "\uf308"
-color = "cyan"
-prefix.color = "white"
-prefix.text = "on"
-version.enable = false
-version.micro.enable = true
-```
-
-* **symbol** -  Must receive an icon, whether in unicode or not. `Default:` \uf308
-
-* **color** - Changes the color of the pyproject. `Default:` cyan
-
-* **prefix.color** - Changes the color of the prefix. `Default:` *white*
-
-* **prefix.text** - Before showing the Docker information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *on*
-
-* **version.enable** - Shows the version of Docker. `Default:` *false*
-
-* **version.micro.enable** - Shows the micro version of Docker. `Default:` *true*
-
-
-**Rust:**
-
-```toml
-[rust]
-symbol = "\ue7a8"
-color = "red"
-prefix.color = "white"
-prefix.text = "via"
-version.enable = false
-version.micro.enable = true
-```
-
-* **symbol** -  Must receive an icon, whether in unicode or not. `Default:` \ue7a8
-
-* **color** - Changes the color of the version. `Default:` red
-
-* **prefix.color** - Changes the color of the prefix. `Default:` *white*
-
-* **prefix.text** - Before showing the Rust information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *via*
-
-* **version.enable** - Shows the version of Rust. `Default:` *false*
-
-* **version.micro.enable** - Shows the micro version of Rust. `Default:` *true*
-
-
-**Dotnet:**
-
-```toml
-[dotnet]
-symbol = "\ue77f"
-color = "cyan"
-prefix.color = "white"
-prefix.text = "via"
-version.enable = false
-version.micro.enable = true
-```
-
-* **symbol** -  Must receive an icon, whether in unicode or not. `Default:` \ue77f
-
-* **color** - Changes the color of the version. `Default:` cyan
-
-* **prefix.color** - Changes the color of the prefix. `Default:` *white*
-
-* **prefix.text** - Before showing the Dotnet information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *via*
-
-* **version.enable** - Shows the version of Dotnet. `Default:` *false*
-
-* **version.micro.enable** - Shows the micro version of Dotnet. `Default:` *true*
-
-**Ruby:**
-
-```toml
-[ruby]
-symbol = "\ue21e"
-color = "red"
-prefix.color = "white"
-prefix.text = "via"
-version.enable = false
-version.micro.enable = true
-```
-
-* **symbol** -  Must receive an icon, whether in unicode or not. `Default:` \ue21e
-
-* **color** - Changes the color of the version. `Default:` red
-
-* **prefix.color** - Changes the color of the prefix. `Default:` *white*
-
-* **prefix.text** - Before showing the Ruby information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *via*
-
-* **version.enable** - Shows the version of Ruby. `Default:` *false*
-
-* **version.micro.enable** - Shows the micro version of Ruby. `Default:` *true*
-
-**Php:**
-
-```toml
-[php]
-symbol = "\ue608"
-color = "magenta"
-prefix.color = "white"
-prefix.text = "via"
-version.enable = false
-version.micro.enable = true
-```
-
-* **symbol** -  Must receive an icon, whether in unicode or not. `Default:` \ue608
-
-* **color** - Changes the color of the version. `Default:` magenta
-
-* **prefix.color** - Changes the color of the prefix. `Default:` *white*
-
-* **prefix.text** - Before showing the Php information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *via*
-
-* **version.enable** - Shows the version of Php. `Default:` *false*
-
-* **version.micro.enable** - Shows the micro version of Php. `Default:` *true*
-
-
-**Java:**
-
-```toml
-[java]
-symbol = "\ue256"
-color = "red"
-prefix.color = "white"
-prefix.text = "via"
-version.enable = false
-version.micro.enable = true
-```
-
-* **symbol** -  Must receive an icon, whether in unicode or not. `Default:` \ue256
-
-* **color** - Changes the color of the version. `Default:` red
-
-* **prefix.color** - Changes the color of the prefix. `Default:` *white*
-
-* **prefix.text** - Before showing the Java information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *via*
-
-* **version.enable** - Shows the version of Java. `Default:` *false*
-
-* **version.micro.enable** - Shows the micro version of Java. `Default:` *true*
-
-
-**Julia:**
-
-```toml
-[julia]
-symbol = "\ue624"
-color = "blue"
-prefix.color = "white"
-prefix.text = "via"
-version.enable = false
-version.micro.enable = true
-```
-
-* **symbol** -  Must receive an icon, whether in unicode or not. `Default:` \ue624
-
-* **color** - Changes the color of the version. `Default:` blue
-
-* **prefix.color** - Changes the color of the prefix. `Default:` *white*
-
-* **prefix.text** - Before showing the Julia information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *via*
-
-* **version.enable** - Shows the version of Julia. `Default:` *false*
-
-* **version.micro.enable** - Shows the micro version of Julia. `Default:` *true*
-
-
-**Elixir:**
-
-```toml
-[elixir]
-symbol = "\ue62d"
-color = "blue"
-prefix.color = "white"
-prefix.text = "via"
-version.enable = false
-version.micro.enable = true
-```
-
-* **symbol** -  Must receive an icon, whether in unicode or not. `Default:` \ue62d
-
-* **color** - Changes the color of the version. `Default:` blue
-
-* **prefix.color** - Changes the color of the prefix. `Default:` *white*
-
-* **prefix.text** - Before showing the Elixir information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *via*
-
-* **version.enable** - Shows the version of Elixir. `Default:` *false*
-
-* **version.micro.enable** - Shows the micro version of Elixir. `Default:` *true*
-
-
-**Golang:**
-
-```toml
-[golang]
-symbol = "\ue627"
-color = "cyan"
-prefix.color = "white"
-prefix.text = "via"
-version.enable = false
-version.micro.enable = true
-```
-
-* **symbol** -  Must receive an icon, whether in unicode or not. `Default:` \ue62d
-
-* **color** - Changes the color of the version. `Default:` cyan
-
-* **prefix.color** - Changes the color of the prefix. `Default:` *white*
-
-* **prefix.text** - Before showing the Golang information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *via*
-
-* **version.enable** - Shows the version of Golang. `Default:` *false*
-
-* **version.micro.enable** - Shows the micro version of Golang. `Default:` *true*
-
-
-**Dart:**
-
-```toml
-[dart]
-symbol = "\ue798"
-color = "cyan"
-prefix.color = "white"
-prefix.text = "via"
-version.enable = false
-version.micro.enable = true
-```
-
-* **symbol** - Must receive an icon, whether in unicode or not. `Default:` \ue798
-
-* **color** - Changes the color of the Dart version information. `Default:` *cyan*
-
-* **prefix.color** - Changes the color of the prefix.   `Default:` *white*
-
-* **prefix.text** - Before showing the Dart version information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *via*
-
-* **version.enable** - If it is `true`, it shows the version information of the Dart currently used. Compatible with *Pyenv*.  `Default:` *false*
-
-* **version.micro.enable** - If `true`, it will show the *MICRO* version of Dart. Note: The `version.enable` key must be` true`. `Default:` *true*
-
-
-**NodeJs:**
-
-```toml
-[nodejs]
-symbol = "\uf898"
-color = "green"
-prefix.color = "white"
-prefix.text = "on"
-version.enable = false
-version.micro.enable = true
-```
-
-* **symbol** -  Must receive an icon, whether in unicode or not. `Default:` \uf898
-
-* **color** - Changes the color of the nodejs version. `Default:` green
-
-* **prefix.color** - Changes the color of the prefix. `Default:` *white*
-
-* **prefix.text** - Before showing the NodeJS information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *on*
-
-* **version.enable** - Shows the version of NodeJs. `Default:` *false*
-
-* **version.micro.enable** - Shows the micro version of NodeJs. `Default:` *true*
-
-
 **Python:**
-
-```toml
-[python]
-symbol = "\uf81f"
-color = "yellow"
-prefix.color = "white"
-prefix.text = "via"
-version.enable = false
-version.micro.enable = true
-```
 
 * **symbol** - Must receive an icon, whether in unicode or not. `Default:` \uf81f
 
@@ -718,20 +338,11 @@ version.micro.enable = true
 
 * **version.micro.enable** - If `true`, it will show the *MICRO* version of Python. Note: The `version.enable` key must be` true`. `Default:` *true*
 
+> NOTE: The other tools have these same settings, so there's no need to repeat each one again, is there ?! :)
 
-**Virtualenv:**
+**Python Virtualenv:**
 
-```toml
-[virtualenv]
-enable = true
-symbol = "\uf7c9"
-involved = "()"
-color = "yellow"
-prefix.color = "white"
-prefix.text = "via"
-```
-
-* **enable** - If `true` displays the virtual machine information. `Default:` *true*
+* **enable** - If `true` displays the virtual machine information. `Default:` *false*
 
 * **symbol** - Must receive an icon, whether in unicode or not. `Default:` \uf7c9
 
@@ -743,26 +354,15 @@ prefix.text = "via"
 
 * **prefix.text** - Before showing the virtual machine information, it will have a prefixed text. In this option, you can change the text you want. `Default:` `via`
 
-```toml
-[virtualenv.name]
-normal.enable = true
-text = "venv"
-```
-
 * **normal.enable** - If the option is `true`, it will show the real name of the virtual machine. If the option is `false`, the user has the possibility to enter text. `Default:` true
 
 * **text** - Displays custom text in the name of the virtual machine. This option will only take effect if the `normal.enable` option has a value of  `false`. `Default:` *venv*
 
+* **py.enable** - Shows the version of python on behalf of the virtual machine. `Default:` *true*
+
+* **hash.enable** - Displays the hash of the virtual machine name if it was created using [Poetry](https://python-poetry.org/). `Default:` *true*
 
 **Timer**
-
-```toml
-[timer]
-enable = false
-symbol = "\uf43a"
-color = "blue"
-seconds.enable = false
-```
 
 * **enable** - Receive `true` or` false`. If it has `true`, it shows a digital clock on the console.  `Default:` *false*
 
@@ -772,6 +372,49 @@ seconds.enable = false
 
 * **seconds.enable** - Receive `true` or` false`. If it has `true`, show the seconds of the clock. `Default:` false
 
+## Syncronize
+
+`ZSHPower` stores some information in a database (SQLite 3) to obtain better performance and speed in the display of data. This data is currently the versions of the applications that `ZSHPower` shows on the console. Before, `ZSHPower` showed this information in real time, but it compromised performance and display time.
+
+With that, every time you update the program you work on, you need to synchronize. To synchronize you have two options, the first is manual and the other automatically using a task scheduler, such as [Cronie](https://github.com/cronie-crond/cronie/).
+
+### Sync manually:
+
+```shell
+$ zshpower sync
+```
+
+### Automatically sync:
+
+As stated before, you can use a task scheduler. `ZSHPower` at the time of setup installs a script for synchronization in **/usr/local/bin/zshpower_sync.sh** and a preconfigured script to support **Cron**, which is located at: */etc/cron.d/zshpower_task.sh*. Just access **Cron** to schedule a task at any time and call this script. You can use the [Crontab Guru](https://crontab.guru/) website  to make it easier to understand Cron.
+
+If you cancel the Cron scripting step, you can do this manually through sample sites, like these:
+
+* https://crontab-generator.org/
+* https://crontab.guru/crontab.5.html
+* https://wiki.archlinux.org/title/Cron
+
+or use the Crontab main: 
+
+```shell
+$ man crontab
+```
+
+**An example using the [Cronie](https://github.com/cronie-crond/cronie/) scheduling synchronization every 2 hours:**
+
+Create a file  (with superuser)`/etc/cron.d/zshpower_sync.sh` and put the following line
+
+```shell
+0 */2 * * * <USER> /usr/local/bin/zshpower_sync.sh
+```
+
+> In `<USER>` put the logged in user on the machine.
+
+Run command:
+
+```shell
+sudo chmod +x /usr/local/bin/zshpower_sync.sh 
+```
 
 ## Upgrading
 
@@ -802,7 +445,13 @@ $ zshpower init [--omz]
 If you made any changes to the configuration file and regretted it, you can reset everything with the command below:
 
 ```shell
-$ zshpower reset
+$ zshpower reset --config
+```
+
+You can also reset the **ZSHPower** database if it is corrupted with the command below:
+
+```shell
+$ zshpower reset --db
 ```
 
 ## Deactivate and Activate theme for Oh My ZSH

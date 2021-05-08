@@ -43,6 +43,6 @@ db.sqlite3-journal
 .eggs/
 
 tmp
-bin
+dev
 .github
 .gitignore
