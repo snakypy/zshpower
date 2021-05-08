@@ -68,12 +68,13 @@ EOF
 ### << Performs the linter (flake8).
 
 	function _linter_flake8 () {
-		if [[ -f $(which flake8) ]]; then
+		if [[ -f $(which flake8) ]] && [[ -f $(which mypy) ]]; then
 			_msg_header_ "[ Linter ] Checks whether the code structure ..." "\n"
 			poetry run flake8 zshpower tests
+			poetry run mypy zshpower/
 			_msg_finish_ "Linter finished!"
 		else
-			_msg_error_ "Linter flake8 not installed.\nInstall the requirements that this resolves."
+			_msg_error_ "Linter Flake8 or Mypy not installed.\nInstall the requirements that this resolves."
 			exit 0
 		fi
 	}
@@ -99,7 +100,7 @@ EOF
 
 	function _build_package () {
 		_msg_header_ "[ Clearing cache and compiling ]" "\n"
-		$0 clean
+		_clean
 		_msg_header_ "Compiling..." "\n"
 	    # eqversion
 		poetry build
@@ -113,8 +114,8 @@ EOF
 
 	function _install_reinstall_package () {
 		_msg_header_ "[ $1 the package ]" "\n"
-		[[ $2 == "r" ]] && $0 uninstall
-		$0 build
+		[[ $2 == "r" ]] && _uninstall_package
+		_build_package
 		poetry install
 		_msg_finish_ "$1 completed!"
 	}
@@ -149,7 +150,7 @@ EOF
     function _upload_test_pypi () {
       _creating_pypirc
       _msg_header_ "[ Upload to Test Pypi (http://test.pypi.org) ]" "\n"
-      $0 build
+      _build_package
       _msg_header_ "Starting upload..."
       poetry run twine upload --repository testpypi dist/*
       _msg_finish_ "Upload complete!"
@@ -162,7 +163,7 @@ EOF
     function _upload_pypi () {
       _creating_pypirc
       _msg_header_ "[ Upload to Pypi (https://pypi.org) ]" "\n"
-      $0 build
+      _build_package
       _msg_header_ "Starting upload..."
       poetry run twine upload --repository pypi dist/*
       _msg_finish_ "Upload complete!"
@@ -205,10 +206,10 @@ EOT
 
 		case "$1" in
 		  build|-b|-B)
-			  build_package
+			  _build_package
 		  ;;
 		  install|-i|-I)
-			  install_reinstall_package "Installation"
+			  _install_reinstall_package "Installation"
 		  ;;
 		  reinstall|-r|-R)
 			  _install_reinstall_package "Reinstallation" "r"
@@ -226,7 +227,7 @@ EOT
 				_uninstall_package
 		  ;;
 		  test|-t)
-				pytest
+				poetry run pytest
 			;;
 		  testpypi|-tpp)
         _upload_test_pypi
