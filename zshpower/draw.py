@@ -1,5 +1,6 @@
 from contextlib import suppress
 from snakypy import FG, printer
+from snakypy.ansi import NONE
 from tomlkit.exceptions import NonExistentKey, UnexpectedCharError
 from sqlite3 import OperationalError
 from snakypy.utils.decorators import only_for_linux
@@ -99,7 +100,7 @@ class Draw(DAO):
         return dic[item]
 
     # @runtime
-    def prompt(self):
+    def prompt(self) -> str:
         try:
             with suppress(KeyboardInterrupt):
                 jump_line = JumpLine(self.config)
@@ -163,15 +164,17 @@ class Draw(DAO):
                 return sections.format(static_section, *ordered_section, cmd)
 
         except (NonExistentKey, UnexpectedCharError, ValueError):
-            raise (
+            print(
                 f"{FG.ERROR}{package.info['name']} Error: Key error in "
-                f"the configuration file.\n> "
+                f"the configuration file.\n> {NONE}"
             )
+            raise
         except KeyError:
             raise KeyError(
                 f"{FG.ERROR}{package.info['name']} Error: Database records are missing "
                 f"or corrupted. Run the command to correct: \"{package.info['executable']} reset --db\".\n>> "
             )
+        return ""
 
     def rprompt(self) -> str:
         try:
