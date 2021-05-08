@@ -13,6 +13,7 @@ max_line_length = 120
 
 [*.py]
 indent_size = 4
+indent_style = space
 
 [LICENSE]
 insert_final_newline = false

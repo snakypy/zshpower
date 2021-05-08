@@ -3,4 +3,4 @@ exclude = .git,*migrations*,venv,dist,build,.tox,.pytest_cache
 max-line-length = 120
 ; F401: imported but unused
 ; W503: line break before binary operator
-ignore = F401, W503
+ignore = W503
