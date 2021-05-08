@@ -63,19 +63,19 @@ Features
 * Enable and disable `ZSHPower` anytime;
 * Upgrade `ZSHPower` effortlessly;
 * Reset the settings with one command only;
+* Personalized directory with truncate option;
 * Current Git branch and rich repo status:
     *  — untracked changes;
     *  — new files added;
     *  — deleted files;
     *  — new modified files;
     *  — commits made;
-* Python version shown (*with pyenv support*) on the active virtual machine (E.g: `[python_icon] py-3.x`);
-* Shows the version of the project if you use "**pyproject.toml**" (E.g: `[pkg_icon] 0.1.0`);
-* Show version Docker (E.g: [docker_logo] 19.03.10-ce);
-* Enables **username** and **hostname** when connecting with SSH. (can change in the settings to show permanently);
-* and, many other dynamic settings in `$HOME/.zshpower/config/<version>/config.toml`.
-
-
+    *  — and more.
+* Application versions shown with `nerd fonts`_, they are:
+    * CMake, Crystal, Dart, Deno, Docker, Docker, Dotnet, Elixir, Erlang, Go, Gulp, Helm, Java, Julia, Kotlin, Nim, NodeJS, Ocaml, Perl, Php, Python, Ruby, Rust, Scala, Vagrant, Zig
+* Package versions such as Crystal, Helm, NodeJS, Python, Rust shown;
+* Shows the time in the upper right corner;
+* and, many other dynamic settings in `$HOME/.zshpower/<VERSION>/config.toml`.
 
 \* features if used with **Oh My ZSH**.
 
@@ -89,6 +89,8 @@ Globally:
 
     $ sudo pip install zshpower
 
+NOTE: It is not recommended to install globally.
+
 For the user:
 
 .. code-block:: shell
@@ -99,8 +101,11 @@ For the user:
 Using
 -----
 
-Because **ZSHPower** is a manager, usage information is in the
-`ZSHPower`_ project. Access the project, and see how to use **ZSHPower**.
+Run the command below to set `ZSHPower`_ on your ZSH.
+
+.. code-block:: shell
+
+    $ zshpower init [--omz]
 
 For more command information, run:
 
