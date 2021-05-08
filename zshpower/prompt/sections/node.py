@@ -37,13 +37,10 @@ class NodeJs:
 
         nodejs_version = self.get_version()
 
-        if (
-            nodejs_version
-            and find_objects(
-                os_getcwd(),
-                files=self.files,
-                folders=self.folders,
-            )
+        if nodejs_version and find_objects(
+            os_getcwd(),
+            files=self.files,
+            folders=self.folders,
         ):
             prefix = f"{Color(self.prefix_color)}" f"{self.prefix_text}{Color().NONE}"
 

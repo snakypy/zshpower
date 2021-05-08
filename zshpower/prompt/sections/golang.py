@@ -33,14 +33,11 @@ class Golang:
         from zshpower.utils.catch import find_objects
         from os import getcwd as os_getcwd
 
-        if (
-            self.get_version()
-            and find_objects(
-                os_getcwd(),
-                files=self.files,
-                folders=self.folders,
-                extension=self.extensions,
-            )
+        if self.get_version() and find_objects(
+            os_getcwd(),
+            files=self.files,
+            folders=self.folders,
+            extension=self.extensions,
         ):
             prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
 

@@ -162,7 +162,9 @@ class Draw(Base):
 
             config_loaded = self.config_load
 
-            timer = str(Timer(config_loaded) if config_loaded["timer"]["enable"] else "")
+            timer = str(
+                Timer(config_loaded) if config_loaded["timer"]["enable"] else ""
+            )
             return timer
         except (NonExistentKey):
             return (

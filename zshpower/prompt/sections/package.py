@@ -22,14 +22,11 @@ class Base:
 
         package_version = self.get_version()
 
-        if (
-            package_version
-            and find_objects(
-                os_getcwd(),
-                files=self.files,
-                folders=self.folders,
-                extension=self.extensions,
-            )
+        if package_version and find_objects(
+            os_getcwd(),
+            files=self.files,
+            folders=self.folders,
+            extension=self.extensions,
         ):
             prefix = f"{Color(self.prefix_color)}" f"{self.prefix_text}{Color().NONE}"
             return (

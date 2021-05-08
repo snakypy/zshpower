@@ -35,14 +35,11 @@ class Rust:
 
         rust_version = self.get_version()
 
-        if (
-            rust_version
-            and find_objects(
-                os_getcwd(),
-                files=self.files,
-                folders=self.folders,
-                extension=self.extensions,
-            )
+        if rust_version and find_objects(
+            os_getcwd(),
+            files=self.files,
+            folders=self.folders,
+            extension=self.extensions,
         ):
             prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"
 

@@ -43,14 +43,11 @@ class Ruby:
 
         ruby_version = self.get_version()
 
-        if (
-            ruby_version
-            and find_objects(
-                os_getcwd(),
-                files=self.files,
-                folders=self.folders,
-                extension=self.extensions,
-            )
+        if ruby_version and find_objects(
+            os_getcwd(),
+            files=self.files,
+            folders=self.folders,
+            extension=self.extensions,
         ):
 
             prefix = f"{Color(self.prefix_color)}{self.prefix_text}{Color().NONE}"

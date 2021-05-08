@@ -54,14 +54,11 @@ class Docker:
 
         docker_version = self.get_version()
 
-        if (
-            docker_version
-            and find_objects(
-                os_getcwd(),
-                files=self.files,
-                folders=self.folders,
-                extension=self.extensions,
-            )
+        if docker_version and find_objects(
+            os_getcwd(),
+            files=self.files,
+            folders=self.folders,
+            extension=self.extensions,
         ):
             prefix = f"{Color(self.prefix_color)}" f"{self.prefix_text}{Color().NONE}"
             return str(

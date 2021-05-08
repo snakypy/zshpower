@@ -14,6 +14,7 @@ def get_virtualenv_name():
 class Virtualenv:
     def __init__(self, config):
         from .lib.utils import symbol_ssh, element_spacing
+
         # Thread.__init__(self)
 
         self.config = config
