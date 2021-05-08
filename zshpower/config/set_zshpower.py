@@ -1,8 +1,8 @@
 from zshpower.config import package
 
-author = package.info["author"]["name"]
-website_author = package.info["author"]["website"]
-email = package.info["author"]["email"]
+# author = package.info["author"]["name"]
+# website_author = package.info["author"]["website"]
+# email = package.info["author"]["email"]
 
 content = f"""#!/usr/bin/env zsh
 

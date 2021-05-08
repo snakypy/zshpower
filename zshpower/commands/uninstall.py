@@ -20,7 +20,7 @@ from snakypy import printer, pick
 from zshpower import HOME
 
 
-def finished():
+def finished() -> None:
     try:
         if exists(Base(HOME).sync_path) or exists(Base(HOME).cron_path):
             pass_ok = False
@@ -62,7 +62,7 @@ class UninstallCommand(Base):
     def __init__(self, home):
         Base.__init__(self, home)
 
-    def run(self):
+    def run(self) -> None:
         checking_init(self.HOME)
 
         if not read_zshrc_omz(self.zsh_rc):

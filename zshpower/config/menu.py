@@ -1,10 +1,10 @@
 from snakypy.ansi import FG, NONE
 from zshpower.config import package
 
-dt_omz = f"{FG.MAGENTA}robbyrussell{NONE}"
-omz = f"{FG.MAGENTA}Oh My ZSH{NONE}"
+dt_omz: str = f"{FG.MAGENTA}robbyrussell{NONE}"
+omz: str = f"{FG.MAGENTA}Oh My ZSH{NONE}"
 
-options = f"""
+options: str = f"""
 {FG.MAGENTA}Welcome to the {package.info["pkg_name"]} options menu.{NONE}
 
 Usage:

@@ -8,10 +8,12 @@ class Elixir(Version):
         self.files = ("mix.exs",)
         self.extensions = (".ex",)
 
-    def get_version(self, config, reg_version, key="elixir", ext="ex-", space_elem=" "):
+    def get_version(
+        self, config, reg_version, key="elixir", ext="ex-", space_elem=" "
+    ) -> str:
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, key="elixir", action=None):
+    def set_version(self, key="elixir", action=None) -> bool:
 
         version = run(
             "elixir -v 2>/dev/null | grep 'Elixir' | cut -d ' ' -f2",
@@ -21,7 +23,7 @@ class Elixir(Version):
         ).stdout
 
         if version.replace("\n", ""):
-            version = version.replace("\n", "")
-            return super().set(version, key, action)
+            version_format = version.replace("\n", "")
+            return super().set(version_format, key, action)
 
         return False

@@ -1,4 +1,5 @@
 import sqlite3
+from typing import Any
 from zshpower.config.base import Base
 from zshpower import HOME
 from zshpower.database.sql import sql
@@ -20,7 +21,7 @@ class DAO(Base):
     def __enter__(self):
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb) -> sqlite3.Connection.close:
+    def __exit__(self, exc_type, exc_val, exc_tb) -> None:
         self.commit()
         self.connection.close()
 
@@ -38,21 +39,21 @@ class DAO(Base):
     def execute(self, sql_, params=None):
         self.cursor.execute(sql_, params or ())
 
-    def fetchall(self):
+    def fetchall(self) -> list:
         return self.cursor.fetchall()
 
-    def fetchone(self):
+    def fetchone(self) -> Any:
         return self.cursor.fetchone()
 
-    def query(self, sql_, params=None):
+    def query(self, sql_, params=None) -> list:
         self.cursor.execute(sql_, params or ())
         return self.fetchall()
 
-    def query_one(self, sql_, params=None):
+    def query_one(self, sql_, params=None) -> Any:
         self.cursor.execute(sql_, params or ())
         return self.fetchone()
 
-    def create_table(self, tbl_name):
+    def create_table(self, tbl_name) -> bool:
         try:
             self.execute(sql()[tbl_name])
             self.commit()
@@ -96,5 +97,3 @@ class DAO(Base):
             raise sqlite3.OperationalError(
                 "Error writing to table. Table does not exist.", err
             )
-        except Exception:
-            raise Exception("Error update database.")

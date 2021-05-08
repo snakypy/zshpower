@@ -1,7 +1,7 @@
 from datetime import datetime
 from zshpower import __version__
 
-content = f"""# Generate by: ZSHPower - D{datetime.today().isoformat()}
+content: str = f"""# Generate by: ZSHPower - D{datetime.today().isoformat()}
 # Version: {__version__}
 # ---------------------------------------------------------------------
 # For more information, see the documentation at:

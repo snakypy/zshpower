@@ -1,6 +1,6 @@
 from zshpower.config import package
 
-content = f"""# Generate by: ZSHPower
+content: str = f"""# Generate by: ZSHPower
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -103,7 +103,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
     """
 
-zshrc_sample = """
+zshrc_sample: str = """
 PATH=\\$PATH:~/.local/bin:/usr/bin:/usr/local/bin
 export PATH
 

@@ -1,11 +1,10 @@
 from contextlib import suppress
 from datetime import datetime
 from functools import wraps
-import curses
-from time import sleep
+from typing import Any
 
 
-def assign_cli(arguments, command):
+def assign_cli(arguments: dict, command: str) -> Any:
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
@@ -17,7 +16,7 @@ def assign_cli(arguments, command):
     return decorator
 
 
-def runtime(func):
+def runtime(func: Any):
     """Decorator to test runtime others functions.
 
     Returns:
@@ -44,6 +43,9 @@ def silent_errors(func):
 
 
 # def invisible_cursor(func):
+#     import curses
+#     from time import sleep
+#
 #     @wraps(func)
 #     def wrapper(*args, **kwargs):
 #         curses.initscr()

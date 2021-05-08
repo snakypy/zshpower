@@ -29,7 +29,7 @@ class Python:
         self.prefix_text = element_spacing(config["python"]["prefix"]["text"])
         self.micro_version_enable = config["python"]["version"]["micro"]["enable"]
 
-    def get_version(self, space_elem=" "):
+    def get_version(self, space_elem=" ") -> str:
 
         if not self.micro_version_enable:
             return f"{'{0[0]}.{0[1]}'.format(sys_version_info)}{space_elem}"

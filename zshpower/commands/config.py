@@ -36,10 +36,10 @@ class ConfigCommand(Base):
                     editors = ("vim", "nano", "emacs", "micro")
                     for edt in editors:
                         editor_run(edt, self.config_file)
-                    return True
             except FileNotFoundError:
                 raise FileNotFoundError("File not found.")
         elif arguments["--view"]:
             read_config = snakypy_file_read(self.config_file)
             pydoc_pager(read_config)
             return True
+        return False

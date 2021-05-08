@@ -1,19 +1,20 @@
-from snakypy import printer
 from zshpower.utils.catch import current_user, current_shell
-from snakypy.ansi import FG
+from snakypy.ansi import FG, NONE
 from subprocess import call as subprocess_call
 
 
-def reload_zsh():
+def reload_zsh() -> None:
     subprocess_call("exec zsh", shell=True)
 
 
-def change_shell():
+def change_shell() -> bool:
     if current_shell()[0] != "zsh":
         try:
             subprocess_call(f"chsh -s $(which zsh) {current_user()}", shell=True)
-        except KeyboardInterrupt:
-            printer("Canceled by user", foreground=FG.WARNING)
+            return True
+        except KeyboardInterrupt as err:
+            raise KeyboardInterrupt(f"{FG.WARNING}Canceled by user.{NONE}", err)
+    return False
 
 
 # # TODO: DEPRECATED

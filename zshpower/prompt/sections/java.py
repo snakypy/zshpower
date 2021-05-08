@@ -7,10 +7,12 @@ class Java(Version):
         super(Java, self).__init__()
         self.extensions = (".java",)
 
-    def get_version(self, config, reg_version, key="java", ext="java-", space_elem=" "):
+    def get_version(
+        self, config, reg_version, key="java", ext="java-", space_elem=" "
+    ) -> str:
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, key="java", action=None):
+    def set_version(self, key="java", action=None) -> bool:
         version = run(
             """java -version 2>&1 | awk -F '"' '/version/ {print $2}'""",
             capture_output=True,
@@ -19,7 +21,7 @@ class Java(Version):
         )
 
         if version.stdout.replace("\n", ""):
-            version = version.stdout.replace("\n", "").split("_")[0]
-            return super().set(version, key, action)
+            version_format = version.stdout.replace("\n", "").split("_")[0]
+            return super().set(version_format, key, action)
 
         return False

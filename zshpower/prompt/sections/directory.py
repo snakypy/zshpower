@@ -6,7 +6,7 @@ from os import geteuid
 from .lib.utils import Color
 
 
-def get_pwd():
+def get_pwd() -> str:
     # import os
     # from os import getenv, system
     # from os import environ, getcwd, getcwdb, getenvb
@@ -22,7 +22,7 @@ def get_pwd():
     )
 
 
-def shorten_path(file_path, length):
+def shorten_path(file_path, length) -> Path:
     return Path(*Path(file_path).parts[-length:])
 
 

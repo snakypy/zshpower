@@ -41,7 +41,7 @@ class InitCommand(Base):
     def __init__(self, home):
         Base.__init__(self, home)
 
-    def run(self, arguments, *, reload=False, message=False):
+    def run(self, arguments, *, reload=False, message=False) -> None:
         # printer("Please wait ... assigning settings ...", foreground=FG.WARNING)
         tools_requirements("zsh", "vim", "git", "cut", "grep", "whoami", "pwd")
         # create_zshrc_not_exists(

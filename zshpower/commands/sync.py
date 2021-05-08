@@ -12,7 +12,7 @@ class Sync(Base):
     def __init__(self, home):
         Base.__init__(self, home)
 
-    def run(self):
+    def run(self) -> None:
         try:
             checking_init(self.HOME)
             records("update")

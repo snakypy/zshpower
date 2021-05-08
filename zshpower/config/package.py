@@ -1,6 +1,6 @@
 from zshpower import __name__
 
-info = {
+info: dict = {
     "name": "ZSHPower",
     "description": "ZSHPower is a theme for ZSH with a manager.",
     "pkg_name": __name__,

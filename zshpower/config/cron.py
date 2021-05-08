@@ -2,7 +2,7 @@ from zshpower.utils.catch import current_user
 from zshpower.config.base import Base
 from zshpower import HOME
 
-cron_content = f"""
+cron_content: str = f"""
 #!/bin/sh
 
 PATH="~/.local/bin:/bin:/usr/local/bin:\\$PATH"
@@ -20,7 +20,7 @@ export PATH
 # You can use the site "https://crontab.guru" and some examples at "https://crontab.guru/examples.html"
 """
 
-sync_content = """
+sync_content: str = """
 #!/bin/sh
 
 PATH="~/.local/bin:/bin:/usr/local/bin:\\$PATH"

@@ -17,7 +17,9 @@ class Gulp(Version):
         self.files = ("gulpfile.js",)
         self.folders = ("node_modules",)
 
-    def get_version(self, config, reg_version, key="gulp", ext="gulp-", space_elem=" "):
+    def get_version(
+        self, config, reg_version, key="gulp", ext="gulp-", space_elem=" "
+    ) -> str:
         version_local = "node_modules/gulp/package.json"
         enable = config[key]["version"]["enable"]
         symbol = symbol_ssh(config[key]["symbol"], ext)
@@ -53,11 +55,11 @@ class Gulp(Version):
                 )
         return ""
 
-    def set_version(self, key="gulp", action=None):
+    def set_version(self, key="gulp", action=None) -> bool:
         version = run("gulp --version", capture_output=True, shell=True, text=True)
 
         if version.returncode != 127 and version.returncode != 1:
-            version = version.stdout.split()[2]
-            return super().set(f"CLI {version}", key, action)
+            version_format = version.stdout.split()[2]
+            return super().set(f"CLI {version_format}", key, action)
 
         return False

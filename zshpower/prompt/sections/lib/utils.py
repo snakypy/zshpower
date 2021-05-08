@@ -1,9 +1,11 @@
+from typing import Union, List
 from zshpower.database.dao import DAO
 from zshpower.utils.catch import find_objects
 from os import getcwd
+from subprocess import check_output
 
 
-def symbol_ssh(symbol1, symbol2, spacing=" "):
+def symbol_ssh(symbol1, symbol2, spacing=" ") -> list:
     import os
 
     if symbol1 != "":
@@ -13,14 +15,14 @@ def symbol_ssh(symbol1, symbol2, spacing=" "):
     return symbol1
 
 
-def git_status(*, porcelain=False, branch=False):
-    from subprocess import check_output
-
+def git_status(*, porcelain=False, branch=False) -> Union[str, List[str]]:
     porcelain_set = "--porcelain" if porcelain else ""
     branch_set = "--branch" if branch else ""
+
     if porcelain and not branch:
-        status = check_output(f"git status {porcelain_set}",
-                              shell=True, universal_newlines=True).split()
+        status: Union[str, List[str]] = check_output(
+            f"git status {porcelain_set}", shell=True, universal_newlines=True
+        ).split()
     elif branch and not porcelain:
         data = check_output(f"git status {branch_set}",
                             shell=True, universal_newlines=True).split()
@@ -29,12 +31,13 @@ def git_status(*, porcelain=False, branch=False):
         else:
             status = data[2]
     else:
-        status = check_output(f"git status {porcelain_set} {branch_set}",
-                              shell=True, universal_newlines=True).split()
+        status = check_output(
+            f"git status {porcelain_set} {branch_set}", shell=True, universal_newlines=True
+        ).split()
     return status
 
 
-def separator(config, spacing=" "):
+def separator(config, spacing=" ") -> str:
     sep = config["general"]["separator"]["element"]
     sep += spacing if sep != "" else sep
     sep_color = config["general"]["separator"]["color"]
@@ -68,7 +71,7 @@ class Version(DAO):
         self.files = ()
         self.folders = ()
 
-    def get(self, config, reg_version: dict, key="", ext="", space_elem=""):
+    def get(self, config, reg_version: dict, key="", ext="", space_elem="") -> str:
         enable = config[key]["version"]["enable"]
         symbol = symbol_ssh(config[key]["symbol"], ext)
         color = config[key]["color"]
@@ -114,7 +117,6 @@ class Version(DAO):
                 DAO().update(self.tbl_main, "version", version, "name", key)
             return True
         return False
-
 
 # from snakypy import FG
 # from snakypy.ansi import NONE as s_none

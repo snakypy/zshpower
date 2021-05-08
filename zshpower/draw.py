@@ -4,7 +4,6 @@ from tomlkit.exceptions import NonExistentKey, UnexpectedCharError
 from sqlite3 import OperationalError
 from snakypy.utils.decorators import only_for_linux
 from zshpower.prompt.sections.gulp import Gulp
-from zshpower.database.sql import sql
 from zshpower.prompt.sections.jump_line import JumpLine
 from zshpower.utils.decorators import silent_errors
 from zshpower.config import package
@@ -58,7 +57,7 @@ class Draw(DAO):
         self.config = self.get_config()
         self.register = self.get_register()
 
-    def get_config(self):
+    def get_config(self) -> dict:
         try:
             read_conf = snakypy_file_red(self.config_file)
             parsed = toml_parse(read_conf)
@@ -75,17 +74,17 @@ class Draw(DAO):
         try:
             data = self.select_columns(
                 columns=("name", "version"),
-                table=[item for item in sql().keys()][0],
+                table=self.tbl_main,
             )
             return data
         except (KeyError, OperationalError):
-            return printer(
+            printer(
                 f'{package.info["name"]} Error: Database corrupted. Run command: '
                 f'"zshpower reset --db" to restore.\n>> ',
                 foreground=FG.ERROR,
             )
 
-    def version(self, instance, key):
+    def version(self, instance, key) -> str:
         with ThreadPoolExecutor(max_workers=2) as executor:
             if key in self.register:
                 future = executor.submit(
@@ -96,7 +95,7 @@ class Draw(DAO):
             return ""
 
     @staticmethod
-    def get_keys(dic, item):
+    def get_keys(dic, item) -> str:
         return dic[item]
 
     # @runtime
@@ -164,17 +163,17 @@ class Draw(DAO):
                 return sections.format(static_section, *ordered_section, cmd)
 
         except (NonExistentKey, UnexpectedCharError, ValueError):
-            return (
+            raise (
                 f"{FG.ERROR}{package.info['name']} Error: Key error in "
                 f"the configuration file.\n> "
             )
         except KeyError:
-            return (
+            raise KeyError(
                 f"{FG.ERROR}{package.info['name']} Error: Database records are missing "
                 f"or corrupted. Run the command to correct: \"{package.info['executable']} reset --db\".\n>> "
             )
 
-    def rprompt(self):
+    def rprompt(self) -> str:
         try:
             timer = Timer(self.config)
             return str(timer)
@@ -187,7 +186,7 @@ class Draw(DAO):
 
 @silent_errors
 @only_for_linux
-def main():
+def main() -> None:
     if len(sys_argv) < 2:
         raise TypeError("missing 1 required positional argument")
     if len(sys_argv) == 2 and sys_argv[1] == "prompt":

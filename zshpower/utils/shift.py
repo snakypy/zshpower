@@ -155,7 +155,7 @@ def install_fonts(home, *, force=False) -> bool:
     return False
 
 
-def add_plugins_zshrc(zshrc) -> str:
+def add_plugins_zshrc(zshrc):
     plugins = (
         "python",
         "django",

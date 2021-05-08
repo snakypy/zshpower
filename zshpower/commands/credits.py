@@ -7,7 +7,7 @@ from zshpower import __version__
 
 class CreditsCommand:
     @staticmethod
-    def run():
+    def run() -> None:
         print("\n")
         printer("Offered by:".center(50), foreground=FG.GREEN)
         billboard(

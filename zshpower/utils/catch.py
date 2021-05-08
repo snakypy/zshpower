@@ -2,7 +2,6 @@ import pwd
 import os
 from re import search as re_search
 from snakypy.ansi import FG, NONE
-from snakypy import printer
 from zshpower.config import menu
 from docopt import docopt
 from zshpower import __version__
@@ -18,8 +17,8 @@ def read_zshrc(zshrc) -> str:
     try:
         with open(zshrc) as f:
             return f.read()
-    except FileNotFoundError as fnf_err:
-        printer(f"File not found {fnf_err}", foreground=FG.ERROR)
+    except FileNotFoundError as err:
+        raise FileNotFoundError("File not found.", err)
 
 
 def arguments(argv=None) -> dict:
@@ -62,12 +61,12 @@ def plugins_current_zshrc(zshrc) -> list:
     return []
 
 
-def get_line_source(zshrc) -> str or tuple:
+def get_line_source(zshrc) -> str:
     current_zshrc = read_zshrc(zshrc)
     m = re_search(r"source \$HOME/.zshpower", current_zshrc)
     if m is not None:
         return m.group(0)
-    return ()
+    return ""
 
 
 def find_objects(directory, /, files=(), folders=(), extension=()) -> bool:

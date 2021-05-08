@@ -1,4 +1,6 @@
 from subprocess import run
+from typing import Union
+
 from zshpower.prompt.sections.lib.utils import Version
 
 
@@ -9,7 +11,7 @@ class Docker(Version):
 
     def get_version(
         self, config, reg_version, key="docker", ext="dkr-", space_elem=" "
-    ):
+    ) -> Union[str, bool]:
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
     def set_version(self, key="docker", action=None) -> bool:
@@ -21,14 +23,14 @@ class Docker(Version):
         )
 
         if version.returncode != 127 and version.returncode != 1:
-            version = (
+            version_format = (
                 version.stdout.split("Version")[1]
                 .strip()
                 .split("\n")[0]
                 .replace(":", "")
                 .strip()
             )
-            return super().set(version, key, action)
+            return super().set(version_format, key, action)
 
         return False
 

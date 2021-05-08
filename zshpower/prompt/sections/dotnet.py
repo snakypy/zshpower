@@ -10,10 +10,10 @@ class Dotnet(Version):
 
     def get_version(
         self, config, reg_version, key="dotnet", ext=".net-", space_elem=" "
-    ):
+    ) -> str:
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, key="dotnet", action=None):
+    def set_version(self, key="dotnet", action=None) -> bool:
 
         version = run(
             "dotnet --version 2>/dev/null",
@@ -25,6 +25,6 @@ class Dotnet(Version):
         if not version.replace("\n", ""):
             return False
 
-        version = version.replace("\n", "")
+        version_format = version.replace("\n", "")
 
-        return super().set(version, key, action)
+        return super().set(version_format, key, action)

@@ -1,5 +1,5 @@
 def sql() -> dict:
-    data = {
+    data: dict = {
         "tbl_main": (
             "CREATE TABLE IF NOT EXISTS `tbl_main` ("
             "  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"

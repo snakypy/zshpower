@@ -57,7 +57,7 @@ class Python(Base):
             "__init__.py",
         )
 
-    def get_version(self, space_elem=" "):
+    def get_version(self, space_elem=" ") -> str:
         if self.enable:
             python_package_version = run(
                 f"""< {self.files[0]} grep "^version = *" | cut -d'"' -f2 | cut -d"'" -f2""",
@@ -99,7 +99,7 @@ class Rust(Base):
         Base.__init__(self, config)
         self.files = ("Cargo.toml",)
 
-    def get_version(self, space_elem=" "):
+    def get_version(self, space_elem=" ") -> str:
         if self.enable:
             python_package_version = run(
                 f"""< {self.files[0]} grep "^version := *" | cut -d'"' -f2 | cut -d"'" -f2""",
@@ -129,7 +129,7 @@ class Scala(Base):
         Base.__init__(self, config)
         self.files = ("build.sbt",)
 
-    def get_version(self, space_elem=" "):
+    def get_version(self, space_elem=" ") -> str:
         if self.enable:
             scala_package_version = run(
                 f"""< {self.files[0]} grep "^version := *" | cut -d'"' -f2 | cut -d"'" -f2""",
@@ -155,7 +155,7 @@ class Crystal(Base):
         Base.__init__(self, config)
         self.files = ("shard.yml",)
 
-    def get_version(self, space_elem=" "):
+    def get_version(self, space_elem=" ") -> str:
         if self.enable:
             crystal_package_version = run(
                 f"""< {self.files[0]} grep "^version: *" | cut -d'"' -f2 | cut -d"'" -f2""",
@@ -181,7 +181,7 @@ class Helm(Base):
         Base.__init__(self, config)
         self.files = ("Chart.yaml",)
 
-    def get_version(self, space_elem=" "):
+    def get_version(self, space_elem=" ") -> str:
         if self.enable:
             helm_package_version = run(
                 f"""< {self.files[0]} grep "^version: *" | cut -d'"' -f2 | cut -d"'" -f2""",
