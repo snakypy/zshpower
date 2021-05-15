@@ -8,10 +8,10 @@ repos:
     hooks:
     -   id: black
         types: [file]
-        files: ^zshpower/*
+        files: ^snakypy/*
 -   repo: https://gitlab.com/pycqa/flake8
     rev: 3.9.1
     hooks:
     -   id: flake8
         types: [file]
-        files: ^zshpower/
+        files: ^snakypy/
