@@ -152,5 +152,5 @@ temp/
 poetry.lock
 
 # Allow sections.lib folder
-!zshpower/**/*/lib
+!snakypy/zshpower/**/*/lib
 
