@@ -3,7 +3,7 @@
     :align: center
     :alt: ZSHPower
 
-.. image:: https://github.com/snakypy/zshpower/workflows/Python%20package/badge.svg
+.. image:: https://github.com/snakypy/zshpower/workflows/Tests/badge.svg
     :target: https://github.com/snakypy/zshpower
 
 .. image:: https://img.shields.io/pypi/v/zshpower.svg
