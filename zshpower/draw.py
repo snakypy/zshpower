@@ -1,18 +1,17 @@
 from contextlib import suppress
-from snakypy import FG, printer
-from snakypy.ansi import NONE
+from snakypy.helpers import FG, printer
+from snakypy.helpers.ansi import NONE
 from tomlkit.exceptions import NonExistentKey, UnexpectedCharError
 from sqlite3 import OperationalError
-from snakypy.utils.decorators import only_for_linux
+from snakypy.helpers.decorators import only_linux, silent_errors
 from zshpower.prompt.sections.gulp import Gulp
 from zshpower.prompt.sections.jump_line import JumpLine
-from zshpower.utils.decorators import silent_errors
 from zshpower.config import package
 from zshpower.database.dao import DAO
 from zshpower.config.config import content as config_content
 from zshpower.utils.shift import create_config
-from snakypy.path import create as snakypy_path_create
-from snakypy.file import read as snakypy_file_red
+from snakypy.helpers.path import create as snakypy_path_create
+from snakypy.helpers.files import read_file
 from tomlkit import parse as toml_parse
 from concurrent.futures import ThreadPoolExecutor
 from zshpower.prompt.sections.directory import Directory
@@ -49,7 +48,7 @@ from zshpower.prompt.sections.timer import Timer
 from sys import argv as sys_argv, stdout
 
 # ## Test timer ## #
-# from zshpower.utils.decorators import runtime
+# from snakypy.helpers.decorators import runtime
 
 
 class Draw(DAO):
@@ -60,14 +59,14 @@ class Draw(DAO):
 
     def get_config(self) -> dict:
         try:
-            read_conf = snakypy_file_red(self.config_file)
+            read_conf = read_file(self.config_file)
             parsed = toml_parse(read_conf)
             return parsed
 
         except (FileNotFoundError, NonExistentKey):
             snakypy_path_create(self.zshpower_home)
             create_config(config_content, self.config_file)
-            read_conf = snakypy_file_red(self.config_file)
+            read_conf = read_file(self.config_file)
             parsed = toml_parse(read_conf)
             return parsed
 
@@ -82,7 +81,7 @@ class Draw(DAO):
             printer(
                 f'{package.info["name"]} Error: Database corrupted. Run command: '
                 f'"zshpower reset --db" to restore.\n>> ',
-                foreground=FG.ERROR,
+                foreground=FG().ERROR,
             )
 
     def version(self, instance, key) -> str:
@@ -165,13 +164,13 @@ class Draw(DAO):
 
         except (NonExistentKey, UnexpectedCharError, ValueError):
             print(
-                f"{FG.ERROR}{package.info['name']} Error: Key error in "
+                f"{FG().ERROR}{package.info['name']} Error: Key error in "
                 f"the configuration file.\n> {NONE}"
             )
             raise
         except KeyError:
             raise KeyError(
-                f"{FG.ERROR}{package.info['name']} Error: Database records are missing "
+                f"{FG().ERROR}{package.info['name']} Error: Database records are missing "
                 f"or corrupted. Run the command to correct: \"{package.info['executable']} reset --db\".\n>> "
             )
         return ""
@@ -182,13 +181,13 @@ class Draw(DAO):
             return str(timer)
         except NonExistentKey:
             return (
-                f"{FG.ERROR}>>> {package.info['name']} Error: Key error in "
+                f"{FG().ERROR}>>> {package.info['name']} Error: Key error in "
                 f"the configuration file.\n > "
             )
 
 
 @silent_errors
-@only_for_linux
+@only_linux
 def main() -> None:
     if len(sys_argv) < 2:
         raise TypeError("missing 1 required positional argument")

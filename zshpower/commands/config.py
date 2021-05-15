@@ -3,9 +3,8 @@ from subprocess import call as subprocess_call
 from os import environ
 from shutil import which as shutil_which
 from zshpower.utils.check import checking_init
-from snakypy.file import read as snakypy_file_read
 from tomlkit import parse as toml_parse
-from snakypy.file import read as snakypy_file_red
+from snakypy.helpers.files import read_file
 from pydoc import pager as pydoc_pager
 
 
@@ -27,7 +26,7 @@ class ConfigCommand(Base):
 
         if arguments["--open"]:
             try:
-                read_conf = snakypy_file_red(self.config_file)
+                read_conf = read_file(self.config_file)
                 parsed = toml_parse(read_conf)
                 editor_conf = parsed["general"]["config"]["editor"]
                 if editor_conf:
@@ -39,7 +38,7 @@ class ConfigCommand(Base):
             except FileNotFoundError:
                 raise FileNotFoundError("File not found.")
         elif arguments["--view"]:
-            read_config = snakypy_file_read(self.config_file)
+            read_config = read_file(self.config_file)
             pydoc_pager(read_config)
             return True
         return False

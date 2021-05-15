@@ -2,8 +2,8 @@ from os import getcwd
 from os.path import join
 from .lib.utils import symbol_ssh, element_spacing
 from .lib.utils import Color, separator
-from zshpower.utils.catch import find_objects
-from snakypy.json import read as snakypy_json_read
+from zshpower.utils.catch import verify_objects
+from snakypy.helpers.files import read_json
 from contextlib import suppress
 from os.path import isfile, exists
 from subprocess import run
@@ -29,7 +29,7 @@ class Base:
     def __str__(self):
         if self.enable:
             package_version = self.get_version()
-            if package_version and find_objects(
+            if package_version and verify_objects(
                 getcwd(),
                 files=self.files,
                 folders=self.folders,
@@ -85,7 +85,7 @@ class NodeJS(Base):
     def get_version(self, space_elem=" "):
         if self.enable and isfile(join(getcwd(), self.files[0])):
             with suppress(Exception):
-                parsed = snakypy_json_read(join(getcwd(), self.files[0]))
+                parsed = read_json(join(getcwd(), self.files[0]))
                 if "version" in parsed:
                     return f"{parsed['version']}{space_elem}"
         return ""

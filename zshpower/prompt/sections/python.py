@@ -1,6 +1,6 @@
 from sys import version_info as sys_version_info
-from zshpower.utils.catch import find_objects
-from zshpower.utils.check import is_tool
+from zshpower.utils.catch import verify_objects
+from snakypy.helpers.catches import is_tool
 from os import environ, getcwd
 from os.path import isfile, join
 from zshpower.prompt.sections.lib.utils import symbol_ssh, element_spacing
@@ -39,7 +39,7 @@ class Python:
         if self.enable:
             if is_tool("python", f"python{'{0[0]}'.format(sys_version_info)}"):
                 if (
-                    find_objects(
+                    verify_objects(
                         getcwd(),
                         files=self.files,
                         folders=self.folders,

@@ -1,23 +1,22 @@
-from contextlib import suppress
 from zshpower import __version__
 from getpass import getpass
 from subprocess import Popen, PIPE, check_output
 from tomlkit import dumps as toml_dumps
 from tomlkit import parse as toml_parse
 from os.path import isdir
-from shutil import copyfile, rmtree, which, SameFileError
-from datetime import datetime
-from snakypy.console import cmd as cmd_snakypy
-from snakypy.file import create as snakypy_file_create
+from shutil import rmtree, which
+from snakypy.helpers.subprocess import command
+from snakypy.helpers.files import create_file
 from re import sub as re_sub, M as re_m
 from os.path import join, exists
-from snakypy import printer, FG
+from snakypy.helpers import printer, FG
 from zshpower.utils.catch import read_zshrc_omz, read_zshrc
 from sys import platform
 from os.path import isfile
 from zipfile import ZipFile
 from os import remove, walk
-from snakypy.path import create as snakypy_path_create
+from snakypy.helpers.path import create as snakypy_path_create
+from snakypy.helpers.files import backup_file
 from zshpower.utils.catch import plugins_current_zshrc
 
 
@@ -25,7 +24,7 @@ def create_config(content, file_path, *, force=False) -> bool:
     if not exists(file_path) or force:
         parsed_toml = toml_parse(content)
         write_toml = toml_dumps(parsed_toml)
-        snakypy_file_create(write_toml, file_path, force=force)
+        create_file(write_toml, file_path, force=force)
         return True
     return False
 
@@ -33,11 +32,11 @@ def create_config(content, file_path, *, force=False) -> bool:
 def create_zshrc(content, zshrc) -> bool:
     if exists(zshrc):
         if not read_zshrc_omz(zshrc):
-            backup_copy(zshrc, zshrc, date=True, extension=False)
-            snakypy_file_create(content, zshrc, force=True)
+            backup_file(zshrc, zshrc, date=True, extension=False)
+            create_file(content, zshrc, force=True)
             return True
     elif not exists(zshrc):
-        snakypy_file_create(content, zshrc)
+        create_file(content, zshrc)
         return True
     return False
 
@@ -57,16 +56,16 @@ def cron_task(sync_context, sync_path, cron_context, cron_path):
                 If you do not want this configuration to be made, you can cancel with Ctrl + C.
                 """
 
-        printer(message, foreground=FG.WARNING)
+        printer(message, foreground=FG().WARNING)
 
         while not pass_ok:
             sudo_password = getpass()
 
-            command = f"""su -c 'echo "{sync_context}" > {sync_path}; chmod a+x {sync_path};
+            command_ = f"""su -c 'echo "{sync_context}" > {sync_path}; chmod a+x {sync_path};
             echo "{cron_context}" > {cron_path};'
             """
             p = Popen(
-                command,
+                command_,
                 stdin=PIPE,
                 stderr=PIPE,
                 stdout=PIPE,
@@ -76,7 +75,7 @@ def cron_task(sync_context, sync_path, cron_context, cron_path):
             communicate = p.communicate(sudo_password)
 
             if "failure" in communicate[1].split():
-                printer("Password incorrect.", foreground=FG.ERROR)
+                printer("Password incorrect.", foreground=FG().ERROR)
             else:
                 pass_ok = True
 
@@ -87,7 +86,7 @@ def change_theme_in_zshrc(zshrc, theme_name) -> bool:
         current_theme = read_zshrc_omz(zshrc)[1]
         new_theme = f'ZSH_THEME="{theme_name}"'
         new_zsh_rc = re_sub(rf"{current_theme}", new_theme, current_zshrc, flags=re_m)
-        snakypy_file_create(new_zsh_rc, zshrc, force=True)
+        create_file(new_zsh_rc, zshrc, force=True)
         return True
     return False
 
@@ -97,11 +96,11 @@ def omz_install(omz_root):
     cmd_line = f"git clone {omz_github} {omz_root}"
     try:
         if not exists(omz_root):
-            printer("Install Oh My ZSH...", foreground=FG.QUESTION)
-            cmd_snakypy(cmd_line, verbose=True)
+            printer("Install Oh My ZSH...", foreground=FG().QUESTION)
+            command(cmd_line, verbose=True)
             printer(
                 "Oh My ZSH installation process finished.",
-                foreground=FG.FINISH,
+                foreground=FG().FINISH,
             )
 
     except Exception:
@@ -115,9 +114,9 @@ def omz_install_plugins(omz_root, plugins):
             path = join(omz_root, f"custom/plugins/{plugin}")
             clone = f"git clone {url_master}/{plugin}.git {path}"
             if not isdir(path):
-                printer(f"Install plugins {plugin}...", foreground=FG.QUESTION)
-                cmd_snakypy(clone, verbose=True)
-                printer(f"Plugin {plugin} task finished!", foreground=FG.FINISH)
+                printer(f"Install plugins {plugin}...", foreground=FG().QUESTION)
+                command(clone, verbose=True)
+                printer(f"Plugin {plugin} task finished!", foreground=FG().FINISH)
     except Exception:
         raise Exception("There was an error installing the plugin")
 
@@ -139,15 +138,15 @@ def install_fonts(home, *, force=False) -> bool:
                 printer(
                     f'Please wait, downloading the "{font_name}" font and'
                     "installing...",
-                    foreground=FG.QUESTION,
+                    foreground=FG().QUESTION,
                 )
                 cmd_line = f"curl -L {join(url, base_url)} -o {curl_output}"
-                cmd_snakypy(cmd_line, verbose=True)
+                command(cmd_line, verbose=True)
 
                 with ZipFile(curl_output, "r") as zip_ref:
                     zip_ref.extractall(fonts_dir)
                     remove(curl_output)
-                    printer("Done!", foreground=FG.FINISH)
+                    printer("Done!", foreground=FG().FINISH)
                 return True
             return False
         except Exception as err:
@@ -173,7 +172,7 @@ def add_plugins_zshrc(zshrc):
         current_zshrc = read_zshrc(zshrc)
         plugins = f'plugins=({" ".join(current)} {" ".join(new_plugins)})'
         new_zsh_rc = re_sub(r"^plugins=\(.*", plugins, current_zshrc, flags=re_m)
-        snakypy_file_create(new_zsh_rc, zshrc, force=True)
+        create_file(new_zsh_rc, zshrc, force=True)
         return new_zsh_rc
     return ""
 
@@ -182,14 +181,7 @@ def rm_source_zshrc(zshrc):
     current_zshrc = read_zshrc(zshrc)
     line_rm = f"source\\ \\$HOME/.zshpower/{__version__}/init.sh"
     new_zshrc = re_sub(rf"{line_rm}", "", current_zshrc, flags=re_m)
-    snakypy_file_create(new_zshrc, zshrc, force=True)
-
-
-def remove_objects(*, objects=()) -> tuple:
-    with suppress(FileNotFoundError):
-        for item in objects:
-            rmtree(item, ignore_errors=True) if isdir(item) else remove(item)
-    return objects
+    create_file(new_zshrc, zshrc, force=True)
 
 
 def uninstall_by_pip(*, packages=()) -> tuple:
@@ -201,17 +193,6 @@ def uninstall_by_pip(*, packages=()) -> tuple:
                 universal_newlines=True,
             )
     return packages
-
-
-def backup_copy(origin, destiny, *, date=False, extension=True):
-    ext = ""
-    if extension:
-        ext = f".{origin.split('.')[-1]}"
-    destiny_format = destiny
-    if date or origin == destiny and not date:
-        destiny_format = f"{destiny}__BACKUP-{datetime.today().isoformat()}{ext}"
-    with suppress(FileNotFoundError, SameFileError):
-        copyfile(origin, destiny_format)
 
 
 def remove_versions_garbage(path):

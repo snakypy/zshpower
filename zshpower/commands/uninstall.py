@@ -4,19 +4,19 @@ from subprocess import Popen, PIPE
 from zshpower.config.zshrc import zshrc_sample
 from zshpower.config import package
 from zshpower.config.base import Base
+from snakypy.helpers.files import backup_file
 from zshpower.utils.shift import (
     change_theme_in_zshrc,
     rm_source_zshrc,
-    remove_objects,
     uninstall_by_pip,
-    backup_copy,
 )
+from snakypy.helpers.os import remove_objects
 from zshpower.utils.check import checking_init
 from zshpower.utils.process import reload_zsh
 from zshpower.utils.catch import read_zshrc_omz
-from snakypy.file import create as snakypy_file_create
-from snakypy.ansi import FG
-from snakypy import printer, pick
+from snakypy.helpers.files import create_file
+from snakypy.helpers.ansi import FG
+from snakypy.helpers import printer, pick
 from zshpower import HOME
 
 
@@ -30,7 +30,7 @@ def finished() -> None:
                      If you do not want this step to be done, you can cancel with Ctrl + C.
                      """
 
-            printer(message, foreground=FG.WARNING)
+            printer(message, foreground=FG().WARNING)
 
             while not pass_ok:
                 sudo_password = getpass()
@@ -47,15 +47,15 @@ def finished() -> None:
                 communicate = p.communicate(sudo_password)
 
                 if "failure" in communicate[1].split():
-                    printer("Password incorrect.", foreground=FG.ERROR)
+                    printer("Password incorrect.", foreground=FG().ERROR)
                 else:
                     pass_ok = True
 
         reload_zsh()
-        printer("Uninstall process finished.", foreground=FG.FINISH)
+        printer("Uninstall process finished.", foreground=FG().FINISH)
     except KeyboardInterrupt:
         reload_zsh()
-        printer("Uninstall process finished.", foreground=FG.FINISH)
+        printer("Uninstall process finished.", foreground=FG().FINISH)
 
 
 class UninstallCommand(Base):
@@ -70,7 +70,7 @@ class UninstallCommand(Base):
             options = ["Yes", "No"]
             reply = pick(title, options, colorful=True, index=True)
             if reply is None or reply[0] == 1:
-                printer("Whew! Thanks! :)", foreground=FG.GREEN)
+                printer("Whew! Thanks! :)", foreground=FG().GREEN)
                 exit(0)
             remove_objects(objects=(self.init_file, self.data_root))
             uninstall_by_pip(packages=(package.info["name"],))
@@ -87,7 +87,7 @@ class UninstallCommand(Base):
 
             # Cancel
             if reply is None or reply[0] == 2:
-                printer("Whew! Thanks! :)", foreground=FG.GREEN)
+                printer("Whew! Thanks! :)", foreground=FG().GREEN)
                 exit(0)
 
             # Remove default
@@ -97,8 +97,8 @@ class UninstallCommand(Base):
 
             # ZSHPower and Oh My ZSH
             if reply[0] == 1:
-                backup_copy(self.zsh_rc, self.zsh_rc, date=True, extension=False)
+                backup_file(self.zsh_rc, self.zsh_rc, date=True, extension=False)
                 remove_objects(objects=(self.omz_root, self.zsh_rc))
-                snakypy_file_create(zshrc_sample, self.zsh_rc, force=True)
+                create_file(zshrc_sample, self.zsh_rc, force=True)
 
             finished()

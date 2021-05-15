@@ -1,7 +1,7 @@
 import pwd
 import os
 from re import search as re_search
-from snakypy.ansi import FG, NONE
+from snakypy.helpers.ansi import FG, NONE
 from zshpower.config import menu
 from docopt import docopt
 from zshpower import __version__
@@ -22,7 +22,7 @@ def read_zshrc(zshrc) -> str:
 
 
 def arguments(argv=None) -> dict:
-    formatted_version = f"{package.info['name']} version: {FG.CYAN}{__version__}{NONE}"
+    formatted_version = f"{package.info['name']} version: {FG().CYAN}{__version__}{NONE}"
     data = docopt(menu.options, argv=argv, version=formatted_version)
     return data
 
@@ -37,17 +37,6 @@ def read_zshrc_omz(zshrc) -> tuple:
         theme_name = [s.strip('"') for s in lst][1]
         return theme_name, var_zsh_theme
     return ()
-
-
-def current_shell() -> tuple:
-    pw = pwd.getpwuid(getuid())
-    path_shell = pw[-1]
-    shell = str(path_shell).split("/")[-1]
-    return shell, path_shell
-
-
-def current_user() -> str:
-    return str(popen("whoami").read()).replace("\n", "")
 
 
 def plugins_current_zshrc(zshrc) -> list:
@@ -69,7 +58,7 @@ def get_line_source(zshrc) -> str:
     return ""
 
 
-def find_objects(directory, /, files=(), folders=(), extension=()) -> bool:
+def verify_objects(directory, /, files=(), folders=(), extension=()) -> bool:
     with suppress(PermissionError):
         for file in os.listdir(directory):
             if folders:

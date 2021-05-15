@@ -1,6 +1,6 @@
 from typing import Union, List
 from zshpower.database.dao import DAO
-from zshpower.utils.catch import find_objects
+from zshpower.utils.catch import verify_objects
 from os import getcwd
 from subprocess import check_output
 
@@ -80,7 +80,7 @@ class Version(DAO):
         micro_version_enable = config[key]["version"]["micro"]["enable"]
 
         if enable:
-            if reg_version[key] and find_objects(
+            if reg_version[key] and verify_objects(
                 getcwd(),
                 files=self.files,
                 folders=self.folders,

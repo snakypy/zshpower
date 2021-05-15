@@ -1,7 +1,7 @@
 from os import getcwd
 from os.path import join, isfile
 from subprocess import run
-from snakypy.json import read as snakypy_json_read
+from snakypy.helpers.files import read_json
 from zshpower.prompt.sections.lib.utils import (
     Version,
     symbol_ssh,
@@ -31,7 +31,7 @@ class Gulp(Version):
         if enable and isfile(join(getcwd(), self.files[0])):
             prefix = f"{Color(prefix_color)}{prefix_text}{Color().NONE}"
             if isfile(join(getcwd(), version_local)):
-                parsed = snakypy_json_read(join(getcwd(), version_local))
+                parsed = read_json(join(getcwd(), version_local))
                 if "version" in parsed:
                     version_ = parsed["version"]
 

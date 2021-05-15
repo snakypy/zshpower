@@ -1,7 +1,7 @@
 from os import geteuid
-from .lib.utils import symbol_ssh
 from os import environ as os_environ
-from zshpower.utils.catch import current_user
+from snakypy.helpers.catches import whoami
+from .lib.utils import symbol_ssh
 from .lib.utils import Color
 
 
@@ -15,5 +15,5 @@ class Username:
 
     def __str__(self, space_elem=" "):
         if self.enable or "SSH_CONNECTION" in os_environ or geteuid() == 0:
-            return f"{Color(self.color)}{self.symbol}{current_user()}{space_elem}{Color().NONE}"
+            return f"{Color(self.color)}{self.symbol}{whoami()}{space_elem}{Color().NONE}"
         return ""
