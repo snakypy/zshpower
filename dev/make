@@ -1,5 +1,4 @@
 #!/usr/bin/env zsh
-# Snakypy - https://github.com/snakypy (by: William C. Canin)
 # Type: shelling
 # Executor: bash
 # Usage:
@@ -67,11 +66,12 @@ EOF
 
 ### << Performs the linter (flake8).
 
-	function _linter_flake8 () {
+	function _linters () {
 		if [[ -f $(which flake8) ]] && [[ -f $(which mypy) ]]; then
 			_msg_header_ "[ Linter ] Checks whether the code structure ..." "\n"
-			poetry run flake8 zshpower tests
-			poetry run mypy zshpower/
+			poetry run flake8 $PACKAGE_NAME tests
+			poetry run mypy $PACKAGE_NAME/
+			poetry run black $PACKAGE_NAME/ --check
 			_msg_finish_ "Linter finished!"
 		else
 			_msg_error_ "Linter Flake8 or Mypy not installed.\nInstall the requirements that this resolves."
@@ -86,7 +86,7 @@ EOF
 	function _code_style_black () {
 		if [[ -f $(which black) ]]; then
 		  _msg_header_ "[ Format ] Formatting code with Black ..." "\n"
-			poetry run black zshpower/ tests/
+			poetry run black $PACKAGE_NAME/ tests/
 			_msg_finish_ "Code formatted finished!"
 		else
 			_msg_error_ "black not installed.\nInstall the requirements that this resolves."
@@ -104,6 +104,7 @@ EOF
 		_msg_header_ "Compiling..." "\n"
 	    # eqversion
 		poetry build
+		cd docs; make html; cd ..
 		_msg_finish_ "Compilation completed!"
 	}
 
@@ -127,8 +128,6 @@ EOF
 	function _clean () {
 		_msg_header_ "Cleaning build..." "\n"
 		rm -rf ./build ./dist ./.eggs ./.pytest_cache ./.tox
-		rm -f ./docs/zshpower.rst
-		rm -f ./docs/modules.rst
 		rm -rf ./docs/_build
 		_msg_finish_ "Clean build!"
 	}
@@ -188,7 +187,7 @@ Usage: $0 <options>
 	> reinstall    | -r          Reinstall the package.
 	> uninstall    | -u          Uninstall the package.
 	> linter       | -l          Checks whether the code structure complies with Pep8.
-	> test         | -t          Run tests.
+	> tests        | -t         Run tests.
 	> black        | -bk         Formatting code with Black.
 	> testpypi     | -tpp        Upload the package to the Test PyPi server.
 	> pypi         | -pp         Upload the package to the PyPi server.
@@ -217,16 +216,16 @@ EOT
 		  clean|-c|-C)
 				_clean
 		  ;;
-			linter|-l)
-				_linter_flake8
-			;;
+		  linter|-l)
+				_linters
+		  ;;
       black|-bk)
-				_code_style_black
+			  _code_style_black
 		  ;;
 		  uninstall|-u|-U)
 				_uninstall_package
 		  ;;
-		  test|-t)
+		  tests|-t)
 				poetry run pytest
 			;;
 		  testpypi|-tpp)
@@ -239,7 +238,7 @@ EOT
 				_help
 			;;
 		  *)
-		    $0 help
+		    _help
 		  ;;
 		esac
 
@@ -252,5 +251,3 @@ EOT
   _main "$1"
 
 ## END >>
-
-
