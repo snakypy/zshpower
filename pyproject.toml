@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "zshpower"
-version = "0.7.0"
+version = "0.7.1"
 description = "ZSHPower is a theme for ZSH with a manager."
 readme = "README.rst"
 authors = ["William C. Canin <william.costa.canin@gmail.com>"]
@@ -31,7 +31,7 @@ zshpower-draw = "zshpower.draw:main"
 
 [tool.poetry.dependencies]
 python = "^3.9"
-snakypy = "^0.3.6"
+snakypy-helpers = "0.1.1"
 docopt = "^0.6.2"
 tomlkit = "^0.7.0"
 
