@@ -5,7 +5,7 @@
   <br> ZSHPower - A powerful theme for <code>ZSH</code><br>
 </h1>
 
-![Python package](https://github.com/snakypy/zshpower/workflows/Python%20package/badge.svg) [![Build Status](https://travis-ci.com/snakypy/zshpower.svg?branch=master)](https://travis-ci.com/snakypy/zshpower) [![Updates](https://pyup.io/repos/github/snakypy/zshpower/shield.svg)](https://pyup.io/repos/github/snakypy/zshpower/) [![Python 3](https://pyup.io/repos/github/snakypy/zshpower/python-3-shield.svg)](https://pyup.io/repos/github/snakypy/zshpower/) ![PyPI - Wheel](https://img.shields.io/pypi/wheel/zshpower) ![PyPI](https://img.shields.io/pypi/v/zshpower) ![PyPI - Implementation](https://img.shields.io/pypi/implementation/zshpower) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) ![PyPI - Downloads](https://img.shields.io/pypi/dm/zshpower) [![GitHub license](https://img.shields.io/github/license/snakypy/zshpower)](https://github.com/snakypy/zshpower/blob/master/LICENSE)
+![Tests](https://github.com/snakypy/zshpower/workflows/Tests/badge.svg) [![Build Status](https://travis-ci.com/snakypy/zshpower.svg?branch=master)](https://travis-ci.com/snakypy/zshpower) [![Updates](https://pyup.io/repos/github/snakypy/zshpower/shield.svg)](https://pyup.io/repos/github/snakypy/zshpower/) [![Python 3](https://pyup.io/repos/github/snakypy/zshpower/python-3-shield.svg)](https://pyup.io/repos/github/snakypy/zshpower/) ![PyPI - Wheel](https://img.shields.io/pypi/wheel/zshpower) ![PyPI](https://img.shields.io/pypi/v/zshpower) ![PyPI - Implementation](https://img.shields.io/pypi/implementation/zshpower) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) ![PyPI - Downloads](https://img.shields.io/pypi/dm/zshpower) [![GitHub license](https://img.shields.io/github/license/snakypy/zshpower)](https://github.com/snakypy/zshpower/blob/master/LICENSE)
 
 <div align="center">
   <h4>
@@ -86,7 +86,7 @@ Here is an example of the installed **ZSHPower**:
   - new modified files;
   - commits made;
   - and more.
-  
+
 - Application versions shown with [icons](https://www.nerdfonts.com), they are:
 
   > CMake, Crystal, Dart, Deno, Docker, Docker, Dotnet, Elixir, Erlang, Go, Gulp, Helm, Java, Julia, Kotlin,
@@ -222,13 +222,13 @@ The **symbol** keys, receive icons or their values in `Unicode`. By default, the
 
 ### Configuration file
 
-The configuration file is found in **$HOME/.zshpower/<VERSION>/config.toml**, where in **VERSION** is the current version of **ZSHPower**. 
+The configuration file is found in **$HOME/.zshpower/<VERSION>/config.toml**, where in **VERSION** is the current version of **ZSHPower**.
 
 ```shell
 $ zshpower --version
 ```
 
-By default, most settings are set to **false**. 
+By default, most settings are set to **false**.
 
 The **ZSHPower** configuration file is very intuitive, and just a glance gives you an idea of what each option does. However, even so we will understand some of them below:
 
@@ -242,7 +242,7 @@ The **ZSHPower** configuration file is very intuitive, and just a glance gives y
 
 * **separator.color** - Changes the color of the separator. `Default:` *white*
 
-* **position** -  This option changes the position of certain sections. To show the information for a given tool, it must be listed in **position**. *Default:* 
+* **position** -  This option changes the position of certain sections. To show the information for a given tool, it must be listed in **position**. *Default:*
 
 
 **Username**:
@@ -394,7 +394,7 @@ If you cancel the Cron scripting step, you can do this manually through sample s
 * https://crontab.guru/crontab.5.html
 * https://wiki.archlinux.org/title/Cron
 
-or use the Crontab main: 
+or use the Crontab main:
 
 ```shell
 $ man crontab
@@ -413,7 +413,7 @@ Create a file  (with superuser)`/etc/cron.d/zshpower_sync.sh` and put the follow
 Run command:
 
 ```shell
-sudo chmod +x /usr/local/bin/zshpower_sync.sh 
+sudo chmod +x /usr/local/bin/zshpower_sync.sh
 ```
 
 ## Upgrading
