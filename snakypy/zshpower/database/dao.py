@@ -2,7 +2,9 @@ import sqlite3
 from typing import Any
 from snakypy.zshpower.config.base import Base
 from snakypy.zshpower import HOME
+from snakypy.helpers import FG, NONE
 from snakypy.zshpower.database.sql import sql
+from textwrap import dedent
 
 
 class DAO(Base):
@@ -13,10 +15,13 @@ class DAO(Base):
             self.get_cursor = self.conn.cursor()
 
         except sqlite3.Error:
-            raise sqlite3.Error(
-                "An error occurred while connecting to the database. Make sure that the SQLite database is turned on."
-                "One way to resolve it is by running the command 'zshpower init [--omz]'\n>"
+            message = dedent(
+                f"""\n\n{FG().RED}
+                An error occurred while connecting to the database. Make sure that the SQLite database is turned on.
+                One way to resolve it is by running the command "zshpower init [--omz]".{NONE}
+            """
             )
+            raise sqlite3.Error(message)
 
     def __enter__(self):
         return self
