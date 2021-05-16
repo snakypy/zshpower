@@ -141,7 +141,7 @@ class Draw(DAO):
                 static_section = f"{jump_line}{username}{hostname}{directory}"
 
                 # Using ThreadPoolExecutor, not Generators
-                with ThreadPoolExecutor(max_workers=2) as executor:
+                with ThreadPoolExecutor() as executor:
                     ordered_section = []
                     for elem in self.config["general"]["position"]:
                         for item in dinamic_section.keys():
