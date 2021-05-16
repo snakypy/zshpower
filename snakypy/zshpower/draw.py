@@ -3,7 +3,7 @@ from snakypy.helpers import FG, printer
 from snakypy.helpers.ansi import NONE
 from tomlkit.exceptions import NonExistentKey, UnexpectedCharError
 from sqlite3 import OperationalError
-from snakypy.helpers.decorators import only_linux, silent_errors
+from snakypy.helpers.decorators import only_linux
 from snakypy.zshpower.prompt.sections.gulp import Gulp
 from snakypy.zshpower.prompt.sections.jump_line import JumpLine
 from snakypy.zshpower.config import package
@@ -186,7 +186,6 @@ class Draw(DAO):
             )
 
 
-@silent_errors
 @only_linux
 def main() -> None:
     if len(sys_argv) < 2:
