@@ -31,7 +31,7 @@ zshpower-draw = "snakypy.zshpower.draw:main"
 
 [tool.poetry.dependencies]
 python = "^3.9"
-snakypy-helpers = "^0.1.1"
+snakypy-helpers = "^0.1.2"
 docopt = "^0.6.2"
 tomlkit = "^0.7.0"
 
