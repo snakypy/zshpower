@@ -42,11 +42,8 @@ class InitCommand(Base):
         Base.__init__(self, home)
 
     def run(self, arguments, *, reload=False, message=False) -> None:
-        # printer("Please wait ... assigning settings ...", foreground=FG.WARNING)
+        printer("Please wait ... assigning settings ...", foreground=FG().WARNING)
         tools_requirements("zsh", "vim", "git", "cut", "grep", "whoami", "pwd")
-        # create_zshrc_not_exists(
-        #     f". $HOME/.{package.info['pkg_name']}/{__version__}/init.sh", self.zsh_rc
-        # )
         snakypy_path_create(self.data_root)
         create_config(config_content, self.config_file)
         create_file(set_zshpower_content, self.init_file, force=True)
