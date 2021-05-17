@@ -8,8 +8,6 @@ from contextlib import suppress
 from os.path import isfile, exists
 from subprocess import run
 
-# TODO: REFACTOR
-
 
 class Base:
     def __init__(self, config):

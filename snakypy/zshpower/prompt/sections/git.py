@@ -148,17 +148,6 @@ class Git:
             if len(status_git) == 0:
                 status_current.append("CL")
 
-            # TODO: No List Comprehension (DEPRECATED)
-            # status_icons = []
-            # for item in status_current:
-            #     if "SSH_CONNECTION" not in environ:
-            #         if self.symbol_enable:
-            #             status_icons.append(f"{self.icons[item][0]}")
-            #         else:
-            #             status_icons.append(f"{self.icons[item][1]}")
-            #     else:
-            #         status_icons.append(f"{self.icons[item][1]}")
-
             status_icons = (
                 self.icons[item][0]
                 if self.symbol_enable

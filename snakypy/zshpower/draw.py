@@ -151,14 +151,6 @@ class Draw(DAO):
                                 )
                                 ordered_section.append(future.result())
 
-                # Using Generators, not ThreadPoolExecutor
-                # ordered_section = (
-                #     dinamic_section[item]
-                #     for element in self.config["general"]["position"]
-                #     for item in dinamic_section.keys()
-                #     if item == element
-                # )
-
                 sections = "{}{}" + "{}" * len(dinamic_section)
                 return sections.format(static_section, *ordered_section, cmd)
 

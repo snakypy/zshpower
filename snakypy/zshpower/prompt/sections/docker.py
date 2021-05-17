@@ -33,16 +33,3 @@ class Docker(Version):
             return super().set(version_format, key, action)
 
         return False
-
-
-# TODO: Get version Docker by Shell script (DEPRECATED)
-# def docker_status():
-#     from zshpower.utils.process import shell_command
-
-#     cmd = """
-#     state=$(docker info > /dev/null 2>&1)
-#     if [[ $? -ne 0 ]]; then
-#         echo "disabled"
-#     fi
-#     """
-#     return shell_command(cmd)[0]
