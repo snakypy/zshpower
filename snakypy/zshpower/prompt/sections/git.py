@@ -9,7 +9,7 @@ class Git:
     def __init__(self, config, icon_space=" "):
 
         self.config = config
-        # TODO: ZSHPower version 0.8.0 - In the future, the configuration
+        # TODO: ZSHPower version 1.0.0 - In the future, the configuration
         #  file (config.toml) will no longer be mandatory in ZSHPower, as it
         #  is necessary to check if there are keys in the configuration file.
         try:
