@@ -26,7 +26,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 
 def records(action) -> None:
-    with ThreadPoolExecutor() as executor:
+    with ThreadPoolExecutor(max_workers=10) as executor:
         executor.submit(Dart().set_version, action=action)
         executor.submit(Docker().set_version, action=action)
         executor.submit(Dotnet().set_version, action=action)
