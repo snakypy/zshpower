@@ -15,11 +15,23 @@ content = f"""#!/usr/bin/env zsh
 ## Export PATH local user
 export PATH="$PATH:$HOME/.local/bin"
 
+function preexec() {{
+  timer=$(date +%S)
+}}
+
+function precmd() {{
+    if [ $timer ]; then
+      now=$(date +%S)
+      elapsed=$(($now-$timer))
+      unset timer
+    fi
+}}
+
 ## Option using "add-zsh-hook"
 function zshpower_precmd() {{
   state=$(which zshpower-draw > /dev/null 2>&1)
   if [ ! $? -ne 0 ]; then
-    PROMPT="$(zshpower-draw prompt)"
+    PROMPT="$(zshpower-draw prompt $elapsed)"
     RPROMPT="$(zshpower-draw rprompt)"
   else
     PROMPT='%F{{green}}%n%f@%F{{magenta}}%m%f %F{{blue}}%B%~%b%f %# '
@@ -37,11 +49,11 @@ function install_zshpower_precmd() {{
 }}
 
 ## Option using "add-zsh-hook"
-# autoload -Uz add-zsh-hook
-# add-zsh-hook precmd zshpower_precmd
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd zshpower_precmd
 
 ## Option not using "add-zsh-hook"
-if [ "$TERM" != "linux" ]; then
-   install_zshpower_precmd
-fi
+# if [ "$TERM" != "linux" ]; then
+#    install_zshpower_precmd
+# fi
 """

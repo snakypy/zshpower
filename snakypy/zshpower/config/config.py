@@ -40,7 +40,7 @@ position = [
     "vagrant",
     "zig",
     "gulp",
-    "git"
+    "git",
     ]
 
 [command]
@@ -299,6 +299,14 @@ enable = false
 symbol = "\\uf43a"
 color = "blue"
 seconds.enable = false
+
+[took]
+enable = false
+symbol = "\\ufbab"
+text = "took"
+color = "yellow"
+involved = "[]"
+show_greater_than = 1
 
 [username]
 enable = false

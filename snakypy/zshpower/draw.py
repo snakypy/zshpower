@@ -1,6 +1,7 @@
 from contextlib import suppress
 from snakypy.helpers import FG, printer
 from snakypy.helpers.ansi import NONE
+from snakypy.zshpower.prompt.sections.took import Took
 from tomlkit.exceptions import NonExistentKey, UnexpectedCharError
 from sqlite3 import OperationalError
 from snakypy.helpers.decorators import only_linux
@@ -99,7 +100,7 @@ class Draw(DAO):
         return dic[item]
 
     # @runtime
-    def prompt(self) -> str:
+    def prompt(self, timer_took=0) -> str:
         try:
             with suppress(KeyboardInterrupt):
                 jump_line = JumpLine(self.config)
@@ -138,6 +139,7 @@ class Draw(DAO):
                 }
 
                 cmd = Command(self.config)
+                took = Took(self.config, timer_took)
                 static_section = f"{jump_line}{username}{hostname}{directory}"
 
                 # Using ThreadPoolExecutor, not Generators
@@ -151,8 +153,8 @@ class Draw(DAO):
                                 )
                                 ordered_section.append(future.result())
 
-                sections = "{}{}" + "{}" * len(dinamic_section)
-                return sections.format(static_section, *ordered_section, cmd)
+                sections = "{}{}{}" + "{}" * len(dinamic_section)
+                return sections.format(static_section, *ordered_section, took, cmd)
 
         except (NonExistentKey, UnexpectedCharError, ValueError):
             print(
@@ -170,7 +172,7 @@ class Draw(DAO):
     def rprompt(self) -> str:
         try:
             timer = Timer(self.config)
-            return str(timer)
+            return f"{timer}"
         except NonExistentKey:
             return (
                 f"{FG().ERROR}>>> {package.info['name']} Error: Key error in "
@@ -182,7 +184,13 @@ class Draw(DAO):
 def main() -> None:
     if len(sys_argv) < 2:
         raise TypeError("missing 1 required positional argument")
-    if len(sys_argv) == 2 and sys_argv[1] == "prompt":
+    if len(sys_argv) == 3 and sys_argv[1] == "prompt" and sys_argv[2]:
+        stdout.write(Draw().prompt(timer_took=int(sys_argv[2])))
+    elif len(sys_argv) == 2 and sys_argv[1] == "prompt":
         stdout.write(Draw().prompt())
     elif len(sys_argv) == 2 and sys_argv[1] == "rprompt":
         stdout.write(Draw().rprompt())
+    # elif len(sys_argv) == 2 and sys_argv[1] == "took":
+    #     from time import strftime
+    #     took_seconds = strftime("%S")
+    #     stdout.write(took_seconds)
