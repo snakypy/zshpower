@@ -50,6 +50,7 @@ To work correctly, you will first need:
 * `git`_ (v2.25 or recent) must be installed.
 * `zsh`_  (v5.2 or recent) must be installed.
 * `python`_ (v3.9 or recent) must be installed.
+* `sqlite3`_ (v3.35 or recent) must be installed.
 * `pip`_ (v21.0.1 or recent) must be installed.
 * `nerd fonts`_ must be installed.
 
@@ -143,13 +144,13 @@ Links
 
 .. _AUTHORS: https://github.com/snakypy/zshpower/blob/master/AUTHORS.rst
 .. _Oh My Zsh: https://ohmyz.sh
-.. _Python: https://python.org
 .. _zsh-autosuggestions: https://github.com/zsh-users/zsh-autosuggestions
 .. _zsh-syntax-highlighting: https://github.com/zsh-users/zsh-syntax-highlighting
 .. _ZSHPower: https://github.com/snakypy/zshpower
 .. _git: https://git-scm.com/downloads
 .. _zsh: http://www.zsh.org/
 .. _python: https://python.org
+.. _sqlite3: https://www.sqlite.org
 .. _pip: https://pip.pypa.io/en/stable/quickstart/
 .. _nerd fonts: https://www.nerdfonts.com/font-downloads
 .. _MIT License: https://github.com/snakypy/zshpower/blob/master/LICENSE
