@@ -373,6 +373,23 @@ The **ZSHPower** configuration file is very intuitive, and just a glance gives y
 
 * **seconds.enable** - Receive `true` or` false`. If it has `true`, show the seconds of the clock. `Default:` false
 
+
+**Took**
+
+* **enable** - Get 'true' or 'false'. If it has `true`, it shows the time count of the executed command. `Default:` *false*
+
+* **symbol** - Must receive an icon, whether in unicode or not. `Default:` "\ufbab"
+
+* **text** - Shows a pre-text ahead of time. `Default:` "took"
+
+* **color** - Changes the color of the took.  `Default:` yellow
+
+* **involved** -  You will have the option of wrapping the result in the middle of two elements.  `Default:` "[]"
+
+* **show_greater_than** - It will only be shown if the return time of the command if it is greater than the value of this option.  `Default:` 1
+                          > NOTE: It must be a value in seconds.
+
+
 ## Syncronize
 
 `ZSHPower` stores some information in a database (SQLite 3) to obtain better performance and speed in the display of data. This data is currently the versions of the applications that `ZSHPower` shows on the console. Before, `ZSHPower` showed this information in real time, but it compromised performance and display time.
