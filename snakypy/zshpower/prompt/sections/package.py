@@ -216,19 +216,3 @@ class Package:
         elif exists(join(getcwd(), Helm(self.config).files[0])):
             return str(Helm(self.config))
         return ""
-
-
-# def package(config):
-#     if exists(join(getcwd(), Python(config).files[0])):
-#         return Python(config)
-#     elif exists(join(getcwd(), Rust(config).files[0])):
-#         return Rust(config)
-#     elif exists(join(getcwd(), NodeJS(config).files[0])):
-#         return NodeJS(config)
-#     elif exists(join(getcwd(), Scala(config).files[0])):
-#         return Scala(config)
-#     elif exists(join(getcwd(), Crystal(config).files[0])):
-#         return Crystal(config)
-#     elif exists(join(getcwd(), Helm(config).files[0])):
-#         return Helm(config)
-#     return ""
