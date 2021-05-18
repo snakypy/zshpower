@@ -85,7 +85,7 @@ class Draw(DAO):
             )
 
     def version(self, instance, key) -> str:
-        with ThreadPoolExecutor(max_workers=2) as executor:
+        with ThreadPoolExecutor() as executor:
             if key in self.register:
                 future = executor.submit(
                     instance().get_version, self.config, self.register
