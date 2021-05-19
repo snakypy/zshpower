@@ -1,8 +1,10 @@
-from sys import version_info as sys_version_info
+from sys import version_info
 from snakypy.zshpower.utils.catch import verify_objects
 from snakypy.helpers.catches import is_tool
+from snakypy.helpers.files import read_file
 from os import environ, getcwd
-from os.path import isfile, join
+from os.path import isfile, join, exists, isdir
+from snakypy.zshpower import HOME
 from snakypy.zshpower.prompt.sections.lib.utils import symbol_ssh, element_spacing
 from snakypy.zshpower.prompt.sections.lib.utils import Color, separator
 
@@ -31,13 +33,25 @@ class Python:
 
     def get_version(self, space_elem=" ") -> str:
 
+        # Checking if you use Python through pyenv or the system.
+        if isdir(join(HOME, ".pyenv")):
+            if exists(join(getcwd(), self.files[4])):
+                python_version = read_file(join(getcwd(), self.files[4])).strip().split(".")
+            else:
+                if read_file(join(HOME, ".pyenv/version")).strip() == "system":
+                    python_version = f"{'{0[0]}.{0[1]}.{0[2]}'.format(version_info)}".split(".")
+                else:
+                    python_version = read_file(join(HOME, ".pyenv/version")).strip().split(".")
+        else:
+            python_version = f"{'{0[0]}.{0[1]}.{0[2]}'.format(version_info)}".split(".")
+
         if not self.micro_version_enable:
-            return f"{'{0[0]}.{0[1]}'.format(sys_version_info)}{space_elem}"
-        return f"{'{0[0]}.{0[1]}.{0[2]}'.format(sys_version_info)}{space_elem}"
+            return f"{'{0[0]}.{0[1]}'.format(python_version)}{space_elem}"
+        return f"{'{0[0]}.{0[1]}.{0[2]}'.format(python_version)}{space_elem}"
 
     def __str__(self):
         if self.enable:
-            if is_tool("python", f"python{'{0[0]}'.format(sys_version_info)}"):
+            if is_tool("python"):
                 if (
                     verify_objects(
                         getcwd(),
@@ -123,12 +137,3 @@ class Virtualenv:
                     )
                 return str(ret)
         return ""
-
-
-# def _python(config):
-#     import concurrent.futures
-#
-#     with concurrent.futures.ThreadPoolExecutor() as executor:
-#         future = executor.submit(Python, config)
-#         return_value = future.result()
-#         return return_value
