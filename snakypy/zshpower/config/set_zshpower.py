@@ -4,7 +4,7 @@ from snakypy.zshpower.config import package
 # website_author = package.info["author"]["website"]
 # email = package.info["author"]["email"]
 
-content = f"""#!/usr/bin/env zsh
+content = f"""#!/usr/bin/env bash
 
 ## Information:
 ## ******************************************************************************
@@ -16,13 +16,13 @@ content = f"""#!/usr/bin/env zsh
 export PATH="$PATH:$HOME/.local/bin"
 
 function preexec() {{
-  timer=$(date +%S)
+  timer=$SECONDS
 }}
 
 function precmd() {{
     if [ $timer ]; then
-      now=$(date +%S)
-      elapsed=$(($now-$timer))
+      now=$SECONDS
+      elapsed=$(( $now - $timer ))
       unset timer
     fi
 }}
