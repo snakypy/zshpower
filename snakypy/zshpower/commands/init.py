@@ -43,7 +43,7 @@ class InitCommand(Base):
 
     def run(self, arguments, *, reload=False, message=False) -> None:
         printer("Please wait ... assigning settings ...", foreground=FG().WARNING)
-        tools_requirements("zsh", "vim", "git", "cut", "grep", "whoami", "pwd")
+        tools_requirements("bash", "zsh", "vim", "git", "cut", "grep", "whoami", "pwd")
         snakypy_path_create(self.data_root)
         create_config(config_content, self.config_file)
         create_file(set_zshpower_content, self.init_file, force=True)
