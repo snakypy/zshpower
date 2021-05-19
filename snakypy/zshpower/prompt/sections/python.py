@@ -36,12 +36,18 @@ class Python:
         # Checking if you use Python through pyenv or the system.
         if isdir(join(HOME, ".pyenv")):
             if exists(join(getcwd(), self.files[4])):
-                python_version = read_file(join(getcwd(), self.files[4])).strip().split(".")
+                python_version = (
+                    read_file(join(getcwd(), self.files[4])).strip().split(".")
+                )
             else:
                 if read_file(join(HOME, ".pyenv/version")).strip() == "system":
-                    python_version = f"{'{0[0]}.{0[1]}.{0[2]}'.format(version_info)}".split(".")
+                    python_version = (
+                        f"{'{0[0]}.{0[1]}.{0[2]}'.format(version_info)}".split(".")
+                    )
                 else:
-                    python_version = read_file(join(HOME, ".pyenv/version")).strip().split(".")
+                    python_version = (
+                        read_file(join(HOME, ".pyenv/version")).strip().split(".")
+                    )
         else:
             python_version = f"{'{0[0]}.{0[1]}.{0[2]}'.format(version_info)}".split(".")
 
