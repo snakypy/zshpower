@@ -185,12 +185,8 @@ def main() -> None:
     if len(sys_argv) < 2:
         raise TypeError("missing 1 required positional argument")
     if len(sys_argv) == 3 and sys_argv[1] == "prompt" and sys_argv[2]:
-        stdout.write(Draw().prompt(timer_took=int(sys_argv[2])))
+        stdout.write(Draw().prompt(timer_took=sys_argv[2]))
     elif len(sys_argv) == 2 and sys_argv[1] == "prompt":
         stdout.write(Draw().prompt())
     elif len(sys_argv) == 2 and sys_argv[1] == "rprompt":
         stdout.write(Draw().rprompt())
-    # elif len(sys_argv) == 2 and sys_argv[1] == "took":
-    #     from time import strftime
-    #     took_seconds = strftime("%S")
-    #     stdout.write(took_seconds)
