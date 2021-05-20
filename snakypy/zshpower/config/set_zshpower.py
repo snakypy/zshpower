@@ -23,10 +23,10 @@ function precmd() {{
     if [ $timer ]; then
       now=$(date +%s)
       elapsed=$(( $now - $timer ))
-      if [[ $elapsed > 60 ]]; then
-        time_format=$(date -d@$elapsed -u "+%Mm %Ss")
+      if [[ $elapsed -ge 60 ]]; then
+        took=$(date -d@$elapsed -u "+%Mm %Ss")
       else
-        time_format=$(date -d@$elapsed -u "+%Ss")
+        took=$(date -d@$elapsed -u "+%Ss")
       fi
       unset timer
     fi
@@ -36,7 +36,7 @@ function precmd() {{
 function zshpower_precmd() {{
   state=$(which zshpower-draw > /dev/null 2>&1)
   if [ ! $? -ne 0 ]; then
-    PROMPT="$(zshpower-draw prompt $elapsed)"
+    PROMPT="$(zshpower-draw prompt $took)"
     RPROMPT="$(zshpower-draw rprompt)"
   else
     PROMPT='%F{{green}}%n%f@%F{{magenta}}%m%f %F{{blue}}%B%~%b%f %# '
