@@ -10,7 +10,7 @@ content: str = f"""# Generate by: ZSHPower - D{datetime.today().isoformat()}
 [general]
 jump_line.enable = true
 config.editor = "vim"
-separator.element = "-"
+separator.element = "∙"
 separator.color = "white"
 position = [
     "virtualenv",
