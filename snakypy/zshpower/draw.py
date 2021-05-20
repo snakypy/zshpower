@@ -1,4 +1,5 @@
 from contextlib import suppress
+from typing import Any
 from snakypy.helpers import FG, printer
 from snakypy.helpers.ansi import NONE
 from snakypy.zshpower.prompt.sections.took import Took
@@ -61,14 +62,14 @@ class Draw(DAO):
     def get_config(self) -> dict:
         try:
             read_conf = read_file(self.config_file)
-            parsed = toml_parse(read_conf)
+            parsed = dict(toml_parse(read_conf))
             return parsed
 
         except (FileNotFoundError, NonExistentKey):
             snakypy_path_create(self.zshpower_home)
             create_config(config_content, self.config_file)
             read_conf = read_file(self.config_file)
-            parsed = toml_parse(read_conf)
+            parsed = dict(toml_parse(read_conf))
             return parsed
 
     def get_register(self):
@@ -96,11 +97,11 @@ class Draw(DAO):
             return ""
 
     @staticmethod
-    def get_keys(dic, item) -> str:
-        return dic[item]
+    def get_keys(dict_: dict, key: Any) -> str:
+        return dict_[key]
 
     # @runtime
-    def prompt(self, took=0) -> str:
+    def prompt(self, took: Any = 0) -> str:
         try:
             with suppress(KeyboardInterrupt):
                 jump_line = JumpLine(self.config)

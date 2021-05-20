@@ -27,7 +27,7 @@ class ConfigCommand(Base):
         if arguments["--open"]:
             try:
                 read_conf = read_file(self.config_file)
-                parsed = toml_parse(read_conf)
+                parsed = dict(toml_parse(read_conf))
                 editor_conf = parsed["general"]["config"]["editor"]
                 if editor_conf:
                     editor_run(editor_conf, self.config_file)
