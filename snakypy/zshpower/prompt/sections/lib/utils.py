@@ -24,15 +24,18 @@ def git_status(*, porcelain=False, branch=False) -> Union[str, List[str]]:
             f"git status {porcelain_set}", shell=True, universal_newlines=True
         ).split()
     elif branch and not porcelain:
-        data = check_output(f"git status {branch_set}",
-                            shell=True, universal_newlines=True).split()
+        data = check_output(
+            f"git status {branch_set}", shell=True, universal_newlines=True
+        ).split()
         if data[0] == "HEAD":
             status = f"{Color('red')}HEAD{Color().NONE}"
         else:
             status = data[2]
     else:
         status = check_output(
-            f"git status {porcelain_set} {branch_set}", shell=True, universal_newlines=True
+            f"git status {porcelain_set} {branch_set}",
+            shell=True,
+            universal_newlines=True,
         ).split()
     return status
 
@@ -53,6 +56,7 @@ def element_spacing(element, spacing=" "):
 
 class Color:
     """Color application compatible only ZSH."""
+
     NONE = "%f"
 
     def __init__(self, set_color=""):
@@ -106,12 +110,15 @@ class Version(DAO):
         if action:
             # Conditions
             if action == "insert":
-                query = DAO().select_where(self.tbl_main, key, "name", select=("version",))
+                query = DAO().select_where(
+                    self.tbl_main, key, "name", select=("version",)
+                )
                 if not query:
                     DAO().insert(
-                        self.tbl_main, columns=(
-                            "name", "version"), values=(
-                            key, version))
+                        self.tbl_main,
+                        columns=("name", "version"),
+                        values=(key, version),
+                    )
 
             elif action == "update":
                 DAO().update(self.tbl_main, "version", version, "name", key)

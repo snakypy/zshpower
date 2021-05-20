@@ -52,6 +52,7 @@ def records(action) -> None:
         executor.submit(Vagrant().set_version, action=action)
         executor.submit(Zig().set_version, action=action)
 
+
 # Thread(target=Dart().set_version, kwargs={"action": action}).start()
 # Thread(target=Docker().set_version, kwargs={"action": action}).start()
 # Thread(target=Dotnet().set_version, kwargs={"action": action}).start()
