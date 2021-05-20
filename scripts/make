@@ -14,7 +14,7 @@
     ## Python executable
     # PYTHON_EXEC="python3" ## Executável em Python. E.g: python | python3
     # GET_SHELL=$SHELL
-    
+
 ## >>
 
 ### << Function color for messages.
@@ -105,10 +105,12 @@ EOF
 		_msg_header_ "[ Clearing cache and compiling ]" "\n"
 		_clean
 		_msg_header_ "Compiling..." "\n"
-	    # eqversion
 		$(echo ${POETRY:11}) build
 		if [[ -d "docs" ]]; then
 			cd docs; make html; cd ..
+		fi
+		if [[ $POETRY ]]; then
+			$(echo ${POETRY:11}) export -f requirements.txt --output requirements.txt
 		fi
 		_msg_finish_ "Compilation completed!"
 	}
