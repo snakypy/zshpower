@@ -27,16 +27,16 @@ class Took:
         return self.took
 
     def show(self):
-        took_format = (
+        took_current = (
             f" {Color(self.color)}{self.symbol}{self.text} "
             f"{Color().NONE}{self.format_took()}"
         )
         if len(self.involved) == 2:
-            took_format = (
+            took_current = (
                 f" {self.involved[0]}{Color(self.color)}{self.symbol}{self.text} "
                 f"{Color().NONE}{self.format_took()}{self.involved[1]}"
             )
-        return took_format
+        return took_current
 
     def __str__(self):
         if self.enable:
