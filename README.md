@@ -9,8 +9,7 @@
 
 <div align="center">
   <h4>
-    | <a href="https://snakypy.github.io">Website</a> |
-    <a href="#features">Features</a> |
+    | <a href="#features">Features</a> |
     <a href="#requirements">Requirements</a> |
     <a href="#installing">Install</a> |
     <a href="#post-install">Post-Install</a> |
@@ -18,7 +17,7 @@
     <a href="#reset-settings">Reset settings</a> |
     <a href="#upgrading">Upgrade</a> |
     <a href="#syncronize">Syncronize</a> |
-    <a href="#disable-and-enable-theme-for-oh-my-zsh">Disable/Enable for Oh My ZSH</a> |
+    <a href="#deactivate-and-activate-theme-for-oh-my-zsh">Deactivate/Activate for Oh My ZSH</a> |
     <a href="#uninstalling">Uninstall</a> |
     <a href="#donation">Donation</a> |
   </h4>
