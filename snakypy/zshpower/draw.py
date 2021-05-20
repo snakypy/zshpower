@@ -100,7 +100,7 @@ class Draw(DAO):
         return dic[item]
 
     # @runtime
-    def prompt(self, timer_took=0) -> str:
+    def prompt(self, took=0) -> str:
         try:
             with suppress(KeyboardInterrupt):
                 jump_line = JumpLine(self.config)
@@ -139,7 +139,7 @@ class Draw(DAO):
                 }
 
                 cmd = Command(self.config)
-                took = Took(self.config, timer_took)
+                took_ = Took(self.config, took)
                 static_section = f"{jump_line}{username}{hostname}{directory}"
 
                 # Using ThreadPoolExecutor, not Generators
@@ -154,7 +154,7 @@ class Draw(DAO):
                                 ordered_section.append(future.result())
 
                 sections = "{}{}{}" + "{}" * len(dinamic_section)
-                return sections.format(static_section, *ordered_section, took, cmd)
+                return sections.format(static_section, *ordered_section, took_, cmd)
 
         except (NonExistentKey, UnexpectedCharError, ValueError):
             print(
@@ -185,7 +185,7 @@ def main() -> None:
     if len(sys_argv) < 2:
         raise TypeError("missing 1 required positional argument")
     if len(sys_argv) == 3 and sys_argv[1] == "prompt" and sys_argv[2]:
-        stdout.write(Draw().prompt(timer_took=sys_argv[2]))
+        stdout.write(Draw().prompt(took=sys_argv[2]))
     elif len(sys_argv) == 2 and sys_argv[1] == "prompt":
         stdout.write(Draw().prompt())
     elif len(sys_argv) == 2 and sys_argv[1] == "rprompt":
