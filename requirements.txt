@@ -6,6 +6,6 @@ pyfiglet==0.8.post1; python_version >= "3.9" and python_version < "4.0" \
 snakypy-helpers==0.1.4; python_version >= "3.9" and python_version < "4.0" \
     --hash=sha256:45a3ba8ca09380280583453e341aa5934e3ad2f8bf5dc5fe78aeebc53d7b8dd6 \
     --hash=sha256:deb1ee666c5bcfef861ec1f9514099a86dc4b91fd3fad1f16045544a3b594091
-tomlkit==0.7.0; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.5.0") \
-    --hash=sha256:6babbd33b17d5c9691896b0e68159215a9387ebfa938aa3ac42f4a4beeb2b831 \
-    --hash=sha256:ac57f29693fab3e309ea789252fcce3061e19110085aa31af5446ca749325618
+tomlkit==0.7.1; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.5.0") \
+    --hash=sha256:01227863019024861bb83d9a09a757b1c65604969fd2cebb19f5e2b340649792 \
+    --hash=sha256:24d6049e0765aad9c56a30dfa60d54c69f39c142112a6c57ce8f1c285b6b9d8f
