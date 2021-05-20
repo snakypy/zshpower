@@ -223,7 +223,7 @@ The **symbol** keys, receive icons or their values in `Unicode`. By default, the
 
 ### Configuration file
 
-The configuration file is found in **$HOME/.zshpower/<VERSION>/config.toml**, where in **VERSION** is the current version of **ZSHPower**.
+The configuration file is found in **$HOME/.zshpower/VERSION/config.toml**, where in **VERSION** is the current version of **ZSHPower**.
 
 ```shell
 $ zshpower --version
@@ -243,7 +243,7 @@ The **ZSHPower** configuration file is very intuitive, and just a glance gives y
 
 * **separator.color** - Changes the color of the separator. `Default:` *white*
 
-* **position** -  This option changes the position of certain sections. To show the information for a given tool, it must be listed in **position**. *Default:*
+* **position** -  This option changes the position of certain sections. To show the information for a given tool, it must be listed in **position**.
 
 
 **Username**:
@@ -296,7 +296,7 @@ The **ZSHPower** configuration file is very intuitive, and just a glance gives y
 
 **Git Status:**
 
-* **symbols.enable** -  Receives `true` or` false`. If `true`, shows the git status icons through each defined value. Remember that these icons will not be shown if you are via SSH. `Default:` *true*
+* **symbols.enable** -  Receives `true` or `false`. If `true`, shows the git status icons through each defined value. Remember that these icons will not be shown if you are via SSH. `Default:` *true*
 
 **Command**:
 
