@@ -2,7 +2,6 @@ from snakypy.zshpower.prompt.sections.lib.utils import symbol_ssh
 from snakypy.zshpower.prompt.sections.lib.utils import Color
 
 
-
 class Took:
     def __init__(self, config, took=0):
         self.enable = config["took"]["enable"]
@@ -12,7 +11,6 @@ class Took:
         self.involved = config["took"]["involved"]
         self.show_greater_than = config["took"]["show_greater_than"]
         self.took = str(took)
-
 
     def format_took(self) -> str:
         if self.took and len(self.took) == 7:
@@ -27,7 +25,6 @@ class Took:
                 return self.took[1:3]
         return self.took
 
-
     def show(self):
         timer_took_format = (
             f" {Color(self.color)}{self.symbol}{self.text} "
@@ -41,7 +38,6 @@ class Took:
             )
 
         return timer_took_format
-
 
     def __str__(self):
         if self.enable:
