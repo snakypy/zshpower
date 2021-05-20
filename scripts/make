@@ -132,7 +132,7 @@ EOF
 
 	function _clean () {
 		_msg_header_ "Cleaning build ..." "\n"
-		rm -rf ./build ./dist ./.eggs ./.pytest_cache ./.tox
+		rm -rf ./build ./dist ./.eggs ./.pytest_cache ./.tox ./.mypy_cache
 		rm -rf ./docs/_build
 		_msg_finish_ "Clean build!"
 	}
