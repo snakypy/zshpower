@@ -148,7 +148,7 @@ $ zshpower init
 ```
 
 > **NOTE**:  This option you will have to add the following code to the .zshrc file.
-> `source $HOME/.zshpower/init`
+> `source $HOME/.zshpower/**VERSION**/init.sh`
 
 If you want to use it with **Oh My ZSH** and, to make **ZSHPower** more powerfull, do:
 
@@ -172,7 +172,9 @@ Add the font family in [`Visual Studio Code`](https://code.visualstudio.com/),
 opening the global settings for `Visual Studio Code` and add this information:
 
 ```json
-"terminal.integrated.fontFamily": "'<Your main source>', 'DejaVuSansMono Nerd Font'",
+{
+	"terminal.integrated.fontFamily": "'<Your main source>', 'DejaVuSansMono Nerd Font'"
+}
 ```
 
 **Atom:**
