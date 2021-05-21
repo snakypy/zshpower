@@ -14,9 +14,9 @@ max_line_length = 120
 [*.py]
 indent_size = 4
 indent_style = space
+skip = build,.tox,dist,.mypy_cache,scripts
+src_paths=snakypy,tests
 
 [LICENSE]
 insert_final_newline = false
 
-[Makefile]
-indent_style = tab
