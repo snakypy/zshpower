@@ -1,6 +1,8 @@
-from os import geteuid
 from os import environ as os_environ
+from os import geteuid
+
 from snakypy.helpers.catches import whoami
+
 from .utils import Color, symbol_ssh
 
 

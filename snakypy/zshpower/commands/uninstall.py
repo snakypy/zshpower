@@ -1,22 +1,23 @@
 from getpass import getpass
 from os.path import exists
-from subprocess import Popen, PIPE
-from snakypy.zshpower.config.zshrc import zshrc_sample
+from subprocess import PIPE, Popen
+
+from snakypy.helpers import pick, printer
+from snakypy.helpers.ansi import FG
+from snakypy.helpers.files import backup_file, create_file
+from snakypy.helpers.os import remove_objects
+
+from snakypy.zshpower import HOME, __info__
 from snakypy.zshpower.config.base import Base
-from snakypy.helpers.files import backup_file
+from snakypy.zshpower.config.zshrc import zshrc_sample
+from snakypy.zshpower.utils.catch import read_zshrc_omz
+from snakypy.zshpower.utils.check import checking_init
+from snakypy.zshpower.utils.process import reload_zsh
 from snakypy.zshpower.utils.shift import (
     change_theme_in_zshrc,
     rm_source_zshrc,
     uninstall_by_pip,
 )
-from snakypy.helpers.os import remove_objects
-from snakypy.zshpower.utils.check import checking_init
-from snakypy.zshpower.utils.process import reload_zsh
-from snakypy.zshpower.utils.catch import read_zshrc_omz
-from snakypy.helpers.files import create_file
-from snakypy.helpers.ansi import FG
-from snakypy.helpers import printer, pick
-from snakypy.zshpower import HOME, __info__
 
 
 def finished() -> None:

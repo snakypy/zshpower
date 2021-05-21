@@ -1,4 +1,5 @@
 from datetime import datetime
+
 from snakypy.zshpower import __info__
 
 content: str = f"""# Generate by: ZSHPower - D{datetime.today().isoformat()}

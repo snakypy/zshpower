@@ -1,7 +1,7 @@
-from snakypy.helpers.catches import shell
-from snakypy.helpers import FG, printer
-from snakypy.helpers.catches import whoami
 from subprocess import call as subprocess_call
+
+from snakypy.helpers import FG, printer
+from snakypy.helpers.catches import shell, whoami
 
 
 def reload_zsh() -> None:

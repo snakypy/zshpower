@@ -1,4 +1,5 @@
 from snakypy.helpers.ansi import FG, NONE
+
 from snakypy.zshpower import __info__
 
 dt_omz: str = f"{FG().MAGENTA}robbyrussell{NONE}"

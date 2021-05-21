@@ -1,16 +1,18 @@
+from os import environ, getcwd
+from os.path import exists, isdir, isfile, join
 from sys import version_info
-from snakypy.zshpower.utils.catch import verify_objects
+
 from snakypy.helpers.catches import is_tool
 from snakypy.helpers.files import read_file
-from os import environ, getcwd
-from os.path import isfile, join, exists, isdir
+
 from snakypy.zshpower import HOME
 from snakypy.zshpower.prompt.sections.utils import (
     Color,
+    element_spacing,
     separator,
     symbol_ssh,
-    element_spacing,
 )
+from snakypy.zshpower.utils.catch import verify_objects
 
 
 class Python:

@@ -1,10 +1,12 @@
 import sqlite3
-from typing import Any
-from snakypy.zshpower.config.base import Base
-from snakypy.zshpower import HOME
-from snakypy.helpers import FG, NONE
-from snakypy.zshpower.database.sql import sql
 from textwrap import dedent
+from typing import Any
+
+from snakypy.helpers import FG, NONE
+
+from snakypy.zshpower import HOME
+from snakypy.zshpower.config.base import Base
+from snakypy.zshpower.database.sql import sql
 
 
 class DAO(Base):

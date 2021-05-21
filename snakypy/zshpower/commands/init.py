@@ -1,29 +1,31 @@
 from os.path import join
-from snakypy.helpers.console import loading
-from snakypy.zshpower.commands.utils.handle import records
-from snakypy.zshpower import __info__
-from snakypy.zshpower.config.cron import cron_content, sync_content
-from snakypy.zshpower.config.base import Base
-from snakypy.helpers.ansi import FG, NONE
-from snakypy.zshpower.database.dao import DAO
+
 from snakypy.helpers import printer
-from snakypy.helpers.path import create as snakypy_path_create
-from snakypy.helpers.files import create_file
+from snakypy.helpers.ansi import FG, NONE
 from snakypy.helpers.catches import tools_requirements
-from snakypy.zshpower.utils.catch import get_line_source
-from snakypy.zshpower.config.config import content as config_content
-from snakypy.zshpower.config.zshrc import content as zshrc_content
+from snakypy.helpers.console import loading
+from snakypy.helpers.files import create_file
+from snakypy.helpers.path import create as snakypy_path_create
+
+from snakypy.zshpower import __info__
+from snakypy.zshpower.commands.utils.handle import records
 from snakypy.zshpower.config.apply import content as set_zshpower_content
+from snakypy.zshpower.config.base import Base
+from snakypy.zshpower.config.config import content as config_content
+from snakypy.zshpower.config.cron import cron_content, sync_content
+from snakypy.zshpower.config.zshrc import content as zshrc_content
+from snakypy.zshpower.database.dao import DAO
+from snakypy.zshpower.utils.catch import get_line_source
 from snakypy.zshpower.utils.process import change_shell, reload_zsh
 from snakypy.zshpower.utils.shift import (
+    add_plugins_zshrc,
+    change_theme_in_zshrc,
     create_config,
+    create_zshrc,
+    cron_task,
+    install_fonts,
     omz_install,
     omz_install_plugins,
-    install_fonts,
-    create_zshrc,
-    change_theme_in_zshrc,
-    add_plugins_zshrc,
-    cron_task,
     remove_versions_garbage,
 )
 

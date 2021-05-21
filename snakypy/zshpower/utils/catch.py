@@ -1,12 +1,14 @@
 import os
-from re import search as re_search
-from snakypy.helpers.ansi import FG, NONE
-from snakypy.zshpower.config import menu
-from docopt import docopt
-from snakypy.zshpower import __info__
-from re import M as re_m
-from os.path import exists, isdir
 from contextlib import suppress
+from os.path import exists, isdir
+from re import M as re_m
+from re import search as re_search
+
+from docopt import docopt
+from snakypy.helpers.ansi import FG, NONE
+
+from snakypy.zshpower import __info__
+from snakypy.zshpower.config import menu
 
 
 def read_zshrc(zshrc) -> str:

@@ -1,53 +1,56 @@
+from concurrent.futures import ThreadPoolExecutor
 from contextlib import suppress
+from sqlite3 import OperationalError
+from sys import argv as sys_argv
+from sys import stdout
 from typing import Any
+
 from snakypy.helpers import FG, printer
 from snakypy.helpers.ansi import NONE
-from snakypy.zshpower.prompt.sections.took import Took
-from tomlkit.exceptions import NonExistentKey, UnexpectedCharError
-from sqlite3 import OperationalError
 from snakypy.helpers.decorators import only_linux
-from snakypy.zshpower.prompt.sections.gulp import Gulp
-from snakypy.zshpower.prompt.sections.jump_line import JumpLine
-from snakypy.zshpower.database.dao import DAO
-from snakypy.zshpower.config.config import content as config_content
-from snakypy.zshpower.utils.shift import create_config
-from snakypy.helpers.path import create as create_path
 from snakypy.helpers.files import read_file
+from snakypy.helpers.path import create as create_path
 from tomlkit import parse as toml_parse
-from concurrent.futures import ThreadPoolExecutor
+from tomlkit.exceptions import NonExistentKey, UnexpectedCharError
+
 from snakypy.zshpower import __info__
-from snakypy.zshpower.prompt.sections.directory import Directory
-from snakypy.zshpower.prompt.sections.git import Git
-from snakypy.zshpower.prompt.sections.hostname import Hostname
-from snakypy.zshpower.prompt.sections.command import Command
-from snakypy.zshpower.prompt.sections.username import Username
-from snakypy.zshpower.prompt.sections.package import Package
-from snakypy.zshpower.prompt.sections.docker import Docker
-from snakypy.zshpower.prompt.sections.nodejs import NodeJs
-from snakypy.zshpower.prompt.sections.python import Python, Virtualenv
-from snakypy.zshpower.prompt.sections.rust import Rust
-from snakypy.zshpower.prompt.sections.golang import Golang
-from snakypy.zshpower.prompt.sections.php import Php
-from snakypy.zshpower.prompt.sections.elixir import Elixir
-from snakypy.zshpower.prompt.sections.julia import Julia
-from snakypy.zshpower.prompt.sections.scala import Scala
-from snakypy.zshpower.prompt.sections.ruby import Ruby
-from snakypy.zshpower.prompt.sections.dotnet import Dotnet
-from snakypy.zshpower.prompt.sections.java import Java
-from snakypy.zshpower.prompt.sections.dart import Dart
-from snakypy.zshpower.prompt.sections.zig import Zig
-from snakypy.zshpower.prompt.sections.vagrant import Vagrant
-from snakypy.zshpower.prompt.sections.ocaml import Ocaml
-from snakypy.zshpower.prompt.sections.nim import Nim
-from snakypy.zshpower.prompt.sections.kotlin import Kotlin
-from snakypy.zshpower.prompt.sections.helm import Helm
-from snakypy.zshpower.prompt.sections.erlang import Erlang
-from snakypy.zshpower.prompt.sections.deno import Deno
-from snakypy.zshpower.prompt.sections.crystal import Crystal
+from snakypy.zshpower.config.config import content as config_content
+from snakypy.zshpower.database.dao import DAO
 from snakypy.zshpower.prompt.sections.cmake import CMake
+from snakypy.zshpower.prompt.sections.command import Command
+from snakypy.zshpower.prompt.sections.crystal import Crystal
+from snakypy.zshpower.prompt.sections.dart import Dart
+from snakypy.zshpower.prompt.sections.deno import Deno
+from snakypy.zshpower.prompt.sections.directory import Directory
+from snakypy.zshpower.prompt.sections.docker import Docker
+from snakypy.zshpower.prompt.sections.dotnet import Dotnet
+from snakypy.zshpower.prompt.sections.elixir import Elixir
+from snakypy.zshpower.prompt.sections.erlang import Erlang
+from snakypy.zshpower.prompt.sections.git import Git
+from snakypy.zshpower.prompt.sections.golang import Golang
+from snakypy.zshpower.prompt.sections.gulp import Gulp
+from snakypy.zshpower.prompt.sections.helm import Helm
+from snakypy.zshpower.prompt.sections.hostname import Hostname
+from snakypy.zshpower.prompt.sections.java import Java
+from snakypy.zshpower.prompt.sections.julia import Julia
+from snakypy.zshpower.prompt.sections.jump_line import JumpLine
+from snakypy.zshpower.prompt.sections.kotlin import Kotlin
+from snakypy.zshpower.prompt.sections.nim import Nim
+from snakypy.zshpower.prompt.sections.nodejs import NodeJs
+from snakypy.zshpower.prompt.sections.ocaml import Ocaml
+from snakypy.zshpower.prompt.sections.package import Package
 from snakypy.zshpower.prompt.sections.perl import Perl
+from snakypy.zshpower.prompt.sections.php import Php
+from snakypy.zshpower.prompt.sections.python import Python, Virtualenv
+from snakypy.zshpower.prompt.sections.ruby import Ruby
+from snakypy.zshpower.prompt.sections.rust import Rust
+from snakypy.zshpower.prompt.sections.scala import Scala
 from snakypy.zshpower.prompt.sections.timer import Timer
-from sys import argv as sys_argv, stdout
+from snakypy.zshpower.prompt.sections.took import Took
+from snakypy.zshpower.prompt.sections.username import Username
+from snakypy.zshpower.prompt.sections.vagrant import Vagrant
+from snakypy.zshpower.prompt.sections.zig import Zig
+from snakypy.zshpower.utils.shift import create_config
 
 # ## Test timer ## #
 # from snakypy.helpers.decorators import runtime

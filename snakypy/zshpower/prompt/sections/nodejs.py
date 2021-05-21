@@ -1,6 +1,7 @@
-from subprocess import run
-from snakypy.zshpower.prompt.sections.utils import Version
 import concurrent.futures
+from subprocess import run
+
+from snakypy.zshpower.prompt.sections.utils import Version
 
 
 class NodeJs(Version):

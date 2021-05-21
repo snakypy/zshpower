@@ -1,8 +1,9 @@
-from typing import Union, List
-from snakypy.zshpower.database.dao import DAO
-from snakypy.zshpower.utils.catch import verify_objects
 from os import getcwd
 from subprocess import check_output
+from typing import List, Union
+
+from snakypy.zshpower.database.dao import DAO
+from snakypy.zshpower.utils.catch import verify_objects
 
 
 def symbol_ssh(symbol1, symbol2, spacing=" ") -> list:

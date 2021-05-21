@@ -1,10 +1,11 @@
-from snakypy.zshpower.config.base import Base
-from snakypy.zshpower.utils.check import checking_init
-from snakypy.zshpower.utils.catch import read_zshrc_omz
-from snakypy.zshpower.utils.shift import change_theme_in_zshrc
-from snakypy.zshpower.utils.process import reload_zsh
-from snakypy.helpers.ansi import FG
 from snakypy.helpers import printer
+from snakypy.helpers.ansi import FG
+
+from snakypy.zshpower.config.base import Base
+from snakypy.zshpower.utils.catch import read_zshrc_omz
+from snakypy.zshpower.utils.check import checking_init
+from snakypy.zshpower.utils.process import reload_zsh
+from snakypy.zshpower.utils.shift import change_theme_in_zshrc
 
 
 class ActivateCommand(Base):

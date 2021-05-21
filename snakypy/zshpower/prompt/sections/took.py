@@ -1,4 +1,5 @@
 from typing import Any
+
 from snakypy.zshpower.prompt.sections.utils import Color, symbol_ssh
 
 

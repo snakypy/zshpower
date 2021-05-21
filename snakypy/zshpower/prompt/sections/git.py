@@ -1,8 +1,13 @@
-from snakypy.zshpower.prompt.sections.utils import Color
-from snakypy.zshpower.prompt.sections.utils import element_spacing, symbol_ssh
-from snakypy.zshpower.prompt.sections.utils import separator, git_status
-from os import getcwd, environ
-from os.path import join, isdir
+from os import environ, getcwd
+from os.path import isdir, join
+
+from snakypy.zshpower.prompt.sections.utils import (
+    Color,
+    element_spacing,
+    git_status,
+    separator,
+    symbol_ssh,
+)
 
 
 class Git:

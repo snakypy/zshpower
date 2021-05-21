@@ -1,5 +1,6 @@
-from snakypy.zshpower.prompt.sections.utils import Color, symbol_ssh
 from time import strftime
+
+from snakypy.zshpower.prompt.sections.utils import Color, symbol_ssh
 
 
 class Timer:

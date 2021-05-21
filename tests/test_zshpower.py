@@ -1,9 +1,11 @@
 """Tests for `zshpower` package."""
 
-from tomlkit import parse as toml_parsed
-from snakypy.helpers.files import read_file
-from os.path import join, exists
 from os import getcwd
+from os.path import exists, join
+
+from snakypy.helpers.files import read_file
+from tomlkit import parse as toml_parsed
+
 from snakypy.zshpower import __info__
 
 

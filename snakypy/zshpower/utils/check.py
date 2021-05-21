@@ -1,4 +1,5 @@
-from os.path import join, exists
+from os.path import exists, join
+
 from snakypy.zshpower import __info__
 
 

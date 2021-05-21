@@ -1,14 +1,16 @@
 import curses
-from snakypy.zshpower.database.dao import DAO
-from snakypy.zshpower.utils.process import reload_zsh
-from snakypy.zshpower.utils.check import checking_init
-from snakypy.zshpower.utils.shift import create_config
-from snakypy.zshpower.config.config import content as config_content
-from snakypy.helpers.console import loading
-from snakypy.zshpower.config.base import Base
-from snakypy.helpers.ansi import FG
+
 from snakypy.helpers import printer
+from snakypy.helpers.ansi import FG
+from snakypy.helpers.console import loading
+
 from snakypy.zshpower.commands.utils.handle import records
+from snakypy.zshpower.config.base import Base
+from snakypy.zshpower.config.config import content as config_content
+from snakypy.zshpower.database.dao import DAO
+from snakypy.zshpower.utils.check import checking_init
+from snakypy.zshpower.utils.process import reload_zsh
+from snakypy.zshpower.utils.shift import create_config
 
 
 class ResetCommand(Base):

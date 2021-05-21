@@ -3,18 +3,17 @@ try:
     from snakypy.helpers.decorators import only_linux, silent_errors
 except KeyboardInterrupt:
     pass
-from snakypy.zshpower.utils.decorators import assign_cli
-from snakypy.zshpower.utils.catch import arguments
 from snakypy.zshpower import HOME
-from snakypy.zshpower.commands.init import InitCommand
-from snakypy.zshpower.commands.config import ConfigCommand
 from snakypy.zshpower.commands.activate import ActivateCommand
-from snakypy.zshpower.commands.deactivate import DeactivateCommand
-from snakypy.zshpower.commands.reset import ResetCommand
-from snakypy.zshpower.commands.uninstall import UninstallCommand
-from snakypy.zshpower.commands.sync import Sync
+from snakypy.zshpower.commands.config import ConfigCommand
 from snakypy.zshpower.commands.credits import CreditsCommand
-
+from snakypy.zshpower.commands.deactivate import DeactivateCommand
+from snakypy.zshpower.commands.init import InitCommand
+from snakypy.zshpower.commands.reset import ResetCommand
+from snakypy.zshpower.commands.sync import Sync
+from snakypy.zshpower.commands.uninstall import UninstallCommand
+from snakypy.zshpower.utils.catch import arguments
+from snakypy.zshpower.utils.decorators import assign_cli
 
 # Get arguments Docopt
 args: dict = arguments()

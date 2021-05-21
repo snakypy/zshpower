@@ -1,12 +1,13 @@
-from os import getcwd
-from os.path import join
-from .utils import symbol_ssh, element_spacing
-from .utils import Color, separator
-from snakypy.zshpower.utils.catch import verify_objects
-from snakypy.helpers.files import read_json
 from contextlib import suppress
-from os.path import isfile, exists
+from os import getcwd
+from os.path import exists, isfile, join
 from subprocess import run
+
+from snakypy.helpers.files import read_json
+
+from snakypy.zshpower.utils.catch import verify_objects
+
+from .utils import Color, element_spacing, separator, symbol_ssh
 
 
 class Base:

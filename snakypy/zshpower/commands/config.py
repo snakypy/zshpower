@@ -1,11 +1,13 @@
-from snakypy.zshpower.config.base import Base
-from subprocess import call as subprocess_call
 from os import environ
-from shutil import which as shutil_which
-from snakypy.zshpower.utils.check import checking_init
-from tomlkit import parse as toml_parse
-from snakypy.helpers.files import read_file
 from pydoc import pager as pydoc_pager
+from shutil import which as shutil_which
+from subprocess import call as subprocess_call
+
+from snakypy.helpers.files import read_file
+from tomlkit import parse as toml_parse
+
+from snakypy.zshpower.config.base import Base
+from snakypy.zshpower.utils.check import checking_init
 
 
 def editor_run(editor, config) -> bool:

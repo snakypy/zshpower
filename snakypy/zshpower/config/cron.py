@@ -1,6 +1,7 @@
 from snakypy.helpers.catches import whoami
-from snakypy.zshpower.config.base import Base
+
 from snakypy.zshpower import HOME
+from snakypy.zshpower.config.base import Base
 
 cron_content: str = f"""
 #!/bin/sh

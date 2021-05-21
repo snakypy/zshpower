@@ -1,6 +1,7 @@
-from snakypy.zshpower.database.sql import sql
-from snakypy.zshpower import __info__
 from os.path import join
+
+from snakypy.zshpower import __info__
+from snakypy.zshpower.database.sql import sql
 
 
 class Base:
