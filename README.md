@@ -6,7 +6,6 @@
 </h1>
 
 [![Tests](https://github.com/snakypy/zshpower/workflows/Tests/badge.svg)](https://github.com/snakypy/zshpower/actions)
-[![Build Status](https://travis-ci.com/snakypy/zshpower.svg?branch=master)](https://travis-ci.com/snakypy/zshpower)
 [![Updates](https://pyup.io/repos/github/snakypy/zshpower/shield.svg)](https://pyup.io/repos/github/snakypy/zshpower/)
 [![Python Versions](https://img.shields.io/pypi/pyversions/zshpower)](https://pyup.io/repos/github/snakypy/zshpower/)
 [![Python Whell](https://img.shields.io/pypi/wheel/zshpower)](https://pypi.org/project/wheel/)
