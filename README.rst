@@ -3,35 +3,48 @@
     :align: center
     :alt: ZSHPower
 
+_________________
+
 .. image:: https://github.com/snakypy/zshpower/workflows/Tests/badge.svg
     :target: https://github.com/snakypy/zshpower
 
 .. image:: https://img.shields.io/pypi/v/zshpower.svg
     :target: https://pypi.python.org/pypi/zshpower
+    :alt: PyPI - ZSHPower
 
 .. image:: https://img.shields.io/pypi/wheel/zshpower
+    :target: https://pypi.org/project/wheel/
     :alt: PyPI - Wheel
+
+.. image:: https://img.shields.io/pypi/pyversions/zshpower
+    :target: https://pyup.io/repos/github/snakypy/zshpower/
+    :alt: Python versions
 
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
     :target: https://github.com/psf/black
+    :alt: Black
 
 .. image:: https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336
     :target: https://pycqa.github.io/isort/
+    :alt: Isort
 
 .. image:: http://www.mypy-lang.org/static/mypy_badge.svg
     :target: http://mypy-lang.org/
+    :alt: Mypy
 
 .. image:: https://pyup.io/repos/github/snakypy/zshpower/shield.svg
-    :target: https://pyup.io/repos/github/snakypy/zshpower/
-    :alt: Updates
+   :target: https://pyup.io/repos/github/snakypy/zshpower/
+   :alt: Updates
 
 .. image:: https://img.shields.io/github/issues-raw/snakypy/zshpower
+    :target: https://github.com/snakypy/zshpower/issues
     :alt: GitHub issues
 
 .. image:: https://img.shields.io/github/license/snakypy/zshpower
-    :alt: GitHub license
     :target: https://github.com/snakypy/zshpower/blob/master/LICENSE
+    :alt: GitHub license
 
+_________________
 
 `ZSHPower` is a theme for ZSH; especially for the `Python`_ developer. Pleasant to look at, the **ZSHPower** comforts you with its colors and icons vibrant.
 

@@ -5,8 +5,18 @@
   <br> ZSHPower - A powerful theme for <code>ZSH</code><br>
 </h1>
 
-[![Tests](https://github.com/snakypy/zshpower/workflows/Tests/badge.svg)](https://github.com/snakypy/zshpower/actions) [![Updates](https://pyup.io/repos/github/snakypy/zshpower/shield.svg)](https://pyup.io/repos/github/snakypy/zshpower/) [![Python 3](https://pyup.io/repos/github/snakypy/zshpower/python-3-shield.svg)](https://pyup.io/repos/github/snakypy/zshpower/) ![PyPI - Wheel](https://img.shields.io/pypi/wheel/zshpower) [![PyPI](https://img.shields.io/pypi/v/zshpower)](https://pypi.org/project/zshpower/#history) ![PyPI - Implementation](https://img.shields.io/pypi/implementation/zshpower) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) [![Checked with mypy](http://www.mypy-lang.org/static/mypy_badge.svg)](http://mypy-lang.org/) [![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
- ![PyPI - Downloads](https://img.shields.io/pypi/dm/zshpower) [![GitHub license](https://img.shields.io/github/license/snakypy/zshpower)](https://github.com/snakypy/zshpower/blob/master/LICENSE)
+[![Tests](https://github.com/snakypy/zshpower/workflows/Tests/badge.svg)](https://github.com/snakypy/zshpower/actions)
+[![Build Status](https://travis-ci.com/snakypy/zshpower.svg?branch=master)](https://travis-ci.com/snakypy/zshpower)
+[![Updates](https://pyup.io/repos/github/snakypy/zshpower/shield.svg)](https://pyup.io/repos/github/snakypy/zshpower/)
+[![Python Versions](https://img.shields.io/pypi/pyversions/zshpower)](https://pyup.io/repos/github/snakypy/zshpower/)
+[![Python Whell](https://img.shields.io/pypi/wheel/zshpower)](https://pypi.org/project/wheel/)
+[![PyPI](https://img.shields.io/pypi/v/zshpower)](https://pypi.org/project/zshpower/#history)
+[![PyPI - Implementation](https://img.shields.io/pypi/implementation/zshpower)]()
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/zshpower)]()
+[![GitHub license](https://img.shields.io/github/license/snakypy/zshpower)](https://github.com/snakypy/zshpower/blob/master/LICENSE)
+
+----------------
 
 <div align="center">
   <h4>
