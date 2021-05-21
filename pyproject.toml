@@ -45,6 +45,7 @@ pytest = "^6.2.3"
 pre-commit = "^2.12.1"
 ipython = "^7.23.1"
 mypy = "^0.812"
+isort = "^5.8.0"
 
 [tool.black]
 line-length = 88
@@ -57,6 +58,7 @@ exclude = '''
     | \.git          # root of the project
     | \.hg
     | \.mypy_cache
+    | \.pytest_cache
     | \.tox
     | \venv
     | build
@@ -67,6 +69,21 @@ exclude = '''
   )/
 )
 '''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+src_paths = ["snakypy", "tests"]
+line_length = 88
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+cache_dir = "/tmp/.pytest_cache"
+# addopts = "-ra -q"
+testpaths = ["tests"]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
