@@ -6,13 +6,15 @@
 </h1>
 
 [![Tests](https://github.com/snakypy/zshpower/workflows/Tests/badge.svg)](https://github.com/snakypy/zshpower/actions)
-[![Updates](https://pyup.io/repos/github/snakypy/zshpower/shield.svg)](https://pyup.io/repos/github/snakypy/zshpower/)
 [![Python Versions](https://img.shields.io/pypi/pyversions/zshpower)](https://pyup.io/repos/github/snakypy/zshpower/)
+[![Updates](https://pyup.io/repos/github/snakypy/zshpower/shield.svg)](https://pyup.io/repos/github/snakypy/zshpower/)
 [![Python Whell](https://img.shields.io/pypi/wheel/zshpower)](https://pypi.org/project/wheel/)
 [![PyPI](https://img.shields.io/pypi/v/zshpower)](https://pypi.org/project/zshpower/#history)
-[![PyPI - Implementation](https://img.shields.io/pypi/implementation/zshpower)]()
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![PyPI - Downloads](https://img.shields.io/pypi/dm/zshpower)]()
+[![PyPI - Implementation](https://img.shields.io/pypi/implementation/zshpower)](https://pypi.org/project/zshpower)
+[![Isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
+[![Mypy](http://www.mypy-lang.org/static/mypy_badge.svg)](http://mypy-lang.org/)
+[![Code style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/zshpower)](https://pypi.org/project/zshpower/#files)
 [![GitHub license](https://img.shields.io/github/license/snakypy/zshpower)](https://github.com/snakypy/zshpower/blob/master/LICENSE)
 
 ----------------
