@@ -5,8 +5,12 @@ from snakypy.helpers.files import read_file
 from os import environ, getcwd
 from os.path import isfile, join, exists, isdir
 from snakypy.zshpower import HOME
-from snakypy.zshpower.prompt.sections.lib.utils import symbol_ssh, element_spacing
-from snakypy.zshpower.prompt.sections.lib.utils import Color, separator
+from snakypy.zshpower.prompt.sections.utils import (
+    Color,
+    separator,
+    symbol_ssh,
+    element_spacing,
+)
 
 
 class Python:

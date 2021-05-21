@@ -1,4 +1,4 @@
-from .lib.utils import Color, symbol_ssh
+from .utils import Color, symbol_ssh
 
 
 class Command:

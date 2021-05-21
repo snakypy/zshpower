@@ -1,5 +1,5 @@
 from subprocess import run
-from snakypy.zshpower.prompt.sections.lib.utils import Version
+from snakypy.zshpower.prompt.sections.utils import Version
 
 
 class Scala(Version):

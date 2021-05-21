@@ -2,7 +2,7 @@ from os import getcwd
 from os.path import join, isfile
 from subprocess import run
 from snakypy.helpers.files import read_json
-from snakypy.zshpower.prompt.sections.lib.utils import (
+from snakypy.zshpower.prompt.sections.utils import (
     Version,
     symbol_ssh,
     element_spacing,

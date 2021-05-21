@@ -1,8 +1,7 @@
 from os import geteuid
 from os import environ as os_environ
 from snakypy.helpers.catches import whoami
-from .lib.utils import symbol_ssh
-from .lib.utils import Color
+from .utils import Color, symbol_ssh
 
 
 class Username:

@@ -1,5 +1,5 @@
-from .lib.utils import symbol_ssh, element_spacing
-from .lib.utils import Color
+from .utils import symbol_ssh, element_spacing
+from .utils import Color
 from os import environ as os_environ
 from socket import gethostname
 

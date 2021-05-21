@@ -1,23 +1,26 @@
-from snakypy.zshpower import __version__
 from getpass import getpass
-from subprocess import Popen, PIPE, check_output
+from os import remove, walk
+from os.path import exists, isdir, isfile, join
+from re import M as re_m
+from re import sub as re_sub
+from shutil import rmtree, which
+from subprocess import PIPE, Popen, check_output
+from sys import platform
+from zipfile import ZipFile
+
+from snakypy.helpers import FG, printer
+from snakypy.helpers.files import backup_file, create_file
+from snakypy.helpers.path import create as snakypy_path_create
+from snakypy.helpers.subprocess import command
 from tomlkit import dumps as toml_dumps
 from tomlkit import parse as toml_parse
-from os.path import isdir
-from shutil import rmtree, which
-from snakypy.helpers.subprocess import command
-from snakypy.helpers.files import create_file
-from re import sub as re_sub, M as re_m
-from os.path import join, exists
-from snakypy.helpers import printer, FG
-from snakypy.zshpower.utils.catch import read_zshrc_omz, read_zshrc
-from sys import platform
-from os.path import isfile
-from zipfile import ZipFile
-from os import remove, walk
-from snakypy.helpers.path import create as snakypy_path_create
-from snakypy.helpers.files import backup_file
-from snakypy.zshpower.utils.catch import plugins_current_zshrc
+
+from snakypy.zshpower import __info__
+from snakypy.zshpower.utils.catch import (
+    plugins_current_zshrc,
+    read_zshrc,
+    read_zshrc_omz,
+)
 
 
 def create_config(content, file_path, *, force=False) -> bool:
@@ -39,11 +42,6 @@ def create_zshrc(content, zshrc) -> bool:
         create_file(content, zshrc)
         return True
     return False
-
-
-# def create_zshrc_not_exists(content, zshrc):
-#     if not exists(zshrc):
-#         snakypy_file_create(content, zshrc)
 
 
 def cron_task(sync_context, sync_path, cron_context, cron_path):
@@ -179,7 +177,7 @@ def add_plugins_zshrc(zshrc):
 
 def rm_source_zshrc(zshrc):
     current_zshrc = read_zshrc(zshrc)
-    line_rm = f"source\\ \\$HOME/.zshpower/{__version__}/init.sh"
+    line_rm = f"source\\ \\$HOME/.zshpower/{__info__['version']}/init.sh"
     new_zshrc = re_sub(rf"{line_rm}", "", current_zshrc, flags=re_m)
     create_file(new_zshrc, zshrc, force=True)
 
@@ -195,12 +193,12 @@ def uninstall_by_pip(*, packages=()) -> tuple:
     return packages
 
 
-def remove_versions_garbage(path):
+def remove_versions_garbage(path) -> None:
     folders = []
     for root, dirs, files in walk(path):
         for item in dirs:
             folders.append(item)
 
     for folder in folders:
-        if join(path, folder) != join(path, __version__):
+        if join(path, folder) != join(path, __info__["version"]):
             rmtree(join(path, folder), ignore_errors=True)

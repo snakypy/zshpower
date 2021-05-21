@@ -1,15 +1,11 @@
-from snakypy.zshpower.config import package
-
-# author = package.info["author"]["name"]
-# website_author = package.info["author"]["website"]
-# email = package.info["author"]["email"]
+from snakypy.zshpower import __info__
 
 content = f"""#!/usr/bin/env zsh
 
 ## Information:
 ## ******************************************************************************
-## Theme: {package.info["name"]}
-## Description: Call script to start {package.info["name"]}.
+## Theme: {__info__["name"]}
+## Description: Call script to start {__info__["name"]}.
 ## ******************************************************************************
 
 ## Export PATH local user

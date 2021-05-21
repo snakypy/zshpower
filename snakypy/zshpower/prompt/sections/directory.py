@@ -1,9 +1,9 @@
 from pathlib import Path
 from subprocess import run
-from .lib.utils import symbol_ssh, element_spacing
+from .utils import symbol_ssh, element_spacing
 from os import environ
 from os import geteuid
-from .lib.utils import Color
+from .utils import Color
 
 
 def get_pwd() -> str:

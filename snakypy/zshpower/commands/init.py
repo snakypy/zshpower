@@ -1,20 +1,19 @@
 from os.path import join
 from snakypy.helpers.console import loading
-from snakypy.zshpower.commands.lib.handle import records
-from snakypy.zshpower import __version__
+from snakypy.zshpower.commands.utils.handle import records
+from snakypy.zshpower import __info__
 from snakypy.zshpower.config.cron import cron_content, sync_content
 from snakypy.zshpower.config.base import Base
 from snakypy.helpers.ansi import FG, NONE
 from snakypy.zshpower.database.dao import DAO
 from snakypy.helpers import printer
-from snakypy.zshpower.config import package
 from snakypy.helpers.path import create as snakypy_path_create
 from snakypy.helpers.files import create_file
 from snakypy.helpers.catches import tools_requirements
 from snakypy.zshpower.utils.catch import get_line_source
 from snakypy.zshpower.config.config import content as config_content
 from snakypy.zshpower.config.zshrc import content as zshrc_content
-from snakypy.zshpower.config.set_zshpower import content as set_zshpower_content
+from snakypy.zshpower.config.apply import content as set_zshpower_content
 from snakypy.zshpower.utils.process import change_shell, reload_zsh
 from snakypy.zshpower.utils.shift import (
     create_config,
@@ -32,7 +31,7 @@ instruction_not_omz = f"""{FG().YELLOW}
 ********************** WARNING **********************
 Add the following code to the {FG().MAGENTA}$HOME/.zshrc{NONE} {FG().YELLOW}file:
 
-CODE: {FG().CYAN}source $HOME/.zshpower/{__version__}/init.sh {NONE}
+CODE: {FG().CYAN}source $HOME/.zshpower/{__info__["version"]}/init.sh {NONE}
 {FG().YELLOW}*****************************************************{NONE}
 """
 
@@ -62,13 +61,13 @@ class InitCommand(Base):
             omz_install(self.omz_root)
             omz_install_plugins(self.omz_root, self.plugins)
             create_zshrc(zshrc_content, self.zsh_rc)
-            change_theme_in_zshrc(self.zsh_rc, f"{package.info['pkg_name']}")
+            change_theme_in_zshrc(self.zsh_rc, f"{__info__['pkg_name']}")
             add_plugins_zshrc(self.zsh_rc)
             create_file(set_zshpower_content, self.theme_file, force=True)
 
         install_fonts(self.HOME)
         change_shell()
-        remove_versions_garbage(join(self.HOME, f".{package.info['pkg_name']}"))
+        remove_versions_garbage(join(self.HOME, f".{__info__['pkg_name']}"))
 
         try:
             cron_task(sync_content, self.sync_path, cron_content, self.cron_path)

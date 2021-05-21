@@ -3,7 +3,7 @@ import sys
 from sqlite3 import OperationalError
 from snakypy.helpers import FG
 from snakypy.helpers.console import loading, printer
-from snakypy.zshpower.commands.lib.handle import records
+from snakypy.zshpower.commands.utils.handle import records
 from snakypy.zshpower.utils.check import checking_init
 from snakypy.zshpower.config.base import Base
 

@@ -1,6 +1,6 @@
-from snakypy.zshpower.config import package
+from snakypy.zshpower import __info__
 
-content: str = f"""# Generate by: ZSHPower
+content: str = f"""# Generate by: {__info__["name"]}
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -11,7 +11,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="{package.info['pkg_name']}"
+ZSH_THEME="{__info__['pkg_name']}"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -101,6 +101,10 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+#
+# PATH local user
+PATH=\\$PATH:~/.local/bin
+export PATH
     """
 
 zshrc_sample: str = """

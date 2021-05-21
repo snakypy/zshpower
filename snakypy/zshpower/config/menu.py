@@ -1,36 +1,36 @@
 from snakypy.helpers.ansi import FG, NONE
-from snakypy.zshpower.config import package
+from snakypy.zshpower import __info__
 
 dt_omz: str = f"{FG().MAGENTA}robbyrussell{NONE}"
 omz: str = f"{FG().MAGENTA}Oh My ZSH{NONE}"
 
 options: str = f"""
-{FG().MAGENTA}Welcome to the {package.info["pkg_name"]} options menu.{NONE}
+{FG().MAGENTA}Welcome to the {__info__["pkg_name"]} options menu.{NONE}
 
 Usage:
-    {package.info['executable']} init [--omz]
-    {package.info['executable']} sync
-    {package.info['executable']} config (--open | --view)
-    {package.info['executable']} activate
-    {package.info['executable']} deactivate [--theme=<name>]
-    {package.info['executable']} reset (--config | --db)
-    {package.info['executable']} uninstall
-    {package.info['executable']} --help
-    {package.info['executable']} --version
-    {package.info['executable']} --credits
+    {__info__['executable']} init [--omz]
+    {__info__['executable']} sync
+    {__info__['executable']} config (--open | --view)
+    {__info__['executable']} activate
+    {__info__['executable']} deactivate [--theme=<name>]
+    {__info__['executable']} reset (--config | --db)
+    {__info__['executable']} uninstall
+    {__info__['executable']} --help
+    {__info__['executable']} --version
+    {__info__['executable']} --credits
 
 Arguments:
-    {FG().CYAN}init{NONE} ---------- Installs the {package.info["name"]} settings.
-    {FG().CYAN}sync{NONE} ---------- Synchronizes the machine's data with the {package.info["name"]} database.
-    {FG().CYAN}activate{NONE} ------ Activate the {package.info["name"]} theme. ({omz}).
-    {FG().CYAN}deactivate{NONE} ---- Deactivate the {package.info["name"]} theme and go back to the default. ({omz}).
+    {FG().CYAN}init{NONE} ---------- Installs the {__info__["name"]} settings.
+    {FG().CYAN}sync{NONE} ---------- Synchronizes the machine's data with the {__info__["name"]} database.
+    {FG().CYAN}activate{NONE} ------ Activate the {__info__["name"]} theme. ({omz}).
+    {FG().CYAN}deactivate{NONE} ---- Deactivate the {__info__["name"]} theme and go back to the default. ({omz}).
     {FG().CYAN}reset{NONE} --------- Reset to default settings.
-    {FG().CYAN}uninstall{NONE} ----- Uninstall the package {package.info["name"]}.
+    {FG().CYAN}uninstall{NONE} ----- Uninstall the package {__info__["name"]}.
     {FG().CYAN}config{NONE} -------- The easiest way to edit and view the settings is through this option.
 
 Options:
     {FG().CYAN}--help{NONE} --------- Show this screen.
-    {FG().CYAN}--omz{NONE} ---------- Use this option if you want to use {package.info["name"]} with Oh My ZSH.
+    {FG().CYAN}--omz{NONE} ---------- Use this option if you want to use {__info__["name"]} with Oh My ZSH.
     {FG().CYAN}--open{NONE} --------- Open the configuration file in edit mode and perform the automatic update
                      when you exit.
     {FG().CYAN}--view{NONE} --------- View the configuration file on the terminal.

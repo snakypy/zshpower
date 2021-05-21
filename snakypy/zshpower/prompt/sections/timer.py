@@ -1,5 +1,4 @@
-from snakypy.zshpower.prompt.sections.lib.utils import symbol_ssh
-from snakypy.zshpower.prompt.sections.lib.utils import Color
+from snakypy.zshpower.prompt.sections.utils import Color, symbol_ssh
 from time import strftime
 
 

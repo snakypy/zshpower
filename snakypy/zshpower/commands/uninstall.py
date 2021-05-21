@@ -2,7 +2,6 @@ from getpass import getpass
 from os.path import exists
 from subprocess import Popen, PIPE
 from snakypy.zshpower.config.zshrc import zshrc_sample
-from snakypy.zshpower.config import package
 from snakypy.zshpower.config.base import Base
 from snakypy.helpers.files import backup_file
 from snakypy.zshpower.utils.shift import (
@@ -17,7 +16,7 @@ from snakypy.zshpower.utils.catch import read_zshrc_omz
 from snakypy.helpers.files import create_file
 from snakypy.helpers.ansi import FG
 from snakypy.helpers import printer, pick
-from snakypy.zshpower import HOME
+from snakypy.zshpower import HOME, __info__
 
 
 def finished() -> None:
@@ -66,21 +65,21 @@ class UninstallCommand(Base):
         checking_init(self.HOME)
 
         if not read_zshrc_omz(self.zsh_rc):
-            title = f"Do you want to uninstall {package.info['name']}?"
+            title = f"Do you want to uninstall {__info__['name']}?"
             options = ["Yes", "No"]
             reply = pick(title, options, colorful=True, index=True)
             if reply is None or reply[0] == 1:
                 printer("Whew! Thanks! :)", foreground=FG().GREEN)
                 exit(0)
             remove_objects(objects=(self.init_file, self.data_root))
-            uninstall_by_pip(packages=(package.info["name"],))
+            uninstall_by_pip(packages=(__info__["name"],))
             rm_source_zshrc(self.zsh_rc)
             finished()
         else:
             title = "What did you want to uninstall?"
             options = [
-                f"{package.info['name']}",
-                f"{package.info['name']} and Oh My ZSH",
+                f"{__info__['name']}",
+                f"{__info__['name']} and Oh My ZSH",
                 "Cancel",
             ]
             reply = pick(title, options, colorful=True, index=True)
@@ -92,7 +91,7 @@ class UninstallCommand(Base):
 
             # Remove default
             remove_objects(objects=(self.theme_file, self.init_file, self.data_root))
-            uninstall_by_pip(packages=(package.info["name"],))
+            uninstall_by_pip(packages=(__info__["name"],))
             change_theme_in_zshrc(self.zsh_rc, "robbyrussell")
 
             # ZSHPower and Oh My ZSH

@@ -8,7 +8,7 @@ from snakypy.helpers.console import loading
 from snakypy.zshpower.config.base import Base
 from snakypy.helpers.ansi import FG
 from snakypy.helpers import printer
-from snakypy.zshpower.commands.lib.handle import records
+from snakypy.zshpower.commands.utils.handle import records
 
 
 class ResetCommand(Base):

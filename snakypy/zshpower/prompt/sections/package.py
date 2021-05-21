@@ -1,7 +1,7 @@
 from os import getcwd
 from os.path import join
-from .lib.utils import symbol_ssh, element_spacing
-from .lib.utils import Color, separator
+from .utils import symbol_ssh, element_spacing
+from .utils import Color, separator
 from snakypy.zshpower.utils.catch import verify_objects
 from snakypy.helpers.files import read_json
 from contextlib import suppress

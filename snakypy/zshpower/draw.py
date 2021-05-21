@@ -8,14 +8,14 @@ from sqlite3 import OperationalError
 from snakypy.helpers.decorators import only_linux
 from snakypy.zshpower.prompt.sections.gulp import Gulp
 from snakypy.zshpower.prompt.sections.jump_line import JumpLine
-from snakypy.zshpower.config import package
 from snakypy.zshpower.database.dao import DAO
 from snakypy.zshpower.config.config import content as config_content
 from snakypy.zshpower.utils.shift import create_config
-from snakypy.helpers.path import create as snakypy_path_create
+from snakypy.helpers.path import create as create_path
 from snakypy.helpers.files import read_file
 from tomlkit import parse as toml_parse
 from concurrent.futures import ThreadPoolExecutor
+from snakypy.zshpower import __info__
 from snakypy.zshpower.prompt.sections.directory import Directory
 from snakypy.zshpower.prompt.sections.git import Git
 from snakypy.zshpower.prompt.sections.hostname import Hostname
@@ -61,15 +61,13 @@ class Draw(DAO):
 
     def get_config(self) -> dict:
         try:
-            read_conf = read_file(self.config_file)
-            parsed = dict(toml_parse(read_conf))
+            parsed = dict(toml_parse(read_file(self.config_file)))
             return parsed
 
         except (FileNotFoundError, NonExistentKey):
-            snakypy_path_create(self.zshpower_home)
+            create_path(self.zshpower_home)
             create_config(config_content, self.config_file)
-            read_conf = read_file(self.config_file)
-            parsed = dict(toml_parse(read_conf))
+            parsed = dict(toml_parse(read_file(self.config_file)))
             return parsed
 
     def get_register(self):
@@ -81,7 +79,7 @@ class Draw(DAO):
             return data
         except (KeyError, OperationalError):
             printer(
-                f'{package.info["name"]} Error: Database corrupted. Run command: '
+                f'{__info__["name"]} Error: Database corrupted. Run command: '
                 f'"zshpower reset --db" to restore.\n>> ',
                 foreground=FG().ERROR,
             )
@@ -159,14 +157,14 @@ class Draw(DAO):
 
         except (NonExistentKey, UnexpectedCharError, ValueError):
             print(
-                f"{FG().ERROR}{package.info['name']} Error: Key error in "
+                f"{FG().ERROR}{__info__['name']} Error: Key error in "
                 f"the configuration file.\n> {NONE}"
             )
             raise
         except KeyError:
             raise KeyError(
-                f"{FG().ERROR}{package.info['name']} Error: Database records are missing "
-                f"or corrupted. Run the command to correct: \"{package.info['executable']} reset --db\".\n>> "
+                f"{FG().ERROR}{__info__['name']} Error: Database records are missing "
+                f"or corrupted. Run the command to correct: \"{__info__['executable']} reset --db\".\n>> "
             )
         return ""
 
@@ -176,7 +174,7 @@ class Draw(DAO):
             return f"{timer}"
         except NonExistentKey:
             return (
-                f"{FG().ERROR}>>> {package.info['name']} Error: Key error in "
+                f"{FG().ERROR}>>> {__info__['name']} Error: Key error in "
                 f"the configuration file.\n > "
             )
 
