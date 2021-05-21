@@ -1,4 +1,4 @@
-make: 
+make:
 	scripts/make
 build:
 	scripts/make build
@@ -14,6 +14,8 @@ linters:
 	scripts/make linters
 pytest:
 	scripts/make pytest
+isort:
+	scripts/make isort
 black:
 	scripts/make black
 testpypi:

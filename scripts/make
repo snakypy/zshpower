@@ -74,6 +74,7 @@ EOF
 			_msg_header_ "[ Linter ] Checks whether the code structure ..." "\n"
 			$(echo ${POETRY:0:10}) flake8 $PACKAGE_NAME tests
 			$(echo ${POETRY:0:10}) mypy $PACKAGE_NAME/
+			$(echo ${POETRY:0:10}) isort --profile black . --check-only
 			$(echo ${POETRY:0:10}) black $PACKAGE_NAME/ --check
 			_msg_finish_ "Linter finished!"
 		else
@@ -141,6 +142,16 @@ EOF
 
 ### >>
 
+### << Organizing imports with isort.
+
+	function _isort () {
+		_msg_header_ "Organizing imports ..." "\n"
+		$(echo ${POETRY:0:10}) isort --profile black .
+		_msg_finish_ "Organized imports!"
+	}
+
+### >>
+
 ### << Clean builds.
 
     function _uninstall_package () {
@@ -156,7 +167,7 @@ EOF
 
     function _pytest () {
       _msg_header_ "Init test with Pytest ..." "\n"
-      $(echo ${POETRY:0:10}) pytest
+      $(echo ${POETRY:0:10}) pytest -c pyproject.toml
       _msg_finish_ "Tests completed!"
     }
 
@@ -217,6 +228,7 @@ Usage: make <options>
 	> uninstall              Uninstall the package.
 	> linters                Checks whether the code structure complies with Pep8.
 	> pytest                 Run tests with Pytest.
+	> isort                  Organizing imports with isort.
 	> tox                    Run test with Tox.
 	> black                  Formatting code with Black.
 	> testpypi               Upload the package to the Test PyPi server.
@@ -249,7 +261,10 @@ EOT
 		  linters|-l)
 			  _linters
 		  ;;
-          black|-bk)
+      isort|-is)
+			  _isort
+		  ;;
+      black|-bk)
 			  _code_style_black
 		  ;;
 		  uninstall|-u|-U)
