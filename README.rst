@@ -9,9 +9,6 @@
 .. image:: https://img.shields.io/pypi/v/zshpower.svg
     :target: https://pypi.python.org/pypi/zshpower
 
-.. image:: https://travis-ci.com/snakypy/zshpower.svg?branch=master
-    :target: https://travis-ci.com/snakypy/zshpower
-
 .. image:: https://img.shields.io/pypi/wheel/zshpower
     :alt: PyPI - Wheel
 
