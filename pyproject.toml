@@ -36,8 +36,6 @@ docopt = "^0.6.2"
 tomlkit = "^0.7.1"
 
 [tool.poetry.dev-dependencies]
-twine = "^3.4.1"
-wheel = "^0.36.2"
 flake8 = "^3.9.1"
 black = "^21.5b1"
 tox = "^3.23.0"
