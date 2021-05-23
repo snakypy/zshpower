@@ -46,6 +46,7 @@ pre-commit = "^2.12.1"
 ipython = "^7.23.1"
 mypy = "^0.812"
 isort = "^5.8.0"
+imake = "^0.1.0"
 
 [tool.black]
 line-length = 88
