@@ -17,6 +17,10 @@ class Sync(Base):
     def run(self) -> None:
         try:
             checking_init(self.HOME)
+            printer(
+                "Entering the synchronization process. Wait ...",
+                foreground=FG().QUESTION,
+            )
             records("update")
             curses.initscr()
             curses.curs_set(0)

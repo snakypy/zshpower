@@ -25,6 +25,10 @@ class ResetCommand(Base):
             reload_zsh()
         elif arguments["--db"]:
             DAO().create_table(self.tbl_main)
+            printer(
+                "Entering the process of resetting the DB. Wait ...",
+                foreground=FG().QUESTION,
+            )
             records("insert")
             curses.initscr()
             curses.curs_set(0)
