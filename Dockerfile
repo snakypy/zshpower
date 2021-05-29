@@ -10,6 +10,5 @@ RUN apt-get update \
 ADD . /snakypy/zshpower
 RUN cd /snakypy/zshpower \
 && poetry install \
-&& echo "[[ -f /root/.zshpower/*/init.sh ]] && . /root/.zshpower/*/init.sh" > /root/.zshrc \
-&& chmod +x docker.sh
+&& echo "[[ -f /root/.zshpower/*/init.sh ]] && . /root/.zshpower/*/init.sh" > /root/.zshrc
 CMD poetry shell
