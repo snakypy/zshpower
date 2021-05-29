@@ -532,9 +532,13 @@ $ zshpower --help
 
 ## Donation
 
-If you liked my work, buy me a coffee :coffee: :smiley:
+Click on the image below to be redirected the donation forms:
 
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YBK2HEEYG8V5W&source)
+<div class="donate">
+  <a href="https://github.com/snakypy/donations/blob/master/README.md">
+    <img width="160" height="100" src="https://raw.githubusercontent.com/snakypy/donations/master/svg/donate/donate-hand.svg" alt="Donations"
+  </a>
+</div>
 
 ## License
 
