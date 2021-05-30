@@ -1,1 +1,1 @@
-import snakypy.zshpower
+import snakypy.zshpower  # noqa: F401
