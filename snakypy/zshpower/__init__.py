@@ -12,10 +12,10 @@ For more information, access: 'https://github.com/snakypy/zshpower'
 """
 
 from contextlib import suppress
-from os.path import join, dirname, abspath
+from os.path import abspath, dirname, join
 from pathlib import Path
-from snakypy.helpers.files import eqversion
 
+from snakypy.helpers.files import eqversion
 
 with suppress(KeyboardInterrupt):
     HOME = str(Path.home())
