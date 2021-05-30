@@ -3,9 +3,9 @@ docopt==0.6.2 \
 pyfiglet==0.8.post1; python_version >= "3.9" and python_version < "4.0" \
     --hash=sha256:d555bcea17fbeaf70eaefa48bb119352487e629c9b56f30f383e2c62dd67a01c \
     --hash=sha256:c6c2321755d09267b438ec7b936825a4910fec696292139e664ca8670e103639
-snakypy-helpers==0.1.4; python_version >= "3.9" and python_version < "4.0" \
-    --hash=sha256:45a3ba8ca09380280583453e341aa5934e3ad2f8bf5dc5fe78aeebc53d7b8dd6 \
-    --hash=sha256:deb1ee666c5bcfef861ec1f9514099a86dc4b91fd3fad1f16045544a3b594091
+snakypy-helpers==0.2.0; python_version >= "3.9" and python_version < "4.0" \
+    --hash=sha256:26907ee785fb1e6bab3ab33c6a2f045274690c5ef53f972ce22b70d9b88e7d41 \
+    --hash=sha256:95693787f345c1ffa7b23e83604a95234ca4c1a2a931265fb4c38e1fd5c6dfe2
 tomlkit==0.7.2; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.5.0") \
     --hash=sha256:173ad840fa5d2aac140528ca1933c29791b79a374a0861a80347f42ec9328117 \
     --hash=sha256:d7a454f319a7e9bd2e249f239168729327e4dd2d27b17dc68be264ad1ce36754
