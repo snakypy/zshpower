@@ -7,7 +7,11 @@ class Command:
         self.symbol = symbol_ssh(config["command"]["symbol"], "> ")
         self.error_symbol = symbol_ssh(config["command"]["error"]["symbol"], "x ")
         self.error_color = config["command"]["error"]["color"]
-        self.color = config["command"]["color"]
+        self.color = (
+            config["command"]["color"]
+            if config["general"]["color"]["enable"] is True
+            else "negative"
+        )
         self.new_line = config["command"]["new_line"]["enable"]
 
     def __str__(self, jump_line="\n"):

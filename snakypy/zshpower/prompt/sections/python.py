@@ -32,7 +32,11 @@ class Python:
         self.folders = ("__pycache__",)
         self.extensions = (".py",)
         self.symbol = symbol_ssh(config["python"]["symbol"], "py-")
-        self.color = config["python"]["color"]
+        self.color = (
+            config["python"]["color"]
+            if config["general"]["color"]["enable"] is True
+            else "negative"
+        )
         self.prefix_color = config["python"]["prefix"]["color"]
         self.prefix_text = element_spacing(config["python"]["prefix"]["text"])
         self.micro_version_enable = config["python"]["version"]["micro"]["enable"]
@@ -98,7 +102,11 @@ class Virtualenv:
         self.py_enable = config["python"]["virtualenv"]["poetry"]["py"]["enable"]
         self.symbol = symbol_ssh(config["python"]["virtualenv"]["symbol"], "")
         self.involved = config["python"]["virtualenv"]["involved"]
-        self.color = config["python"]["virtualenv"]["color"]
+        self.color = (
+            config["python"]["virtualenv"]["color"]
+            if config["general"]["color"]["enable"] is True
+            else "negative"
+        )
         self.prefix_color = config["python"]["virtualenv"]["prefix"]["color"]
         self.prefix_text = element_spacing(
             config["python"]["virtualenv"]["prefix"]["text"]

@@ -22,89 +22,114 @@ class Git:
         except KeyError:
             self.symbol = symbol_ssh("\uf418", "git:")
         self.enable = config["git"]["enable"]
-        self.color_symbol = config["git"]["color"]["symbol"]
-        self.branch_color = config["git"]["branch"]["color"]
-        self.prefix_color = config["git"]["prefix"]["color"]
+        self.color_symbol = (
+            config["git"]["color"]["symbol"]
+            if config["general"]["color"]["enable"] is True
+            else "negative"
+        )
+        self.branch_color = (
+            config["git"]["branch"]["color"]
+            if config["general"]["color"]["enable"] is True
+            else "negative"
+        )
+        self.prefix_color = (
+            config["git"]["prefix"]["color"]
+            if config["general"]["color"]["enable"] is True
+            else "negative"
+        )
         self.prefix_text = element_spacing(config["git"]["prefix"]["text"])
         self.symbol_enable = config["git"]["status"]["symbols"]["enable"]
         self.icons = {
             "A": [
-                f"{Color('green')}"
+                f"{Color('green') if config['general']['color']['enable'] is True else Color('negative')}"
                 f"{symbol_ssh(config['git']['status']['symbol']['added'], '')}"
                 f"{Color().NONE}",
-                f"{Color('green')}+{icon_space}{Color().NONE}",
+                f"{Color('green') if config['general']['color']['enable'] is True else Color('negative')}+"
+                f"{icon_space}{Color().NONE}",
             ],
             # "AM": [
-            #     f"{Color('white')}"
+            #     f"{Color('white') if config['general']['color']['enable'] is True else Color('negative')}"
             #     f"{symbol_ssh(config_file['git']['status']['symbol']['changed'], '')}"
             #     f"{Color().NONE}",
-            #     f"{Color('white')}#{icon_space}{Color().NONE}",
+            #     f"{Color('white') if config['general']['color']['enable'] is True else Color('negative')}#
+            #     {icon_space}{Color().NONE}",
             # ],
             "M": [
-                f"{Color('blue')}"
+                f"{Color('blue') if config['general']['color']['enable'] is True else Color('negative')}"
                 f"{symbol_ssh(config['git']['status']['symbol']['modified'], '')}"
                 f"{Color().NONE}",
-                f"{Color('blue')}#{icon_space}{Color().NONE}",
+                f"{Color('blue') if config['general']['color']['enable'] is True else Color('negative')}#"
+                f"{icon_space}{Color().NONE}",
             ],
             "D": [
-                f"{Color('red')}"
+                f"{Color('red') if config['general']['color']['enable'] is True else Color('negative')}"
                 f"{symbol_ssh(config['git']['status']['symbol']['deleted'], '')}"
                 f"{Color().NONE}",
-                f"{Color('red')}x{icon_space}{Color().NONE}",
+                f"{Color('red') if config['general']['color']['enable'] is True else Color('negative')}x"
+                f"{icon_space}{Color().NONE}",
             ],
             "??": [
-                f"{Color('yellow')}"
+                f"{Color('yellow') if config['general']['color']['enable'] is True else Color('negative')}"
                 f"{symbol_ssh(config['git']['status']['symbol']['untracked'], '')}"
                 f"{Color().NONE}",
-                f"{Color('yellow')}?{icon_space}{Color().NONE}",
+                f"{Color('yellow') if config['general']['color']['enable'] is True else Color('negative')}?"
+                f"{icon_space}{Color().NONE}",
             ],
             "R": [
-                f"{Color('magenta')}"
+                f"{Color('magenta') if config['general']['color']['enable'] is True else Color('negative')}"
                 f"{symbol_ssh(config['git']['status']['symbol']['renamed'], '')}"
                 f"{Color().NONE}",
-                f"{Color('magenta')}->{icon_space}{Color().NONE}",
+                f"{Color('magenta') if config['general']['color']['enable'] is True else Color('negative')}->"
+                f"{icon_space}{Color().NONE}",
             ],
             "UU": [
-                f"{Color('red')}"
+                f"{Color('red') if config['general']['color']['enable'] is True else Color('negative')}"
                 f"{symbol_ssh(config['git']['status']['symbol']['conflicts'], '')}"
                 f"{Color().NONE}",
-                f"{Color('red')}!={icon_space}{Color().NONE}",
+                f"{Color('red') if config['general']['color']['enable'] is True else Color('negative')}!="
+                f"{icon_space}{Color().NONE}",
             ],
             "AH": [
-                f"{Color('blue')}"
+                f"{Color('blue') if config['general']['color']['enable'] is True else Color('negative')}"
                 f"{symbol_ssh(config['git']['status']['symbol']['ahead'], '')}"
                 f"{Color().NONE}",
-                f"{Color('blue')}^{icon_space}{Color().NONE}",
+                f"{Color('blue') if config['general']['color']['enable'] is True else Color('negative')}^"
+                f"{icon_space}{Color().NONE}",
             ],
             "BH": [
-                f"{Color('magenta')}"
+                f"{Color('magenta') if config['general']['color']['enable'] is True else Color('negative')}"
                 f"{symbol_ssh(config['git']['status']['symbol']['behind'], '')}"
                 f"{Color().NONE}",
-                f"{Color('magenta')}_{icon_space}{Color().NONE}",
+                f"{Color('magenta') if config['general']['color']['enable'] is True else Color('negative')}_"
+                f"{icon_space}{Color().NONE}",
             ],
             "DG": [
-                f"{Color('yellow')}"
+                f"{Color('yellow') if config['general']['color']['enable'] is True else Color('negative')}"
                 f"{symbol_ssh(config['git']['status']['symbol']['diverged'], '')}"
                 f"{Color().NONE}",
-                f"{Color('yellow')}<->{icon_space}{Color().NONE}",
+                f"{Color('yellow') if config['general']['color']['enable'] is True else Color('negative')}<->"
+                f"{icon_space}{Color().NONE}",
             ],
             "C": [
-                f"{Color('yellow')}"
+                f"{Color('yellow') if config['general']['color']['enable'] is True else Color('negative')}"
                 f"{symbol_ssh(config['git']['status']['symbol']['copied'], '')}"
                 f"{Color().NONE}",
-                f"{Color('yellow')}**{icon_space}{Color().NONE}",
+                f"{Color('yellow') if config['general']['color']['enable'] is True else Color('negative')}**"
+                f"{icon_space}{Color().NONE}",
             ],
             "U": [
-                f"{Color('magenta')}"
+                f"{Color('magenta') if config['general']['color']['enable'] is True else Color('negative')}"
                 f"{symbol_ssh(config['git']['status']['symbol']['unmerged'], '')}"
                 f"{Color().NONE}",
-                f"{Color('magenta')}={icon_space}{Color().NONE}",
+                f"{Color('magenta') if config['general']['color']['enable'] is True else Color('negative')}="
+                f"{icon_space}{Color().NONE}",
             ],
             "CL": [
-                f"{Color('green')}"
+                f"{Color('green') if config['general']['color']['enable'] is True else Color('negative')}"
                 f"{symbol_ssh(config['git']['status']['symbol']['clean'], '')}"
                 f"{Color().NONE}",
-                f"{Color('green')}~{icon_space}{Color().NONE}",
+                f"{Color('green') if config['general']['color']['enable'] is True else Color('negative')}~"
+                f"{icon_space}{Color().NONE}",
             ],
         }
         self.icons["UD"] = self.icons["UU"]

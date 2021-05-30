@@ -31,7 +31,11 @@ class Directory:
         self.hostname_enable = config["hostname"]["enable"]
         self.truncate_value = config["directory"]["truncation_length"]
         self.symbol = symbol_ssh(config["directory"]["symbol"], "")
-        self.color = config["directory"]["color"]
+        self.color = (
+            config["directory"]["color"]
+            if config["general"]["color"]["enable"] is True
+            else "negative"
+        )
         self.prefix_color = config["directory"]["prefix"]["color"]
         self.prefix_text = element_spacing(config["directory"]["prefix"]["text"])
 

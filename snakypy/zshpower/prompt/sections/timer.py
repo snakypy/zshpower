@@ -7,7 +7,11 @@ class Timer:
     def __init__(self, config):
         self.enable = config["timer"]["enable"]
         self.symbol = symbol_ssh(config["timer"]["symbol"], "T:")
-        self.color = config["timer"]["color"]
+        self.color = (
+            config["timer"]["color"]
+            if config["general"]["color"]["enable"] is True
+            else "negative"
+        )
         self.seconds_enable = config["timer"]["seconds"]["enable"]
 
     def __str__(self):

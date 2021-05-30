@@ -18,7 +18,11 @@ class Base:
         self.extensions = ()
         self.symbol = symbol_ssh(config["package"]["symbol"], "pkg-")
         self.enable = config["package"]["enable"]
-        self.color = config["package"]["color"]
+        self.color = (
+            config["package"]["color"]
+            if config["general"]["color"]["enable"] is True
+            else "negative"
+        )
         self.prefix_color = config["package"]["prefix"]["color"]
         self.prefix_text = element_spacing(config["package"]["prefix"]["text"])
 
