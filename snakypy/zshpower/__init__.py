@@ -12,13 +12,16 @@ For more information, access: 'https://github.com/snakypy/zshpower'
 """
 
 from contextlib import suppress
+from os.path import join, dirname, abspath
 from pathlib import Path
+from snakypy.helpers.files import eqversion
+
 
 with suppress(KeyboardInterrupt):
     HOME = str(Path.home())
     __info__ = {
         "name": "ZSHPower",
-        "version": "0.8.1",
+        "version": "0.9.0",
         "description": "ZSHPower is a theme for ZSH with a manager.",
         "pkg_name": "zshpower",
         "executable": "zshpower",
@@ -39,3 +42,7 @@ with suppress(KeyboardInterrupt):
             }
         ],
     }
+
+# Keep the versions the same on pyproject.toml and __init__.py
+pyproject = join(dirname(abspath(__file__)), "../..", "pyproject.toml")
+eqversion(pyproject, __info__["version"])
