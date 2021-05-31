@@ -2,8 +2,9 @@
   <a href="https://github.com/snakypy/zshpower">
     <img alt="ZSHPower" src="https://raw.githubusercontent.com/snakypy/assets/master/zshpower/images/zshpower-transparent.png" width="auto">
   </a>
-  <br> A powerful theme for ZSH<br>
 </h1>
+
+<h1 align="center"> A powerful theme for ZSH </h1>
 
 [![Tests](https://github.com/snakypy/zshpower/workflows/Tests/badge.svg)](https://github.com/snakypy/zshpower/actions)
 [![Python Versions](https://img.shields.io/pypi/pyversions/zshpower)](https://pyup.io/repos/github/snakypy/zshpower/)
