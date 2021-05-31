@@ -1,6 +1,6 @@
 <h1 align="center">
   <a href="https://github.com/snakypy/zshpower">
-    <img alt="ZSHPower" src="https://raw.githubusercontent.com/snakypy/snakypy-static/master/zshpower/logo/png/zshpower.png" width="505">
+    <img alt="ZSHPower" src="https://raw.githubusercontent.com/snakypy/assets/master/zshpower/images/zshpower-transparent.png" width="505">
   </a>
   <br> ZSHPower - A powerful theme for <code>ZSH</code><br>
 </h1>
@@ -67,7 +67,7 @@ In addition, the **ZSHPower** manager downloads **Oh My Zsh** and the
 Here is an example of the installed **ZSHPower**:
 
 <p align="center">
-  <img alt="ZSHPower in Terminator" src="https://raw.githubusercontent.com/snakypy/snakypy-static/master/zshpower/demo/gifs/demo.gif" width="980px">
+  <img alt="ZSHPower in Terminator" src="https://raw.githubusercontent.com/snakypy/assets/master/zshpower/demo/gifs/example-zshpower.gif" width="980px">
 </p>
 
 ## Contributions
