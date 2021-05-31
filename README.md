@@ -1,6 +1,6 @@
 <h1 align="center">
   <a href="https://github.com/snakypy/zshpower">
-    <img alt="ZSHPower" src="https://raw.githubusercontent.com/snakypy/assets/master/zshpower/images/zshpower-transparent.png" width="505">
+    <img alt="ZSHPower" src="https://raw.githubusercontent.com/snakypy/assets/master/zshpower/images/zshpower-transparent.png" width="auto">
   </a>
   <br> ZSHPower - A powerful theme for <code>ZSH</code><br>
 </h1>

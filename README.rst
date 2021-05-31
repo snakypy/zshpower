@@ -1,5 +1,5 @@
 .. image:: https://raw.githubusercontent.com/snakypy/assets/master/zshpower/images/zshpower-transparent.png
-    :width: 505 px
+    :width: auto
     :align: center
     :alt: ZSHPower
 
