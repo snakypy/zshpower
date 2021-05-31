@@ -2,7 +2,7 @@
   <a href="https://github.com/snakypy/zshpower">
     <img alt="ZSHPower" src="https://raw.githubusercontent.com/snakypy/assets/master/zshpower/images/zshpower-transparent.png" width="auto">
   </a>
-  <br> ZSHPower - A powerful theme for ZSH<br>
+  <br> A powerful theme for ZSH<br>
 </h1>
 
 [![Tests](https://github.com/snakypy/zshpower/workflows/Tests/badge.svg)](https://github.com/snakypy/zshpower/actions)
