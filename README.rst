@@ -1,5 +1,4 @@
-.. image:: https://raw.githubusercontent.com/snakypy/snakypy-static/master/zshpower/logo/png/zshpower.png
-    :width: 505 px
+.. image:: https://raw.githubusercontent.com/snakypy/assets/master/zshpower/images/zshpower-transparent.png
     :align: center
     :alt: ZSHPower
 
