@@ -11,12 +11,13 @@ from snakypy.zshpower.prompt.sections.utils import (
     separator,
     symbol_ssh,
 )
+from snakypy.zshpower.utils.catch import verify_objects
 
 
 class Gulp(Version):
     def __init__(self):
         super(Gulp, self).__init__()
-        self.files = ("gulpfile.js",)
+        self.files = ("gulpfile.js", "gulpfile.babel.js")
         self.folders = ("node_modules",)
 
     def get_version(
@@ -30,7 +31,12 @@ class Gulp(Version):
         prefix_text = element_spacing(config[key]["prefix"]["text"])
         micro_version_enable = config[key]["version"]["micro"]["enable"]
 
-        if enable and isfile(join(getcwd(), self.files[0])):
+        if enable and verify_objects(
+            getcwd(),
+            files=self.files,
+            folders=self.folders,
+            extension=self.extensions,
+        ):
             prefix = f"{Color(prefix_color)}{prefix_text}{Color().NONE}"
             if isfile(join(getcwd(), version_local)):
                 parsed = read_json(join(getcwd(), version_local))
