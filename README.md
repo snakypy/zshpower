@@ -68,7 +68,7 @@ In addition, the **ZSHPower** manager downloads **Oh My Zsh** and the
 Here is an example of the installed **ZSHPower**:
 
 <p align="center">
-  <img alt="ZSHPower in Terminator" src="https://raw.githubusercontent.com/snakypy/snakypy-static/master/zshpower/demo/gifs/demo.gif" width="980px">
+  <img alt="ZSHPower in Terminator" src="https://raw.githubusercontent.com/snakypy/assets/master/zshpower/demo/gifs/example-zshpower.gif" width="980px">
 </p>
 
 ## Contributions
@@ -249,13 +249,15 @@ The **ZSHPower** configuration file is very intuitive, and just a glance gives y
 
 **General**:
 
+* **color.enable** - If `true`, enable the colors, otherwise `false` enters negative mode. `Default:` *true*
+
 * **jump_line.enable** - If this option is `true`, you will skip a line each time you execute a command. `Default:` *true*
 
 * **separator.element** - Add separators to each information shown by ZSHPower. `Default:` *-*
 
 * **config.editor** - Choose of terminal editor that will open the configuration file. `Default:` *vim*
 
-* **separator.color** - Changes the color of the separator. `Default:` *white*
+* **separator.color** - Changes the color of the separator. `Default:` *negative*
 
 * **position** -  This option changes the position of certain sections. To show the information for a given tool, it must be listed in **position**.
 
@@ -276,7 +278,7 @@ The **ZSHPower** configuration file is very intuitive, and just a glance gives y
 
 * **color** - Changes the color of the username.   `Default:` *magenta*
 
-* **prefix.color** - Changes the color of the hostname prefix.  `Default:` *white*
+* **prefix.color** - Changes the color of the hostname prefix.  `Default:` *negative*
 
 * **prefix.text** - Before showing the hostname of the machine, it will have a prefix text. In this option you can change the text you want. `Default:` *at*
 
@@ -288,7 +290,7 @@ The **ZSHPower** configuration file is very intuitive, and just a glance gives y
 
 * **color** - Changes the color of the path.  `Default:` cyan
 
-* **prefix.color** - Changes the color of the path prefix.   `Default:` *white*
+* **prefix.color** - Changes the color of the path prefix.   `Default:` *negative*
 
 * **prefix.text** - Before showing the current path (or folder), it will have prefixed text. In this option you can change the text you want. `Default:` *in*
 
@@ -299,11 +301,11 @@ The **ZSHPower** configuration file is very intuitive, and just a glance gives y
 
 * **symbol** - Must receive an icon, whether in unicode or not. `Default:` \uf418
 
-* **color.symbol** - Option to change the color of the informed symbol. `Default:` *white*
+* **color.symbol** - Option to change the color of the informed symbol. `Default:` *negative*
 
 * **branch.color** - Option to change the color of the informed branch. `Default:` *cyan*
 
-* **prefix.color** - Changes the color of the prefix.   `Default:` *white*
+* **prefix.color** - Changes the color of the prefix.   `Default:` *negative*
 
 * **prefix.text** - Before showing the git information, it will have prefixed text. In this option you can change the text you want. `Default:` *on*
 
@@ -335,7 +337,7 @@ The **ZSHPower** configuration file is very intuitive, and just a glance gives y
 
 * **color** - Changes the color of the package. `Default:` red
 
-* **prefix.color** - Changes the color of the prefix.   `Default:` *white*
+* **prefix.color** - Changes the color of the prefix.   `Default:` *negative*
 
 * **prefix.text** - Before showing the package information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *is*
 
@@ -345,7 +347,7 @@ The **ZSHPower** configuration file is very intuitive, and just a glance gives y
 
 * **color** - Changes the color of the Python version information. `Default:` *yellow*
 
-* **prefix.color** - Changes the color of the prefix.   `Default:` *white*
+* **prefix.color** - Changes the color of the prefix.   `Default:` *negative*
 
 * **prefix.text** - Before showing the Python version information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *via*
 
@@ -365,7 +367,7 @@ The **ZSHPower** configuration file is very intuitive, and just a glance gives y
 
 * **color** - Changes the color of the virtual machine information. `Default:` yellow
 
-* **prefix.color** - Changes the color of the prefix.   `Default:` *white*
+* **prefix.color** - Changes the color of the prefix.   `Default:` *negative*
 
 * **prefix.text** - Before showing the virtual machine information, it will have a prefixed text. In this option, you can change the text you want. `Default:` `via`
 

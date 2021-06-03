@@ -8,7 +8,11 @@ class Took:
         self.enable = config["took"]["enable"]
         self.symbol = symbol_ssh(config["took"]["symbol"], "")
         self.text = config["took"]["text"]
-        self.color = config["took"]["color"]
+        self.color = (
+            config["took"]["color"]
+            if config["general"]["color"]["enable"] is True
+            else "negative"
+        )
         self.involved = config["took"]["involved"]
         self.show_greater_than = config["took"]["show_greater_than"]
         self.took = str(took)

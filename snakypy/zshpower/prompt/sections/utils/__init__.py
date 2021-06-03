@@ -62,7 +62,7 @@ class Color:
 
     def __init__(self, set_color=""):
         self.color = f"%F{{{set_color}}}"
-        if set_color == "white":
+        if set_color == "negative":
             self.color = ""
 
     def __str__(self):
@@ -79,7 +79,11 @@ class Version(DAO):
     def get(self, config, reg_version: dict, key="", ext="", space_elem="") -> str:
         enable = config[key]["version"]["enable"]
         symbol = symbol_ssh(config[key]["symbol"], ext)
-        color = config[key]["color"]
+        color = (
+            config[key]["color"]
+            if config["general"]["color"]["enable"] is True
+            else "negative"
+        )
         prefix_color = config[key]["prefix"]["color"]
         prefix_text = element_spacing(config[key]["prefix"]["text"])
         micro_version_enable = config[key]["version"]["micro"]["enable"]

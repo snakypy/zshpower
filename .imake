@@ -1,7 +1,7 @@
 [build]
 description = "Compile the project for publication and installation."
 header = "Build project ..."
-commands = ["poetry build"]
+commands = ["python -m snakypy.zshpower", "poetry build"]
 footer = "Compilation command terminated!"
 
 [install]
@@ -62,6 +62,7 @@ description = "Publish this project to the Pypi repository."
 header = "Publishing package to the Pypi repository ..."
 commands = ["""
             rm -f dist/*;
+            python -m snakypy.zshpower;
             poetry build;
             poetry publish -r pypi -u williamcanin;
 """]
@@ -75,6 +76,7 @@ description = "Publish this project to the TestPypi repository."
 header = "Publishing package to the TestPypi repository ..."
 commands = ["""
             rm -f dist/*;
+            python -m snakypy.zshpower;
             poetry build;
             poetry publish -r testpypi -u williamcanin;
 """]
