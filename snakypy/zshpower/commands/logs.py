@@ -14,7 +14,7 @@ class LogsCommand(Base):
         Base.__init__(self, home)
 
     def run(self, arguments) -> None:
-        checking_init(self.HOME)
+        checking_init(self.HOME, self.logfile)
         if arguments["--view"]:
             read_logs = read_file(self.logfile)
             pager(read_logs)

@@ -69,22 +69,24 @@ class InitCommand(Base):
             )
 
         if arguments["--omz"]:
-            omz_install(self.omz_root)
-            omz_install_plugins(self.omz_root, self.plugins)
-            create_zshrc(zshrc_content, self.zsh_rc)
-            change_theme_in_zshrc(self.zsh_rc, f"{__info__['pkg_name']}")
-            add_plugins_zshrc(self.zsh_rc)
+            omz_install(self.omz_root, self.logfile)
+            omz_install_plugins(self.omz_root, self.plugins, self.logfile)
+            create_zshrc(zshrc_content, self.zsh_rc, self.logfile)
+            change_theme_in_zshrc(self.zsh_rc, f"{__info__['pkg_name']}", self.logfile)
+            add_plugins_zshrc(self.zsh_rc, self.logfile)
             create_file(set_zshpower_content, self.theme_file, force=True)
 
-        install_fonts(self.HOME)
-        change_shell()
+        install_fonts(self.HOME, self.logfile)
+        change_shell(self.logfile)
         remove_versions_garbage(join(self.HOME, f".{__info__['pkg_name']}"))
 
         try:
             cron_task(sync_content, self.sync_path, cron_content, self.cron_path)
             printer("Done!", foreground=FG().FINISH) if message else None
 
-            if not arguments["--omz"] and not get_line_source(self.zsh_rc):
+            if not arguments["--omz"] and not get_line_source(
+                self.zsh_rc, self.logfile
+            ):
                 printer(instruction_not_omz, foreground=FG().YELLOW)
 
             if reload:
@@ -93,7 +95,9 @@ class InitCommand(Base):
             printer("Canceled by user", foreground=FG().WARNING)
             printer("Done!", foreground=FG().FINISH) if message else None
 
-            if not arguments["--omz"] and not get_line_source(self.zsh_rc):
+            if not arguments["--omz"] and not get_line_source(
+                self.zsh_rc, self.logfile
+            ):
                 printer(instruction_not_omz, foreground=FG().YELLOW)
 
             if reload:

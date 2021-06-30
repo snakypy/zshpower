@@ -18,7 +18,7 @@ class ResetCommand(Base):
         Base.__init__(self, home)
 
     def run(self, arguments) -> None:
-        checking_init(self.HOME)
+        checking_init(self.HOME, self.logfile)
         if arguments["--config"]:
             create_config(config_content, self.config_file, force=True)
             printer("Reset process finished.", foreground=FG().FINISH)

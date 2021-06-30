@@ -10,13 +10,13 @@ def reload_zsh() -> None:
     subprocess_call("exec zsh", shell=True)
 
 
-def change_shell() -> bool:
+def change_shell(logfile) -> bool:
     if shell() != "zsh":
         try:
             subprocess_call(f"chsh -s $(which zsh) {whoami()}", shell=True)
             return True
         except KeyboardInterrupt:
-            log_base.record(
+            log_base(logfile).record(
                 "Shell change canceled by user", colorize=True, level="info"
             )
             printer("Canceled by user.", foreground=FG().WARNING)

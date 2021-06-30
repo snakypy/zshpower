@@ -53,9 +53,9 @@ def log_base(filename, force=False) -> Log:
     return Log(filename=filename)
 
 
-def create_zshrc(content, zshrc) -> bool:
+def create_zshrc(content, zshrc, logfile) -> bool:
     if exists(zshrc):
-        if not read_zshrc_omz(zshrc):
+        if not read_zshrc_omz(zshrc, logfile):
             backup_file(zshrc, zshrc, date=True, extension=False)
             create_file(content, zshrc, force=True)
             return True
@@ -99,10 +99,10 @@ def cron_task(sync_context, sync_path, cron_context, cron_path):
                 pass_ok = True
 
 
-def change_theme_in_zshrc(zshrc, theme_name) -> bool:
-    if read_zshrc_omz(zshrc):
-        current_zshrc = read_zshrc(zshrc)
-        current_theme = read_zshrc_omz(zshrc)[1]
+def change_theme_in_zshrc(zshrc, theme_name, logfile) -> bool:
+    if read_zshrc_omz(zshrc, logfile):
+        current_zshrc = read_zshrc(zshrc, logfile)
+        current_theme = read_zshrc_omz(zshrc, logfile)[1]
         new_theme = f'ZSH_THEME="{theme_name}"'
         new_zsh_rc = re_sub(rf"{current_theme}", new_theme, current_zshrc, flags=re_m)
         create_file(new_zsh_rc, zshrc, force=True)
@@ -110,7 +110,7 @@ def change_theme_in_zshrc(zshrc, theme_name) -> bool:
     return False
 
 
-def omz_install(omz_root):
+def omz_install(omz_root, logfile):
     omz_github = "https://github.com/ohmyzsh/ohmyzsh.git"
     cmd_line = f"git clone {omz_github} {omz_root}"
     try:
@@ -123,11 +123,11 @@ def omz_install(omz_root):
             )
 
     except Exception:
-        log_base.record("Error downloading Oh My ZSH. Aborted!", colorize=True)
+        log_base(logfile).record("Error downloading Oh My ZSH. Aborted!", colorize=True)
         raise Exception("Error downloading Oh My ZSH. Aborted!")
 
 
-def omz_install_plugins(omz_root, plugins):
+def omz_install_plugins(omz_root, plugins, logfile):
     try:
         url_master = "https://github.com/zsh-users"
         for plugin in plugins:
@@ -138,11 +138,13 @@ def omz_install_plugins(omz_root, plugins):
                 command(clone, verbose=True)
                 printer(f"Plugin {plugin} task finished!", foreground=FG().FINISH)
     except Exception:
-        log_base.record("There was an error installing the plugin", colorize=True)
+        log_base(logfile).record(
+            "There was an error installing the plugin", colorize=True
+        )
         raise Exception("There was an error installing the plugin")
 
 
-def install_fonts(home, *, force=False) -> bool:
+def install_fonts(home, logfile, *, force=False) -> bool:
     url = "https://github.com/snakypy/assets"
     base_url = "blob/master/zshpower/fonts/terminal/fonts.zip?raw=true"
     font_name = "DejaVu Sans Mono Nerd Font"
@@ -171,12 +173,14 @@ def install_fonts(home, *, force=False) -> bool:
                 return True
             return False
         except Exception as err:
-            log_base.record(f'Error downloading font "{font_name}"', colorize=True)
+            log_base(logfile).record(
+                f'Error downloading font "{font_name}"', colorize=True
+            )
             raise Exception(f'Error downloading font "{font_name}"', err)
     return False
 
 
-def add_plugins_zshrc(zshrc):
+def add_plugins_zshrc(zshrc, logfile):
     plugins = (
         "python",
         "django",
@@ -186,12 +190,12 @@ def add_plugins_zshrc(zshrc):
         "zsh-syntax-highlighting",
         "zsh-autosuggestions",
     )
-    current = plugins_current_zshrc(zshrc)
+    current = plugins_current_zshrc(zshrc, logfile)
 
     new_plugins = [plugin for plugin in plugins if plugin not in current]
 
     if len(new_plugins) > 0:
-        current_zshrc = read_zshrc(zshrc)
+        current_zshrc = read_zshrc(zshrc, logfile)
         plugins = f'plugins=({" ".join(current)} {" ".join(new_plugins)})'
         new_zsh_rc = re_sub(r"^plugins=\(.*", plugins, current_zshrc, flags=re_m)
         create_file(new_zsh_rc, zshrc, force=True)
@@ -199,8 +203,8 @@ def add_plugins_zshrc(zshrc):
     return ""
 
 
-def rm_source_zshrc(zshrc):
-    current_zshrc = read_zshrc(zshrc)
+def rm_source_zshrc(zshrc, logfile):
+    current_zshrc = read_zshrc(zshrc, logfile)
     line_rm = f"source\\ \\$HOME/.zshpower/{__info__['version']}/init.sh"
     new_zshrc = re_sub(rf"{line_rm}", "", current_zshrc, flags=re_m)
     create_file(new_zshrc, zshrc, force=True)
