@@ -37,6 +37,11 @@ class ConfigCommand(Base):
                     editors = ("vim", "nano", "emacs", "micro")
                     for edt in editors:
                         editor_run(edt, self.config_file)
+                self.log.record(
+                    f"Open/Changed Configuration Files ({self.config_file}).",
+                    colorize=True,
+                    level="info",
+                )
             except FileNotFoundError:
                 raise FileNotFoundError("File not found.")
         elif arguments["--view"]:

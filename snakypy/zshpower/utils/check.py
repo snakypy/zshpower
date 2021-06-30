@@ -8,6 +8,12 @@ def checking_init(home) -> bool:
     the repository was not created."""
 
     if not exists(join(home, f".{__info__['pkg_name']}")):
+        from snakypy.zshpower.utils.shift import log_base
+
+        log_base.record(
+            f'Command "{__info__["pkg_name"]} init" has not been started.' "Aborted",
+            colorize=True,
+        )
         raise FileNotFoundError(
             f'Command "{__info__["pkg_name"]} init" has not been started.' "Aborted",
         )

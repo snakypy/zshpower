@@ -1,4 +1,4 @@
-import curses
+from concurrent.futures import ThreadPoolExecutor
 
 from snakypy.helpers import printer
 from snakypy.helpers.ansi import FG
@@ -22,22 +22,18 @@ class ResetCommand(Base):
         if arguments["--config"]:
             create_config(config_content, self.config_file, force=True)
             printer("Reset process finished.", foreground=FG().FINISH)
+            self.log.record("Config files reset", colorize=True, level="info")
             reload_zsh()
         elif arguments["--db"]:
             DAO().create_table(self.tbl_main)
-            printer(
-                "Entering the process of resetting the DB. Wait ...",
-                foreground=FG().QUESTION,
-            )
-            records("insert")
-            curses.initscr()
-            curses.curs_set(0)
-            loading(
-                set_time=0.050,
-                bar=False,
-                header="ZSHPower Restoring the database ...",
-                foreground=FG().QUESTION,
-            )
-            curses.curs_set(1)
-            curses.endwin()
+            with ThreadPoolExecutor(max_workers=2) as executor:
+                executor.submit(
+                    loading,
+                    set_time=0.140,
+                    bar=False,
+                    header="ZSHPower Restoring the database ...",
+                    foreground=FG().QUESTION,
+                )
+                executor.submit(records, action="insert")
             printer("Done!", foreground=FG().FINISH)
+            self.log.record("Database reset", colorize=True, level="info")

@@ -9,6 +9,7 @@ from snakypy.zshpower.commands.config import ConfigCommand
 from snakypy.zshpower.commands.credits import CreditsCommand
 from snakypy.zshpower.commands.deactivate import DeactivateCommand
 from snakypy.zshpower.commands.init import InitCommand
+from snakypy.zshpower.commands.logs import LogsCommand
 from snakypy.zshpower.commands.reset import ResetCommand
 from snakypy.zshpower.commands.sync import Sync
 from snakypy.zshpower.commands.uninstall import UninstallCommand
@@ -54,6 +55,11 @@ def run_sync() -> None:
     Sync(HOME).run()
 
 
+@assign_cli(args, "logs")
+def run_logs() -> None:
+    LogsCommand(HOME).run(args)
+
+
 @assign_cli(args, "--credits")
 def run_credits() -> None:
     CreditsCommand().run()
@@ -69,4 +75,5 @@ def main() -> None:
     run_reset()
     run_uninstall()
     run_sync()
+    run_logs()
     run_credits()
