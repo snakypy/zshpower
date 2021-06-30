@@ -72,7 +72,7 @@ class UninstallCommand(Base):
             if reply is None or reply[0] == 1:
                 printer("Whew! Thanks! :)", foreground=FG().GREEN)
                 exit(0)
-            remove_objects(objects=(self.init_file, self.data_root))
+            remove_objects(objects=(self.init_file, self.data_root, self.cache_root))
             uninstall_by_pip(packages=(__info__["name"],))
             rm_source_zshrc(self.zsh_rc)
             finished()
@@ -91,14 +91,21 @@ class UninstallCommand(Base):
                 exit(0)
 
             # Remove default
-            remove_objects(objects=(self.theme_file, self.init_file, self.data_root))
+            remove_objects(
+                objects=(
+                    self.theme_file,
+                    self.init_file,
+                    self.data_root,
+                    self.cache_root,
+                )
+            )
             uninstall_by_pip(packages=(__info__["name"],))
             change_theme_in_zshrc(self.zsh_rc, "robbyrussell")
 
             # ZSHPower and Oh My ZSH
             if reply[0] == 1:
                 backup_file(self.zsh_rc, self.zsh_rc, date=True, extension=False)
-                remove_objects(objects=(self.omz_root, self.zsh_rc))
+                remove_objects(objects=(self.omz_root, self.zsh_rc, self.cache_root))
                 create_file(zshrc_sample, self.zsh_rc, force=True)
 
             finished()
