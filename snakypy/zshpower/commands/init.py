@@ -1,3 +1,4 @@
+from concurrent.futures import ThreadPoolExecutor
 from os.path import join
 
 from snakypy.helpers import printer
@@ -45,19 +46,27 @@ class InitCommand(Base):
     def run(self, arguments, *, reload=False, message=False) -> None:
         printer("Please wait ... assigning settings ...", foreground=FG().WARNING)
         tools_requirements("bash", "zsh", "vim", "git", "cut", "grep", "whoami", "pwd")
-        snakypy_path_create(self.data_root)
+        snakypy_path_create(self.data_root, self.cache_root)
         create_config(config_content, self.config_file)
         create_file(set_zshpower_content, self.init_file, force=True)
         # Create table if not exists
         DAO().create_table(self.tbl_main)
         # Insert registers
-        records("insert")
-        loading(
-            set_time=0.040,
-            bar=False,
-            header="ZSHPower is creating the database. Wait a moment...",
-            foreground=FG().QUESTION,
-        )
+        try:
+            with ThreadPoolExecutor(max_workers=2) as executor:
+                executor.submit(
+                    loading,
+                    set_time=0.140,
+                    bar=False,
+                    header="ZSHPower is creating the database. Wait a moment ...",
+                    foreground=FG().QUESTION,
+                )
+                executor.submit(records, action="insert")
+        except KeyboardInterrupt:
+            printer(
+                "This operation cannot be canceled. Wait for the operation.",
+                foreground=FG().WARNING,
+            )
 
         if arguments["--omz"]:
             omz_install(self.omz_root)
@@ -89,3 +98,4 @@ class InitCommand(Base):
 
             if reload:
                 reload_zsh()
+        self.log.record("Initial settings applied", colorize=True, level="info")
