@@ -12,6 +12,7 @@ Usage:
     {__info__['executable']} init [--omz]
     {__info__['executable']} sync
     {__info__['executable']} config (--open | --view)
+    {__info__['executable']} logs (--view | --clean)
     {__info__['executable']} activate
     {__info__['executable']} deactivate [--theme=<name>]
     {__info__['executable']} reset (--config | --db)
@@ -28,6 +29,7 @@ Arguments:
     {FG().CYAN}reset{NONE} --------- Reset to default settings.
     {FG().CYAN}uninstall{NONE} ----- Uninstall the package {__info__["name"]}.
     {FG().CYAN}config{NONE} -------- The easiest way to edit and view the settings is through this option.
+    {FG().CYAN}logs{NONE} ---------- Shows {__info__["name"]} activity logs.
 
 Options:
     {FG().CYAN}--help{NONE} --------- Show this screen.

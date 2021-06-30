@@ -1,5 +1,5 @@
-import curses
 import sys
+from concurrent.futures import ThreadPoolExecutor
 from sqlite3 import OperationalError
 
 from snakypy.helpers import FG
@@ -17,23 +17,24 @@ class Sync(Base):
     def run(self) -> None:
         try:
             checking_init(self.HOME)
-            printer(
-                "Entering the synchronization process. Wait ...",
-                foreground=FG().QUESTION,
-            )
-            records("update")
-            curses.initscr()
-            curses.curs_set(0)
-            loading(
-                set_time=0.040,
-                bar=False,
-                header="Synchronizing versions with database ...",
-                foreground=FG().QUESTION,
-            )
-            curses.curs_set(1)
-            curses.endwin()
+            with ThreadPoolExecutor(max_workers=2) as executor:
+                executor.submit(
+                    loading,
+                    set_time=0.100,
+                    bar=False,
+                    header="Synchronizing versions with database ...",
+                    foreground=FG().QUESTION,
+                )
+                executor.submit(records, action="update")
+            self.log.record("Database update.", colorize=True, level="info")
             printer("Done!", foreground=FG().FINISH)
+        except KeyboardInterrupt:
+            printer(
+                "This operation cannot be canceled. Wait for the operation.",
+                foreground=FG().WARNING,
+            )
         except OperationalError:
+            self.log.record("The database does not exist or is corrupted.", colorize=True, level="error")
             printer(
                 "The database does not exist or is corrupted.",
                 foreground=FG().ERROR,

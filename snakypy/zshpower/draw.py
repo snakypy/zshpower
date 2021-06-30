@@ -71,6 +71,11 @@ class Draw(DAO):
             create_path(self.zshpower_home)
             create_config(config_content, self.config_file)
             parsed = dict(toml_parse(read_file(self.config_file)))
+            self.log.record(
+                "Configuration files does not exist, however it was created.",
+                colorize=True,
+                level="error",
+            )
             return parsed
 
     def get_register(self):
@@ -81,6 +86,11 @@ class Draw(DAO):
             )
             return data
         except (KeyError, OperationalError):
+            self.log.record(
+                "Corrupted database. Firing guidance message.",
+                colorize=True,
+                level="error",
+            )
             printer(
                 f'{__info__["name"]} Error: Database corrupted. Run command: '
                 f'"zshpower reset --db" to restore.\n>> ',
@@ -159,12 +169,20 @@ class Draw(DAO):
                 return sections.format(static_section, *ordered_section, took_, cmd)
 
         except (NonExistentKey, UnexpectedCharError, ValueError):
+            self.log.record(
+                "Key error in the configuration file.", colorize=True, level="error"
+            )
             print(
                 f"{FG().ERROR}{__info__['name']} Error: Key error in "
                 f"the configuration file.\n> {NONE}"
             )
             raise
         except KeyError:
+            self.log.record(
+                "Corrupted database. Firing guidance message.",
+                colorize=True,
+                level="error",
+            )
             raise KeyError(
                 f"{FG().ERROR}{__info__['name']} Error: Database records are missing "
                 f"or corrupted. Run the command to correct: \"{__info__['executable']} reset --db\".\n>> "
@@ -176,6 +194,11 @@ class Draw(DAO):
             timer = Timer(self.config)
             return f"{timer}"
         except NonExistentKey:
+            self.log.record(
+                "Corrupted database. Firing guidance message.",
+                colorize=True,
+                level="error",
+            )
             return (
                 f"{FG().ERROR}>>> {__info__['name']} Error: Key error in "
                 f"the configuration file.\n > "
