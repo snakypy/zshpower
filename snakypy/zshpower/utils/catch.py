@@ -11,14 +11,14 @@ from snakypy.zshpower import __info__
 from snakypy.zshpower.config import menu
 
 
-def read_zshrc(zshrc) -> str:
+def read_zshrc(zshrc, logfile) -> str:
     try:
         with open(zshrc) as f:
             return f.read()
     except FileNotFoundError as err:
         from snakypy.zshpower.utils.shift import log_base
 
-        log_base.record("File not found.", colorize=True)
+        log_base(logfile).record("File not found.", colorize=True)
         raise FileNotFoundError("File not found.", err)
 
 
@@ -30,9 +30,9 @@ def arguments(argv=None) -> dict:
     return data
 
 
-def read_zshrc_omz(zshrc) -> tuple:
+def read_zshrc_omz(zshrc, logfile) -> tuple:
     """ """
-    current_zshrc = read_zshrc(zshrc)
+    current_zshrc = read_zshrc(zshrc, logfile)
     m = re_search(r"ZSH_THEME=\".*", current_zshrc)
     if m is not None:
         var_zsh_theme = m.group(0)
@@ -42,8 +42,8 @@ def read_zshrc_omz(zshrc) -> tuple:
     return ()
 
 
-def plugins_current_zshrc(zshrc) -> list:
-    current_zshrc = read_zshrc(zshrc)
+def plugins_current_zshrc(zshrc, logfile) -> list:
+    current_zshrc = read_zshrc(zshrc, logfile)
     m = re_search(r"^plugins=\(.*", current_zshrc, flags=re_m)
     if m is not None:
         get = m.group(0)
@@ -53,8 +53,8 @@ def plugins_current_zshrc(zshrc) -> list:
     return []
 
 
-def get_line_source(zshrc) -> str:
-    current_zshrc = read_zshrc(zshrc)
+def get_line_source(zshrc, logfile) -> str:
+    current_zshrc = read_zshrc(zshrc, logfile)
     m = re_search(r"source \$HOME/.zshpower", current_zshrc)
     if m is not None:
         return m.group(0)

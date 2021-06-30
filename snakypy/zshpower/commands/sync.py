@@ -16,7 +16,7 @@ class Sync(Base):
 
     def run(self) -> None:
         try:
-            checking_init(self.HOME)
+            checking_init(self.HOME, self.logfile)
             with ThreadPoolExecutor(max_workers=2) as executor:
                 executor.submit(
                     loading,

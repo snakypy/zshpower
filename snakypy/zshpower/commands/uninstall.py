@@ -63,9 +63,9 @@ class UninstallCommand(Base):
         Base.__init__(self, home)
 
     def run(self) -> None:
-        checking_init(self.HOME)
+        checking_init(self.HOME, self.logfile)
 
-        if not read_zshrc_omz(self.zsh_rc):
+        if not read_zshrc_omz(self.zsh_rc, self.logfile):
             title = f"Do you want to uninstall {__info__['name']}?"
             options = ["Yes", "No"]
             reply = pick(title, options, colorful=True, index=True)
@@ -74,7 +74,7 @@ class UninstallCommand(Base):
                 exit(0)
             remove_objects(objects=(self.init_file, self.data_root, self.cache_root))
             uninstall_by_pip(packages=(__info__["name"],))
-            rm_source_zshrc(self.zsh_rc)
+            rm_source_zshrc(self.zsh_rc, self.logfile)
             finished()
         else:
             title = "What did you want to uninstall?"
@@ -100,7 +100,7 @@ class UninstallCommand(Base):
                 )
             )
             uninstall_by_pip(packages=(__info__["name"],))
-            change_theme_in_zshrc(self.zsh_rc, "robbyrussell")
+            change_theme_in_zshrc(self.zsh_rc, "robbyrussell", self.logfile)
 
             # ZSHPower and Oh My ZSH
             if reply[0] == 1:

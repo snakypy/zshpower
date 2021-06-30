@@ -14,16 +14,16 @@ class DeactivateCommand(Base):
 
     def run(self, arguments, *, theme_name="robbyrussell") -> bool:
 
-        checking_init(self.HOME)
+        checking_init(self.HOME, self.logfile)
 
-        if read_zshrc_omz(self.zsh_rc):
-            if not read_zshrc_omz(self.zsh_rc)[0] == "zshpower":
+        if read_zshrc_omz(self.zsh_rc, self.logfile):
+            if not read_zshrc_omz(self.zsh_rc, self.logfile)[0] == "zshpower":
                 printer("Already disabled. Nothing to do.", foreground=FG().GREEN)
                 exit(0)
             if not arguments["--theme"]:
-                change_theme_in_zshrc(self.zsh_rc, theme_name)
+                change_theme_in_zshrc(self.zsh_rc, theme_name, self.logfile)
             else:
-                change_theme_in_zshrc(self.zsh_rc, arguments["--theme"])
+                change_theme_in_zshrc(self.zsh_rc, arguments["--theme"], self.logfile)
             printer("Deactivation process finish.", foreground=FG().FINISH)
             reload_zsh()
             return True

@@ -24,7 +24,7 @@ class ConfigCommand(Base):
         Base.__init__(self, home)
 
     def run(self, arguments) -> bool:
-        checking_init(self.HOME)
+        checking_init(self.HOME, self.logfile)
 
         if arguments["--open"]:
             try:

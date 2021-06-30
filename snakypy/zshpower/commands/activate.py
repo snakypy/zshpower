@@ -14,13 +14,13 @@ class ActivateCommand(Base):
 
     def run(self) -> bool:
 
-        checking_init(self.HOME)
+        checking_init(self.HOME, self.logfile)
 
-        if read_zshrc_omz(self.zsh_rc):
-            if read_zshrc_omz(self.zsh_rc)[0] == "zshpower":
+        if read_zshrc_omz(self.zsh_rc, self.logfile):
+            if read_zshrc_omz(self.zsh_rc, self.logfile)[0] == "zshpower":
                 printer("Already activated. Nothing to do.", foreground=FG().GREEN)
                 exit(0)
-            change_theme_in_zshrc(self.zsh_rc, "zshpower")
+            change_theme_in_zshrc(self.zsh_rc, "zshpower", self.logfile)
             printer("Activation process finish.", foreground=FG().FINISH)
             reload_zsh()
             return True
