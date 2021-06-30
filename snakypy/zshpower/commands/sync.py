@@ -34,7 +34,11 @@ class Sync(Base):
                 foreground=FG().WARNING,
             )
         except OperationalError:
-            self.log.record("The database does not exist or is corrupted.", colorize=True, level="error")
+            self.log.record(
+                "The database does not exist or is corrupted.",
+                colorize=True,
+                level="error",
+            )
             printer(
                 "The database does not exist or is corrupted.",
                 foreground=FG().ERROR,
