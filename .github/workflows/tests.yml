@@ -19,7 +19,7 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install poetry
         poetry shell
-				poetry install
+	poetry install
     - name: Test with Tox
       run: |
         poetry run tox
