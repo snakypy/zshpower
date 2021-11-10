@@ -15,6 +15,12 @@ from snakypy.zshpower.prompt.sections.utils import (
 from snakypy.zshpower.utils.catch import verify_objects
 
 
+def definitive_version(micro_version_enable, python_version, space_elem):
+    if not micro_version_enable:
+        return f"{'{0[0]}.{0[1]}'.format(python_version)}{space_elem}"
+    return f"{'{0[0]}.{0[1]}.{0[2]}'.format(python_version)}{space_elem}"
+
+
 class Python:
     def __init__(self, config):
 
@@ -45,30 +51,32 @@ class Python:
 
         # Checking if you use Python through pyenv or the system.
         if isdir(join(HOME, ".pyenv")):
-            if exists(join(getcwd(), self.files[4])):
-                if read_file(join(getcwd(), self.files[4])).strip() == "system":
+
+            pyenv_file_local = join(getcwd(), self.files[4])
+            pyenv_file_global = join(HOME, ".pyenv/version")
+
+            if exists(pyenv_file_local):
+                if read_file(pyenv_file_local).strip() == "system":
                     python_version = (
                         f"{'{0[0]}.{0[1]}.{0[2]}'.format(version_info)}".split(".")
                     )
                 else:
+                    python_version = read_file(pyenv_file_local).strip().split(".")
+            elif exists(pyenv_file_global):
+                if read_file(pyenv_file_global).strip() == "system":
                     python_version = (
-                        read_file(join(getcwd(), self.files[4])).strip().split(".")
+                        f"{'{0[0]}.{0[1]}.{0[2]}'.format(version_info)}".split(".")
                     )
+                else:
+                    python_version = read_file(pyenv_file_global).strip().split(".")
             else:
-                if read_file(join(HOME, ".pyenv/version")).strip() == "system":
-                    python_version = (
-                        f"{'{0[0]}.{0[1]}.{0[2]}'.format(version_info)}".split(".")
-                    )
-                else:
-                    python_version = (
-                        read_file(join(HOME, ".pyenv/version")).strip().split(".")
-                    )
+                python_version = f"{'{0[0]}.{0[1]}.{0[2]}'.format(version_info)}".split(
+                    "."
+                )
         else:
             python_version = f"{'{0[0]}.{0[1]}.{0[2]}'.format(version_info)}".split(".")
 
-        if not self.micro_version_enable:
-            return f"{'{0[0]}.{0[1]}'.format(python_version)}{space_elem}"
-        return f"{'{0[0]}.{0[1]}.{0[2]}'.format(python_version)}{space_elem}"
+        return definitive_version(self.micro_version_enable, python_version, space_elem)
 
     def __str__(self):
         if self.enable:
