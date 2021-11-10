@@ -28,11 +28,11 @@ class CreditsCommand:
             billboard_manual(),
             foreground=FG().YELLOW,
         )
-        billboard(
-            __info__["organization_name"],
-            justify="center",
-            foreground=FG().YELLOW,
-        )
+        # billboard(
+        #     __info__["organization_name"],
+        #     justify="center",
+        #     foreground=FG().YELLOW,
+        # )
         printer("copyright (c) since 2020\n".center(100), foreground=FG().GREEN)
         credence(
             __info__["name"],
