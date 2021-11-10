@@ -61,20 +61,18 @@ class Python:
                         f"{'{0[0]}.{0[1]}.{0[2]}'.format(version_info)}".split(".")
                     )
                 else:
-                    python_version = (
-                        read_file(pyenv_file_local).strip().split(".")
-                    )
+                    python_version = read_file(pyenv_file_local).strip().split(".")
             elif exists(pyenv_file_global):
                 if read_file(pyenv_file_global).strip() == "system":
                     python_version = (
                         f"{'{0[0]}.{0[1]}.{0[2]}'.format(version_info)}".split(".")
                     )
                 else:
-                    python_version = (
-                        read_file(pyenv_file_global).strip().split(".")
-                    )
+                    python_version = read_file(pyenv_file_global).strip().split(".")
             else:
-                python_version = f"{'{0[0]}.{0[1]}.{0[2]}'.format(version_info)}".split(".")
+                python_version = f"{'{0[0]}.{0[1]}.{0[2]}'.format(version_info)}".split(
+                    "."
+                )
         else:
             python_version = f"{'{0[0]}.{0[1]}.{0[2]}'.format(version_info)}".split(".")
 
