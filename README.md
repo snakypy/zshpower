@@ -135,18 +135,18 @@ To work correctly, you will first need:
 Globally:
 
 ```shell
-# pip install zshpower
+# python -m pip install zshpower
 ```
 or
 
 ```shell
-$ sudo pip install zshpower
+$ sudo python -m pip install zshpower
 ```
 
 For the user:
 
 ```shell
-$ pip install zshpower --user -U
+$ python -m pip install zshpower --user -U
 ```
 
 > NOTE: If you are installing to the user's local environment, be sure to add the environment variables to the `zshrc` file.
@@ -457,20 +457,20 @@ If `ZSHPower` has any new features, please update the command line below:
 Globally:
 
 ```shell
-# pip install zshpower -U
+# python -m pip install zshpower -U
 $ zshpower init [--omz]
 ```
 
 or
 
 ```shell
-$ sudo pip install zshpower -U
+$ sudo python -m pip install zshpower -U
 $ zshpower init [--omz]
 ```
 For the user:
 
 ```shell
-$ pip install zshpower -U --user
+$ python -m pip install zshpower -U --user
 $ zshpower init [--omz]
 ```
 

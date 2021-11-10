@@ -103,7 +103,7 @@ Globally:
 
 .. code-block:: shell
 
-    $ sudo pip install zshpower
+    $ sudo python -m pip install zshpower
 
 NOTE: It is not recommended to install globally.
 
@@ -111,7 +111,7 @@ For the user:
 
 .. code-block:: shell
 
-    $ pip install zshpower --user
+    $ python -m pip install zshpower --user
 
 
 Using
