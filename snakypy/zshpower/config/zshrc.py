@@ -72,7 +72,7 @@ ZSH_THEME="{__info__['pkg_name']}"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git python django pip pep8 autopep8)
+plugins=(git python pip pep8 autopep8)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -103,12 +103,12 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
 # PATH local user
-PATH=\\$PATH:~/.local/bin
+PATH="$PATH:~/.local/bin"
 export PATH
     """
 
 zshrc_sample: str = """
-PATH=\\$PATH:~/.local/bin:/usr/bin:/usr/local/bin
+PATH="$PATH:~/.local/bin:/usr/bin:/usr/local/bin"
 export PATH
 
 autoload -Uz compinit promptinit

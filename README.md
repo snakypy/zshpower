@@ -24,6 +24,7 @@
   <h4>
     | <a href="#features">Features</a> |
     <a href="#requirements">Requirements</a> |
+		<a href="#pre-install">Pre-Install</a> |
     <a href="#installing">Install</a> |
     <a href="#post-install">Post-Install</a> |
     <a href="#theme-configuration">Theme configuration</a> |
@@ -125,6 +126,23 @@ To work correctly, you will first need:
 - Some [`Nerd Font`](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/) font installed;
 - One of that editor [vim](https://www.vim.org/), [nano](https://www.nano-editor.org/) or [emacs](https://www.gnu.org/software/emacs/) must be installed;
 
+
+## Pre install
+
+1 - Install the required packages in your distribution:
+
+**Debian and derivatives**
+```shell
+sudo apt install zsh vim curl git sqlite3 python3 python3-pip
+```
+
+2 - Switch from **Bash** to **Zsh** and export PATH's:
+
+```shell
+chsh -s /bin/zsh $(whoami)
+exec zsh
+export PATH="$PATH:$HOME/.local/bin"
+```
 
 ## Installing
 
