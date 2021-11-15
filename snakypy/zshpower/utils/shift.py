@@ -146,7 +146,7 @@ def omz_install_plugins(omz_root, plugins, logfile):
 
 def install_fonts(home, logfile, *, force=False) -> bool:
     url = "https://github.com/snakypy/assets"
-    base_url = "blob/master/zshpower/fonts/terminal/fonts.zip?raw=true"
+    base_url = "raw/main/zshpower/fonts/terminal/fonts.zip"
     font_name = "DejaVu Sans Mono Nerd Font"
     fonts_dir = join(home, ".fonts")
     snakypy_path_create(fonts_dir)
