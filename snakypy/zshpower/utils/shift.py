@@ -183,7 +183,6 @@ def install_fonts(home, logfile, *, force=False) -> bool:
 def add_plugins_zshrc(zshrc, logfile):
     plugins = (
         "python",
-        "django",
         "pip",
         "pep8",
         "autopep8",
