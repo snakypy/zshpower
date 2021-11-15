@@ -126,6 +126,23 @@ To work correctly, you will first need:
 - One of that editor [vim](https://www.vim.org/), [nano](https://www.nano-editor.org/) or [emacs](https://www.gnu.org/software/emacs/) must be installed;
 
 
+## Pre install
+
+1 - Install the required packages in your distribution:
+
+**Debian and derivatives**
+```shell
+sudo apt install zsh vim curl git sqlite3 python3 python3-pip
+```
+
+2 - Switch from **Bash** to **Zsh** and export PATH's:
+
+```shell
+chsh -s /bin/zsh $(whoami)
+exec zsh
+export PATH="$PATH:$HOME/.local/bin"
+```
+
 ## Installing
 
 **1** - It's time to install `ZSHPower` manager. To do this, do:
