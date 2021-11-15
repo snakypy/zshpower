@@ -80,7 +80,7 @@ class Python:
 
     def __str__(self):
         if self.enable:
-            if is_tool("python"):
+            if is_tool("python") or is_tool("python3"):
                 if (
                     verify_objects(
                         getcwd(),
