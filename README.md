@@ -24,6 +24,7 @@
   <h4>
     | <a href="#features">Features</a> |
     <a href="#requirements">Requirements</a> |
+		<a href="#pre-install">Pre-Install</a> |
     <a href="#installing">Install</a> |
     <a href="#post-install">Post-Install</a> |
     <a href="#theme-configuration">Theme configuration</a> |
