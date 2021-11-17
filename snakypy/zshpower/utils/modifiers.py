@@ -6,11 +6,11 @@ from re import sub as re_sub
 from shutil import rmtree, which
 from subprocess import PIPE, Popen, check_output
 from sys import platform
-from textwrap import dedent
 from zipfile import ZipFile
 
 from snakypy.helpers import FG, printer
 from snakypy.helpers.files import backup_file, create_file
+
 from snakypy.helpers.logging import Log
 from snakypy.helpers.path import create as snakypy_path_create
 from snakypy.helpers.subprocess import command
@@ -34,23 +34,31 @@ def create_config(content, file_path, *, force=False) -> bool:
     return False
 
 
-def log_base(filename, force=False) -> Log:
-    content = dedent(
-        f"""
-        *******************************
-         {__info__['name']} Logs - version {__info__['version']}
-        *******************************
+# def log(filename, config):
+#     if config["general"]["log"]["enable"]:
+#         return Log(filename=filename)
+#     return False
 
-        | Level | Date | Message |
 
-    """
-    )
-    if not exists(filename):
-        create_file(content, filename, force=force)
-    else:
-        if force:
-            create_file(content, filename, force=force)
-    return Log(filename=filename)
+# def log_base(filename, force=False) -> Log:
+#     from textwrap import dedent
+
+#     content = dedent(
+#         f"""
+#         *******************************
+#          {__info__['name']} Logs - version {__info__['version']}
+#         *******************************
+
+#         | Level | Date | Message |
+
+#     """
+#     )
+#     if not exists(filename):
+#         create_file(content, filename, force=force)
+#     else:
+#         if force:
+#             create_file(content, filename, force=force)
+#     return Log(filename=filename)
 
 
 def create_zshrc(content, zshrc, logfile) -> bool:
@@ -123,7 +131,9 @@ def omz_install(omz_root, logfile):
             )
 
     except Exception:
-        log_base(logfile).record("Error downloading Oh My ZSH. Aborted!", colorize=True)
+        Log(filename=logfile).record(
+            "Error downloading Oh My ZSH. Aborted!", colorize=True
+        )
         raise Exception("Error downloading Oh My ZSH. Aborted!")
 
 
@@ -138,7 +148,7 @@ def omz_install_plugins(omz_root, plugins, logfile):
                 command(clone, verbose=True)
                 printer(f"Plugin {plugin} task finished!", foreground=FG().FINISH)
     except Exception:
-        log_base(logfile).record(
+        Log(filename=logfile).record(
             "There was an error installing the plugin", colorize=True
         )
         raise Exception("There was an error installing the plugin")
@@ -173,7 +183,7 @@ def install_fonts(home, logfile, *, force=False) -> bool:
                 return True
             return False
         except Exception as err:
-            log_base(logfile).record(
+            Log(filename=logfile).record(
                 f'Error downloading font "{font_name}"', colorize=True
             )
             raise Exception(f'Error downloading font "{font_name}"', err)
