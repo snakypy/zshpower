@@ -79,9 +79,12 @@ class InitCommand(Base):
         install_fonts(self.HOME, self.logfile)
         change_shell(self.logfile)
         remove_versions_garbage(join(self.HOME, f".{__info__['pkg_name']}"))
+        self.log.record("Initial settings applied", colorize=True, level="info")
 
         try:
-            cron_task(sync_content, self.sync_path, cron_content, self.cron_path)
+            cron_task(
+                sync_content, self.sync_path, cron_content, self.cron_path, self.logfile
+            )
             printer("Done!", foreground=FG().FINISH) if message else None
 
             if not arguments["--omz"] and not get_line_source(
@@ -102,4 +105,3 @@ class InitCommand(Base):
 
             if reload:
                 reload_zsh()
-        self.log.record("Initial settings applied", colorize=True, level="info")
