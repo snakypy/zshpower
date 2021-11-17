@@ -6,7 +6,7 @@ from snakypy.helpers.files import read_file
 
 from snakypy.zshpower.config.base import Base
 from snakypy.zshpower.utils.check import checking_init
-from snakypy.zshpower.utils.shift import log_base
+from snakypy.helpers.logging import Log
 
 
 class LogsCommand(Base):
@@ -19,5 +19,5 @@ class LogsCommand(Base):
             read_logs = read_file(self.logfile)
             pager(read_logs)
         elif arguments["--clean"]:
-            log_base(self.logfile, force=True)
+            Log(filename=self.logfile, force=True)
             printer("Logs have been cleaned up.", foreground=FG().FINISH)
