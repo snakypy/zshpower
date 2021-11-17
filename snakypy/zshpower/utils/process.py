@@ -16,7 +16,9 @@ def change_shell(logfile) -> bool:
             return True
         except KeyboardInterrupt:
             Log(filenane=logfile).record(
-                "Shell change canceled by user", colorize=True, level="info"
+                f"Shell change canceled by user ({whoami()})",
+                colorize=True,
+                level="warning",
             )
             printer("Canceled by user.", foreground=FG().WARNING)
     return False

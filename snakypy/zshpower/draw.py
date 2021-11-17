@@ -74,7 +74,7 @@ class Draw(DAO):
             self.log.record(
                 "Configuration files does not exist, however it was created.",
                 colorize=True,
-                level="error",
+                level="critical",
             )
             return parsed
 

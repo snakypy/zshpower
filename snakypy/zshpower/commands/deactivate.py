@@ -1,5 +1,6 @@
 from snakypy.helpers import printer
 from snakypy.helpers.ansi import FG
+from snakypy.helpers.catches.generic import whoami
 
 from snakypy.zshpower.config.base import Base
 from snakypy.zshpower.utils.catch import read_zshrc_omz
@@ -25,6 +26,9 @@ class DeactivateCommand(Base):
             else:
                 change_theme_in_zshrc(self.zsh_rc, arguments["--theme"], self.logfile)
             printer("Deactivation process finish.", foreground=FG().FINISH)
+            self.log.record(
+                f"User ({whoami()}) has disabled ZSHPower.", colorize=True, level="info"
+            )
             reload_zsh()
             return True
         printer(

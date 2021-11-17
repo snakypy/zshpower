@@ -3,6 +3,7 @@ from concurrent.futures import ThreadPoolExecutor
 from sqlite3 import OperationalError
 
 from snakypy.helpers import FG
+from snakypy.helpers.catches.generic import whoami
 from snakypy.helpers.console import loading, printer
 
 from snakypy.zshpower.commands.utils.handle import records
@@ -26,7 +27,9 @@ class Sync(Base):
                     foreground=FG().QUESTION,
                 )
                 executor.submit(records, action="update")
-            self.log.record("Database update.", colorize=True, level="info")
+            self.log.record(
+                f"User ({whoami()}) updated the database.", colorize=True, level="info"
+            )
             printer("Done!", foreground=FG().FINISH)
         except KeyboardInterrupt:
             printer(

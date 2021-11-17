@@ -23,7 +23,7 @@ class DAO(Base):
                 One way to resolve it is by running the command "zshpower init [--omz]".{NONE}
             """
             )
-            self.log.record(message, colorize=True)
+            self.log.record(message, colorize=True, level="critical")
             raise sqlite3.Error(message)
 
     def __enter__(self):

@@ -132,7 +132,7 @@ def omz_install(omz_root, logfile):
 
     except Exception:
         Log(filename=logfile).record(
-            "Error downloading Oh My ZSH. Aborted!", colorize=True
+            "Error downloading Oh My ZSH. Aborted!", colorize=True, level="error"
         )
         raise Exception("Error downloading Oh My ZSH. Aborted!")
 
@@ -149,7 +149,7 @@ def omz_install_plugins(omz_root, plugins, logfile):
                 printer(f"Plugin {plugin} task finished!", foreground=FG().FINISH)
     except Exception:
         Log(filename=logfile).record(
-            "There was an error installing the plugin", colorize=True
+            "There was an error installing the plugin", colorize=True, level="error"
         )
         raise Exception("There was an error installing the plugin")
 
@@ -184,7 +184,7 @@ def install_fonts(home, logfile, *, force=False) -> bool:
             return False
         except Exception as err:
             Log(filename=logfile).record(
-                f'Error downloading font "{font_name}"', colorize=True
+                f'Error downloading font "{font_name}"', colorize=True, level="error"
             )
             raise Exception(f'Error downloading font "{font_name}"', err)
     return False
