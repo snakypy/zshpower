@@ -16,7 +16,7 @@ def read_zshrc(zshrc, logfile) -> str:
         with open(zshrc) as f:
             return f.read()
     except FileNotFoundError as err:
-        from snakypy.zshpower.utils.shift import log_base
+        from snakypy.zshpower.utils.modifiers import log_base
 
         log_base(logfile).record("File not found.", colorize=True)
         raise FileNotFoundError("File not found.", err)
