@@ -73,7 +73,7 @@ def create_zshrc(content, zshrc, logfile) -> bool:
     return False
 
 
-def cron_task(sync_context, sync_path, cron_context, cron_path):
+def cron_task(sync_context, sync_path, cron_context, cron_path, logfile):
 
     if not exists(sync_path) or not exists(cron_path):
         pass_ok = False
@@ -105,6 +105,9 @@ def cron_task(sync_context, sync_path, cron_context, cron_path):
                 printer("Password incorrect.", foreground=FG().ERROR)
             else:
                 pass_ok = True
+                Log(filename=logfile).record(
+                    "Settings for Cron applied.", colorize=True, level="info"
+                )
 
 
 def change_theme_in_zshrc(zshrc, theme_name, logfile) -> bool:
