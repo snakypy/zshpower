@@ -1,9 +1,10 @@
 from subprocess import run
 
 from snakypy.zshpower.prompt.sections.utils import Version
+from snakypy.zshpower.config.base import Base
 
 
-class Php(Version):
+class Php(Version, Base):
     def __init__(self):
         super(Php, self).__init__()
         self.files = ("composer.json",)
@@ -14,17 +15,12 @@ class Php(Version):
     ) -> str:
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, key="php", action=None) -> bool:
-        version = run(
+    def set_version(self, exec="php", key="php", action=None):
+        command = run(
             """php -v 2>&1 | grep "^PHP\\s*[0-9.]\\+" | awk '{print $2}'""",
             capture_output=True,
             shell=True,
             text=True,
-        ).stdout
-
-        version_format = version.replace("\n", "")
-
-        if version_format:
-            return super().set(version_format, key, action)
-
-        return False
+        )
+        version = command.stdout.replace("\n", "")
+        return super().set(command, version, exec, key, action)

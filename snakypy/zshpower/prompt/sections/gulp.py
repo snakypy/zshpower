@@ -12,9 +12,10 @@ from snakypy.zshpower.prompt.sections.utils import (
     symbol_ssh,
 )
 from snakypy.zshpower.utils.catch import verify_objects
+from snakypy.zshpower.config.base import Base
 
 
-class Gulp(Version):
+class Gulp(Version, Base):
     def __init__(self):
         super(Gulp, self).__init__()
         self.files = ("gulpfile.js", "gulpfile.babel.js")
@@ -63,11 +64,7 @@ class Gulp(Version):
                 )
         return ""
 
-    def set_version(self, key="gulp", action=None) -> bool:
-        version = run("gulp --version", capture_output=True, shell=True, text=True)
-
-        if version.returncode != 127 and version.returncode != 1:
-            version_format = version.stdout.split()[2]
-            return super().set(f"CLI {version_format}", key, action)
-
-        return False
+    def set_version(self, exec="gulp", key="gulp", action=None) -> bool:
+        command = run("gulp --version", capture_output=True, shell=True, text=True)
+        version = command.stdout.split()[2]
+        return super().set(command, version, exec, key, action)

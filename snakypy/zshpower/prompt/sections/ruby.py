@@ -1,9 +1,10 @@
 from subprocess import run
 
 from snakypy.zshpower.prompt.sections.utils import Version
+from snakypy.zshpower.config.base import Base
 
 
-class Ruby(Version):
+class Ruby(Version, Base):
     def __init__(self):
         super(Ruby, self).__init__()
         self.files = ("Gemfile", "Rakefile")
@@ -14,17 +15,7 @@ class Ruby(Version):
     ) -> str:
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, key="ruby", action=None) -> bool:
-        version = run(
-            "ruby --version 2>/dev/null",
-            capture_output=True,
-            shell=True,
-            text=True,
-        )
-
-        if version.returncode != 127 and version.returncode != 1:
-            version_format = (
-                version.stdout.replace("\n", " ").split(" ")[1].split("p")[0]
-            )
-            return super().set(version_format, key, action)
-        return False
+    def set_version(self, exec="ruby", key="ruby", action=None):
+        command = run("ruby --version", capture_output=True, shell=True, text=True)
+        version = command.stdout.replace("\n", " ").split(" ")[1].split("p")[0]
+        return super().set(command, version, exec, key, action)

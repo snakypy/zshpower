@@ -1,9 +1,10 @@
 from subprocess import run
 
 from snakypy.zshpower.prompt.sections.utils import Version
+from snakypy.zshpower.config.base import Base
 
 
-class Elixir(Version):
+class Elixir(Version, Base):
     def __init__(self):
         super(Elixir, self).__init__()
         self.files = ("mix.exs",)
@@ -14,16 +15,12 @@ class Elixir(Version):
     ) -> str:
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, key="elixir", action=None) -> bool:
-
-        version = run(
+    def set_version(self, exec="elixir", key="elixir", action=None) -> bool:
+        command = run(
             "elixir -v 2>/dev/null | grep 'Elixir' | cut -d ' ' -f2",
             capture_output=True,
             shell=True,
             text=True,
-        ).stdout
-
-        if version.replace("\n", ""):
-            version_format = version.replace("\n", "")
-            return super().set(version_format, key, action)
-        return False
+        )
+        version = command.stdout.replace("\n", "")
+        return super().set(command, version, exec, key, action)

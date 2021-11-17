@@ -1,6 +1,8 @@
 from subprocess import run
 from typing import Union
 
+from snakypy.helpers.catches.finders import is_tool
+
 from snakypy.zshpower.prompt.sections.utils import Version
 from snakypy.zshpower.config.base import Base
 
@@ -16,20 +18,7 @@ class Crystal(Version, Base):
     ) -> Union[str, bool]:
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, key="crystal", action=None) -> bool:
-        version = run(
-            "crystal version 2>&1", capture_output=True, shell=True, text=True
-        )
-
-        if version.returncode != 0:
-            self.log.record(version.stderr, colorize=True, level="error")
-        elif version.returncode == 0:
-            version_format = version.stdout.split()[1]
-            self.log.record(
-                f"Crystal {version_format} registered in the database!",
-                colorize=True,
-                level="info",
-            )
-            return super().set(version_format, key, action)
-
-        return False
+    def set_version(self, exec="crystal", key="crystal", action=None) -> bool:
+        command = run("crystal version", capture_output=True, shell=True, text=True)
+        version = command.stdout.split()[1]
+        return super().set(command, version, exec, key, action)

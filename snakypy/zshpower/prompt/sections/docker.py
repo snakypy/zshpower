@@ -15,23 +15,7 @@ class Docker(Version, Base):
     ) -> Union[str, bool]:
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, key="docker", action=None) -> bool:
-        version = run(
-            "docker --version",
-            capture_output=True,
-            text=True,
-            shell=True,
-        )
-
-        version_format = version.stdout.split()[2].replace(",", "")
-
-        if version.returncode != 0:
-            self.log.record(version.stderr, colorize=True, level="error")
-        elif version.returncode == 0:
-            self.log.record(
-                f"Docker {version_format} registered in the database!",
-                colorize=True,
-                level="info",
-            )
-            return super().set(version_format, key, action)
-        return False
+    def set_version(self, exec="docker", key="docker", action=None) -> bool:
+        command = run("docker --version", capture_output=True, shell=True, text=True)
+        version = command.stdout.split()[2].replace(",", "")
+        return super().set(command, version, exec, key, action)

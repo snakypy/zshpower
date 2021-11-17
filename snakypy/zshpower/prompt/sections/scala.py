@@ -1,9 +1,10 @@
 from subprocess import run
 
 from snakypy.zshpower.prompt.sections.utils import Version
+from snakypy.zshpower.config.base import Base
 
 
-class Scala(Version):
+class Scala(Version, Base):
     def __init__(self):
         super(Scala, self).__init__()
         self.extensions = (".scala", ".sc")
@@ -14,16 +15,10 @@ class Scala(Version):
     ) -> str:
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, key="scala", action=None) -> bool:
-        version = run(
-            "scala -version 2>&1",
-            capture_output=True,
-            text=True,
-            shell=True,
+    def set_version(self, exec="scala", key="scala", action=None):
+        # The parameter 2>&1 is for the command to insert output to stdout, as some output to stderr.
+        command = run(
+            "scala --version 2>&1", capture_output=True, shell=True, text=True
         )
-
-        if version.returncode != 127 and version.returncode != 1:
-            version_format = version.stdout.split("-")[0].split()[4]
-            return super().set(version_format, key, action)
-
-        return False
+        version = command.stdout.split("-")[0].split()[4]
+        return super().set(command, version, exec, key, action)
