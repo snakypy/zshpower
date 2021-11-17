@@ -34,6 +34,7 @@ def create_config(content, file_path, *, force=False) -> bool:
     return False
 
 
+# TODO: DEPRECATED
 # def log(filename, config):
 #     if config["general"]["log"]["enable"]:
 #         return Log(filename=filename)
