@@ -23,5 +23,5 @@ class LogsCommand(Base):
                 printer("Log files not found:", foreground=FG().WARNING)
         elif arguments["--clean"]:
             remove_objects(objects=(self.logfile,))
-            create_file("Clean logs.", self.logfile, force=True)
+            create_file("", self.logfile, force=True)
             printer("Logs have been cleaned up.", foreground=FG().FINISH)
