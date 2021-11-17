@@ -50,7 +50,7 @@ from snakypy.zshpower.prompt.sections.took import Took
 from snakypy.zshpower.prompt.sections.username import Username
 from snakypy.zshpower.prompt.sections.vagrant import Vagrant
 from snakypy.zshpower.prompt.sections.zig import Zig
-from snakypy.zshpower.utils.shift import create_config
+from snakypy.zshpower.utils.modifiers import create_config
 
 # ## Test timer ## #
 # from snakypy.helpers.decorators import runtime
