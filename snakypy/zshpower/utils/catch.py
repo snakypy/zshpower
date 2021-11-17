@@ -6,6 +6,7 @@ from re import search as re_search
 
 from docopt import docopt
 from snakypy.helpers.ansi import FG, NONE
+from snakypy.helpers.logging import Log
 
 from snakypy.zshpower import __info__
 from snakypy.zshpower.config import menu
@@ -16,10 +17,10 @@ def read_zshrc(zshrc, logfile) -> str:
         with open(zshrc) as f:
             return f.read()
     except FileNotFoundError as err:
-        from snakypy.zshpower.utils.modifiers import log_base
-
-        log_base(logfile).record("File not found.", colorize=True)
-        raise FileNotFoundError("File not found.", err)
+        Log(filename=logfile).record(
+            f"The {zshrc} file was not found.", colorize=True, level="error"
+        )
+        raise FileNotFoundError(f"The {zshrc} file was not found.", err)
 
 
 def arguments(argv=None) -> dict:
