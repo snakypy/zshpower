@@ -1,10 +1,10 @@
 from os.path import join
 
+from snakypy.helpers.logging import Log
 from snakypy.helpers.path import create as create_path
 
 from snakypy.zshpower import __info__
 from snakypy.zshpower.database.sql import sql
-from snakypy.helpers.logging import Log
 
 
 class Base:

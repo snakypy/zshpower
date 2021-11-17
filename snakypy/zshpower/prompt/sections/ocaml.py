@@ -1,7 +1,7 @@
 from subprocess import run
 
-from snakypy.zshpower.prompt.sections.utils import Version
 from snakypy.zshpower.config.base import Base
+from snakypy.zshpower.prompt.sections.utils import Version
 
 
 class Ocaml(Version, Base):

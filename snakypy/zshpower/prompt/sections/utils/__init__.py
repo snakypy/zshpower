@@ -1,4 +1,4 @@
-from os import getcwd, environ
+from os import environ, getcwd
 from subprocess import check_output
 from typing import List, Union
 

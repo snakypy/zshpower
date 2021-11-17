@@ -4,6 +4,7 @@ from subprocess import run
 
 from snakypy.helpers.files import read_json
 
+from snakypy.zshpower.config.base import Base
 from snakypy.zshpower.prompt.sections.utils import (
     Color,
     Version,
@@ -12,7 +13,6 @@ from snakypy.zshpower.prompt.sections.utils import (
     symbol_ssh,
 )
 from snakypy.zshpower.utils.catch import verify_objects
-from snakypy.zshpower.config.base import Base
 
 
 class Gulp(Version, Base):

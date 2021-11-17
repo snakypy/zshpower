@@ -1,9 +1,7 @@
 from subprocess import run
 
-from snakypy.helpers.catches.finders import is_tool
-
-from snakypy.zshpower.prompt.sections.utils import Version
 from snakypy.zshpower.config.base import Base
+from snakypy.zshpower.prompt.sections.utils import Version
 
 
 class CMake(Version, Base):
