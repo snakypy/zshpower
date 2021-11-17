@@ -10,7 +10,7 @@ from snakypy.zshpower.config.config import content as config_content
 from snakypy.zshpower.database.dao import DAO
 from snakypy.zshpower.utils.check import checking_init
 from snakypy.zshpower.utils.process import reload_zsh
-from snakypy.zshpower.utils.shift import create_config
+from snakypy.zshpower.utils.modifiers import create_config
 
 
 class ResetCommand(Base):
@@ -36,4 +36,4 @@ class ResetCommand(Base):
                 )
                 executor.submit(records, action="insert")
             printer("Done!", foreground=FG().FINISH)
-            self.log.record("Database reset", colorize=True, level="info")
+            self.log.record("Database reset.", colorize=True, level="info")

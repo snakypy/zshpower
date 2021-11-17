@@ -18,7 +18,7 @@ from snakypy.zshpower.config.zshrc import content as zshrc_content
 from snakypy.zshpower.database.dao import DAO
 from snakypy.zshpower.utils.catch import get_line_source
 from snakypy.zshpower.utils.process import change_shell, reload_zsh
-from snakypy.zshpower.utils.shift import (
+from snakypy.zshpower.utils.modifiers import (
     add_plugins_zshrc,
     change_theme_in_zshrc,
     create_config,

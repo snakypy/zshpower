@@ -4,7 +4,7 @@ from snakypy.helpers.path import create as create_path
 
 from snakypy.zshpower import __info__
 from snakypy.zshpower.database.sql import sql
-from snakypy.zshpower.utils.shift import log_base
+from snakypy.helpers.logging import Log
 
 
 class Base:
@@ -28,4 +28,4 @@ class Base:
         self.theme_file = join(self.themes_folder, f"{__info__['pkg_name']}.zsh-theme")
         self.plugins = ("zsh-syntax-highlighting", "zsh-autosuggestions")
         create_path(self.cache_root)
-        self.log = log_base(self.logfile)
+        self.log = Log(self.logfile)

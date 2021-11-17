@@ -13,7 +13,7 @@ from snakypy.zshpower.config.zshrc import zshrc_sample
 from snakypy.zshpower.utils.catch import read_zshrc_omz
 from snakypy.zshpower.utils.check import checking_init
 from snakypy.zshpower.utils.process import reload_zsh
-from snakypy.zshpower.utils.shift import (
+from snakypy.zshpower.utils.modifiers import (
     change_theme_in_zshrc,
     rm_source_zshrc,
     uninstall_by_pip,
