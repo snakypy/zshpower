@@ -1,4 +1,4 @@
-from os import getcwd
+from os import getcwd, environ
 from subprocess import check_output
 from typing import List, Union
 
@@ -7,11 +7,9 @@ from snakypy.zshpower.utils.catch import verify_objects
 
 
 def symbol_ssh(symbol1, symbol2, spacing=" ") -> list:
-    import os
-
     if symbol1 != "":
         symbol1 += spacing
-    if "SSH_CONNECTION" in os.environ:
+    if "SSH_CONNECTION" in environ:
         symbol1 = symbol2
     return symbol1
 
