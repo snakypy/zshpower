@@ -1,25 +1,25 @@
 [tool.poetry]
-name = "zshpower"
-version = "0.10.2"
-description = "ZSHPower is a theme for ZSH with a manager."
-readme = "README.rst"
 authors = ["William C. Canin <william.costa.canin@gmail.com>"]
-license = "MIT"
-keywords=["zsh-theme", "snakypy", "zsh", "theme", "power"]
+description = "ZSHPower is a theme for ZSH with a manager."
 homepage = "https://github.com/snakypy/zshpower"
-repository = "https://github.com/snakypy/zshpower"
 include = ["LICENSE"]
+keywords = ["zsh-theme", "snakypy", "zsh", "theme", "power"]
+license = "MIT"
+name = "zshpower"
+readme = "README.rst"
+repository = "https://github.com/snakypy/zshpower"
+version = "0.10.2"
 
 classifiers = [
-    "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: POSIX :: Linux",
-    "Operating System :: Unix",
-    "Programming Language :: Python :: 3"
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: POSIX :: Linux",
+  "Operating System :: Unix",
+  "Programming Language :: Python :: 3",
 ]
 
 packages = [
-    { include = "snakypy" }
+  {include = "snakypy"},
 ]
 
 [tool.poetry.scripts]
@@ -30,25 +30,23 @@ zshpower-draw = "snakypy.zshpower.draw:main"
 "Bug Tracker" = "https://github.com/snakypy/zshpower/issues"
 
 [tool.poetry.dependencies]
-python = "^3.9"
-snakypy-helpers = "^0.2.1"
 docopt = "^0.6.2"
+python = "^3.9"
+snakypy-helpers = "^0.2.2"
 tomlkit = "^0.7.1"
 
 [tool.poetry.dev-dependencies]
-flake8 = "^3.9.1"
 black = "^21.6b0"
-tox = "^3.23.0"
-pytest = "^6.2.3"
-pre-commit = "^2.12.1"
-ipython = "^7.25.0"
-mypy = "^0.910"
-isort = "^5.9.1"
+flake8 = "^3.9.1"
 imake = "^0.1.2"
+ipython = "^7.25.0"
+isort = "^5.9.1"
+mypy = "^0.910"
+pre-commit = "^2.12.1"
+pytest = "^6.2.3"
+tox = "^3.23.0"
 
 [tool.black]
-line-length = 88
-include = '\.pyi?$'
 exclude = '''
 
 (
@@ -68,22 +66,24 @@ exclude = '''
   )/
 )
 '''
+include = '\.pyi?$'
+line-length = 88
 
 [tool.isort]
-profile = "black"
-multi_line_output = 3
-src_paths = ["snakypy", "tests"]
-line_length = 88
-include_trailing_comma = true
 force_grid_wrap = 0
+include_trailing_comma = true
+line_length = 88
+multi_line_output = 3
+profile = "black"
+src_paths = ["snakypy", "tests"]
 use_parentheses = true
 
 [tool.pytest.ini_options]
-minversion = "6.0"
 cache_dir = "/tmp/.pytest_cache"
+minversion = "6.0"
 # addopts = "-ra -q"
 testpaths = ["tests"]
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.0.0"]
