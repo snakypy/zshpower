@@ -96,7 +96,7 @@ class Version(DAO):
         prefix_text = element_spacing(recursive_get(config, key, "prefix", "text"))
         micro_version_enable = recursive_get(config, key, "version", "micro", "enable")
 
-        if enable or enable is not dict:
+        if enable:
             if reg_version[key] and verify_objects(
                 getcwd(),
                 files=self.files,
