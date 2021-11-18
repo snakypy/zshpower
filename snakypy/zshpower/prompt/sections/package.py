@@ -8,6 +8,7 @@ from snakypy.helpers.files import read_json
 from snakypy.zshpower.utils.catch import verify_objects
 
 from .utils import Color, element_spacing, separator, symbol_ssh
+from snakypy.zshpower.utils.catch import recursive_get
 
 
 class Base:
@@ -16,15 +17,17 @@ class Base:
         self.files = ()
         self.folders = ()
         self.extensions = ()
-        self.symbol = symbol_ssh(config["package"]["symbol"], "pkg-")
-        self.enable = config["package"]["enable"]
+        self.symbol = symbol_ssh(recursive_get(config, "package", "symbol"), "pkg-")
+        self.enable = recursive_get(config, "package", "enable")
         self.color = (
-            config["package"]["color"]
-            if config["general"]["color"]["enable"] is True
+            recursive_get(config, "package", "color")
+            if recursive_get(config, "general", "color", "enable") is True
             else "negative"
         )
-        self.prefix_color = config["package"]["prefix"]["color"]
-        self.prefix_text = element_spacing(config["package"]["prefix"]["text"])
+        self.prefix_color = recursive_get(config, "package", "prefix", "color")
+        self.prefix_text = element_spacing(
+            recursive_get(config, "package", "prefix", "text")
+        )
 
     def get_version(self):
         return ""
