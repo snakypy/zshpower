@@ -15,7 +15,7 @@ from snakypy.zshpower.config import menu
 
 def recursive_get(d, *keys):
     data = reduce(lambda c, k: c.get(k, {}), keys, d)
-    if data is dict:
+    if data == {}:
         return ""
     return data
 
