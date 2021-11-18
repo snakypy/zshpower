@@ -1,9 +1,10 @@
 from subprocess import run
 
+from snakypy.zshpower.config.base import Base
 from snakypy.zshpower.prompt.sections.utils import Version
 
 
-class Rust(Version):
+class Rust(Version, Base):
     def __init__(self):
         super(Rust, self).__init__()
         self.files = ("Cargo.toml",)
@@ -14,11 +15,7 @@ class Rust(Version):
     ) -> str:
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, key="rust", action=None) -> bool:
-        version = run("rustc --version", capture_output=True, shell=True, text=True)
-
-        if version.returncode != 127 and version.returncode != 1:
-            version_format = version.stdout.split(" ")[1].replace("\n", "")
-            return super().set(version_format, key, action)
-
-        return False
+    def set_version(self, exec="rustc", key="rust", action=None):
+        command = run("rustc --version", capture_output=True, shell=True, text=True)
+        version = command.stdout.split(" ")[1].replace("\n", "")
+        return super().set(command, version, exec, key, action)

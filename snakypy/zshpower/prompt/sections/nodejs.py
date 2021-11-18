@@ -1,10 +1,11 @@
 import concurrent.futures
 from subprocess import run
 
+from snakypy.zshpower.config.base import Base
 from snakypy.zshpower.prompt.sections.utils import Version
 
 
-class NodeJs(Version):
+class NodeJs(Version, Base):
     def __init__(self):
         super(NodeJs, self).__init__()
         self.files = ("package.json",)
@@ -15,14 +16,10 @@ class NodeJs(Version):
     ) -> str:
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, key="nodejs", action=None) -> bool:
-        version = run("node -v 2>/dev/null", capture_output=True, shell=True, text=True)
-
-        if version.returncode != 127 and version.returncode != 1:
-            version_format = version.stdout.replace("\n", "").split("v")[1]
-            return super().set(version_format, key, action)
-
-        return False
+    def set_version(self, exec="node", key="nodejs", action=None):
+        command = run("node -v", capture_output=True, shell=True, text=True)
+        version = command.stdout.replace("\n", "").split("v")[1]
+        return super().set(command, version, exec, key, action)
 
 
 def _nodejs(config, key):

@@ -1,17 +1,17 @@
-from os import getcwd
+from os import environ, getcwd
 from subprocess import check_output
 from typing import List, Union
+
+from snakypy.helpers.catches.finders import is_tool
 
 from snakypy.zshpower.database.dao import DAO
 from snakypy.zshpower.utils.catch import verify_objects
 
 
 def symbol_ssh(symbol1, symbol2, spacing=" ") -> list:
-    import os
-
     if symbol1 != "":
         symbol1 += spacing
-    if "SSH_CONNECTION" in os.environ:
+    if "SSH_CONNECTION" in environ:
         symbol1 = symbol2
     return symbol1
 
@@ -111,9 +111,9 @@ class Version(DAO):
                 )
         return ""
 
-    def set(self, version, key="", action=None) -> bool:
-        if action:
-            # Conditions
+    def set(self, command, version, exec="", key="", action=None) -> bool:
+        if is_tool(exec) and action:
+            # Conditions to save in database
             if action == "insert":
                 query = DAO().select_where(
                     self.tbl_main, key, "name", select=("version",)
@@ -127,5 +127,20 @@ class Version(DAO):
 
             elif action == "update":
                 DAO().update(self.tbl_main, "version", version, "name", key)
+
+            # Register logs
+            if command.returncode != 0:
+                self.log.record(
+                    f"{key.title()} version not registered: {command.stderr}",
+                    colorize=True,
+                    level="error",
+                )
+            elif command.returncode == 0:
+                self.log.record(
+                    f"{key.title()} {version} registered in the database!",
+                    colorize=True,
+                    level="info",
+                )
+
             return True
         return False

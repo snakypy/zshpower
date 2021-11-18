@@ -6,7 +6,6 @@ from re import sub as re_sub
 from shutil import rmtree, which
 from subprocess import PIPE, Popen, check_output
 from sys import platform
-from textwrap import dedent
 from zipfile import ZipFile
 
 from snakypy.helpers import FG, printer
@@ -34,23 +33,32 @@ def create_config(content, file_path, *, force=False) -> bool:
     return False
 
 
-def log_base(filename, force=False) -> Log:
-    content = dedent(
-        f"""
-        *******************************
-         {__info__['name']} Logs - version {__info__['version']}
-        *******************************
+# TODO: DEPRECATED
+# def log(filename, config):
+#     if config["general"]["log"]["enable"]:
+#         return Log(filename=filename)
+#     return False
 
-        | Level | Date | Message |
 
-    """
-    )
-    if not exists(filename):
-        create_file(content, filename, force=force)
-    else:
-        if force:
-            create_file(content, filename, force=force)
-    return Log(filename=filename)
+# def log_base(filename, force=False) -> Log:
+#     from textwrap import dedent
+
+#     content = dedent(
+#         f"""
+#         *******************************
+#          {__info__['name']} Logs - version {__info__['version']}
+#         *******************************
+
+#         | Level | Date | Message |
+
+#     """
+#     )
+#     if not exists(filename):
+#         create_file(content, filename, force=force)
+#     else:
+#         if force:
+#             create_file(content, filename, force=force)
+#     return Log(filename=filename)
 
 
 def create_zshrc(content, zshrc, logfile) -> bool:
@@ -65,7 +73,7 @@ def create_zshrc(content, zshrc, logfile) -> bool:
     return False
 
 
-def cron_task(sync_context, sync_path, cron_context, cron_path):
+def cron_task(sync_context, sync_path, cron_context, cron_path, logfile):
 
     if not exists(sync_path) or not exists(cron_path):
         pass_ok = False
@@ -97,6 +105,9 @@ def cron_task(sync_context, sync_path, cron_context, cron_path):
                 printer("Password incorrect.", foreground=FG().ERROR)
             else:
                 pass_ok = True
+                Log(filename=logfile).record(
+                    "Settings for Cron applied.", colorize=True, level="info"
+                )
 
 
 def change_theme_in_zshrc(zshrc, theme_name, logfile) -> bool:
@@ -123,7 +134,9 @@ def omz_install(omz_root, logfile):
             )
 
     except Exception:
-        log_base(logfile).record("Error downloading Oh My ZSH. Aborted!", colorize=True)
+        Log(filename=logfile).record(
+            "Error downloading Oh My ZSH. Aborted!", colorize=True, level="error"
+        )
         raise Exception("Error downloading Oh My ZSH. Aborted!")
 
 
@@ -138,8 +151,8 @@ def omz_install_plugins(omz_root, plugins, logfile):
                 command(clone, verbose=True)
                 printer(f"Plugin {plugin} task finished!", foreground=FG().FINISH)
     except Exception:
-        log_base(logfile).record(
-            "There was an error installing the plugin", colorize=True
+        Log(filename=logfile).record(
+            "There was an error installing the plugin", colorize=True, level="error"
         )
         raise Exception("There was an error installing the plugin")
 
@@ -173,8 +186,8 @@ def install_fonts(home, logfile, *, force=False) -> bool:
                 return True
             return False
         except Exception as err:
-            log_base(logfile).record(
-                f'Error downloading font "{font_name}"', colorize=True
+            Log(filename=logfile).record(
+                f'Error downloading font "{font_name}"', colorize=True, level="error"
             )
             raise Exception(f'Error downloading font "{font_name}"', err)
     return False

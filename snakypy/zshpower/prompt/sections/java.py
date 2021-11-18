@@ -1,9 +1,10 @@
 from subprocess import run
 
+from snakypy.zshpower.config.base import Base
 from snakypy.zshpower.prompt.sections.utils import Version
 
 
-class Java(Version):
+class Java(Version, Base):
     def __init__(self):
         super(Java, self).__init__()
         self.extensions = (".java",)
@@ -13,16 +14,12 @@ class Java(Version):
     ) -> str:
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, key="java", action=None) -> bool:
-        version = run(
+    def set_version(self, exec="java", key="java", action=None) -> bool:
+        command = run(
             """java -version 2>&1 | awk -F '"' '/version/ {print $2}'""",
             capture_output=True,
             shell=True,
             text=True,
         )
-
-        if version.stdout.replace("\n", ""):
-            version_format = version.stdout.replace("\n", "").split("_")[0]
-            return super().set(version_format, key, action)
-
-        return False
+        version = command.stdout.replace("\n", "").split("_")[0]
+        return super().set(command, version, exec, key, action)

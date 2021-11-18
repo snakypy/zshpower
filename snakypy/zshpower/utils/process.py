@@ -2,8 +2,7 @@ from subprocess import call as subprocess_call
 
 from snakypy.helpers import FG, printer
 from snakypy.helpers.catches import shell, whoami
-
-from snakypy.zshpower.utils.shift import log_base
+from snakypy.helpers.logging import Log
 
 
 def reload_zsh() -> None:
@@ -16,8 +15,10 @@ def change_shell(logfile) -> bool:
             subprocess_call(f"chsh -s $(which zsh) {whoami()}", shell=True)
             return True
         except KeyboardInterrupt:
-            log_base(logfile).record(
-                "Shell change canceled by user", colorize=True, level="info"
+            Log(filenane=logfile).record(
+                f"Shell change canceled by user ({whoami()})",
+                colorize=True,
+                level="warning",
             )
             printer("Canceled by user.", foreground=FG().WARNING)
     return False

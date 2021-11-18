@@ -17,8 +17,7 @@ from snakypy.zshpower.config.cron import cron_content, sync_content
 from snakypy.zshpower.config.zshrc import content as zshrc_content
 from snakypy.zshpower.database.dao import DAO
 from snakypy.zshpower.utils.catch import get_line_source
-from snakypy.zshpower.utils.process import change_shell, reload_zsh
-from snakypy.zshpower.utils.shift import (
+from snakypy.zshpower.utils.modifiers import (
     add_plugins_zshrc,
     change_theme_in_zshrc,
     create_config,
@@ -29,6 +28,7 @@ from snakypy.zshpower.utils.shift import (
     omz_install_plugins,
     remove_versions_garbage,
 )
+from snakypy.zshpower.utils.process import change_shell, reload_zsh
 
 instruction_not_omz = f"""{FG().YELLOW}
 ********************** WARNING **********************
@@ -79,9 +79,12 @@ class InitCommand(Base):
         install_fonts(self.HOME, self.logfile)
         change_shell(self.logfile)
         remove_versions_garbage(join(self.HOME, f".{__info__['pkg_name']}"))
+        self.log.record("Initial settings applied", colorize=True, level="info")
 
         try:
-            cron_task(sync_content, self.sync_path, cron_content, self.cron_path)
+            cron_task(
+                sync_content, self.sync_path, cron_content, self.cron_path, self.logfile
+            )
             printer("Done!", foreground=FG().FINISH) if message else None
 
             if not arguments["--omz"] and not get_line_source(
@@ -102,4 +105,3 @@ class InitCommand(Base):
 
             if reload:
                 reload_zsh()
-        self.log.record("Initial settings applied", colorize=True, level="info")
