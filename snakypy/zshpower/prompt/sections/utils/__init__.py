@@ -5,15 +5,17 @@ from typing import List, Union
 from snakypy.helpers.catches.finders import is_tool
 
 from snakypy.zshpower.database.dao import DAO
-from snakypy.zshpower.utils.catch import verify_objects
+from snakypy.zshpower.utils.catch import recursive_get, verify_objects
 
 
 def symbol_ssh(symbol1, symbol2, spacing=" ") -> list:
-    if symbol1 != "":
-        symbol1 += spacing
-    if "SSH_CONNECTION" in environ:
-        symbol1 = symbol2
-    return symbol1
+    if symbol1 != {}:
+        if symbol1 != "":
+            symbol1 += spacing
+        if "SSH_CONNECTION" in environ:
+            symbol1 = symbol2
+        return symbol1
+    return ""
 
 
 def git_status(*, porcelain=False, branch=False) -> Union[str, List[str]]:
@@ -42,17 +44,23 @@ def git_status(*, porcelain=False, branch=False) -> Union[str, List[str]]:
 
 
 def separator(config, spacing=" ") -> str:
-    sep = config["general"]["separator"]["element"]
-    sep += spacing if sep != "" else sep
-    sep_color = config["general"]["separator"]["color"]
-    separator_style = f"{Color(sep_color)}{sep}{Color().NONE}"
-    return separator_style
+
+    sep = recursive_get(config, "general", "separator", "element")
+    if sep is not dict:
+        sep += spacing if sep != "" else sep
+        sep_color = recursive_get(config, "general", "separator", "color")
+        if sep_color is not dict:
+            separator_style = f"{Color(sep_color)}{sep}{Color().NONE}"
+            return separator_style
+    return ""
 
 
 def element_spacing(element, spacing=" "):
-    if element != "":
-        element += spacing
-    return element
+    if element != {}:
+        if element != "":
+            element += spacing
+        return element
+    return ""
 
 
 class Color:
@@ -77,18 +85,18 @@ class Version(DAO):
         self.folders = ()
 
     def get(self, config, reg_version: dict, key="", ext="", space_elem="") -> str:
-        enable = config[key]["version"]["enable"]
-        symbol = symbol_ssh(config[key]["symbol"], ext)
+        enable = recursive_get(config, key, "version", "enable")
+        symbol = symbol_ssh(recursive_get(config, key, "symbol"), ext)
         color = (
-            config[key]["color"]
-            if config["general"]["color"]["enable"] is True
+            recursive_get(config, key, "color")
+            if recursive_get(config, "general", "color", "enable") is True
             else "negative"
         )
-        prefix_color = config[key]["prefix"]["color"]
-        prefix_text = element_spacing(config[key]["prefix"]["text"])
-        micro_version_enable = config[key]["version"]["micro"]["enable"]
+        prefix_color = recursive_get(config, key, "prefix", "color")
+        prefix_text = element_spacing(recursive_get(config, key, "prefix", "text"))
+        micro_version_enable = recursive_get(config, key, "version", "micro", "enable")
 
-        if enable:
+        if enable or enable is not dict:
             if reg_version[key] and verify_objects(
                 getcwd(),
                 files=self.files,

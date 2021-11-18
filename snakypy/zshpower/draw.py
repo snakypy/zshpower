@@ -50,6 +50,7 @@ from snakypy.zshpower.prompt.sections.took import Took
 from snakypy.zshpower.prompt.sections.username import Username
 from snakypy.zshpower.prompt.sections.vagrant import Vagrant
 from snakypy.zshpower.prompt.sections.zig import Zig
+from snakypy.zshpower.utils.catch import recursive_get
 from snakypy.zshpower.utils.modifiers import create_config
 
 # ## Test timer ## #
@@ -157,13 +158,14 @@ class Draw(DAO):
                 # Using ThreadPoolExecutor, not Generators
                 with ThreadPoolExecutor() as executor:
                     ordered_section = []
-                    for elem in self.config["general"]["position"]:
-                        for item in dinamic_section.keys():
-                            if item == elem:
-                                future = executor.submit(
-                                    self.get_keys, dinamic_section, item
-                                )
-                                ordered_section.append(future.result())
+                    if recursive_get(self.config, "general", "position"):
+                        for elem in recursive_get(self.config, "general", "position"):
+                            for item in dinamic_section.keys():
+                                if item == elem:
+                                    future = executor.submit(
+                                        self.get_keys, dinamic_section, item
+                                    )
+                                    ordered_section.append(future.result())
 
                 sections = "{}{}{}" + "{}" * len(dinamic_section)
                 return sections.format(static_section, *ordered_section, took_, cmd)
