@@ -1,5 +1,6 @@
 import os
 from contextlib import suppress
+from functools import reduce
 from os.path import exists, isdir
 from re import M as re_m
 from re import search as re_search
@@ -10,6 +11,13 @@ from snakypy.helpers.logging import Log
 
 from snakypy.zshpower import __info__
 from snakypy.zshpower.config import menu
+
+
+def recursive_get(d, *keys):
+    data = reduce(lambda c, k: c.get(k, {}), keys, d)
+    if data is dict:
+        return ""
+    return data
 
 
 def read_zshrc(zshrc, logfile) -> str:
