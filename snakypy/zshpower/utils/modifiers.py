@@ -1,9 +1,9 @@
 from getpass import getpass
-from os import remove, walk
+from os import remove
 from os.path import exists, isdir, isfile, join
 from re import M as re_m
 from re import sub as re_sub
-from shutil import rmtree, which
+from shutil import which
 from subprocess import PIPE, Popen, check_output
 from sys import platform
 from zipfile import ZipFile
