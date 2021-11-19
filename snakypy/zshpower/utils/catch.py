@@ -14,6 +14,16 @@ from snakypy.zshpower.config import menu
 
 
 def recursive_get(d, *keys):
+    """
+    Function to get keys from a dictionary recursively without errors.
+    If the key does not exist it returns an empty dictionary.
+
+    Args:
+        d ([dict]): Receive a dictionary
+
+    Returns:
+        [str]: Value str
+    """
     data = reduce(lambda c, k: c.get(k, {}), keys, d)
     if data == {}:
         return ""
@@ -40,7 +50,6 @@ def arguments(argv=None) -> dict:
 
 
 def read_zshrc_omz(zshrc, logfile) -> tuple:
-    """ """
     current_zshrc = read_zshrc(zshrc, logfile)
     m = re_search(r"ZSH_THEME=\".*", current_zshrc)
     if m is not None:
