@@ -1,9 +1,6 @@
-from concurrent.futures import ThreadPoolExecutor
-
 from snakypy.helpers import printer
 from snakypy.helpers.ansi import FG, NONE
 from snakypy.helpers.catches import tools_requirements
-from snakypy.helpers.console import loading
 from snakypy.helpers.files import create_file
 from snakypy.helpers.path import create as snakypy_path_create
 
