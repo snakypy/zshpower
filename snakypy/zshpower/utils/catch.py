@@ -13,7 +13,7 @@ from snakypy.zshpower import __info__
 from snakypy.zshpower.config import menu
 
 
-def recursive_get(d, *keys):
+def get_key(d, *keys):
     """
     Function to get keys from a dictionary recursively without errors.
     If the key does not exist it returns an empty dictionary.

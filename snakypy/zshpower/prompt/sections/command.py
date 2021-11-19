@@ -1,4 +1,4 @@
-from snakypy.zshpower.utils.catch import recursive_get
+from snakypy.zshpower.utils.catch import get_key
 
 from .utils import Color, symbol_ssh
 
@@ -6,17 +6,17 @@ from .utils import Color, symbol_ssh
 class Command:
     def __init__(self, config):
         self.config = config
-        self.symbol = symbol_ssh(recursive_get(config, "command", "symbol"), "> ")
+        self.symbol = symbol_ssh(get_key(config, "command", "symbol"), "> ")
         self.error_symbol = symbol_ssh(
-            recursive_get(config, "command", "error", "symbol"), "x "
+            get_key(config, "command", "error", "symbol"), "x "
         )
-        self.error_color = recursive_get(config, "command", "error", "color")
+        self.error_color = get_key(config, "command", "error", "color")
         self.color = (
-            recursive_get(config, "command", "color")
-            if recursive_get(config, "general", "color", "enable") is True
+            get_key(config, "command", "color")
+            if get_key(config, "general", "color", "enable") is True
             else "negative"
         )
-        self.new_line = recursive_get(config, "command", "new_line", "enable")
+        self.new_line = get_key(config, "command", "new_line", "enable")
 
     def __str__(self, jump_line="\n"):
         if not self.new_line:

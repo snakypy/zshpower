@@ -8,7 +8,7 @@ from snakypy.helpers.files import read_file
 from tomlkit import parse as toml_parse
 
 from snakypy.zshpower.config.base import Base
-from snakypy.zshpower.utils.catch import recursive_get
+from snakypy.zshpower.utils.catch import get_key
 from snakypy.zshpower.utils.check import checking_init
 
 
@@ -32,7 +32,7 @@ class ConfigCommand(Base):
             try:
                 read_conf = read_file(self.config_file)
                 parsed = dict(toml_parse(read_conf))
-                editor_conf = recursive_get(parsed, "general", "config", "editor")
+                editor_conf = get_key(parsed, "general", "config", "editor")
                 if editor_conf and editor_conf != {}:
                     editor_run(editor_conf, self.config_file)
                 else:

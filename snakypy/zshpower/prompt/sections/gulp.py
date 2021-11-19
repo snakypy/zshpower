@@ -12,7 +12,7 @@ from snakypy.zshpower.prompt.sections.utils import (
     separator,
     symbol_ssh,
 )
-from snakypy.zshpower.utils.catch import recursive_get, verify_objects
+from snakypy.zshpower.utils.catch import get_key, verify_objects
 
 
 class Gulp(Version, Base):
@@ -25,12 +25,12 @@ class Gulp(Version, Base):
         self, config, reg_version, key="gulp", ext="gulp-", space_elem=" "
     ) -> str:
         version_local = "node_modules/gulp/package.json"
-        enable = recursive_get(config, key, "version", "enable")
-        symbol = symbol_ssh(recursive_get(config, key, "symbol"), ext)
-        color = recursive_get(config, key, "color")
-        prefix_color = recursive_get(config, key, "prefix", "color")
-        prefix_text = element_spacing(recursive_get(config, key, "prefix", "text"))
-        micro_version_enable = recursive_get(config, key, "version", "micro", "enable")
+        enable = get_key(config, key, "version", "enable")
+        symbol = symbol_ssh(get_key(config, key, "symbol"), ext)
+        color = get_key(config, key, "color")
+        prefix_color = get_key(config, key, "prefix", "color")
+        prefix_text = element_spacing(get_key(config, key, "prefix", "text"))
+        micro_version_enable = get_key(config, key, "version", "micro", "enable")
 
         if enable and verify_objects(
             getcwd(),

@@ -48,7 +48,7 @@ from snakypy.zshpower.prompt.sections.took import Took
 from snakypy.zshpower.prompt.sections.username import Username
 from snakypy.zshpower.prompt.sections.vagrant import Vagrant
 from snakypy.zshpower.prompt.sections.zig import Zig
-from snakypy.zshpower.utils.catch import recursive_get
+from snakypy.zshpower.utils.catch import get_key
 from snakypy.zshpower.utils.check import str_empty_in
 from snakypy.zshpower.utils.modifiers import create_config
 
@@ -156,8 +156,8 @@ class Draw(DAO):
             # Using ThreadPoolExecutor, not Generators
             with ThreadPoolExecutor() as executor:
                 ordered_section = []
-                if not str_empty_in(recursive_get(self.config, "general", "position")):
-                    for elem in recursive_get(self.config, "general", "position"):
+                if not str_empty_in(get_key(self.config, "general", "position")):
+                    for elem in get_key(self.config, "general", "position"):
                         for item in dinamic_section.keys():
                             if item == elem:
                                 future = executor.submit(

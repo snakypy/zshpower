@@ -5,7 +5,7 @@ from typing import List, Union
 from snakypy.helpers.catches.finders import is_tool
 
 from snakypy.zshpower.database.dao import DAO
-from snakypy.zshpower.utils.catch import recursive_get, verify_objects
+from snakypy.zshpower.utils.catch import get_key, verify_objects
 
 
 def symbol_ssh(symbol1, symbol2, spacing=" ") -> list:
@@ -45,10 +45,10 @@ def git_status(*, porcelain=False, branch=False) -> Union[str, List[str]]:
 
 def separator(config, spacing=" ") -> str:
 
-    sep = recursive_get(config, "general", "separator", "element")
+    sep = get_key(config, "general", "separator", "element")
     if sep is not dict:
         sep += spacing if sep != "" else sep
-        sep_color = recursive_get(config, "general", "separator", "color")
+        sep_color = get_key(config, "general", "separator", "color")
         if sep_color is not dict:
             separator_style = f"{Color(sep_color)}{sep}{Color().NONE}"
             return separator_style
@@ -93,16 +93,16 @@ class Version(DAO):
         ext="",
         space_elem="",
     ) -> str:
-        enable = recursive_get(config, key, "version", "enable")
-        symbol = symbol_ssh(recursive_get(config, key, "symbol"), ext)
+        enable = get_key(config, key, "version", "enable")
+        symbol = symbol_ssh(get_key(config, key, "symbol"), ext)
         color = (
-            recursive_get(config, key, "color")
-            if recursive_get(config, "general", "color", "enable") is True
+            get_key(config, key, "color")
+            if get_key(config, "general", "color", "enable") is True
             else "negative"
         )
-        prefix_color = recursive_get(config, key, "prefix", "color")
-        prefix_text = element_spacing(recursive_get(config, key, "prefix", "text"))
-        micro_version_enable = recursive_get(config, key, "version", "micro", "enable")
+        prefix_color = get_key(config, key, "prefix", "color")
+        prefix_text = element_spacing(get_key(config, key, "prefix", "text"))
+        micro_version_enable = get_key(config, key, "version", "micro", "enable")
 
         if enable is True:
             if reg_version[key] and verify_objects(

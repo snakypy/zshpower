@@ -1,19 +1,19 @@
 from time import strftime
 
 from snakypy.zshpower.prompt.sections.utils import Color, symbol_ssh
-from snakypy.zshpower.utils.catch import recursive_get
+from snakypy.zshpower.utils.catch import get_key
 
 
 class Timer:
     def __init__(self, config):
-        self.enable = recursive_get(config, "timer", "enable")
-        self.symbol = symbol_ssh(recursive_get(config, "timer", "symbol"), "T:")
+        self.enable = get_key(config, "timer", "enable")
+        self.symbol = symbol_ssh(get_key(config, "timer", "symbol"), "T:")
         self.color = (
-            recursive_get(config, "timer", "color")
-            if recursive_get(config, "general", "color", "enable") is True
+            get_key(config, "timer", "color")
+            if get_key(config, "general", "color", "enable") is True
             else "negative"
         )
-        self.seconds_enable = recursive_get(config, "timer", "seconds", "enable")
+        self.seconds_enable = get_key(config, "timer", "seconds", "enable")
 
     def __str__(self):
         if self.enable:

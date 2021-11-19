@@ -1,21 +1,21 @@
 from typing import Any
 
 from snakypy.zshpower.prompt.sections.utils import Color, symbol_ssh
-from snakypy.zshpower.utils.catch import recursive_get
+from snakypy.zshpower.utils.catch import get_key
 
 
 class Took:
     def __init__(self, config: dict, took: Any = 0):
-        self.enable = recursive_get(config, "took", "enable")
-        self.symbol = symbol_ssh(recursive_get(config, "took", "symbol"), "")
-        self.text = recursive_get(config, "took", "text")
+        self.enable = get_key(config, "took", "enable")
+        self.symbol = symbol_ssh(get_key(config, "took", "symbol"), "")
+        self.text = get_key(config, "took", "text")
         self.color = (
-            recursive_get(config, "took", "color")
-            if recursive_get(config, "general", "color", "enable") is True
+            get_key(config, "took", "color")
+            if get_key(config, "general", "color", "enable") is True
             else "negative"
         )
-        self.involved = recursive_get(config, "took", "involved")
-        self.show_greater_than = recursive_get(config, "took", "show_greater_than")
+        self.involved = get_key(config, "took", "involved")
+        self.show_greater_than = get_key(config, "took", "show_greater_than")
         self.took = str(took)
 
     def format_took(self) -> str:

@@ -3,16 +3,16 @@ from os import geteuid
 
 from snakypy.helpers.catches import whoami
 
-from snakypy.zshpower.utils.catch import recursive_get
+from snakypy.zshpower.utils.catch import get_key
 
 from .utils import Color, symbol_ssh
 
 
 class Username:
     def __init__(self, config):
-        self.symbol = symbol_ssh(recursive_get(config, "username", "symbol"), "")
-        self.enable = recursive_get(config, "username", "enable")
-        self.color = recursive_get(config, "username", "color")
+        self.symbol = symbol_ssh(get_key(config, "username", "symbol"), "")
+        self.enable = get_key(config, "username", "enable")
+        self.color = get_key(config, "username", "color")
         if geteuid() == 0:
             self.color = "red"
 

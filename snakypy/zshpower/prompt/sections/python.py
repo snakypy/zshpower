@@ -12,7 +12,7 @@ from snakypy.zshpower.prompt.sections.utils import (
     separator,
     symbol_ssh,
 )
-from snakypy.zshpower.utils.catch import recursive_get, verify_objects
+from snakypy.zshpower.utils.catch import get_key, verify_objects
 
 
 def definitive_version(micro_version_enable, python_version, space_elem):
@@ -25,7 +25,7 @@ class Python:
     def __init__(self, config):
 
         self.config = config
-        self.enable = recursive_get(config, "python", "version", "enable")
+        self.enable = get_key(config, "python", "version", "enable")
         self.files = (
             "__pycache__",
             "manage.py",
@@ -37,17 +37,17 @@ class Python:
         )
         self.folders = ("__pycache__",)
         self.extensions = (".py",)
-        self.symbol = symbol_ssh(recursive_get(config, "python", "symbol"), "py-")
+        self.symbol = symbol_ssh(get_key(config, "python", "symbol"), "py-")
         self.color = (
-            recursive_get(config, "python", "color")
-            if recursive_get(config, "general", "color", "enable") is True
+            get_key(config, "python", "color")
+            if get_key(config, "general", "color", "enable") is True
             else "negative"
         )
-        self.prefix_color = recursive_get(config, "python", "prefix", "color")
+        self.prefix_color = get_key(config, "python", "prefix", "color")
         self.prefix_text = element_spacing(
-            recursive_get(config, "python", "prefix", "text")
+            get_key(config, "python", "prefix", "text")
         )
-        self.micro_version_enable = recursive_get(
+        self.micro_version_enable = get_key(
             config, "python", "version", "micro", "enable"
         )
 
@@ -109,32 +109,32 @@ class Python:
 class Virtualenv:
     def __init__(self, config):
         self.config = config
-        self.enable = recursive_get(config, "python", "virtualenv", "enable")
-        self.hash_enable = recursive_get(
+        self.enable = get_key(config, "python", "virtualenv", "enable")
+        self.hash_enable = get_key(
             config, "python", "virtualenv", "poetry", "hash", "enable"
         )
-        self.py_enable = recursive_get(
+        self.py_enable = get_key(
             config, "python", "virtualenv", "poetry", "py", "enable"
         )
         self.symbol = symbol_ssh(
-            recursive_get(config, "python", "virtualenv", "symbol"), ""
+            get_key(config, "python", "virtualenv", "symbol"), ""
         )
-        self.involved = recursive_get(config, "python", "virtualenv", "involved")
+        self.involved = get_key(config, "python", "virtualenv", "involved")
         self.color = (
-            recursive_get(config, "python", "virtualenv", "color")
-            if recursive_get(config, "general", "color", "enable") is True
+            get_key(config, "python", "virtualenv", "color")
+            if get_key(config, "general", "color", "enable") is True
             else "negative"
         )
-        self.prefix_color = recursive_get(
+        self.prefix_color = get_key(
             config, "python", "virtualenv", "prefix", "color"
         )
         self.prefix_text = element_spacing(
-            recursive_get(config, "python", "virtualenv", "prefix", "text")
+            get_key(config, "python", "virtualenv", "prefix", "text")
         )
-        self.name_enable = recursive_get(
+        self.name_enable = get_key(
             config, "python", "virtualenv", "name", "normal", "enable"
         )
-        self.name_text = recursive_get(config, "python", "virtualenv", "name", "text")
+        self.name_text = get_key(config, "python", "virtualenv", "name", "text")
 
     def get_virtualenv(self) -> str:
         if "VIRTUAL_ENV" in environ:
