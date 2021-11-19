@@ -22,7 +22,7 @@ def recursive_get(d, *keys):
         d ([dict]): Receive a dictionary
 
     Returns:
-        [str]: Value str
+        [str, bool]: Returning a str or a boolean if the object is True or False.
     """
     data = reduce(lambda c, k: c.get(k, {}), keys, d)
     if data == {}:
