@@ -72,7 +72,9 @@ class UninstallCommand(Base):
             if reply is None or reply[0] == 1:
                 printer("Whew! Thanks! :)", foreground=FG().GREEN)
                 exit(0)
-            remove_objects(objects=(self.init_file, self.data_root, self.cache_root))
+            remove_objects(
+                objects=(self.init_file, self.database_root, self.cache_root)
+            )
             uninstall_by_pip(packages=(__info__["name"],))
             rm_source_zshrc(self.zsh_rc, self.logfile)
             finished()
@@ -95,7 +97,7 @@ class UninstallCommand(Base):
                 objects=(
                     self.theme_file,
                     self.init_file,
-                    self.data_root,
+                    self.database_root,
                     self.cache_root,
                 )
             )
