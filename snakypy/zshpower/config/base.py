@@ -10,15 +10,13 @@ from snakypy.zshpower.database.sql import sql
 class Base:
     def __init__(self, home):
         self.HOME = home
-        self.zshpower_home = join(
-            self.HOME, f".{__info__['pkg_name']}", __info__["version"]
-        )
+        self.zshpower_home = join(self.HOME, f".{__info__['pkg_name']}")
         self.tbl_main = [item for item in sql().keys()][0]
         self.config_file = join(self.zshpower_home, "config.toml")
-        self.data_root = join(self.zshpower_home, ".data")
+        self.database_root = join(self.zshpower_home, ".database")
         self.cache_root = join(self.zshpower_home, ".cache")
         self.logfile = join(self.zshpower_home, ".cache", "zshpower.log")
-        self.database_path = join(self.data_root, "db.sqlite3")
+        self.database_path = join(self.database_root, "zshpower.sqlite3")
         self.sync_path = f"/usr/local/bin/{__info__['pkg_name']}_sync.sh"
         self.cron_path = f"/etc/cron.d/{__info__['pkg_name']}_task.sh"
         self.init_file = join(self.zshpower_home, "init.sh")
