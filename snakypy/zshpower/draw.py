@@ -167,7 +167,7 @@ class Draw(DAO):
 
                     sections = "{}{}{}" + "{}" * len(dinamic_section)
                     return sections.format(static_section, *ordered_section, took_, cmd)
-                return ">>> "
+        return ">>> "
 
     def rprompt(self) -> str:
         timer = Timer(self.config)
