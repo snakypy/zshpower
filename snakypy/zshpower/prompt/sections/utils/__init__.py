@@ -83,8 +83,16 @@ class Version(DAO):
         self.extensions = ()
         self.files = ()
         self.folders = ()
+        self.verify_objects_dir = getcwd()
 
-    def get(self, config, reg_version: dict, key="", ext="", space_elem="") -> str:
+    def get(
+        self,
+        config,
+        reg_version: dict,
+        key="",
+        ext="",
+        space_elem="",
+    ) -> str:
         enable = recursive_get(config, key, "version", "enable")
         symbol = symbol_ssh(recursive_get(config, key, "symbol"), ext)
         color = (
@@ -98,7 +106,7 @@ class Version(DAO):
 
         if enable is True:
             if reg_version[key] and verify_objects(
-                getcwd(),
+                self.verify_objects_dir,
                 files=self.files,
                 folders=self.folders,
                 extension=self.extensions,
