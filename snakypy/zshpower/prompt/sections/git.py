@@ -8,127 +8,128 @@ from snakypy.zshpower.prompt.sections.utils import (
     separator,
     symbol_ssh,
 )
+from snakypy.zshpower.utils.catch import recursive_get
 
 
 class Git:
     def __init__(self, config, icon_space=" "):
 
         self.config = config
-        # TODO: ZSHPower version 1.0.0 - In the future, the configuration
-        #  file (config.toml) will no longer be mandatory in ZSHPower, as it
-        #  is necessary to check if there are keys in the configuration file.
         try:
-            self.symbol = symbol_ssh(config["git"]["symbol"], "git:")
+            self.symbol = symbol_ssh(recursive_get(config, "git", "symbol"), "git:")
         except KeyError:
             self.symbol = symbol_ssh("\uf418", "git:")
-        self.enable = config["git"]["enable"]
+        self.gcolor_enable = recursive_get(config, "general", "color", "enable")
+        self.enable = recursive_get(config, "git", "enable")
         self.color_symbol = (
-            config["git"]["color"]["symbol"]
-            if config["general"]["color"]["enable"] is True
+            recursive_get(config, "git", "color", "symbol")
+            if self.gcolor_enable is True
             else "negative"
         )
         self.branch_color = (
-            config["git"]["branch"]["color"]
-            if config["general"]["color"]["enable"] is True
+            recursive_get(config, "git", "branch", "color")
+            if self.gcolor_enable is True
             else "negative"
         )
         self.prefix_color = (
-            config["git"]["prefix"]["color"]
-            if config["general"]["color"]["enable"] is True
+            recursive_get(config, "git", "prefix", "color")
+            if self.gcolor_enable is True
             else "negative"
         )
-        self.prefix_text = element_spacing(config["git"]["prefix"]["text"])
-        self.symbol_enable = config["git"]["status"]["symbols"]["enable"]
+        self.prefix_text = element_spacing(
+            recursive_get(config, "git", "prefix", "text")
+        )
+        self.symbol_enable = recursive_get(config, "git", "status", "symbols", "enable")
         self.icons = {
             "A": [
-                f"{Color('green') if config['general']['color']['enable'] is True else Color('negative')}"
-                f"{symbol_ssh(config['git']['status']['symbol']['added'], '')}"
+                f"{Color('green') if self.gcolor_enable is True else Color('negative')}"
+                f"{symbol_ssh(recursive_get(config, 'git', 'status', 'symbol', 'added'), '')}"
                 f"{Color().NONE}",
-                f"{Color('green') if config['general']['color']['enable'] is True else Color('negative')}+"
+                f"{Color('green') if self.gcolor_enable is True else Color('negative')}+"
                 f"{icon_space}{Color().NONE}",
             ],
             # "AM": [
-            #     f"{Color('white') if config['general']['color']['enable'] is True else Color('negative')}"
-            #     f"{symbol_ssh(config_file['git']['status']['symbol']['changed'], '')}"
+            #     f"{Color('white') if recursive_get(config, 'general', 'color', 'enable') is True else Color('negative')}"
+            #     f"{symbol_ssh(recursive_get(config, 'git', 'status', 'symbol', 'changed'), '')}"
             #     f"{Color().NONE}",
-            #     f"{Color('white') if config['general']['color']['enable'] is True else Color('negative')}#
+            #     f"{Color('white') if self.gcolor_enable is True else Color('negative')}#
             #     {icon_space}{Color().NONE}",
             # ],
             "M": [
-                f"{Color('blue') if config['general']['color']['enable'] is True else Color('negative')}"
-                f"{symbol_ssh(config['git']['status']['symbol']['modified'], '')}"
+                f"{Color('blue') if self.gcolor_enable is True else Color('negative')}"
+                f"{symbol_ssh(recursive_get(config, 'git', 'status', 'symbol', 'modified'), '')}"
                 f"{Color().NONE}",
-                f"{Color('blue') if config['general']['color']['enable'] is True else Color('negative')}#"
+                f"{Color('blue') if self.gcolor_enable is True else Color('negative')}#"
                 f"{icon_space}{Color().NONE}",
             ],
             "D": [
-                f"{Color('red') if config['general']['color']['enable'] is True else Color('negative')}"
-                f"{symbol_ssh(config['git']['status']['symbol']['deleted'], '')}"
+                f"{Color('red') if self.gcolor_enable is True else Color('negative')}"
+                f"{symbol_ssh(recursive_get(config, 'git', 'status', 'symbol', 'deleted'), '')}"
                 f"{Color().NONE}",
-                f"{Color('red') if config['general']['color']['enable'] is True else Color('negative')}x"
+                f"{Color('red') if self.gcolor_enable is True else Color('negative')}x"
                 f"{icon_space}{Color().NONE}",
             ],
             "??": [
-                f"{Color('yellow') if config['general']['color']['enable'] is True else Color('negative')}"
-                f"{symbol_ssh(config['git']['status']['symbol']['untracked'], '')}"
+                f"{Color('yellow') if self.gcolor_enable is True else Color('negative')}"
+                f"{symbol_ssh(recursive_get(config, 'git', 'status', 'symbol', 'untracked'), '')}"
                 f"{Color().NONE}",
-                f"{Color('yellow') if config['general']['color']['enable'] is True else Color('negative')}?"
+                f"{Color('yellow') if self.gcolor_enable is True else Color('negative')}?"
                 f"{icon_space}{Color().NONE}",
             ],
             "R": [
-                f"{Color('magenta') if config['general']['color']['enable'] is True else Color('negative')}"
-                f"{symbol_ssh(config['git']['status']['symbol']['renamed'], '')}"
+                f"{Color('magenta') if self.gcolor_enable is True else Color('negative')}"
+                f"{symbol_ssh(recursive_get(config, 'git', 'status', 'symbol', 'renamed'), '')}"
                 f"{Color().NONE}",
-                f"{Color('magenta') if config['general']['color']['enable'] is True else Color('negative')}->"
+                f"{Color('magenta') if self.gcolor_enable is True else Color('negative')}->"
                 f"{icon_space}{Color().NONE}",
             ],
             "UU": [
-                f"{Color('red') if config['general']['color']['enable'] is True else Color('negative')}"
-                f"{symbol_ssh(config['git']['status']['symbol']['conflicts'], '')}"
+                f"{Color('red') if self.gcolor_enable is True else Color('negative')}"
+                f"{symbol_ssh(recursive_get(config, 'git', 'status', 'symbol', 'conflicts'), '')}"
                 f"{Color().NONE}",
-                f"{Color('red') if config['general']['color']['enable'] is True else Color('negative')}!="
+                f"{Color('red') if self.gcolor_enable is True else Color('negative')}!="
                 f"{icon_space}{Color().NONE}",
             ],
             "AH": [
-                f"{Color('blue') if config['general']['color']['enable'] is True else Color('negative')}"
-                f"{symbol_ssh(config['git']['status']['symbol']['ahead'], '')}"
+                f"{Color('blue') if self.gcolor_enable is True else Color('negative')}"
+                f"{symbol_ssh(recursive_get(config, 'git', 'status', 'symbol', 'ahead'), '')}"
                 f"{Color().NONE}",
-                f"{Color('blue') if config['general']['color']['enable'] is True else Color('negative')}^"
+                f"{Color('blue') if self.gcolor_enable is True else Color('negative')}^"
                 f"{icon_space}{Color().NONE}",
             ],
             "BH": [
-                f"{Color('magenta') if config['general']['color']['enable'] is True else Color('negative')}"
-                f"{symbol_ssh(config['git']['status']['symbol']['behind'], '')}"
+                f"{Color('magenta') if self.gcolor_enable is True else Color('negative')}"
+                f"{symbol_ssh(recursive_get(config, 'git', 'status', 'symbol', 'behind'), '')}"
                 f"{Color().NONE}",
-                f"{Color('magenta') if config['general']['color']['enable'] is True else Color('negative')}_"
+                f"{Color('magenta') if self.gcolor_enable is True else Color('negative')}_"
                 f"{icon_space}{Color().NONE}",
             ],
             "DG": [
-                f"{Color('yellow') if config['general']['color']['enable'] is True else Color('negative')}"
-                f"{symbol_ssh(config['git']['status']['symbol']['diverged'], '')}"
+                f"{Color('yellow') if self.gcolor_enable is True else Color('negative')}"
+                f"{symbol_ssh(recursive_get(config, 'git', 'status', 'symbol', 'diverged'), '')}"
                 f"{Color().NONE}",
-                f"{Color('yellow') if config['general']['color']['enable'] is True else Color('negative')}<->"
+                f"{Color('yellow') if self.gcolor_enable is True else Color('negative')}<->"
                 f"{icon_space}{Color().NONE}",
             ],
             "C": [
-                f"{Color('yellow') if config['general']['color']['enable'] is True else Color('negative')}"
-                f"{symbol_ssh(config['git']['status']['symbol']['copied'], '')}"
+                f"{Color('yellow') if self.gcolor_enable is True else Color('negative')}"
+                f"{symbol_ssh(recursive_get(config, 'git', 'status', 'symbol', 'copied'), '')}"
                 f"{Color().NONE}",
-                f"{Color('yellow') if config['general']['color']['enable'] is True else Color('negative')}**"
+                f"{Color('yellow') if self.gcolor_enable is True else Color('negative')}**"
                 f"{icon_space}{Color().NONE}",
             ],
             "U": [
-                f"{Color('magenta') if config['general']['color']['enable'] is True else Color('negative')}"
-                f"{symbol_ssh(config['git']['status']['symbol']['unmerged'], '')}"
+                f"{Color('magenta') if self.gcolor_enable is True else Color('negative')}"
+                f"{symbol_ssh(recursive_get(config, 'git', 'status', 'symbol', 'unmerged'), '')}"
                 f"{Color().NONE}",
-                f"{Color('magenta') if config['general']['color']['enable'] is True else Color('negative')}="
+                f"{Color('magenta') if self.gcolor_enable is True else Color('negative')}="
                 f"{icon_space}{Color().NONE}",
             ],
             "CL": [
-                f"{Color('green') if config['general']['color']['enable'] is True else Color('negative')}"
-                f"{symbol_ssh(config['git']['status']['symbol']['clean'], '')}"
+                f"{Color('green') if self.gcolor_enable is True else Color('negative')}"
+                f"{symbol_ssh(recursive_get(config, 'git', 'status', 'symbol', 'clean'), '')}"
                 f"{Color().NONE}",
-                f"{Color('green') if config['general']['color']['enable'] is True else Color('negative')}~"
+                f"{Color('green') if self.gcolor_enable is True else Color('negative')}~"
                 f"{icon_space}{Color().NONE}",
             ],
         }

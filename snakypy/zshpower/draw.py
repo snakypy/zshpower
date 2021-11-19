@@ -158,14 +158,13 @@ class Draw(DAO):
                 # Using ThreadPoolExecutor, not Generators
                 with ThreadPoolExecutor() as executor:
                     ordered_section = []
-                    if recursive_get(self.config, "general", "position"):
-                        for elem in recursive_get(self.config, "general", "position"):
-                            for item in dinamic_section.keys():
-                                if item == elem:
-                                    future = executor.submit(
-                                        self.get_keys, dinamic_section, item
-                                    )
-                                    ordered_section.append(future.result())
+                    for elem in recursive_get(self.config, "general", "position"):
+                        for item in dinamic_section.keys():
+                            if item == elem:
+                                future = executor.submit(
+                                    self.get_keys, dinamic_section, item
+                                )
+                                ordered_section.append(future.result())
 
                 sections = "{}{}{}" + "{}" * len(dinamic_section)
                 return sections.format(static_section, *ordered_section, took_, cmd)

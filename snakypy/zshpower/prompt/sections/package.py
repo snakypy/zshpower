@@ -5,10 +5,9 @@ from subprocess import run
 
 from snakypy.helpers.files import read_json
 
-from snakypy.zshpower.utils.catch import verify_objects
+from snakypy.zshpower.utils.catch import recursive_get, verify_objects
 
 from .utils import Color, element_spacing, separator, symbol_ssh
-from snakypy.zshpower.utils.catch import recursive_get
 
 
 class Base:

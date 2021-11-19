@@ -2,6 +2,8 @@ from os import environ, geteuid
 from pathlib import Path
 from subprocess import run
 
+from snakypy.zshpower.utils.catch import recursive_get
+
 from .utils import Color, element_spacing, symbol_ssh
 
 
@@ -27,17 +29,19 @@ def shorten_path(file_path, length) -> Path:
 
 class Directory:
     def __init__(self, config):
-        self.username_enable = config["username"]["enable"]
-        self.hostname_enable = config["hostname"]["enable"]
-        self.truncate_value = config["directory"]["truncation_length"]
-        self.symbol = symbol_ssh(config["directory"]["symbol"], "")
+        self.username_enable = recursive_get(config, "username", "enable")
+        self.hostname_enable = recursive_get(config, "hostname", "enable")
+        self.truncate_value = recursive_get(config, "directory", "truncation_length")
+        self.symbol = symbol_ssh(recursive_get(config, "directory", "symbol"), "")
         self.color = (
-            config["directory"]["color"]
-            if config["general"]["color"]["enable"] is True
+            recursive_get(config, "directory", "color")
+            if recursive_get(config, "general", "color", "enable") is True
             else "negative"
         )
-        self.prefix_color = config["directory"]["prefix"]["color"]
-        self.prefix_text = element_spacing(config["directory"]["prefix"]["text"])
+        self.prefix_color = recursive_get(config, "directory", "prefix", "color")
+        self.prefix_text = element_spacing(
+            recursive_get(config, "directory", "prefix", "text")
+        )
 
     def __str__(self, prefix="", space_elem=" "):
         if (

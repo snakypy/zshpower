@@ -1,6 +1,9 @@
+from snakypy.zshpower.utils.catch import recursive_get
+
+
 class JumpLine:
     def __init__(self, config):
-        self.enable = config["general"]["jump_line"]["enable"]
+        self.enable = recursive_get(config, "general", "jump_line", "enable")
 
     def __str__(self):
         if not self.enable:
