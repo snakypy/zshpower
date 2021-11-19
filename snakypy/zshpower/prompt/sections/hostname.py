@@ -22,7 +22,7 @@ class Hostname:
 
     def __str__(self, prefix="", space_elem=" "):
         if (
-            recursive_get(self.config, "hostname", "enable")
+            recursive_get(self.config, "hostname", "enable") is True
             or "SSH_CONNECTION" in os_environ
         ):
             prefix = (

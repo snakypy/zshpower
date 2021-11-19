@@ -96,7 +96,7 @@ class Version(DAO):
         prefix_text = element_spacing(recursive_get(config, key, "prefix", "text"))
         micro_version_enable = recursive_get(config, key, "version", "micro", "enable")
 
-        if enable:
+        if enable is True:
             if reg_version[key] and verify_objects(
                 getcwd(),
                 files=self.files,
@@ -105,7 +105,7 @@ class Version(DAO):
             ):
                 prefix = f"{Color(prefix_color)}{prefix_text}{Color().NONE}"
 
-                if micro_version_enable:
+                if micro_version_enable is True:
                     version_format = f"{'{0[0]}.{0[1]}.{0[2]}'.format(reg_version[key].split('.'))}{space_elem}"
                 else:
                     version_format = f"{'{0[0]}.{0[1]}'.format(reg_version[key].split('.'))}{space_elem}"

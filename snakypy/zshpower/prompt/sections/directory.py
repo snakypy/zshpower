@@ -5,6 +5,7 @@ from subprocess import run
 from snakypy.zshpower.utils.catch import recursive_get
 
 from .utils import Color, element_spacing, symbol_ssh
+from snakypy.zshpower.utils.check import str_empty_in
 
 
 def get_pwd() -> str:
@@ -44,8 +45,18 @@ class Directory:
         )
 
     def __str__(self, prefix="", space_elem=" "):
+        if str_empty_in(
+            self.username_enable,
+            self.hostname_enable,
+            self.truncate_value,
+            self.symbol,
+            self.prefix_color,
+            self.prefix_text,
+        ):
+            return ""
+
         if (
-            self.username_enable
+            self.username_enable is True
             or geteuid() == 0
             or self.hostname_enable
             or "SSH_CONNECTION" in environ

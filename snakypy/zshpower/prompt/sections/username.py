@@ -17,7 +17,7 @@ class Username:
             self.color = "red"
 
     def __str__(self, space_elem=" "):
-        if self.enable or "SSH_CONNECTION" in os_environ or geteuid() == 0:
+        if self.enable is True or "SSH_CONNECTION" in os_environ or geteuid() == 0:
             return (
                 f"{Color(self.color)}{self.symbol}{whoami()}{space_elem}{Color().NONE}"
             )

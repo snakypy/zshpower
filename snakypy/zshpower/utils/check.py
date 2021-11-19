@@ -19,3 +19,16 @@ def checking_init(home, logfile) -> bool:
             f'Command "{__info__["pkg_name"]} init" has not been started.' "Aborted",
         )
     return True
+
+
+def str_empty_in(*args):
+    """
+    Function that checks whether an object is an empty string.
+
+    Returns:
+        [bool]: Return bool
+    """
+    for _ in args:
+        if "" in args:
+            return True
+    return False
