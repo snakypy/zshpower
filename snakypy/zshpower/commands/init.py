@@ -1,5 +1,4 @@
 from concurrent.futures import ThreadPoolExecutor
-from os.path import join
 
 from snakypy.helpers import printer
 from snakypy.helpers.ansi import FG, NONE
@@ -26,7 +25,6 @@ from snakypy.zshpower.utils.modifiers import (
     install_fonts,
     omz_install,
     omz_install_plugins,
-    remove_versions_garbage,
 )
 from snakypy.zshpower.utils.process import change_shell, reload_zsh
 
@@ -34,7 +32,7 @@ instruction_not_omz = f"""{FG().YELLOW}
 ********************** WARNING **********************
 Add the following code to the {FG().MAGENTA}$HOME/.zshrc{NONE} {FG().YELLOW}file:
 
-CODE: {FG().CYAN}source $HOME/.zshpower/{__info__["version"]}/init.sh {NONE}
+CODE: {FG().CYAN}source $HOME/.zshpower/init.sh {NONE}
 {FG().YELLOW}*****************************************************{NONE}
 """
 
@@ -46,27 +44,17 @@ class InitCommand(Base):
     def run(self, arguments, *, reload=False, message=False) -> None:
         tools_requirements("bash", "zsh", "vim", "git", "cut", "grep", "whoami", "pwd")
         printer("Please wait ... assigning settings ...", foreground=FG().WARNING)
-        snakypy_path_create(self.data_root, self.cache_root)
+        snakypy_path_create(self.database_root, self.cache_root)
         create_config(config_content, self.config_file)
-        create_file(set_zshpower_content, self.init_file, force=True)
+
+        if not arguments["--omz"]:
+            create_file(set_zshpower_content, self.init_file, force=True)
+
         # Create table if not exists
         DAO().create_table(self.tbl_main)
-        # Insert registers
-        try:
-            with ThreadPoolExecutor(max_workers=2) as executor:
-                executor.submit(
-                    loading,
-                    set_time=0.140,
-                    bar=False,
-                    header="ZSHPower is creating the database. Wait a moment ...",
-                    foreground=FG().QUESTION,
-                )
-                executor.submit(records, action="insert")
-        except KeyboardInterrupt:
-            printer(
-                "This operation cannot be canceled. Wait for the operation.",
-                foreground=FG().WARNING,
-            )
+
+        # Insert registers in database
+        records("insert")
 
         if arguments["--omz"]:
             omz_install(self.omz_root, self.logfile)
@@ -76,9 +64,13 @@ class InitCommand(Base):
             add_plugins_zshrc(self.zsh_rc, self.logfile)
             create_file(set_zshpower_content, self.theme_file, force=True)
 
+        # Install fonts
         install_fonts(self.HOME, self.logfile)
+
+        # Change shell to ZSH
         change_shell(self.logfile)
-        remove_versions_garbage(join(self.HOME, f".{__info__['pkg_name']}"))
+
+        # Register log
         self.log.record("Initial settings applied", colorize=True, level="info")
 
         try:
