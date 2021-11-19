@@ -12,8 +12,7 @@ from snakypy.zshpower.prompt.sections.utils import (
     separator,
     symbol_ssh,
 )
-from snakypy.zshpower.utils.catch import verify_objects
-from snakypy.zshpower.utils.catch import recursive_get
+from snakypy.zshpower.utils.catch import recursive_get, verify_objects
 
 
 class Gulp(Version, Base):
