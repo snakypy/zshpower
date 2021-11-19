@@ -49,8 +49,8 @@ from snakypy.zshpower.prompt.sections.username import Username
 from snakypy.zshpower.prompt.sections.vagrant import Vagrant
 from snakypy.zshpower.prompt.sections.zig import Zig
 from snakypy.zshpower.utils.catch import recursive_get
-from snakypy.zshpower.utils.modifiers import create_config
 from snakypy.zshpower.utils.check import str_empty_in
+from snakypy.zshpower.utils.modifiers import create_config
 
 # ## Test timer ## #
 # from snakypy.helpers.decorators import runtime
