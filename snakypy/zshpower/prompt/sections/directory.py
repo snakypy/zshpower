@@ -3,9 +3,9 @@ from pathlib import Path
 from subprocess import run
 
 from snakypy.zshpower.utils.catch import recursive_get
+from snakypy.zshpower.utils.check import str_empty_in
 
 from .utils import Color, element_spacing, symbol_ssh
-from snakypy.zshpower.utils.check import str_empty_in
 
 
 def get_pwd() -> str:
