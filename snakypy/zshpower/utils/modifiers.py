@@ -231,14 +231,3 @@ def uninstall_by_pip(*, packages=()) -> tuple:
                 universal_newlines=True,
             )
     return packages
-
-
-def remove_versions_garbage(path) -> None:
-    folders = []
-    for root, dirs, files in walk(path):
-        for item in dirs:
-            folders.append(item)
-
-    for folder in folders:
-        if join(path, folder) != join(path, __info__["version"]):
-            rmtree(join(path, folder), ignore_errors=True)
