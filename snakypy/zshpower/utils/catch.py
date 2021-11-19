@@ -4,6 +4,7 @@ from functools import reduce
 from os.path import exists, isdir
 from re import M as re_m
 from re import search as re_search
+from typing import Union
 
 from docopt import docopt
 from snakypy.helpers.ansi import FG, NONE
@@ -13,7 +14,7 @@ from snakypy.zshpower import __info__
 from snakypy.zshpower.config import menu
 
 
-def get_key(d, *keys):
+def get_key(d, *keys) -> Union[str, bool]:
     """
     Function to get keys from a dictionary recursively without errors.
     If the key does not exist it returns an empty dictionary.

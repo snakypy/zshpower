@@ -36,9 +36,7 @@ class Git:
             if self.gcolor_enable is True
             else "negative"
         )
-        self.prefix_text = element_spacing(
-            get_key(config, "git", "prefix", "text")
-        )
+        self.prefix_text = element_spacing(get_key(config, "git", "prefix", "text"))
         self.symbol_enable = get_key(config, "git", "status", "symbols", "enable")
         self.icons = {
             "A": [

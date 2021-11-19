@@ -24,9 +24,7 @@ class Base:
             else "negative"
         )
         self.prefix_color = get_key(config, "package", "prefix", "color")
-        self.prefix_text = element_spacing(
-            get_key(config, "package", "prefix", "text")
-        )
+        self.prefix_text = element_spacing(get_key(config, "package", "prefix", "text"))
 
     def get_version(self):
         return ""

@@ -8,7 +8,7 @@ from snakypy.zshpower.database.dao import DAO
 from snakypy.zshpower.utils.catch import get_key, verify_objects
 
 
-def symbol_ssh(symbol1, symbol2, spacing=" ") -> list:
+def symbol_ssh(symbol1, symbol2, spacing=" ") -> str:
     if symbol1 != {}:
         if symbol1 != "":
             symbol1 += spacing

@@ -25,18 +25,17 @@ from snakypy.zshpower.utils.modifiers import (
 )
 from snakypy.zshpower.utils.process import change_shell, reload_zsh
 
-instruction_not_omz = f"""{FG().YELLOW}
-********************** WARNING **********************
-Add the following code to the {FG().MAGENTA}$HOME/.zshrc{NONE} {FG().YELLOW}file:
-
-CODE: {FG().CYAN}source $HOME/.zshpower/init.sh {NONE}
-{FG().YELLOW}*****************************************************{NONE}
-"""
-
 
 class InitCommand(Base):
     def __init__(self, home):
         Base.__init__(self, home)
+        self.instruction_not_omz = f"""{FG().YELLOW}
+            ********************** WARNING **********************
+            Add the following code to the {FG().MAGENTA}{home}/.zshrc{NONE} {FG().YELLOW}file:
+
+            CODE: {FG().CYAN}source {self.init_file} {NONE}
+            {FG().YELLOW}*****************************************************{NONE}
+        """
 
     def run(self, arguments, *, reload=False, message=False) -> None:
         tools_requirements("bash", "zsh", "vim", "git", "cut", "grep", "whoami", "pwd")
@@ -79,7 +78,7 @@ class InitCommand(Base):
             if not arguments["--omz"] and not get_line_source(
                 self.zsh_rc, self.logfile
             ):
-                printer(instruction_not_omz, foreground=FG().YELLOW)
+                printer(self.instruction_not_omz, foreground=FG().YELLOW)
 
             if reload:
                 reload_zsh()
@@ -90,7 +89,7 @@ class InitCommand(Base):
             if not arguments["--omz"] and not get_line_source(
                 self.zsh_rc, self.logfile
             ):
-                printer(instruction_not_omz, foreground=FG().YELLOW)
+                printer(self.instruction_not_omz, foreground=FG().YELLOW)
 
             if reload:
                 reload_zsh()

@@ -13,9 +13,7 @@ class Hostname:
         self.symbol = symbol_ssh(get_key(config, "hostname", "symbol"), "")
         self.hostname_enable = get_key(config, "hostname", "enable")
         self.hostname_color = get_key(config, "hostname", "color")
-        self.hostname_prefix_color = get_key(
-            config, "hostname", "prefix", "color"
-        )
+        self.hostname_prefix_color = get_key(config, "hostname", "prefix", "color")
         self.hostname_prefix_text = element_spacing(
             get_key(config, "hostname", "prefix", "text")
         )

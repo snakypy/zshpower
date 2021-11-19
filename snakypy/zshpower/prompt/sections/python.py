@@ -44,9 +44,7 @@ class Python:
             else "negative"
         )
         self.prefix_color = get_key(config, "python", "prefix", "color")
-        self.prefix_text = element_spacing(
-            get_key(config, "python", "prefix", "text")
-        )
+        self.prefix_text = element_spacing(get_key(config, "python", "prefix", "text"))
         self.micro_version_enable = get_key(
             config, "python", "version", "micro", "enable"
         )
@@ -116,18 +114,14 @@ class Virtualenv:
         self.py_enable = get_key(
             config, "python", "virtualenv", "poetry", "py", "enable"
         )
-        self.symbol = symbol_ssh(
-            get_key(config, "python", "virtualenv", "symbol"), ""
-        )
+        self.symbol = symbol_ssh(get_key(config, "python", "virtualenv", "symbol"), "")
         self.involved = get_key(config, "python", "virtualenv", "involved")
         self.color = (
             get_key(config, "python", "virtualenv", "color")
             if get_key(config, "general", "color", "enable") is True
             else "negative"
         )
-        self.prefix_color = get_key(
-            config, "python", "virtualenv", "prefix", "color"
-        )
+        self.prefix_color = get_key(config, "python", "virtualenv", "prefix", "color")
         self.prefix_text = element_spacing(
             get_key(config, "python", "virtualenv", "prefix", "text")
         )
