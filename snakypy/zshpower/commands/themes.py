@@ -6,7 +6,7 @@ from snakypy.zshpower.utils.catch import read_zshrc_omz
 from snakypy.zshpower.utils.check import checking_init
 
 
-# TODO: Version 0.11.0
+# TODO: Version 0.12.0
 class Theme(Base):
     def __init__(self, home):
         Base.__init__(self, home)
