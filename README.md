@@ -439,7 +439,7 @@ $ zshpower sync
 
 ### Automatically sync:
 
-As stated before, you can use a task scheduler. `ZSHPower` at the time of setup installs a script for synchronization in **/usr/local/bin/zshpower_sync.sh** and a preconfigured script to support **Cron**, which is located at: */etc/cron.d/zshpower_task.sh*. Just access **Cron** to schedule a task at any time and call this script. You can use the [Crontab Guru](https://crontab.guru/) website  to make it easier to understand Cron.
+As stated before, you can use a task scheduler. Just access **Cron** to schedule a task at any time and call this script. You can use the [Crontab Guru](https://crontab.guru/) website  to make it easier to understand Cron.
 
 If you cancel the Cron scripting step, you can do this manually through sample sites, like these:
 
