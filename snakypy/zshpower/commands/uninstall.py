@@ -73,7 +73,12 @@ class UninstallCommand(Base):
                 printer("Whew! Thanks! :)", foreground=FG().GREEN)
                 exit(0)
             remove_objects(
-                objects=(self.init_file, self.database_root, self.cache_root, self.bin_root)
+                objects=(
+                    self.init_file,
+                    self.database_root,
+                    self.cache_root,
+                    self.bin_root,
+                )
             )
             uninstall_by_pip(packages=(__info__["name"],))
             rm_source_zshrc(self.zsh_rc, self.logfile)
@@ -99,6 +104,7 @@ class UninstallCommand(Base):
                     self.init_file,
                     self.database_root,
                     self.cache_root,
+                    self.bin_root,
                 )
             )
             uninstall_by_pip(packages=(__info__["name"],))
@@ -107,7 +113,9 @@ class UninstallCommand(Base):
             # ZSHPower and Oh My ZSH
             if reply[0] == 1:
                 backup_file(self.zsh_rc, self.zsh_rc, date=True, extension=False)
-                remove_objects(objects=(self.omz_root, self.zsh_rc, self.cache_root, self.bin_root))
+                remove_objects(
+                    objects=(self.omz_root, self.zsh_rc, self.cache_root, self.bin_root)
+                )
                 create_file(zshrc_sample, self.zsh_rc, force=True)
 
             finished()
