@@ -40,7 +40,9 @@ class InitCommand(Base):
     def run(self, arguments, *, reload=False, message=False) -> None:
         tools_requirements("bash", "zsh", "vim", "git", "cut", "grep", "whoami", "pwd")
         printer("Please wait ... assigning settings ...", foreground=FG().WARNING)
-        snakypy_path_create(self.config_root, self.database_root, self.cache_root)
+        snakypy_path_create(
+            self.config_root, self.bin_root, self.database_root, self.cache_root
+        )
         create_config(config_content, self.config_file)
 
         if not arguments["--omz"]:
