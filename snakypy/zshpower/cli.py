@@ -22,7 +22,7 @@ args: dict = arguments()
 
 @assign_cli(args, "init")
 def run_init() -> None:
-    InitCommand(HOME).run(args, reload=True, message=True)
+    InitCommand(HOME).run(args, reload=True)
 
 
 @assign_cli(args, "config")
@@ -52,7 +52,7 @@ def run_uninstall() -> None:
 
 @assign_cli(args, "sync")
 def run_sync() -> None:
-    Sync(HOME).run()
+    Sync(HOME).run(args)
 
 
 @assign_cli(args, "logs")
