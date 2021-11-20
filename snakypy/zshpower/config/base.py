@@ -12,7 +12,8 @@ class Base:
         self.HOME = home
         self.zshpower_home = join(self.HOME, f".{__info__['pkg_name']}")
         self.tbl_main = [item for item in sql().keys()][0]
-        self.config_file = join(self.zshpower_home, "config", "zshpower.toml")
+        self.config_root = join(self.zshpower_home, "config")
+        self.config_file = join(self.config_root, "zshpower.toml")
         self.database_root = join(self.zshpower_home, ".database")
         self.cache_root = join(self.zshpower_home, ".cache")
         self.logfile = join(self.zshpower_home, ".cache", "zshpower.log")
