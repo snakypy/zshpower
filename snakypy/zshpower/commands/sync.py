@@ -15,20 +15,23 @@ class Sync(Base):
     def __init__(self, home):
         Base.__init__(self, home)
 
-    def run(self) -> None:
+    def run(self, arguments) -> None:
+        # if arguments["--manual"]:
         try:
             checking_init(self.HOME, self.logfile)
             with ThreadPoolExecutor(max_workers=2) as executor:
                 executor.submit(
                     loading,
-                    set_time=0.100,
+                    set_time=0.030,
                     bar=False,
                     header="Synchronizing versions with database ...",
                     foreground=FG().QUESTION,
                 )
                 executor.submit(records, action="update")
             self.log.record(
-                f"User ({whoami()}) updated the database.", colorize=True, level="info"
+                f"User ({whoami()}) updated the database.",
+                colorize=True,
+                level="info",
             )
             printer("Done!", foreground=FG().FINISH)
         except KeyboardInterrupt:
