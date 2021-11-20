@@ -1,11 +1,16 @@
 from subprocess import call as subprocess_call
+from time import sleep
 
 from snakypy.helpers import FG, printer
 from snakypy.helpers.catches import shell, whoami
 from snakypy.helpers.logging import Log
 
 
-def reload_zsh() -> None:
+def reload_zsh(sleep_timer=None, message=False) -> None:
+    if message:
+        printer("Restarting terminal, wait...", foreground=FG().WARNING)
+    if sleep_timer:
+        sleep(sleep_timer)
     subprocess_call("exec zsh", shell=True)
 
 
