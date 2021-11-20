@@ -9,7 +9,6 @@ from snakypy.zshpower.commands.utils.handle import records
 from snakypy.zshpower.config.apply import content as set_zshpower_content
 from snakypy.zshpower.config.base import Base
 from snakypy.zshpower.config.config import content as config_content
-from snakypy.zshpower.config.cron import cron_content, sync_content
 from snakypy.zshpower.config.zshrc import content as zshrc_content
 from snakypy.zshpower.database.dao import DAO
 from snakypy.zshpower.utils.catch import get_line_source
@@ -18,7 +17,6 @@ from snakypy.zshpower.utils.modifiers import (
     change_theme_in_zshrc,
     create_config,
     create_zshrc,
-    cron_task,
     install_fonts,
     omz_install,
     omz_install_plugins,
@@ -30,30 +28,25 @@ class InitCommand(Base):
     def __init__(self, home):
         Base.__init__(self, home)
         self.instruction_not_omz = f"""{FG().YELLOW}
-            ********************** WARNING **********************
-            Add the following code to the {FG().MAGENTA}{home}/.zshrc{NONE} {FG().YELLOW}file:
+            **************************** WARNING *******************************
+            1- Add the following line of code to the {FG().MAGENTA}{home}/.zshrc{NONE}{FG().YELLOW} file:
 
-            CODE: {FG().CYAN}source {self.init_file} {NONE}
-            {FG().YELLOW}*****************************************************{NONE}
+            {FG().CYAN}source $HOME/.zshpower/scripts/zshpower.sh{NONE}
+
+            {FG().YELLOW}2 - Then run the following command: {FG().CYAN}exec zsh{NONE}{FG().YELLOW}
+            ********************************************************************{NONE}
         """
 
-    def run(self, arguments, *, reload=False, message=False) -> None:
+    def run(self, arguments, *, reload=False) -> None:
         tools_requirements("bash", "zsh", "vim", "git", "cut", "grep", "whoami", "pwd")
-        printer("Please wait ... assigning settings ...", foreground=FG().WARNING)
-        snakypy_path_create(
-            self.config_root, self.bin_root, self.database_root, self.cache_root
-        )
+        printer("Wait a moment, creating initial settings...", foreground=FG().WARNING)
+        snakypy_path_create(self.config_root, self.database_root, self.cache_root)
         create_config(config_content, self.config_file)
-
+        # Install without OMZ
         if not arguments["--omz"]:
+            snakypy_path_create(self.scripts_root)
             create_file(set_zshpower_content, self.init_file, force=True)
-
-        # Create table if not exists
-        DAO().create_table(self.tbl_main)
-
-        # Insert registers in database
-        records("insert")
-
+        # Install with OMZ
         if arguments["--omz"]:
             omz_install(self.omz_root, self.logfile)
             omz_install_plugins(self.omz_root, self.plugins, self.logfile)
@@ -61,37 +54,26 @@ class InitCommand(Base):
             change_theme_in_zshrc(self.zsh_rc, f"{__info__['pkg_name']}", self.logfile)
             add_plugins_zshrc(self.zsh_rc, self.logfile)
             create_file(set_zshpower_content, self.theme_file, force=True)
-
         # Install fonts
         install_fonts(self.HOME, self.logfile)
-
-        # Change shell to ZSH
+        # Changing shell to ZSH
         change_shell(self.logfile)
+        printer("Settings finished!", foreground=FG().FINISH)
 
-        # Register log
+        printer("Generating database, wait...", foreground=FG().WARNING)
+        # Create table in database if not exists
+        DAO().create_table(self.tbl_main)
+        # Insert registers in database
+        records("insert")
+        printer("Database generated!", foreground=FG().FINISH)
+
+        # Register logs
         self.log.record("Initial settings applied", colorize=True, level="info")
 
-        try:
-            cron_task(
-                sync_content, self.sync_path, cron_content, self.cron_path, self.logfile
-            )
-            printer("Done!", foreground=FG().FINISH) if message else None
+        # Instruction ZSHPower without OMZ
+        if not arguments["--omz"] and not get_line_source(self.zsh_rc, self.logfile):
+            printer(self.instruction_not_omz, foreground=FG().YELLOW)
 
-            if not arguments["--omz"] and not get_line_source(
-                self.zsh_rc, self.logfile
-            ):
-                printer(self.instruction_not_omz, foreground=FG().YELLOW)
-
-            if reload:
-                reload_zsh()
-        except KeyboardInterrupt:
-            printer("Canceled by user", foreground=FG().WARNING)
-            printer("Done!", foreground=FG().FINISH) if message else None
-
-            if not arguments["--omz"] and not get_line_source(
-                self.zsh_rc, self.logfile
-            ):
-                printer(self.instruction_not_omz, foreground=FG().YELLOW)
-
-            if reload:
-                reload_zsh()
+        # Reload terminal
+        if arguments["--omz"] and reload:
+            reload_zsh(sleep_timer=2, message=True)
