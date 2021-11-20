@@ -16,7 +16,6 @@ from snakypy.helpers.subprocess import command
 from tomlkit import dumps as toml_dumps
 from tomlkit import parse as toml_parse
 
-from snakypy.zshpower import __info__
 from snakypy.zshpower.utils.catch import (
     plugins_current_zshrc,
     read_zshrc,
@@ -31,34 +30,6 @@ def create_config(content, file_path, *, force=False) -> bool:
         create_file(write_toml, file_path, force=force)
         return True
     return False
-
-
-# TODO: DEPRECATED
-# def log(filename, config):
-#     if config["general"]["log"]["enable"]:
-#         return Log(filename=filename)
-#     return False
-
-
-# def log_base(filename, force=False) -> Log:
-#     from textwrap import dedent
-
-#     content = dedent(
-#         f"""
-#         *******************************
-#          {__info__['name']} Logs - version {__info__['version']}
-#         *******************************
-
-#         | Level | Date | Message |
-
-#     """
-#     )
-#     if not exists(filename):
-#         create_file(content, filename, force=force)
-#     else:
-#         if force:
-#             create_file(content, filename, force=force)
-#     return Log(filename=filename)
 
 
 def create_zshrc(content, zshrc, logfile) -> bool:
@@ -199,6 +170,7 @@ def add_plugins_zshrc(zshrc, logfile):
         "pip",
         "pep8",
         "autopep8",
+        "virtualenv",
         "zsh-syntax-highlighting",
         "zsh-autosuggestions",
     )
@@ -217,7 +189,7 @@ def add_plugins_zshrc(zshrc, logfile):
 
 def rm_source_zshrc(zshrc, logfile):
     current_zshrc = read_zshrc(zshrc, logfile)
-    line_rm = f"source\\ \\$HOME/.zshpower/{__info__['version']}/init.sh"
+    line_rm = "source \\$HOME/.zshpower/scripts/zshpower.sh"
     new_zshrc = re_sub(rf"{line_rm}", "", current_zshrc, flags=re_m)
     create_file(new_zshrc, zshrc, force=True)
 
