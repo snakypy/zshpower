@@ -32,7 +32,7 @@ class ResetCommand(Base):
             with ThreadPoolExecutor(max_workers=2) as executor:
                 executor.submit(
                     loading,
-                    set_time=0.140,
+                    set_time=0.030,
                     bar=False,
                     header="ZSHPower Restoring the database ...",
                     foreground=FG().QUESTION,
