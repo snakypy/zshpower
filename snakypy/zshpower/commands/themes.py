@@ -1,5 +1,6 @@
 from snakypy.helpers.ansi import FG
 from snakypy.helpers.console.display import printer
+
 from snakypy.zshpower.config.base import Base
 from snakypy.zshpower.utils.catch import read_zshrc_omz
 from snakypy.zshpower.utils.check import checking_init
