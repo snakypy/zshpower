@@ -110,7 +110,7 @@ Here is an example of the installed **ZSHPower**:
 
 - Shows the time in the upper right corner;
 
-- and, many other dynamic settings in ```$HOME/.zshpower/<VERSION>/config.toml```.
+- and, many other dynamic settings in ```$HOME/.zshpower/config/zshpower.toml```.
 
 **features if used with __Oh My ZSH__.*
 
@@ -178,8 +178,9 @@ To use independently, without any framework, do:
 $ zshpower init
 ```
 
-> **NOTE**:  This option you will have to add the following code to the .zshrc file.
-> `source $HOME/.zshpower/**VERSION**/init.sh`
+> **NOTE**:  This option you will have to add the following code to the `.zshrc` file.
+
+> `source $HOME/.zshpower/bin/zshpower.sh`
 
 If you want to use it with **Oh My ZSH** and, to make **ZSHPower** more powerfull, do:
 

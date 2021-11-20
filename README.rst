@@ -91,7 +91,7 @@ Features
     * CMake, Crystal, Dart, Deno, Docker, Docker, Dotnet, Elixir, Erlang, Go, Gulp, Helm, Java, Julia, Kotlin, Nim, NodeJS, Ocaml, Perl, Php, Python, Ruby, Rust, Scala, Vagrant, Zig
 * Package versions such as Crystal, Helm, NodeJS, Python, Rust shown;
 * Shows the time in the upper right corner;
-* and, many other dynamic settings in `$HOME/.zshpower/<VERSION>/config.toml`.
+* and, many other dynamic settings in `$HOME/.zshpower/config/zshpower.toml`.
 
 \* features if used with **Oh My ZSH**.
 
@@ -117,11 +117,17 @@ For the user:
 Using
 -----
 
-Run the command below to set `ZSHPower`_ on your ZSH.
+Run the command below to set `ZSHPower`_ on your ZSH:
 
 .. code-block:: shell
 
-    $ zshpower init [--omz]
+    $ zshpower init
+
+If you want to use ZSHPower with `Oh My Zsh`_, use the **--omz** flag:
+
+.. code-block:: shell
+
+    $ zshpower init --omz
 
 For more command information, run:
 
