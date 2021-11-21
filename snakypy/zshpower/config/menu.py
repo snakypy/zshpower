@@ -9,7 +9,7 @@ options: str = f"""
 {FG().MAGENTA}Welcome to the {__info__["pkg_name"]} options menu.{NONE}
 
 Usage:
-    {__info__['executable']} init [--omz]
+    {__info__['executable']} init [--omz | --path]
     {__info__['executable']} sync
     {__info__['executable']} config (--open | --view)
     {__info__['executable']} logs (--view | --clean)
@@ -36,6 +36,7 @@ Options:
     {FG().CYAN}--omz{NONE} ---------- Use this option if you want to use {__info__["name"]} with Oh My ZSH.
     {FG().CYAN}--open{NONE} --------- Open the configuration file in edit mode and perform the automatic update
                      when you exit.
+    {FG().CYAN}--path{NONE} --------- View the path of the ZSHPower main lib.
     {FG().CYAN}--view{NONE} --------- View the configuration file on the terminal.
     {FG().CYAN}--config{NONE} ------- Restores the configuration file.
     {FG().CYAN}--db{NONE} ----------- Restores the database.
