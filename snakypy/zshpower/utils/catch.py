@@ -74,7 +74,8 @@ def plugins_current_zshrc(zshrc, logfile) -> list:
 
 def get_line_source(zshrc, logfile) -> str:
     current_zshrc = read_zshrc(zshrc, logfile)
-    m = re_search(r"source \$HOME/.zshpower", current_zshrc)
+    content = '\\[\\[ -d "\\$HOME/.zshpower/lib" \\]\\] && eval "\\$\\(zshpower init --path\\)"'
+    m = re_search(rf"{content}", current_zshrc)
     if m is not None:
         return m.group(0)
     return ""
