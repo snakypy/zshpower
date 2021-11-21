@@ -28,6 +28,7 @@ class Base:
         self.theme_symlink = join(
             self.themes_folder, f"{__info__['pkg_name']}.zsh-theme"
         )
+        self.source_code = f".{__info__['pkg_name']}/lib/main.lib"
         self.plugins = ("zsh-syntax-highlighting", "zsh-autosuggestions")
         create_path(self.cache_root)
         self.log = Log(self.logfile)
