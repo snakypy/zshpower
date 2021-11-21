@@ -48,7 +48,7 @@ class UninstallCommand(Base):
             )
         )
         uninstall_by_pip(packages=(__info__["name"],))
-        rm_source_zshrc(self.zsh_rc, self.logfile)
+        rm_source_zshrc(self.zsh_rc, self.source_code, self.logfile)
         change_theme_in_zshrc(self.zsh_rc, "robbyrussell", self.logfile)
         # ZSHPower and Oh My ZSH
         if reply[0] == 1:
@@ -79,7 +79,7 @@ class UninstallCommand(Base):
             )
         )
         uninstall_by_pip(packages=(__info__["name"],))
-        rm_source_zshrc(self.zsh_rc, self.logfile)
+        rm_source_zshrc(self.zsh_rc, self.source_code, self.logfile)
         reload_zsh(reload_zsh(sleep_timer=2, message=True))
         return "ZSHPower removed!"
 
