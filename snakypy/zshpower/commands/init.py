@@ -1,3 +1,6 @@
+from os import remove, symlink
+from os.path import islink
+
 from snakypy.helpers import printer
 from snakypy.helpers.ansi import FG, NONE
 from snakypy.helpers.catches import tools_requirements
@@ -22,8 +25,6 @@ from snakypy.zshpower.utils.modifiers import (
     omz_install_plugins,
 )
 from snakypy.zshpower.utils.process import change_shell, reload_zsh
-from os import symlink, remove
-from os.path import islink
 
 
 class InitCommand(Base):
