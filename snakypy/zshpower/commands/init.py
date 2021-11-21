@@ -1,12 +1,12 @@
 from os import remove, symlink
-from os.path import exists, islink, join
+from os.path import islink, join
 from sys import stdout
 
 from snakypy.helpers import printer
 from snakypy.helpers.ansi import FG, NONE
 from snakypy.helpers.catches import tools_requirements
 from snakypy.helpers.files import create_file
-from snakypy.helpers.path import create as snakypy_path_create
+from snakypy.helpers.path import create as create_path
 
 from snakypy.zshpower import __info__
 from snakypy.zshpower.commands.utils.handle import records
@@ -15,16 +15,16 @@ from snakypy.zshpower.config.base import Base
 from snakypy.zshpower.config.config import config_content
 from snakypy.zshpower.config.zshrc import zshrc_content
 from snakypy.zshpower.database.dao import DAO
-from snakypy.zshpower.utils.catch import get_line_source
+from snakypy.zshpower.utils.catch import get_line
 from snakypy.zshpower.utils.modifiers import (
-    add_plugins_zshrc,
-    change_theme_in_zshrc,
-    create_config,
+    add_plugins,
+    change_theme,
+    create_toml,
     create_zshrc,
     install_fonts,
+    install_plugins,
     omz_install,
-    omz_install_plugins,
-    rm_source_zshrc,
+    remove_lines,
 )
 from snakypy.zshpower.utils.process import change_shell, reload_zsh
 
@@ -50,21 +50,26 @@ class InitCommand(Base):
             printer(
                 "Wait a moment, creating initial settings...", foreground=FG().WARNING
             )
-            snakypy_path_create(
+            create_path(
                 self.config_root, self.database_root, self.cache_root, self.lib_root
             )
-            create_config(config_content, self.config_file)
+            create_toml(config_content, self.config_file)
             create_file(zshpower_main, self.lib_main, force=True)
             # Install with OMZ
             if arguments["--omz"]:
-                rm_source_zshrc(self.zsh_rc, self.logfile)
-                omz_install(self.omz_root, self.logfile)
-                omz_install_plugins(self.omz_root, self.plugins, self.logfile)
-                create_zshrc(zshrc_content, self.zsh_rc, self.logfile)
-                change_theme_in_zshrc(
-                    self.zsh_rc, f"{__info__['pkg_name']}", self.logfile
+                remove_lines(
+                    self.zsh_rc,
+                    self.logfile,
+                    lines=(
+                        '\\[\\[ -d "\\$HOME/.zshpower/lib" \\]\\] && eval "\\$\\(zshpower init --path\\)"',
+                        'eval "\\$\\(zshpower init --path\\)"',
+                    ),
                 )
-                add_plugins_zshrc(self.zsh_rc, self.logfile)
+                omz_install(self.omz_root, self.logfile)
+                install_plugins(self.omz_root, self.plugins, self.logfile)
+                create_zshrc(zshrc_content, self.zsh_rc, self.logfile)
+                change_theme(self.zsh_rc, f"{__info__['pkg_name']}", self.logfile)
+                add_plugins(self.zsh_rc, self.logfile)
                 if islink(self.theme_symlink):
                     remove(self.theme_symlink)
                 symlink(self.lib_main, self.theme_symlink)
@@ -85,9 +90,8 @@ class InitCommand(Base):
             self.log.record("Initial settings applied", colorize=True, level="info")
 
             # Instruction ZSHPower without OMZ
-            if not arguments["--omz"] and not get_line_source(
-                self.zsh_rc, self.logfile
-            ):
+            line = '\\[\\[ -d "\\$HOME/.zshpower/lib" \\]\\] && eval "\\$\\(zshpower init --path\\)"'
+            if not arguments["--omz"] and not get_line(self.zsh_rc, line, self.logfile):
                 printer(self.instruction_not_omz, foreground=FG().YELLOW)
 
             # Reload terminal

@@ -15,7 +15,7 @@ class Sync(Base):
     def __init__(self, home):
         Base.__init__(self, home)
 
-    def run(self, arguments) -> None:
+    def run(self) -> None:
         # if arguments["--manual"]:
         try:
             checking_init(self.HOME, self.logfile)

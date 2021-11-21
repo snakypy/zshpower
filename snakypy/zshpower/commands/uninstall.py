@@ -6,12 +6,8 @@ from snakypy.helpers.os import remove_objects
 from snakypy.zshpower import __info__
 from snakypy.zshpower.config.base import Base
 from snakypy.zshpower.config.zshrc import zshrc_sample
-from snakypy.zshpower.utils.catch import read_zshrc_omz
-from snakypy.zshpower.utils.modifiers import (
-    change_theme_in_zshrc,
-    rm_source_zshrc,
-    uninstall_by_pip,
-)
+from snakypy.zshpower.utils.catch import get_zsh_theme
+from snakypy.zshpower.utils.modifiers import change_theme, pip_uninstall, remove_lines
 from snakypy.zshpower.utils.process import reload_zsh
 
 
@@ -20,7 +16,7 @@ class UninstallCommand(Base):
         Base.__init__(self, home)
 
     def using_omz(self):
-        check = read_zshrc_omz(self.zsh_rc, self.logfile)
+        check = get_zsh_theme(self.zsh_rc, self.logfile)
         if check:
             return True
         return False
@@ -47,9 +43,16 @@ class UninstallCommand(Base):
                 self.theme_symlink,
             )
         )
-        uninstall_by_pip(packages=(__info__["name"],))
-        rm_source_zshrc(self.zsh_rc, self.logfile)
-        change_theme_in_zshrc(self.zsh_rc, "robbyrussell", self.logfile)
+        pip_uninstall(packages=(__info__["name"],))
+        remove_lines(
+            self.zsh_rc,
+            self.logfile,
+            lines=(
+                '\\[\\[ -d "\\$HOME/.zshpower/lib" \\]\\] && eval "\\$\\(zshpower init --path\\)"',
+                'eval "\\$\\(zshpower init --path\\)"',
+            ),
+        )
+        change_theme(self.zsh_rc, "robbyrussell", self.logfile)
         # ZSHPower and Oh My ZSH
         if reply[0] == 1:
             backup_file(self.zsh_rc, self.zsh_rc, date=True, extension=False)
@@ -78,12 +81,19 @@ class UninstallCommand(Base):
                 self.lib_root,
             )
         )
-        uninstall_by_pip(packages=(__info__["name"],))
-        rm_source_zshrc(self.zsh_rc, self.logfile)
+        pip_uninstall(packages=(__info__["name"],))
+        remove_lines(
+            self.zsh_rc,
+            self.logfile,
+            lines=(
+                '\\[\\[ -d "\\$HOME/.zshpower/lib" \\]\\] && eval "\\$\\(zshpower init --path\\)"',
+                'eval "\\$\\(zshpower init --path\\)"',
+            ),
+        )
         reload_zsh(reload_zsh(sleep_timer=2, message=True))
         return "ZSHPower removed!"
 
-    def run(self) -> None:
+    def run(self) -> str:
         if self.using_omz():
             return self.zshpower_with_omz()
         return self.orphan_zshpower()

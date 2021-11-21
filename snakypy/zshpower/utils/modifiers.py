@@ -1,98 +1,101 @@
-from getpass import getpass
 from os import remove
 from os.path import exists, isdir, isfile, join
-from re import M as re_m
-from re import sub as re_sub
+from re import M, sub
 from shutil import which
-from subprocess import PIPE, Popen, check_output
+from subprocess import check_output
 from sys import platform
 from zipfile import ZipFile
 
 from snakypy.helpers import FG, printer
 from snakypy.helpers.files import backup_file, create_file
 from snakypy.helpers.logging import Log
-from snakypy.helpers.path import create as snakypy_path_create
+from snakypy.helpers.path import create as create_path
 from snakypy.helpers.subprocess import command
 from tomlkit import dumps as toml_dumps
 from tomlkit import parse as toml_parse
 
-from snakypy.zshpower.utils.catch import (
-    plugins_current_zshrc,
-    read_zshrc,
-    read_zshrc_omz,
-)
+from snakypy.zshpower.utils.catch import current_plugins, get_zsh_theme, read_file_log
 
 
-def create_config(content, file_path, *, force=False) -> bool:
-    if not exists(file_path) or force:
+def create_toml(content, file, *, force=False) -> bool:
+    """
+    Create the ZSHPower configuration file. A TOML file.
+    """
+    if not exists(file) or force:
         parsed_toml = toml_parse(content)
         write_toml = toml_dumps(parsed_toml)
-        create_file(write_toml, file_path, force=force)
+        create_file(write_toml, file, force=force)
         return True
     return False
 
 
-def create_zshrc(content, zshrc, logfile) -> bool:
-    if exists(zshrc):
-        if not read_zshrc_omz(zshrc, logfile):
-            backup_file(zshrc, zshrc, date=True, extension=False)
-            create_file(content, zshrc, force=True)
-            return True
-    elif not exists(zshrc):
-        create_file(content, zshrc)
-        return True
-    return False
+def create_zshrc(content, zshrc_path, logfile):
+    """
+    Create a .zshrc file if there is no one compatible with Oh MyZSH.
+    """
+    try:
+        if not get_zsh_theme(zshrc_path, logfile):
+            backup_file(zshrc_path, zshrc_path, date=True, extension=False)
+            create_file(content, zshrc_path, force=True)
+    except FileNotFoundError:
+        create_file(content, zshrc_path)
 
 
-def cron_task(sync_context, sync_path, cron_context, cron_path, logfile):
+# def cron_task(sync_context, sync_path, cron_context, cron_path, logfile):
+#
+#     if not exists(sync_path) or not exists(cron_path):
+#         pass_ok = False
+#
+#         message = """
+#                 At this point, you need to INFORM the root password to create the Crontab task.
+#                 If you do not want this configuration to be made, you can cancel with Ctrl + C.
+#                 """
+#
+#         printer(message, foreground=FG().WARNING)
+#
+#         while not pass_ok:
+#             sudo_password = getpass()
+#
+#             command_ = f"""su -c 'echo "{sync_context}" > {sync_path}; chmod a+x {sync_path};
+#             echo "{cron_context}" > {cron_path};'
+#             """
+#             p = Popen(
+#                 command_,
+#                 stdin=PIPE,
+#                 stderr=PIPE,
+#                 stdout=PIPE,
+#                 universal_newlines=True,
+#                 shell=True,
+#             )
+#             communicate = p.communicate(sudo_password)
+#
+#             if "failure" in communicate[1].split():
+#                 printer("Password incorrect.", foreground=FG().ERROR)
+#             else:
+#                 pass_ok = True
+#                 Log(filename=logfile).record(
+#                     "Settings for Cron applied.", colorize=True, level="info"
+#                 )
 
-    if not exists(sync_path) or not exists(cron_path):
-        pass_ok = False
 
-        message = """
-                At this point, you need to INFORM the root password to create the Crontab task.
-                If you do not want this configuration to be made, you can cancel with Ctrl + C.
-                """
-
-        printer(message, foreground=FG().WARNING)
-
-        while not pass_ok:
-            sudo_password = getpass()
-
-            command_ = f"""su -c 'echo "{sync_context}" > {sync_path}; chmod a+x {sync_path};
-            echo "{cron_context}" > {cron_path};'
-            """
-            p = Popen(
-                command_,
-                stdin=PIPE,
-                stderr=PIPE,
-                stdout=PIPE,
-                universal_newlines=True,
-                shell=True,
-            )
-            communicate = p.communicate(sudo_password)
-
-            if "failure" in communicate[1].split():
-                printer("Password incorrect.", foreground=FG().ERROR)
-            else:
-                pass_ok = True
-                Log(filename=logfile).record(
-                    "Settings for Cron applied.", colorize=True, level="info"
-                )
-
-
-def change_theme_in_zshrc(zshrc, theme_name, logfile) -> bool:
-    if read_zshrc_omz(zshrc, logfile):
-        current_zshrc = read_zshrc(zshrc, logfile)
-        current_theme = read_zshrc_omz(zshrc, logfile)[1]
+def change_theme(file, theme_name, logfile) -> bool:
+    """
+    Change Oh My ZSH Theme
+    """
+    if get_zsh_theme(file, logfile):
+        current_file = read_file_log(file, logfile)
+        current_theme = get_zsh_theme(file, logfile)[1]
         new_theme = f'ZSH_THEME="{theme_name}"'
-        new_zsh_rc = re_sub(rf"{current_theme}", new_theme, current_zshrc, flags=re_m)
-        create_file(new_zsh_rc, zshrc, force=True)
+        new_file = sub(rf"{current_theme}", new_theme, current_file, flags=M)
+        create_file(new_file, file, force=True)
         return True
     return False
 
 
 def omz_install(omz_root, logfile):
+    """
+    Install Oh My ZSH
+    """
     omz_github = "https://github.com/ohmyzsh/ohmyzsh.git"
     cmd_line = f"git clone {omz_github} {omz_root}"
     try:
@@ -111,7 +114,10 @@ def omz_install(omz_root, logfile):
         raise Exception("Error downloading Oh My ZSH. Aborted!")
 
 
-def omz_install_plugins(omz_root, plugins, logfile):
+def install_plugins(omz_root, plugins, logfile):
+    """
+    Install plugins on Oh My ZSH
+    """
     try:
         url_master = "https://github.com/zsh-users"
         for plugin in plugins:
@@ -129,11 +135,14 @@ def omz_install_plugins(omz_root, plugins, logfile):
 
 
 def install_fonts(home, logfile, *, force=False) -> bool:
+    """
+    Install the Nerd Fonts font in the $HOME/.fonts folder
+    """
     url = "https://github.com/snakypy/assets"
     base_url = "raw/main/zshpower/fonts/terminal/fonts.zip"
     font_name = "DejaVu Sans Mono Nerd Font"
     fonts_dir = join(home, ".fonts")
-    snakypy_path_create(fonts_dir)
+    create_path(fonts_dir)
     curl_output = join(home, "zshpower__font.zip")
 
     if platform.startswith("linux"):
@@ -164,7 +173,10 @@ def install_fonts(home, logfile, *, force=False) -> bool:
     return False
 
 
-def add_plugins_zshrc(zshrc, logfile):
+def add_plugins(zshrc, logfile):
+    """
+    Add plugins to the .zshrc file if it is compatible with Oh My ZSH
+    """
     plugins = (
         "python",
         "pip",
@@ -174,41 +186,34 @@ def add_plugins_zshrc(zshrc, logfile):
         "zsh-syntax-highlighting",
         "zsh-autosuggestions",
     )
-    current = plugins_current_zshrc(zshrc, logfile)
+    current = current_plugins(zshrc, logfile)
 
     new_plugins = [plugin for plugin in plugins if plugin not in current]
 
     if len(new_plugins) > 0:
-        current_zshrc = read_zshrc(zshrc, logfile)
+        current_zshrc = read_file_log(zshrc, logfile)
         plugins = f'plugins=({" ".join(current)} {" ".join(new_plugins)})'
-        new_zsh_rc = re_sub(r"^plugins=\(.*", plugins, current_zshrc, flags=re_m)
+        new_zsh_rc = sub(r"^plugins=\(.*", plugins, current_zshrc, flags=M)
         create_file(new_zsh_rc, zshrc, force=True)
         return new_zsh_rc
     return ""
 
 
-def rm_source_zshrc(zshrc, logfile) -> None:
-
-    # Values to regex
-    lines = [
-        '\\[\\[ -d "\\$HOME/.zshpower/lib" \\]\\] && eval "\\$\\(zshpower init --path\\)"',
-        'eval "\\$\\(zshpower init --path\\)"',
-    ]
-    content = read_zshrc(zshrc, logfile)
+def remove_lines(file, logfile, lines=()) -> None:
+    """
+    Remove certain lines from a file
+    """
+    content = read_file_log(file, logfile)
     for num, _ in enumerate(lines):
-        content = re_sub(rf"{lines[num]}", "", content, flags=re_m)
+        content = sub(rf"{lines[num]}", "", content, flags=M)
 
-    create_file(content, zshrc, force=True)
-
-
-# def rm_source_zshrc1(zshrc, logfile):
-#     current_zshrc = read_zshrc(zshrc, logfile)
-#     line_rm = 'eval "\\$\\(zshpower init --path\\)"'
-#     new_zshrc = re_sub(rf"{line_rm}", "", current_zshrc, flags=re_m)
-#     create_file(new_zshrc, zshrc, force=True)
+    create_file(content, file, force=True)
 
 
-def uninstall_by_pip(*, packages=()) -> tuple:
+def pip_uninstall(*, packages=()) -> tuple:
+    """
+    Install Python packages for active user using Pip
+    """
     if which("pip") is not None:
         for pkg in packages:
             check_output(

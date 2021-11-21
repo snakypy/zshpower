@@ -52,7 +52,7 @@ def run_uninstall() -> None:
 
 @assign_cli(args, "sync")
 def run_sync() -> None:
-    Sync(HOME).run(args)
+    Sync(HOME).run()
 
 
 @assign_cli(args, "logs")

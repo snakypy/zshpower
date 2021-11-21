@@ -20,7 +20,7 @@ def change_shell(logfile) -> bool:
             subprocess_call(f"chsh -s $(which zsh) {whoami()}", shell=True)
             return True
         except KeyboardInterrupt:
-            Log(filenane=logfile).record(
+            Log(filename=logfile).record(
                 f"Shell change canceled by user ({whoami()})",
                 colorize=True,
                 level="warning",

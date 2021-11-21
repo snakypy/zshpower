@@ -15,7 +15,7 @@ class Docker(Version, Base):
     ) -> Union[str, bool]:
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, exec="docker", key="docker", action=None) -> bool:
+    def set_version(self, exec_="docker", key="docker", action=None) -> bool:
         command = run("docker --version", capture_output=True, shell=True, text=True)
         version = command.stdout.split()[2].replace(",", "")
-        return super().set(command, version, exec, key, action)
+        return super().set(command, version, exec_, key, action)

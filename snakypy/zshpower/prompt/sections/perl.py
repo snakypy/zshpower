@@ -14,7 +14,7 @@ class Perl(Version, Base):
     ) -> str:
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, exec="perl", key="perl", action=None):
+    def set_version(self, exec_="perl", key="perl", action=None):
         command = run(
             # Model
             # perl -Mstrict -wall -e "print join('.', map {ord} split('', \$^V));"
@@ -27,4 +27,4 @@ class Perl(Version, Base):
         version = (
             command.stdout.split()[8].replace("v", "").replace("(", "").replace(")", "")
         )
-        return super().set(command, version, exec, key, action)
+        return super().set(command, version, exec_, key, action)

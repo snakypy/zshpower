@@ -15,7 +15,7 @@ class Elixir(Version, Base):
     ) -> str:
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, exec="elixir", key="elixir", action=None) -> bool:
+    def set_version(self, exec_="elixir", key="elixir", action=None) -> bool:
         command = run(
             "elixir -v 2>/dev/null | grep 'Elixir' | cut -d ' ' -f2",
             capture_output=True,
@@ -23,4 +23,4 @@ class Elixir(Version, Base):
             text=True,
         )
         version = command.stdout.replace("\n", "")
-        return super().set(command, version, exec, key, action)
+        return super().set(command, version, exec_, key, action)

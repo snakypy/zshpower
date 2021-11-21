@@ -15,7 +15,7 @@ class Ruby(Version, Base):
     ) -> str:
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, exec="ruby", key="ruby", action=None):
+    def set_version(self, exec_="ruby", key="ruby", action=None):
         command = run("ruby --version", capture_output=True, shell=True, text=True)
         version = command.stdout.replace("\n", " ").split(" ")[1].split("p")[0]
-        return super().set(command, version, exec, key, action)
+        return super().set(command, version, exec_, key, action)

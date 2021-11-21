@@ -14,7 +14,7 @@ class Julia(Version, Base):
     ) -> str:
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, exec="julia", key="julia", action=None):
+    def set_version(self, exec_="julia", key="julia", action=None):
         command = run("julia --version", capture_output=True, shell=True, text=True)
         version = command.stdout.replace("\n", "").split(" ")[2]
-        return super().set(command, version, exec, key, action)
+        return super().set(command, version, exec_, key, action)

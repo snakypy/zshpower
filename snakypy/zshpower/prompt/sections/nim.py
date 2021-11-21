@@ -15,7 +15,7 @@ class Nim(Version, Base):
     ) -> str:
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, exec="nim", key="nim", action=None):
+    def set_version(self, exec_="nim", key="nim", action=None):
         command = run(
             "nim --version | awk '/Version/'",
             capture_output=True,
@@ -23,4 +23,4 @@ class Nim(Version, Base):
             text=True,
         )
         version = command.stdout.split()[-3]
-        return super().set(command, version, exec, key, action)
+        return super().set(command, version, exec_, key, action)

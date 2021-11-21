@@ -50,7 +50,7 @@ from snakypy.zshpower.prompt.sections.vagrant import Vagrant
 from snakypy.zshpower.prompt.sections.zig import Zig
 from snakypy.zshpower.utils.catch import get_key
 from snakypy.zshpower.utils.check import str_empty_in
-from snakypy.zshpower.utils.modifiers import create_config
+from snakypy.zshpower.utils.modifiers import create_toml
 
 # ## Test timer ## #
 # from snakypy.helpers.decorators import runtime
@@ -67,9 +67,9 @@ class Draw(DAO):
             parsed = dict(toml_parse(read_file(self.config_file)))
             return parsed
 
-        except (FileNotFoundError):
+        except FileNotFoundError:
             create_path(self.zshpower_home)
-            create_config(config_content, self.config_file)
+            create_toml(config_content, self.config_file)
             parsed = dict(toml_parse(read_file(self.config_file)))
             self.log.record(
                 "Configuration files does not exist, however it was created.",

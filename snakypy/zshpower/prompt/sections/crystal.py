@@ -16,7 +16,7 @@ class Crystal(Version, Base):
     ) -> Union[str, bool]:
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, exec="crystal", key="crystal", action=None) -> bool:
+    def set_version(self, exec_="crystal", key="crystal", action=None) -> bool:
         command = run("crystal version", capture_output=True, shell=True, text=True)
         version = command.stdout.split()[1]
-        return super().set(command, version, exec, key, action)
+        return super().set(command, version, exec_, key, action)

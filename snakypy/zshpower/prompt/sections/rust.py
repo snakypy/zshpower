@@ -15,7 +15,7 @@ class Rust(Version, Base):
     ) -> str:
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, exec="rustc", key="rust", action=None):
+    def set_version(self, exec_="rustc", key="rust", action=None):
         command = run("rustc --version", capture_output=True, shell=True, text=True)
         version = command.stdout.split(" ")[1].replace("\n", "")
-        return super().set(command, version, exec, key, action)
+        return super().set(command, version, exec_, key, action)

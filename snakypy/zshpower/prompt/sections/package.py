@@ -104,17 +104,17 @@ class Rust(Base):
 
     def get_version(self, space_elem=" ") -> str:
         if self.enable:
-            python_package_version = run(
+            rust_package_version = run(
                 f"""< {self.files[0]} grep "^version := *" | cut -d'"' -f2 | cut -d"'" -f2""",
                 capture_output=True,
                 shell=True,
                 text=True,
             ).stdout
 
-            python_package_version = python_package_version.replace("\n", "")
+            rust_package_version = rust_package_version.replace("\n", "")
 
-            if python_package_version:
-                return f"{python_package_version}{space_elem}"
+            if rust_package_version:
+                return f"{rust_package_version}{space_elem}"
         return ""
 
     def __str__(self):

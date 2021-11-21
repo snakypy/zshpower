@@ -2,7 +2,7 @@ from snakypy.helpers.ansi import FG
 from snakypy.helpers.console.display import printer
 
 from snakypy.zshpower.config.base import Base
-from snakypy.zshpower.utils.catch import read_zshrc_omz
+from snakypy.zshpower.utils.catch import get_zsh_theme
 from snakypy.zshpower.utils.check import checking_init
 
 
@@ -14,7 +14,7 @@ class Theme(Base):
     def run(self, arguments) -> None:
         checking_init(self.HOME, self.logfile)
 
-        zshrc_omz = read_zshrc_omz(self.zsh_rc, self.logfile)
+        zshrc_omz = get_zsh_theme(self.zsh_rc, self.logfile)
 
         if not zshrc_omz:
             return printer(

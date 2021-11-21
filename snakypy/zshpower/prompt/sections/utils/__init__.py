@@ -127,8 +127,8 @@ class Version(DAO):
                 )
         return ""
 
-    def set(self, command, version, exec="", key="", action=None) -> bool:
-        if is_tool(exec) and action:
+    def set(self, command, version, exec_="", key="", action=None) -> bool:
+        if is_tool(exec_) and action:
             # Conditions to save in database
             if action == "insert":
                 query = DAO().select_where(

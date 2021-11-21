@@ -2,7 +2,7 @@ import os
 from contextlib import suppress
 from functools import reduce
 from os.path import exists, isdir
-from re import M as re_m
+from re import M
 from re import search as re_search
 from typing import Union
 
@@ -31,15 +31,18 @@ def get_key(d, *keys) -> Union[str, bool]:
     return data
 
 
-def read_zshrc(zshrc, logfile) -> str:
+def read_file_log(file, logfile) -> str:
+    """
+    Read a file with log creation option if it does not exist
+    """
     try:
-        with open(zshrc) as f:
+        with open(file) as f:
             return f.read()
     except FileNotFoundError as err:
         Log(filename=logfile).record(
-            f"The {zshrc} file was not found.", colorize=True, level="error"
+            f"The {file} file was not found.", colorize=True, level="error"
         )
-        raise FileNotFoundError(f"The {zshrc} file was not found.", err)
+        raise FileNotFoundError(f"The {file} file was not found.", err)
 
 
 def arguments(argv=None) -> dict:
@@ -50,20 +53,26 @@ def arguments(argv=None) -> dict:
     return data
 
 
-def read_zshrc_omz(zshrc, logfile) -> tuple:
-    current_zshrc = read_zshrc(zshrc, logfile)
-    m = re_search(r"ZSH_THEME=\".*", current_zshrc)
+def get_zsh_theme(file, logfile) -> tuple:
+    """
+    Get the current theme contained in the .zshrc file if using Oh My ZSH
+    """
+    current_file = read_file_log(file, logfile)
+    m = re_search(r"ZSH_THEME=\".*", current_file)
     if m is not None:
-        var_zsh_theme = m.group(0)
-        lst = var_zsh_theme.split("=")
+        theme_var = m.group(0)
+        lst = theme_var.split("=")
         theme_name = [s.strip('"') for s in lst][1]
-        return theme_name, var_zsh_theme
+        return theme_name, theme_var
     return ()
 
 
-def plugins_current_zshrc(zshrc, logfile) -> list:
-    current_zshrc = read_zshrc(zshrc, logfile)
-    m = re_search(r"^plugins=\(.*", current_zshrc, flags=re_m)
+def current_plugins(file, logfile) -> list:
+    """
+    Get current plugins from .zshrc file if using Oh My ZSH
+    """
+    current_file = read_file_log(file, logfile)
+    m = re_search(r"^plugins=\(.*", current_file, flags=M)
     if m is not None:
         get = m.group(0)
         lst = get.split("=")
@@ -72,16 +81,22 @@ def plugins_current_zshrc(zshrc, logfile) -> list:
     return []
 
 
-def get_line_source(zshrc, logfile) -> str:
-    current_zshrc = read_zshrc(zshrc, logfile)
-    content = '\\[\\[ -d "\\$HOME/.zshpower/lib" \\]\\] && eval "\\$\\(zshpower init --path\\)"'
-    m = re_search(rf"{content}", current_zshrc)
+def get_line(file, line, logfile) -> Union[str, bool]:
+    """
+    Get a given line from a given file
+    """
+    current_file = read_file_log(file, logfile)
+    m = re_search(rf"{line}", current_file)
     if m is not None:
         return m.group(0)
-    return ""
+    return False
 
 
 def verify_objects(directory, /, files=(), folders=(), extension=()) -> bool:
+    """
+    Checks whether there are objects from a particular directory.
+    These can be folders, files and file extensions.
+    """
     with suppress(PermissionError):
         for file in os.listdir(directory):
             if folders:

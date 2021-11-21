@@ -14,8 +14,8 @@ class Erlang(Version, Base):
     ) -> str:
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, exec="erl", key="erlang", action=None) -> bool:
+    def set_version(self, exec_="erl", key="erlang", action=None) -> bool:
         # The parameter 2>&1 is for the command to insert output to stdout, as some output to stderr.
         command = run("erl -version 2>&1", capture_output=True, shell=True, text=True)
         version = command.stdout.split()[-1]
-        return super().set(command, version, exec, key, action)
+        return super().set(command, version, exec_, key, action)

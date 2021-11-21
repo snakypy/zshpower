@@ -64,7 +64,7 @@ class Gulp(Version, Base):
                 )
         return ""
 
-    def set_version(self, exec="gulp", key="gulp", action=None) -> bool:
+    def set_version(self, exec_="gulp", key="gulp", action=None) -> bool:
         command = run("gulp --version", capture_output=True, shell=True, text=True)
         version = command.stdout.split()[2]
-        return super().set(command, version, exec, key, action)
+        return super().set(command, version, exec_, key, action)
