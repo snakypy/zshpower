@@ -187,11 +187,25 @@ def add_plugins_zshrc(zshrc, logfile):
     return ""
 
 
-def rm_source_zshrc(zshrc, source_code, logfile):
-    current_zshrc = read_zshrc(zshrc, logfile)
-    line_rm = f"source \\$HOME/{source_code}"
-    new_zshrc = re_sub(rf"{line_rm}", "", current_zshrc, flags=re_m)
-    create_file(new_zshrc, zshrc, force=True)
+def rm_source_zshrc(zshrc, logfile) -> None:
+
+    # Values to regex
+    lines = [
+        '\\[\\[ -d "\\$HOME/.zshpower/lib" \\]\\] && eval "\\$\\(zshpower init --path\\)"',
+        'eval "\\$\\(zshpower init --path\\)"',
+    ]
+    content = read_zshrc(zshrc, logfile)
+    for num, _ in enumerate(lines):
+        content = re_sub(rf"{lines[num]}", "", content, flags=re_m)
+
+    create_file(content, zshrc, force=True)
+
+
+# def rm_source_zshrc1(zshrc, logfile):
+#     current_zshrc = read_zshrc(zshrc, logfile)
+#     line_rm = 'eval "\\$\\(zshpower init --path\\)"'
+#     new_zshrc = re_sub(rf"{line_rm}", "", current_zshrc, flags=re_m)
+#     create_file(new_zshrc, zshrc, force=True)
 
 
 def uninstall_by_pip(*, packages=()) -> tuple:
