@@ -189,7 +189,7 @@ def add_plugins_zshrc(zshrc, logfile):
 
 def rm_source_zshrc(zshrc, logfile):
     current_zshrc = read_zshrc(zshrc, logfile)
-    line_rm = "source \\$HOME/.zshpower/scripts/zshpower.sh"
+    line_rm = "source \\$HOME/.zshpower/lib/main.lib"
     new_zshrc = re_sub(rf"{line_rm}", "", current_zshrc, flags=re_m)
     create_file(new_zshrc, zshrc, force=True)
 

@@ -12,7 +12,7 @@ from snakypy.helpers.path import create as create_path
 from tomlkit import parse as toml_parse
 
 from snakypy.zshpower import __info__
-from snakypy.zshpower.config.config import content as config_content
+from snakypy.zshpower.config.config import config_content
 from snakypy.zshpower.database.dao import DAO
 from snakypy.zshpower.prompt.sections.cmake import CMake
 from snakypy.zshpower.prompt.sections.command import Command

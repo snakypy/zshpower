@@ -1,6 +1,6 @@
 from snakypy.zshpower import __info__
 
-content: str = f"""# Generate by: {__info__["name"]}
+zshrc_content: str = f"""# Generate by: {__info__["name"]}
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 

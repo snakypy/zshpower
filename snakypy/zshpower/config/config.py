@@ -1,6 +1,6 @@
 from datetime import datetime
 
-content: str = f"""# Generate by: ZSHPower - D{datetime.today().isoformat()}
+config_content: str = f"""# Generate by: ZSHPower - D{datetime.today().isoformat()}
 # ---------------------------------------------------------------------
 # For more information, see the documentation at:
 # https://github.com/snakypy/zshpower#configuration-file

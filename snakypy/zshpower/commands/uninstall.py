@@ -43,8 +43,8 @@ class UninstallCommand(Base):
             objects=(
                 self.database_root,
                 self.cache_root,
-                self.scripts_root,
-                self.theme_file,
+                self.lib_root,
+                self.theme_symlink,
             )
         )
         uninstall_by_pip(packages=(__info__["name"],))
@@ -75,7 +75,7 @@ class UninstallCommand(Base):
             objects=(
                 self.database_root,
                 self.cache_root,
-                self.scripts_root,
+                self.lib_root,
             )
         )
         uninstall_by_pip(packages=(__info__["name"],))
