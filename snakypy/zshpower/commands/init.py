@@ -34,7 +34,7 @@ class InitCommand(Base):
             **************************** WARNING *******************************
             1- Add the following line of code to the {FG().MAGENTA}{home}/.zshrc{NONE}{FG().YELLOW} file:
 
-            {FG().CYAN}source $HOME/.zshpower/lib/main.lib{NONE}
+            {FG().CYAN}source $HOME/{self.source_code}{NONE}
 
             {FG().YELLOW}2 - Then run the following command: {FG().CYAN}exec zsh{NONE}{FG().YELLOW}
             ********************************************************************{NONE}
