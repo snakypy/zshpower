@@ -16,7 +16,6 @@ class Sync(Base):
         Base.__init__(self, home)
 
     def run(self) -> None:
-        # if arguments["--manual"]:
         try:
             checking_init(self.HOME, self.logfile)
             with ThreadPoolExecutor(max_workers=2) as executor:
