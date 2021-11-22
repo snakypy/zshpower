@@ -1,9 +1,10 @@
+from getpass import getpass
 from os import remove
 from os.path import exists, isdir, isfile, join
 from re import M, sub
 from shutil import which
-from subprocess import check_output
-from sys import platform
+from subprocess import PIPE, Popen, check_output
+from sys import exit, platform
 from zipfile import ZipFile
 
 from snakypy.helpers import FG, printer
@@ -41,41 +42,37 @@ def create_zshrc(content, zshrc_path, logfile):
         create_file(content, zshrc_path)
 
 
-# def cron_task(sync_context, sync_path, cron_context, cron_path, logfile):
-#
-#     if not exists(sync_path) or not exists(cron_path):
-#         pass_ok = False
-#
-#         message = """
-#                 At this point, you need to INFORM the root password to create the Crontab task.
-#                 If you do not want this configuration to be made, you can cancel with Ctrl + C.
-#                 """
-#
-#         printer(message, foreground=FG().WARNING)
-#
-#         while not pass_ok:
-#             sudo_password = getpass()
-#
-#             command_ = f"""su -c 'echo "{sync_context}" > {sync_path}; chmod a+x {sync_path};
-#             echo "{cron_context}" > {cron_path};'
-#             """
-#             p = Popen(
-#                 command_,
-#                 stdin=PIPE,
-#                 stderr=PIPE,
-#                 stdout=PIPE,
-#                 universal_newlines=True,
-#                 shell=True,
-#             )
-#             communicate = p.communicate(sudo_password)
-#
-#             if "failure" in communicate[1].split():
-#                 printer("Password incorrect.", foreground=FG().ERROR)
-#             else:
-#                 pass_ok = True
-#                 Log(filename=logfile).record(
-#                     "Settings for Cron applied.", colorize=True, level="info"
-#                 )
+def command_superuser(
+    cmd, logfile=None, msg_header="Enter the machine superuser password"
+):
+    check = False
+    printer(f"[ {msg_header} ]", foreground=FG().WARNING)
+    try:
+        while not check:
+            sudo_password = getpass()
+            popen = Popen(
+                cmd,
+                stdin=PIPE,
+                stderr=PIPE,
+                stdout=PIPE,
+                universal_newlines=True,
+                shell=True,
+            )
+            communicate = popen.communicate(sudo_password)
+            if "su:" in communicate[1].split():
+                printer("Password incorrect.", foreground=FG().ERROR)
+            else:
+                check = True
+        return check
+    except KeyboardInterrupt:
+        printer("Aborted by user.", foreground=FG().WARNING)
+        exit()
+    except PermissionError:
+        if logfile:
+            Log(filename=logfile).record(
+                "No permission to write to directory.", colorize=True, level="error"
+            )
+        raise PermissionError("No permission to write to directory")
 
 
 def change_theme(file, theme_name, logfile) -> bool:
