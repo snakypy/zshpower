@@ -16,22 +16,3 @@ class CMake(Version, Base):
         command = run("cmake --version", capture_output=True, shell=True, text=True)
         version = command.stdout.split()[2]
         return super().set(command, version, exec_, key, action)
-
-        # TODO: [DEPRECATED]
-        # if is_tool(key):
-        #     version = run("cmake --version", capture_output=True, shell=True, text=True)
-
-        #     if version.returncode != 0:
-        #         self.log.record(
-        #             f"CMake version not registered: {version.stderr}",
-        #             colorize=True,
-        #             level="error",
-        #         )
-        #     elif version.returncode == 0:
-        #         version_format = version.stdout.split()[2]
-        #         self.log.record(
-        #             f"CMake {version_format} registered in the database!",
-        #             colorize=True,
-        #             level="info",
-        #         )
-        #         return super().set(version_format, key, action)
