@@ -1,14 +1,18 @@
 from os.path import exists
+from pydoc import pager
 
 from snakypy.helpers import FG, pick
+from snakypy.helpers.catches.finders import find_objects
 from snakypy.helpers.console import printer
+from snakypy.helpers.files import read_file
 from snakypy.helpers.logging import Log
 
 from snakypy.zshpower import __info__
 from snakypy.zshpower.config.base import Base
 from snakypy.zshpower.config.cron import cron_content, sync_content
 from snakypy.zshpower.utils.check import checking_init
-from snakypy.zshpower.utils.modifiers import create_file_superuser
+from snakypy.zshpower.utils.modifiers import command_superuser
+from snakypy.zshpower.utils.process import open_file_with_editor
 
 
 class Cron(Base):
@@ -31,7 +35,7 @@ class Cron(Base):
                         foreground=FG().WARNING,
                     )
                     return False
-                create_file_superuser(cmd, self.logfile)
+                command_superuser(cmd, logfile=self.logfile)
                 printer(
                     f"{__info__['name']} Cron task created!", foreground=FG().FINISH
                 )
@@ -39,27 +43,40 @@ class Cron(Base):
                     f"""
                 ************************************ WARNING *********************************************
                     The task was created, however you need to see if the Cron service is started and
-                    edit the {self.cron_path} file, determining a time to be executed.
+                    edit the "{self.cron_path}" file, determining a time to be executed.
+                    To edit, run the command: {FG().CYAN}${__info__["executable"]} cron --open{FG().YELLOW}
                 ******************************************************************************************
                 """,
-                    foreground=FG().WARNING,
+                    foreground=FG().YELLOW,
                 )
 
             elif action == "remove":
-                title = f"Really want to remove {__info__['name']} task from Cron?"
-                options = ["Yes", "No"]
-                reply = pick(
-                    title, options, colorful=True, index=True, ctrl_c_message=True
+                cron_file = find_objects(
+                    self.cron_d_path, files=(f"{__info__['pkg_name']}_task.sh",)
                 )
-                cmd = f"""su -c 'rm -f {self.sync_path} {self.cron_path}';"""
-                if reply is None or reply[0] == 1:
-                    printer("Canceled by user", foreground=FG().WARNING)
-                    return False
-                create_file_superuser(cmd, self.logfile)
-                printer(
-                    f"{__info__['name']} task has been removed from Cron!",
-                    foreground=FG().FINISH,
+                task_run = find_objects(
+                    "/etc/local/bin/", files=(f"{__info__['pkg_name']}_sync.sh",)
                 )
+                if not cron_file["files"] and not task_run["files"]:
+                    return printer(
+                        "There is no configuration file in ZSHPower Cron. Aborted!",
+                        foreground=FG().WARNING,
+                    )
+                if cron_file["files"] or task_run["files"]:
+                    title = f"Really want to remove {__info__['name']} task from Cron?"
+                    options = ["Yes", "No"]
+                    reply = pick(
+                        title, options, colorful=True, index=True, ctrl_c_message=True
+                    )
+                    cmd = f"""su -c 'rm -f {self.sync_path} {self.cron_path}';"""
+                    if reply is None or reply[0] == 1:
+                        printer("Canceled by user", foreground=FG().WARNING)
+                        return False
+                    command_superuser(cmd, logfile=self.logfile)
+                    printer(
+                        f"{__info__['name']} task has been removed from Cron!",
+                        foreground=FG().FINISH,
+                    )
 
         except PermissionError:
             Log(filename=self.logfile).record(
@@ -71,11 +88,18 @@ class Cron(Base):
                 "No permission to write to directory /etc/crond.d or /usr/local/bin."
             )
 
-    def run(self, arguments) -> None:
+    def run(self, arguments):
         checking_init(self.HOME, self.logfile)
         if arguments["--create"]:
-            # self.manager(action="create")
-            print("1")
+            self.manager(action="create")
         elif arguments["--remove"]:
-            # self.manager(action="remove")
-            print("2")
+            self.manager(action="remove")
+        elif arguments["--open"]:
+            open_file_with_editor(
+                self.config_file, file_common=self.cron_path, superuser=True
+            )
+        elif arguments["--view"]:
+            read_config = read_file(self.cron_path)
+            pager(read_config)
+            return True
+        return False
