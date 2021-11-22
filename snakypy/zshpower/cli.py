@@ -1,4 +1,6 @@
 """CLI - Command Line Interface"""
+from snakypy.zshpower.commands.cron import Cron
+
 try:
     from snakypy.helpers.decorators import only_linux, silent_errors
 except KeyboardInterrupt:
@@ -55,6 +57,11 @@ def run_sync() -> None:
     Sync(HOME).run()
 
 
+@assign_cli(args, "cron")
+def run_cron() -> None:
+    Cron(HOME).run(args)
+
+
 @assign_cli(args, "logs")
 def run_logs() -> None:
     LogsCommand(HOME).run(args)
@@ -75,5 +82,6 @@ def main() -> None:
     run_reset()
     run_uninstall()
     run_sync()
+    run_cron()
     run_logs()
     run_credits()
