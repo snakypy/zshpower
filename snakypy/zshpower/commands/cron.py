@@ -80,7 +80,7 @@ class Cron(Base):
 
         except PermissionError:
             Log(filename=self.logfile).record(
-                f"No permission to write to directory /etc/crond.d or /usr/local/bin.",
+                "No permission to write to directory /etc/crond.d or /usr/local/bin.",
                 colorize=True,
                 level="error",
             )

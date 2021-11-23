@@ -56,7 +56,7 @@ def open_file_with_editor(toml_file, file_common=None, superuser: bool = False) 
                     try:
                         cmd = f"""su -c '{get_editor} {f.name}';"""
                         printer(
-                            f"[ Enter the machine superuser password ]",
+                            "[ Enter the machine superuser password ]",
                             foreground=FG().WARNING,
                         )
                         call(cmd, shell=True, universal_newlines=True)
