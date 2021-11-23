@@ -43,7 +43,7 @@ Options:
     {FG().CYAN}--config{NONE} ------- Restores the configuration file.
     {FG().CYAN}--create{NONE} ------- Create an object on the machine or some configuration.
     {FG().CYAN}--remove{NONE} ------- Remove an object on the machine or some configuration.
-    {FG().CYAN}--db{NONE} ----------- Restores the database.
+    {FG().CYAN}--db{NONE} ----------- Apply actions to the database.
     {FG().CYAN}--theme=<name>{NONE} - Get the name of a theme available on Oh My ZSH [Default: {dt_omz}].
     {FG().CYAN}--version{NONE} ------ Show version.
     {FG().CYAN}--credits{NONE} ------ Show credits.
