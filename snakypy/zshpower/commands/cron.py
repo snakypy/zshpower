@@ -83,7 +83,8 @@ class Cron(Base):
                 level="error",
             )
             raise PermissionError(
-                "No permission to write to directory /etc/crond.d or /usr/local/bin.", err
+                "No permission to write to directory /etc/crond.d or /usr/local/bin.",
+                err,
             )
 
     def run(self, arguments):
