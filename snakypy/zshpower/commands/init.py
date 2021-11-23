@@ -11,8 +11,8 @@ from snakypy.helpers.path import create as create_path
 
 from snakypy.zshpower import __info__
 from snakypy.zshpower.commands.utils.handle import records
-from snakypy.zshpower.config.bootstrap import bootstrap
 from snakypy.zshpower.config.base import Base
+from snakypy.zshpower.config.bootstrap import bootstrap
 from snakypy.zshpower.config.config import config_content
 from snakypy.zshpower.config.zshrc import zshrc_content, zshrc_sample
 from snakypy.zshpower.database.dao import DAO
