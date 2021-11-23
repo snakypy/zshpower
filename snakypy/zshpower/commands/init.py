@@ -5,7 +5,8 @@ from sys import stdout
 from snakypy.helpers import printer
 from snakypy.helpers.ansi import FG, NONE
 from snakypy.helpers.catches import tools_requirements
-from snakypy.helpers.files import create_file
+from snakypy.helpers.files import backup_file, create_file
+from snakypy.helpers.os import remove_objects
 from snakypy.helpers.path import create as create_path
 
 from snakypy.zshpower import __info__
@@ -13,9 +14,9 @@ from snakypy.zshpower.commands.utils.handle import records
 from snakypy.zshpower.config.apply import zshpower_main
 from snakypy.zshpower.config.base import Base
 from snakypy.zshpower.config.config import config_content
-from snakypy.zshpower.config.zshrc import zshrc_content
+from snakypy.zshpower.config.zshrc import zshrc_content, zshrc_sample
 from snakypy.zshpower.database.dao import DAO
-from snakypy.zshpower.utils.catch import get_line
+from snakypy.zshpower.utils.catch import get_line, get_zsh_theme
 from snakypy.zshpower.utils.modifiers import (
     add_plugins,
     change_theme,
@@ -36,7 +37,7 @@ class InitCommand(Base):
             **************************** WARNING *******************************
             1- Add the following line of code to the {FG().MAGENTA}{home}/.zshrc{NONE}{FG().YELLOW} file:
 
-            {FG().CYAN}[[ -d "$HOME/.zshpower/lib" ]] && eval "$(zshpower init --path)"{NONE}
+            {FG().CYAN}eval "$(zshpower init --path)"{NONE}
 
             {FG().YELLOW}2 - Then run the following command: {FG().CYAN}exec zsh{NONE}{FG().YELLOW}
             ********************************************************************{NONE}
@@ -45,7 +46,9 @@ class InitCommand(Base):
     def run(self, arguments, *, reload=False) -> None:
         tools_requirements("bash", "zsh", "vim", "git", "cut", "grep", "whoami", "pwd")
         if arguments["--path"]:
-            stdout.write(join("source $HOME", self.source_code))
+            stdout.write(
+                join(f'[[ -d "{self.lib_root}" ]] && source $HOME', self.source_code)
+            )
         else:
             printer(
                 "Wait a moment, creating initial settings...", foreground=FG().WARNING
@@ -60,10 +63,7 @@ class InitCommand(Base):
                 remove_lines(
                     self.zsh_rc,
                     self.logfile,
-                    lines=(
-                        '\\[\\[ -d "\\$HOME/.zshpower/lib" \\]\\] && eval "\\$\\(zshpower init --path\\)"',
-                        'eval "\\$\\(zshpower init --path\\)"',
-                    ),
+                    lines=('eval "\\$\\(zshpower init --path\\)"',),
                 )
                 omz_install(self.omz_root, self.logfile)
                 install_plugins(self.omz_root, self.plugins, self.logfile)
@@ -89,10 +89,15 @@ class InitCommand(Base):
             # Register logs
             self.log.record("Initial settings applied", colorize=True, level="info")
 
-            # Instruction ZSHPower without OMZ
-            line = '\\[\\[ -d "\\$HOME/.zshpower/lib" \\]\\] && eval "\\$\\(zshpower init --path\\)"'
-            if not arguments["--omz"] and not get_line(self.zsh_rc, line, self.logfile):
-                printer(self.instruction_not_omz, foreground=FG().YELLOW)
+            # Create new .zshrc and Instruction ZSHPower without OMZ
+            if not arguments["--omz"]:
+                if get_zsh_theme(self.zsh_rc, self.logfile):
+                    backup_file(self.zsh_rc, self.zsh_rc, date=True, extension=False)
+                    remove_objects(objects=(self.zsh_rc,))
+                    create_file(zshrc_sample, self.zsh_rc, force=True)
+                line = 'eval "\\$\\(zshpower init --path\\)"'
+                if not get_line(self.zsh_rc, line, self.logfile):
+                    printer(self.instruction_not_omz, foreground=FG().YELLOW)
 
             # Reload terminal
             if arguments["--omz"] and reload:
