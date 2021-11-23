@@ -14,6 +14,9 @@ from snakypy.zshpower.utils.catch import get_key
 
 
 def reload_zsh(sleep_timer=None, message=False) -> None:
+    """
+    Reload ZSH
+    """
     if message:
         printer("Restarting terminal, wait...", foreground=FG().WARNING)
     if sleep_timer:
@@ -41,8 +44,9 @@ def change_shell(logfile) -> bool:
 
 def open_file_with_editor(toml_file, file_common=None, superuser: bool = False) -> None:
     """
-        Opens file with a certain editor according to what is informed in the ZSHPower configuration file
+    Opens file with a certain editor according to what is informed in the ZSHPower configuration file
     """
+
     def editor_run(editor, config, get_superuser=superuser) -> bool:
         if which(editor):
             get_editor = os.environ.get("EDITOR", editor)
