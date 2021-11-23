@@ -22,19 +22,19 @@ class Cron(Base):
     def manager(self, action=None):
         try:
             if action == "create":
-                printer(
-                    f"Creating {__info__['name']} Task in Cron.",
-                    foreground=FG().QUESTION,
-                )
-                cmd = f"""su -c 'echo "{sync_content}" > {self.sync_path}; chmod a+x {self.sync_path};
-                echo "{cron_content}" > {self.cron_path};'
-                """
                 if exists(self.sync_path) or exists(self.cron_path):
                     printer(
                         f"There is already a task in Cron for {__info__['name']}. Aborted!",
                         foreground=FG().WARNING,
                     )
                     return False
+                printer(
+                    f"Creating {__info__['name']} Task in Cron.",
+                    foreground=FG().QUESTION,
+                )
+                cmd = f"""su -c 'echo "{sync_content}" > {self.sync_path}; chmod a+x {self.sync_path};
+                                echo "{cron_content}" > {self.cron_path};'
+                                """
                 command_superuser(cmd, logfile=self.logfile)
                 printer(
                     f"{__info__['name']} Cron task created!", foreground=FG().FINISH
@@ -65,12 +65,10 @@ class Cron(Base):
                 if cron_file["files"] or task_run["files"]:
                     title = f"Really want to remove {__info__['name']} task from Cron?"
                     options = ["Yes", "No"]
-                    reply = pick(
-                        title, options, colorful=True, index=True, ctrl_c_message=True
-                    )
+                    reply = pick(title, options, colorful=True, index=True)
                     cmd = f"""su -c 'rm -f {self.sync_path} {self.cron_path}';"""
                     if reply is None or reply[0] == 1:
-                        printer("Canceled by user", foreground=FG().WARNING)
+                        printer("Canceled by user.", foreground=FG().WARNING)
                         return False
                     command_superuser(cmd, logfile=self.logfile)
                     printer(
@@ -78,14 +76,14 @@ class Cron(Base):
                         foreground=FG().FINISH,
                     )
 
-        except PermissionError:
+        except PermissionError as err:
             Log(filename=self.logfile).record(
                 "No permission to write to directory /etc/crond.d or /usr/local/bin.",
                 colorize=True,
                 level="error",
             )
             raise PermissionError(
-                "No permission to write to directory /etc/crond.d or /usr/local/bin."
+                "No permission to write to directory /etc/crond.d or /usr/local/bin.", err
             )
 
     def run(self, arguments):
