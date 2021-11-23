@@ -53,7 +53,7 @@ def arguments(argv=None) -> dict:
     return data
 
 
-def get_zsh_theme(file, logfile) -> tuple:
+def get_zsh_theme(file, logfile) -> Union[tuple, bool]:
     """
     Get the current theme contained in the .zshrc file if using Oh My ZSH
     """
@@ -64,7 +64,7 @@ def get_zsh_theme(file, logfile) -> tuple:
         lst = theme_var.split("=")
         theme_name = [s.strip('"') for s in lst][1]
         return theme_name, theme_var
-    return ()
+    return False
 
 
 def current_plugins(file, logfile) -> list:
