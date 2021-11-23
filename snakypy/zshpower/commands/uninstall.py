@@ -48,7 +48,7 @@ class UninstallCommand(Base):
             self.zsh_rc,
             self.logfile,
             lines=(
-                '\\[\\[ -d "\\$HOME/.zshpower/lib" \\]\\] && eval "\\$\\(zshpower init --path\\)"',
+                # '\\[\\[ -d "\\$HOME/.zshpower/lib" \\]\\] && eval "\\$\\(zshpower init --path\\)"',
                 'eval "\\$\\(zshpower init --path\\)"',
             ),
         )
