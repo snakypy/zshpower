@@ -4,7 +4,6 @@ from sys import stdout
 
 from snakypy.helpers import printer
 from snakypy.helpers.ansi import FG, NONE
-from snakypy.helpers.catches import tools_requirements
 from snakypy.helpers.files import backup_file, create_file
 from snakypy.helpers.os import remove_objects
 from snakypy.helpers.path import create as create_path
@@ -17,6 +16,7 @@ from snakypy.zshpower.config.config import config_content
 from snakypy.zshpower.config.zshrc import zshrc_content, zshrc_sample
 from snakypy.zshpower.database.dao import DAO
 from snakypy.zshpower.utils.catch import get_line, get_zsh_theme
+from snakypy.zshpower.utils.check import tools_requirements
 from snakypy.zshpower.utils.modifiers import (
     add_plugins,
     change_theme,
