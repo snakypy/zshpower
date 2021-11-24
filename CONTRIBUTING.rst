@@ -100,7 +100,6 @@ Before you submit a pull request, check that it meets these guidelines:
 
 		https://github.com/snakypy/zshpower/actions
 
-		https://travis-ci.com/snakypy/zshpower
 
 and make sure that the tests pass for all supported Python versions.
 
