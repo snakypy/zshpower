@@ -33,7 +33,7 @@ class Cron(Base):
                     foreground=FG().QUESTION,
                 )
                 cmd = f"""su -c 'echo "{sync_content}" > {self.sync_path}; chmod a+x {self.sync_path};
-                                echo "{cron_content}" > {self.cron_path};'
+                                echo "{cron_content}" > {self.cron_path}; chmod a+x {self.cron_path}'
                                 """
                 command_superuser(cmd, logfile=self.logfile)
                 printer(
