@@ -4,9 +4,9 @@ from snakypy.zshpower import HOME
 from snakypy.zshpower.config.base import Base
 
 cron_content: str = f"""
-#!/bin/sh
+#!/usr/bin/env zsh
 
-PATH="\\$HOME/.local/bin:/bin:/usr/local/bin:\\$PATH"
+PATH=\"{HOME}/.local/bin:/bin:/usr/local/bin:\\$PATH\"
 export PATH
 
 # Hourly in minute 0
@@ -21,10 +21,10 @@ export PATH
 # You can use the site "https://crontab.guru" and some examples at "https://crontab.guru/examples.html"
 """
 
-sync_content: str = """
-#!/bin/sh
+sync_content: str = f"""
+#!/usr/bin/env zsh
 
-PATH="\\$HOME/.local/bin:/bin:/usr/local/bin:\\$PATH"
+PATH=\"{HOME}/.local/bin:/bin:/usr/local/bin:\\$PATH\"
 export PATH
 
 zshpower sync
