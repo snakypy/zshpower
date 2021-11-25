@@ -124,12 +124,6 @@ class Rust(Base):
         return super().__str__(get_version=self.get_version())
 
 
-# TODO: Future development
-class CMake:
-    # CMakeLists.txt
-    pass
-
-
 class Scala(Base):
     def __init__(self, config):
         Base.__init__(self, config)
