@@ -16,10 +16,10 @@ class NodeJs(Version, Base):
     ) -> str:
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, exec="node", key="nodejs", action=None):
+    def set_version(self, exec_="node", key="nodejs", action=None):
         command = run("node -v", capture_output=True, shell=True, text=True)
         version = command.stdout.replace("\n", "").split("v")[1]
-        return super().set(command, version, exec, key, action)
+        return super().set(command, version, exec_, key, action)
 
 
 def _nodejs(config, key):

@@ -1,6 +1,6 @@
 from snakypy.zshpower import __info__
 
-content = f"""#!/usr/bin/env zsh
+bootstrap = f"""#!/usr/bin/env zsh
 
 ## Information:
 ## ******************************************************************************

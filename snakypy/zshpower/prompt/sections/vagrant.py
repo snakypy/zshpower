@@ -14,7 +14,7 @@ class Vagrant(Version, Base):
     ) -> str:
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, exec="vagrant", key="vagrant", action=None):
+    def set_version(self, exec_="vagrant", key="vagrant", action=None):
         command = run("vagrant --version", capture_output=True, shell=True, text=True)
         version = command.stdout.split()[1].replace(" ", "")
-        return super().set(command, version, exec, key, action)
+        return super().set(command, version, exec_, key, action)

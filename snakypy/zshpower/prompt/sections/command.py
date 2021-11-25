@@ -1,18 +1,22 @@
+from snakypy.zshpower.utils.catch import get_key
+
 from .utils import Color, symbol_ssh
 
 
 class Command:
     def __init__(self, config):
         self.config = config
-        self.symbol = symbol_ssh(config["command"]["symbol"], "> ")
-        self.error_symbol = symbol_ssh(config["command"]["error"]["symbol"], "x ")
-        self.error_color = config["command"]["error"]["color"]
+        self.symbol = symbol_ssh(get_key(config, "command", "symbol"), "> ")
+        self.error_symbol = symbol_ssh(
+            get_key(config, "command", "error", "symbol"), "x "
+        )
+        self.error_color = get_key(config, "command", "error", "color")
         self.color = (
-            config["command"]["color"]
-            if config["general"]["color"]["enable"] is True
+            get_key(config, "command", "color")
+            if get_key(config, "general", "color", "enable") is True
             else "negative"
         )
-        self.new_line = config["command"]["new_line"]["enable"]
+        self.new_line = get_key(config, "command", "new_line", "enable")
 
     def __str__(self, jump_line="\n"):
         if not self.new_line:

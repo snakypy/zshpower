@@ -6,15 +6,13 @@ from sys import stdout
 from typing import Any
 
 from snakypy.helpers import FG, printer
-from snakypy.helpers.ansi import NONE
-from snakypy.helpers.decorators import only_linux
+from snakypy.helpers.decorators import only_linux, silent_errors
 from snakypy.helpers.files import read_file
 from snakypy.helpers.path import create as create_path
 from tomlkit import parse as toml_parse
-from tomlkit.exceptions import NonExistentKey, UnexpectedCharError
 
 from snakypy.zshpower import __info__
-from snakypy.zshpower.config.config import content as config_content
+from snakypy.zshpower.config.config import config_content
 from snakypy.zshpower.database.dao import DAO
 from snakypy.zshpower.prompt.sections.cmake import CMake
 from snakypy.zshpower.prompt.sections.command import Command
@@ -50,7 +48,9 @@ from snakypy.zshpower.prompt.sections.took import Took
 from snakypy.zshpower.prompt.sections.username import Username
 from snakypy.zshpower.prompt.sections.vagrant import Vagrant
 from snakypy.zshpower.prompt.sections.zig import Zig
-from snakypy.zshpower.utils.modifiers import create_config
+from snakypy.zshpower.utils.catch import get_key
+from snakypy.zshpower.utils.check import str_empty_in
+from snakypy.zshpower.utils.modifiers import create_toml
 
 # ## Test timer ## #
 # from snakypy.helpers.decorators import runtime
@@ -67,9 +67,9 @@ class Draw(DAO):
             parsed = dict(toml_parse(read_file(self.config_file)))
             return parsed
 
-        except (FileNotFoundError, NonExistentKey):
+        except FileNotFoundError:
             create_path(self.zshpower_home)
-            create_config(config_content, self.config_file)
+            create_toml(config_content, self.config_file)
             parsed = dict(toml_parse(read_file(self.config_file)))
             self.log.record(
                 "Configuration files does not exist, however it was created.",
@@ -113,51 +113,51 @@ class Draw(DAO):
 
     # @runtime
     def prompt(self, took: Any = 0) -> str:
-        try:
-            with suppress(KeyboardInterrupt):
-                jump_line = JumpLine(self.config)
-                username = Username(self.config)
-                hostname = Hostname(self.config)
-                directory = Directory(self.config)
-                dinamic_section = {
-                    "virtualenv": Virtualenv(self.config),
-                    "python": Python(self.config),
-                    "package": Package(self.config),
-                    "nodejs": self.version(NodeJs, "nodejs"),
-                    "rust": self.version(Rust, "rust"),
-                    "golang": self.version(Golang, "golang"),
-                    "ruby": self.version(Ruby, "ruby"),
-                    "dart": self.version(Dart, "dart"),
-                    "php": self.version(Php, "php"),
-                    "java": self.version(Java, "java"),
-                    "julia": self.version(Julia, "julia"),
-                    "dotnet": self.version(Dotnet, "dotnet"),
-                    "elixir": self.version(Elixir, "elixir"),
-                    "scala": self.version(Scala, "scala"),
-                    "perl": self.version(Perl, "perl"),
-                    "cmake": self.version(CMake, "cmake"),
-                    "crystal": self.version(Crystal, "crystal"),
-                    "deno": self.version(Deno, "deno"),
-                    "erlang": self.version(Erlang, "erlang"),
-                    "helm": self.version(Helm, "helm"),
-                    "kotlin": self.version(Kotlin, "kotlin"),
-                    "nim": self.version(Nim, "nim"),
-                    "ocaml": self.version(Ocaml, "ocaml"),
-                    "vagrant": self.version(Vagrant, "vagrant"),
-                    "zig": self.version(Zig, "zig"),
-                    "gulp": self.version(Gulp, "gulp"),
-                    "docker": self.version(Docker, "docker"),
-                    "git": Git(self.config),
-                }
+        with suppress(KeyboardInterrupt):
+            jump_line = JumpLine(self.config)
+            username = Username(self.config)
+            hostname = Hostname(self.config)
+            directory = Directory(self.config)
+            dinamic_section = {
+                "virtualenv": Virtualenv(self.config),
+                "python": Python(self.config),
+                "package": Package(self.config),
+                "nodejs": self.version(NodeJs, "nodejs"),
+                "rust": self.version(Rust, "rust"),
+                "golang": self.version(Golang, "golang"),
+                "ruby": self.version(Ruby, "ruby"),
+                "dart": self.version(Dart, "dart"),
+                "php": self.version(Php, "php"),
+                "java": self.version(Java, "java"),
+                "julia": self.version(Julia, "julia"),
+                "dotnet": self.version(Dotnet, "dotnet"),
+                "elixir": self.version(Elixir, "elixir"),
+                "scala": self.version(Scala, "scala"),
+                "perl": self.version(Perl, "perl"),
+                "cmake": self.version(CMake, "cmake"),
+                "crystal": self.version(Crystal, "crystal"),
+                "deno": self.version(Deno, "deno"),
+                "erlang": self.version(Erlang, "erlang"),
+                "helm": self.version(Helm, "helm"),
+                "kotlin": self.version(Kotlin, "kotlin"),
+                "nim": self.version(Nim, "nim"),
+                "ocaml": self.version(Ocaml, "ocaml"),
+                "vagrant": self.version(Vagrant, "vagrant"),
+                "zig": self.version(Zig, "zig"),
+                "gulp": self.version(Gulp, "gulp"),
+                "docker": self.version(Docker, "docker"),
+                "git": Git(self.config),
+            }
 
-                cmd = Command(self.config)
-                took_ = Took(self.config, took)
-                static_section = f"{jump_line}{username}{hostname}{directory}"
+            cmd = Command(self.config)
+            took_ = Took(self.config, took)
+            static_section = f"{jump_line}{username}{hostname}{directory}"
 
-                # Using ThreadPoolExecutor, not Generators
-                with ThreadPoolExecutor() as executor:
-                    ordered_section = []
-                    for elem in self.config["general"]["position"]:
+            # Using ThreadPoolExecutor, not Generators
+            with ThreadPoolExecutor() as executor:
+                ordered_section = []
+                if not str_empty_in(get_key(self.config, "general", "position")):
+                    for elem in get_key(self.config, "general", "position"):
                         for item in dinamic_section.keys():
                             if item == elem:
                                 future = executor.submit(
@@ -165,46 +165,16 @@ class Draw(DAO):
                                 )
                                 ordered_section.append(future.result())
 
-                sections = "{}{}{}" + "{}" * len(dinamic_section)
-                return sections.format(static_section, *ordered_section, took_, cmd)
-
-        except (NonExistentKey, UnexpectedCharError, ValueError):
-            self.log.record(
-                "Key error in the configuration file.", colorize=True, level="error"
-            )
-            print(
-                f"{FG().ERROR}{__info__['name']} Error: Key error in "
-                f"the configuration file.\n> {NONE}"
-            )
-            raise
-        except KeyError:
-            self.log.record(
-                "Corrupted database. Firing guidance message.",
-                colorize=True,
-                level="error",
-            )
-            raise KeyError(
-                f"{FG().ERROR}{__info__['name']} Error: Database records are missing "
-                f"or corrupted. Run the command to correct: \"{__info__['executable']} reset --db\".\n>> "
-            )
-        return ""
+                    sections = "{}{}{}" + "{}" * len(dinamic_section)
+                    return sections.format(static_section, *ordered_section, took_, cmd)
+        return ">>> "
 
     def rprompt(self) -> str:
-        try:
-            timer = Timer(self.config)
-            return f"{timer}"
-        except NonExistentKey:
-            self.log.record(
-                "Corrupted database. Firing guidance message.",
-                colorize=True,
-                level="error",
-            )
-            return (
-                f"{FG().ERROR}>>> {__info__['name']} Error: Key error in "
-                f"the configuration file.\n > "
-            )
+        timer = Timer(self.config)
+        return f"{timer}"
 
 
+@silent_errors
 @only_linux
 def main() -> None:
     if len(sys_argv) < 2:

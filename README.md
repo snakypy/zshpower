@@ -110,7 +110,7 @@ Here is an example of the installed **ZSHPower**:
 
 - Shows the time in the upper right corner;
 
-- and, many other dynamic settings in ```$HOME/.zshpower/<VERSION>/config.toml```.
+- and, many other dynamic settings in ```$HOME/.zshpower/config/zshpower.toml```.
 
 **features if used with __Oh My ZSH__.*
 
@@ -131,9 +131,19 @@ To work correctly, you will first need:
 
 1 - Install the required packages in your distribution:
 
+**Arch Linux and derivatives**
+```shell
+sudo pacman -S zsh vim curl git sqlite python python-pip
+````
+
 **Debian and derivatives**
 ```shell
 sudo apt install zsh vim curl git sqlite3 python3 python3-pip
+```
+
+**Fedora and derivatives**
+```shell
+sudo dnf install zsh vim curl git sqlite python3 python3-pip
 ```
 
 2 - Switch from **Bash** to **Zsh** and export PATH's:
@@ -178,8 +188,9 @@ To use independently, without any framework, do:
 $ zshpower init
 ```
 
-> **NOTE**:  This option you will have to add the following code to the .zshrc file.
-> `source $HOME/.zshpower/**VERSION**/init.sh`
+> **NOTE**:  This option you will have to add the following code to the `.zshrc` file.
+
+> `eval $(zshpower init --path)`
 
 If you want to use it with **Oh My ZSH** and, to make **ZSHPower** more powerfull, do:
 
@@ -355,6 +366,8 @@ The **ZSHPower** configuration file is very intuitive, and just a glance gives y
 
 * **color** - Changes the color of the package. `Default:` red
 
+* **display** - A list of programming languages that support packaging. If you don't want the version of a package for a specific programming language to appear, just remove it from this list. `Default:` ["python", "node", "rust", "scala", "crystal", "helm"]
+
 * **prefix.color** - Changes the color of the prefix.   `Default:` *negative*
 
 * **prefix.text** - Before showing the package information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *is*
@@ -436,11 +449,37 @@ With that, every time you update the program you work on, you need to synchroniz
 $ zshpower sync
 ```
 
+If you always want manual synchronization, it would be interesting whenever you update the system or a particular package that `ZSHPower` supports, add the synchronization command as well. For example:
+
+
+```shell
+# Debian and derivatives
+$ sudo apt upgrade && zshpower sync
+# Arch Linux and derivatives
+$ sudo pacman -Syu && zshpower sync
+# Fedora and derivatives
+$ sudo dnf update && zshpower sync
+```
+
 ### Automatically sync:
 
-As stated before, you can use a task scheduler. `ZSHPower` at the time of setup installs a script for synchronization in **/usr/local/bin/zshpower_sync.sh** and a preconfigured script to support **Cron**, which is located at: */etc/cron.d/zshpower_task.sh*. Just access **Cron** to schedule a task at any time and call this script. You can use the [Crontab Guru](https://crontab.guru/) website  to make it easier to understand Cron.
+`ZSHPower` has an option to create the task for database synchronization. This option is via the command:
 
-If you cancel the Cron scripting step, you can do this manually through sample sites, like these:
+```shell
+zshpower cron --create
+```
+
+With this command, a `ZSHPower` task will be created in **Cron**, however you need to have **Cron** installed and have superuser permission to perform the task creation, otherwise, nothing will happen.
+
+By default, the task is created with comment, and you will have to set the values. For this, **ZSHPower** provides a command to open the **Cron** task file, with the command:
+
+```shell
+zshpower cron --open
+```
+
+As stated before, you can use a task scheduler. Just access **Cron** to schedule a task at any time and call this script. You can use the [Crontab Guru](https://crontab.guru/) website  to make it easier to understand Cron.
+
+You can get more information about **Cron** through sample sites like these:
 
 * https://crontab-generator.org/
 * https://crontab.guru/crontab.5.html
@@ -451,13 +490,12 @@ or use the Crontab main:
 ```shell
 $ man crontab
 ```
+**An example using the [Cronie](https://github.com/cronie-crond/cronie) scheduling synchronization every 2 hours:**
 
-**An example using the [Cronie](https://github.com/cronie-crond/cronie/) scheduling synchronization every 2 hours:**
-
-Create a file  (with superuser)`/etc/cron.d/zshpower_sync.sh` and put the following line
+Create or changing a file  (with superuser)`/etc/cron.d/zshpower_sync.sh` and put the following line
 
 ```shell
-0 */2 * * * <USER> /usr/local/bin/zshpower_sync.sh
+0 */2 * * * <USER> zshpower sync >/dev/null 2>&1
 ```
 
 > In `<USER>` put the logged in user on the machine.

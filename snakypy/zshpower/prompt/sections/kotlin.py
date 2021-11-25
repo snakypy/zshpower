@@ -14,7 +14,7 @@ class Kotlin(Version, Base):
     ) -> str:
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, exec="kotlin", key="kotlin", action=None):
+    def set_version(self, exec_="kotlin", key="kotlin", action=None):
         command = run("kotlin -version", capture_output=True, shell=True, text=True)
         version = command.stdout.split()[2].split("-")[0]
-        return super().set(command, version, exec, key, action)
+        return super().set(command, version, exec_, key, action)

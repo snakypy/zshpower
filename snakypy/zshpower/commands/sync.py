@@ -21,14 +21,16 @@ class Sync(Base):
             with ThreadPoolExecutor(max_workers=2) as executor:
                 executor.submit(
                     loading,
-                    set_time=0.100,
+                    set_time=0.030,
                     bar=False,
                     header="Synchronizing versions with database ...",
                     foreground=FG().QUESTION,
                 )
                 executor.submit(records, action="update")
             self.log.record(
-                f"User ({whoami()}) updated the database.", colorize=True, level="info"
+                f"User ({whoami()}) updated the database.",
+                colorize=True,
+                level="info",
             )
             printer("Done!", foreground=FG().FINISH)
         except KeyboardInterrupt:

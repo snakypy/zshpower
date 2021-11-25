@@ -14,7 +14,7 @@ class Java(Version, Base):
     ) -> str:
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, exec="java", key="java", action=None) -> bool:
+    def set_version(self, exec_="java", key="java", action=None) -> bool:
         command = run(
             """java -version 2>&1 | awk -F '"' '/version/ {print $2}'""",
             capture_output=True,
@@ -22,4 +22,4 @@ class Java(Version, Base):
             text=True,
         )
         version = command.stdout.replace("\n", "").split("_")[0]
-        return super().set(command, version, exec, key, action)
+        return super().set(command, version, exec_, key, action)

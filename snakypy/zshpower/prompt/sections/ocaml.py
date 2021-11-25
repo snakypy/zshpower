@@ -22,7 +22,7 @@ class Ocaml(Version, Base):
     ) -> str:
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, exec="ocaml", key="ocaml", action=None):
+    def set_version(self, exec_="ocaml", key="ocaml", action=None):
         command = run("ocaml -version", capture_output=True, shell=True, text=True)
         version = command.stdout.split()[-1]
-        return super().set(command, version, exec, key, action)
+        return super().set(command, version, exec_, key, action)

@@ -9,6 +9,6 @@ RUN apt-get update \
 	&& rm -rf /var/cache/apt/*
 ADD . /snakypy/zshpower
 RUN cd /snakypy/zshpower \
-	&& poetry install \
-	&& echo "[[ -f /root/.zshpower/*/init.sh ]] && . /root/.zshpower/*/init.sh" > /root/.zshrc
+  && poetry install \
+	&& echo 'eval "$(zshpower init --path)"' >> /root/.zshrc
 CMD poetry shell

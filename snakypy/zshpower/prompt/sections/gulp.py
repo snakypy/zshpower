@@ -12,7 +12,7 @@ from snakypy.zshpower.prompt.sections.utils import (
     separator,
     symbol_ssh,
 )
-from snakypy.zshpower.utils.catch import verify_objects
+from snakypy.zshpower.utils.catch import get_key, verify_objects
 
 
 class Gulp(Version, Base):
@@ -25,12 +25,12 @@ class Gulp(Version, Base):
         self, config, reg_version, key="gulp", ext="gulp-", space_elem=" "
     ) -> str:
         version_local = "node_modules/gulp/package.json"
-        enable = config[key]["version"]["enable"]
-        symbol = symbol_ssh(config[key]["symbol"], ext)
-        color = config[key]["color"]
-        prefix_color = config[key]["prefix"]["color"]
-        prefix_text = element_spacing(config[key]["prefix"]["text"])
-        micro_version_enable = config[key]["version"]["micro"]["enable"]
+        enable = get_key(config, key, "version", "enable")
+        symbol = symbol_ssh(get_key(config, key, "symbol"), ext)
+        color = get_key(config, key, "color")
+        prefix_color = get_key(config, key, "prefix", "color")
+        prefix_text = element_spacing(get_key(config, key, "prefix", "text"))
+        micro_version_enable = get_key(config, key, "version", "micro", "enable")
 
         if enable and verify_objects(
             getcwd(),
@@ -64,7 +64,7 @@ class Gulp(Version, Base):
                 )
         return ""
 
-    def set_version(self, exec="gulp", key="gulp", action=None) -> bool:
+    def set_version(self, exec_="gulp", key="gulp", action=None) -> bool:
         command = run("gulp --version", capture_output=True, shell=True, text=True)
         version = command.stdout.split()[2]
-        return super().set(command, version, exec, key, action)
+        return super().set(command, version, exec_, key, action)

@@ -21,7 +21,7 @@ with suppress(KeyboardInterrupt):
     HOME = str(Path.home())
     __info__ = {
         "name": "ZSHPower",
-        "version": "0.10.3",
+        "version": "0.11.0",
         "description": "ZSHPower is a theme for ZSH with a manager.",
         "pkg_name": "zshpower",
         "executable": "zshpower",

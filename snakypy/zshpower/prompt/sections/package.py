@@ -1,11 +1,12 @@
+import re
 from contextlib import suppress
 from os import getcwd
 from os.path import exists, isfile, join
-from subprocess import run
 
 from snakypy.helpers.files import read_json
+from snakypy.helpers.files.generic import read_file
 
-from snakypy.zshpower.utils.catch import verify_objects
+from snakypy.zshpower.utils.catch import get_key, verify_objects
 
 from .utils import Color, element_spacing, separator, symbol_ssh
 
@@ -16,22 +17,48 @@ class Base:
         self.files = ()
         self.folders = ()
         self.extensions = ()
-        self.symbol = symbol_ssh(config["package"]["symbol"], "pkg-")
-        self.enable = config["package"]["enable"]
+        self.symbol = symbol_ssh(get_key(config, "package", "symbol"), "pkg-")
+        self.enable = get_key(config, "package", "enable")
         self.color = (
-            config["package"]["color"]
-            if config["general"]["color"]["enable"] is True
+            get_key(config, "package", "color")
+            if get_key(config, "general", "color", "enable") is True
             else "negative"
         )
-        self.prefix_color = config["package"]["prefix"]["color"]
-        self.prefix_text = element_spacing(config["package"]["prefix"]["text"])
+        self.prefix_color = get_key(config, "package", "prefix", "color")
+        self.prefix_text = element_spacing(get_key(config, "package", "prefix", "text"))
 
-    def get_version(self):
-        return ""
+    def finder_version(self, file, regex) -> str:
+        try:
+            if self.enable:
+                file_content = read_file(file)
+                re_search = re.search(regex, file_content)
+                version = re_search.group(0)
+                return version
+            return ""
+        except (IndexError, FileNotFoundError):
+            return ""
 
-    def __str__(self):
+    def get_version_yaml(self, space_elem=""):
+        try:
+            regex = r"version:.*"
+            get_line = self.finder_version(self.files[0], regex)
+            version = get_line.split('"')[1]
+            return f"{version}{space_elem}"
+        except (IndexError, FileNotFoundError):
+            return ""
+
+    def get_version_toml(self, space_elem=""):
+        try:
+            regex = r"version = \".*"
+            get_line = self.finder_version(self.files[0], regex)
+            version = get_line.split("=")[1].replace('"', "").strip()
+            return f"{version}{space_elem}"
+        except (IndexError, FileNotFoundError):
+            return ""
+
+    def __str__(self, get_version=""):
         if self.enable:
-            package_version = self.get_version()
+            package_version = get_version
             if package_version and verify_objects(
                 getcwd(),
                 files=self.files,
@@ -60,23 +87,11 @@ class Python(Base):
             "__init__.py",
         )
 
-    def get_version(self, space_elem=" ") -> str:
-        if self.enable:
-            python_package_version = run(
-                f"""< {self.files[0]} grep "^version = *" | cut -d'"' -f2 | cut -d"'" -f2""",
-                capture_output=True,
-                shell=True,
-                text=True,
-            ).stdout
+    def get_version(self, space_elem=" "):
+        return super().get_version_toml(space_elem=space_elem)
 
-            python_package_version = python_package_version.replace("\n", "")
-
-            if python_package_version:
-                return f"{python_package_version}{space_elem}"
-        return ""
-
-    def __str__(self):
-        return super().__str__()
+    def __str__(self, get_version=""):
+        return super().__str__(get_version=self.get_version())
 
 
 class NodeJS(Base):
@@ -85,7 +100,7 @@ class NodeJS(Base):
         self.files = ("package.json",)
         self.folders = ("node_modules",)
 
-    def get_version(self, space_elem=" "):
+    def get_version(self, space_elem=" ") -> str:
         if self.enable and isfile(join(getcwd(), self.files[0])):
             with suppress(Exception):
                 parsed = read_json(join(getcwd(), self.files[0]))
@@ -93,8 +108,8 @@ class NodeJS(Base):
                     return f"{parsed['version']}{space_elem}"
         return ""
 
-    def __str__(self):
-        return Base.__str__(self)
+    def __str__(self, get_version=""):
+        return super().__str__(get_version=self.get_version())
 
 
 class Rust(Base):
@@ -102,29 +117,11 @@ class Rust(Base):
         Base.__init__(self, config)
         self.files = ("Cargo.toml",)
 
-    def get_version(self, space_elem=" ") -> str:
-        if self.enable:
-            python_package_version = run(
-                f"""< {self.files[0]} grep "^version := *" | cut -d'"' -f2 | cut -d"'" -f2""",
-                capture_output=True,
-                shell=True,
-                text=True,
-            ).stdout
+    def get_version(self, space_elem=" "):
+        return super().get_version_toml(space_elem=space_elem)
 
-            python_package_version = python_package_version.replace("\n", "")
-
-            if python_package_version:
-                return f"{python_package_version}{space_elem}"
-        return ""
-
-    def __str__(self):
-        return super().__str__()
-
-
-# TODO: Future development
-class CMake:
-    # CMakeLists.txt
-    pass
+    def __str__(self, get_version=""):
+        return super().__str__(get_version=self.get_version())
 
 
 class Scala(Base):
@@ -132,25 +129,17 @@ class Scala(Base):
         Base.__init__(self, config)
         self.files = ("build.sbt",)
 
-    def get_version(self, space_elem=" ") -> str:
-        if self.enable:
-            scala_package_version = run(
-                f"""< {self.files[0]} grep "^version := *" | cut -d'"' -f2 | cut -d"'" -f2""",
-                capture_output=True,
-                shell=True,
-                text=True,
-            ).stdout
+    def get_version(self, space_elem=" "):
+        try:
+            regex = r"version := .*"
+            get_line = super().finder_version(self.files[0], regex)
+            version = get_line.split('"')[1]
+            return f"{version}{space_elem}"
+        except (IndexError, FileNotFoundError):
+            return ""
 
-            try:
-                scala_package_version = scala_package_version.replace("\n", "").split()[
-                    -1
-                ]
-            except IndexError:
-                scala_package_version = scala_package_version.replace("\n", "")
-
-            if scala_package_version:
-                return f"{scala_package_version}{space_elem}"
-        return ""
+    def __str__(self, get_version=""):
+        return super().__str__(get_version=self.get_version())
 
 
 class Crystal(Base):
@@ -158,25 +147,11 @@ class Crystal(Base):
         Base.__init__(self, config)
         self.files = ("shard.yml",)
 
-    def get_version(self, space_elem=" ") -> str:
-        if self.enable:
-            crystal_package_version = run(
-                f"""< {self.files[0]} grep "^version: *" | cut -d'"' -f2 | cut -d"'" -f2""",
-                capture_output=True,
-                shell=True,
-                text=True,
-            ).stdout
+    def get_version(self, space_elem=" "):
+        return super().get_version_yaml(space_elem=space_elem)
 
-            try:
-                crystal_package_version = crystal_package_version.replace(
-                    "\n", ""
-                ).split()[1]
-            except IndexError:
-                crystal_package_version = crystal_package_version.replace("\n", "")
-
-            if crystal_package_version:
-                return f"{crystal_package_version}{space_elem}"
-        return ""
+    def __str__(self, get_version=""):
+        return super().__str__(get_version=self.get_version())
 
 
 class Helm(Base):
@@ -184,23 +159,11 @@ class Helm(Base):
         Base.__init__(self, config)
         self.files = ("Chart.yaml",)
 
-    def get_version(self, space_elem=" ") -> str:
-        if self.enable:
-            helm_package_version = run(
-                f"""< {self.files[0]} grep "^version: *" | cut -d'"' -f2 | cut -d"'" -f2""",
-                capture_output=True,
-                shell=True,
-                text=True,
-            ).stdout
+    def get_version(self, space_elem=" "):
+        return super().get_version_yaml(space_elem=space_elem)
 
-            try:
-                helm_package_version = helm_package_version.replace("\n", "").split()[1]
-            except IndexError:
-                helm_package_version = helm_package_version.replace("\n", "")
-
-            if helm_package_version:
-                return f"{helm_package_version}{space_elem}"
-        return ""
+    def __str__(self, get_version=""):
+        return super().__str__(get_version=self.get_version())
 
 
 class Package:
@@ -208,16 +171,27 @@ class Package:
         self.config = config
 
     def __str__(self):
-        if exists(join(getcwd(), Python(self.config).files[0])):
-            return str(Python(self.config))
-        elif exists(join(getcwd(), Rust(self.config).files[0])):
-            return str(Rust(self.config))
-        elif exists(join(getcwd(), NodeJS(self.config).files[0])):
-            return str(NodeJS(self.config))
-        elif exists(join(getcwd(), Scala(self.config).files[0])):
-            return str(Scala(self.config))
-        elif exists(join(getcwd(), Crystal(self.config).files[0])):
-            return str(Crystal(self.config))
-        elif exists(join(getcwd(), Helm(self.config).files[0])):
-            return str(Helm(self.config))
+        listing = get_key(self.config, "package", "display")
+
+        if listing:
+
+            pyproject_toml = join(getcwd(), Python(self.config).files[0])
+            package_json = join(getcwd(), NodeJS(self.config).files[0])
+            cargo_toml = join(getcwd(), Rust(self.config).files[0])
+            build_sbt = join(getcwd(), Scala(self.config).files[0])
+            shard_yaml = join(getcwd(), Crystal(self.config).files[0])
+            chart_yaml = join(getcwd(), Helm(self.config).files[0])
+
+            if exists(pyproject_toml) and "python" in listing:
+                return str(Python(self.config))
+            elif exists(package_json) and ("node" in listing or "nodejs" in listing):
+                return str(NodeJS(self.config))
+            elif exists(cargo_toml) and "rust" in listing:
+                return str(Rust(self.config))
+            elif exists(build_sbt) and "scala" in listing:
+                return str(Scala(self.config))
+            elif exists(shard_yaml) and "crystal" in listing:
+                return str(Crystal(self.config))
+            elif exists(chart_yaml) and "helm" in listing:
+                return str(Helm(self.config))
         return ""

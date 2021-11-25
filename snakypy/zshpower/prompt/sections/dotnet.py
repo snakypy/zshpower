@@ -15,7 +15,7 @@ class Dotnet(Version, Base):
     ) -> str:
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, exec="dotnet", key="dotnet", action=None) -> bool:
+    def set_version(self, exec_="dotnet", key="dotnet", action=None) -> bool:
         command = run("dotnet --version", capture_output=True, shell=True, text=True)
         version = command.stdout.replace("\n", "")
-        return super().set(command, version, exec, key, action)
+        return super().set(command, version, exec_, key, action)

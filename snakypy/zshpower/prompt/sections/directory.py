@@ -2,6 +2,9 @@ from os import environ, geteuid
 from pathlib import Path
 from subprocess import run
 
+from snakypy.zshpower.utils.catch import get_key
+from snakypy.zshpower.utils.check import str_empty_in
+
 from .utils import Color, element_spacing, symbol_ssh
 
 
@@ -27,21 +30,33 @@ def shorten_path(file_path, length) -> Path:
 
 class Directory:
     def __init__(self, config):
-        self.username_enable = config["username"]["enable"]
-        self.hostname_enable = config["hostname"]["enable"]
-        self.truncate_value = config["directory"]["truncation_length"]
-        self.symbol = symbol_ssh(config["directory"]["symbol"], "")
+        self.username_enable = get_key(config, "username", "enable")
+        self.hostname_enable = get_key(config, "hostname", "enable")
+        self.truncate_value = get_key(config, "directory", "truncation_length")
+        self.symbol = symbol_ssh(get_key(config, "directory", "symbol"), "")
         self.color = (
-            config["directory"]["color"]
-            if config["general"]["color"]["enable"] is True
+            get_key(config, "directory", "color")
+            if get_key(config, "general", "color", "enable") is True
             else "negative"
         )
-        self.prefix_color = config["directory"]["prefix"]["color"]
-        self.prefix_text = element_spacing(config["directory"]["prefix"]["text"])
+        self.prefix_color = get_key(config, "directory", "prefix", "color")
+        self.prefix_text = element_spacing(
+            get_key(config, "directory", "prefix", "text")
+        )
 
     def __str__(self, prefix="", space_elem=" "):
+        if str_empty_in(
+            self.username_enable,
+            self.hostname_enable,
+            self.truncate_value,
+            self.symbol,
+            self.prefix_color,
+            self.prefix_text,
+        ):
+            return ""
+
         if (
-            self.username_enable
+            self.username_enable is True
             or geteuid() == 0
             or self.hostname_enable
             or "SSH_CONNECTION" in environ

@@ -1,6 +1,6 @@
 from snakypy.zshpower import __info__
 
-content: str = f"""# Generate by: {__info__["name"]}
+zshrc_content: str = f"""# Generate by: {__info__["name"]}
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -103,12 +103,12 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
 # PATH local user
-PATH="$PATH:~/.local/bin"
+PATH="$HOME/.local/bin:$PATH"
 export PATH
     """
 
 zshrc_sample: str = """
-PATH="$PATH:~/.local/bin:/usr/bin:/usr/local/bin"
+PATH="$PATH:$HOME/.local/bin:/usr/bin:/usr/local/bin"
 export PATH
 
 autoload -Uz compinit promptinit

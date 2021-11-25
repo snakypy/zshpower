@@ -14,7 +14,7 @@ class Helm(Version, Base):
     ) -> str:
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, exec="helm", key="helm", action=None) -> bool:
+    def set_version(self, exec_="helm", key="helm", action=None) -> bool:
         command = run("helm version", capture_output=True, shell=True, text=True)
         version = command.stdout.split(":")[1].split('"')[1].replace("v", "")
-        return super().set(command, version, exec, key, action)
+        return super().set(command, version, exec_, key, action)

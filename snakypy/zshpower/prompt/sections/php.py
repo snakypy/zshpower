@@ -15,7 +15,7 @@ class Php(Version, Base):
     ) -> str:
         return super().get(config, reg_version, key=key, ext=ext, space_elem=space_elem)
 
-    def set_version(self, exec="php", key="php", action=None):
+    def set_version(self, exec_="php", key="php", action=None):
         command = run(
             """php -v 2>&1 | grep "^PHP\\s*[0-9.]\\+" | awk '{print $2}'""",
             capture_output=True,
@@ -23,4 +23,4 @@ class Php(Version, Base):
             text=True,
         )
         version = command.stdout.replace("\n", "")
-        return super().set(command, version, exec, key, action)
+        return super().set(command, version, exec_, key, action)
