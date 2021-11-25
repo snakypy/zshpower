@@ -6,7 +6,7 @@ from sys import stdout
 from typing import Any
 
 from snakypy.helpers import FG, printer
-from snakypy.helpers.decorators import only_linux
+from snakypy.helpers.decorators import only_linux, silent_errors
 from snakypy.helpers.files import read_file
 from snakypy.helpers.path import create as create_path
 from tomlkit import parse as toml_parse
@@ -174,6 +174,7 @@ class Draw(DAO):
         return f"{timer}"
 
 
+@silent_errors
 @only_linux
 def main() -> None:
     if len(sys_argv) < 2:
