@@ -225,7 +225,7 @@ version.micro.enable = true
 [package]
 enable = false
 symbol = "\\uf8d6"
-show = ["python", "node", "rust", "scala", "crystal", "helm"]
+display = ["python", "node", "rust", "scala", "crystal", "helm"]
 color = "red"
 prefix.color = "negative"
 prefix.text = "is"

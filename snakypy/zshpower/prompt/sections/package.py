@@ -177,7 +177,7 @@ class Package:
         self.config = config
 
     def __str__(self):
-        listing = get_key(self.config, "package", "show")
+        listing = get_key(self.config, "package", "display")
 
         if listing:
 
