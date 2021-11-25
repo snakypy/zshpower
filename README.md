@@ -366,6 +366,8 @@ The **ZSHPower** configuration file is very intuitive, and just a glance gives y
 
 * **color** - Changes the color of the package. `Default:` red
 
+* **show** - A list of programming languages that support packaging. If you don't want the version of a package for a specific programming language to appear, just remove it from this list. `Default:` ["python", "node", "rust", "scala", "crystal", "helm"]
+
 * **prefix.color** - Changes the color of the prefix.   `Default:` *negative*
 
 * **prefix.text** - Before showing the package information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *is*
