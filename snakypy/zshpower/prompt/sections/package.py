@@ -27,7 +27,7 @@ class Base:
         self.prefix_color = get_key(config, "package", "prefix", "color")
         self.prefix_text = element_spacing(get_key(config, "package", "prefix", "text"))
 
-    def finder_version(self, file, regex) -> str:
+    def finder_version(self, file, regex):
         try:
             if self.enable:
                 file_content = read_file(file)
