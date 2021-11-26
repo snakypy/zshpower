@@ -72,7 +72,7 @@ def run_credits() -> None:
     CreditsCommand().run()
 
 
-@silent_errors
+# @silent_errors
 @only_linux
 def main() -> None:
     run_init()
