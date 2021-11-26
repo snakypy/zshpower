@@ -45,6 +45,7 @@ class InitCommand(Base):
 
     def run(self, arguments, *, reload=False) -> None:
         tools_requirements("bash", "zsh", "vim", "git", "cut", "grep", "whoami", "pwd")
+        create_file(zshrc_sample, self.zsh_rc)
         if arguments["--path"]:
             stdout.write(
                 join(f'[[ -d "{self.lib_root}" ]] && source $HOME', self.source_code)

@@ -138,21 +138,30 @@ sudo pacman -S zsh vim curl git sqlite python python-pip
 
 **Debian and derivatives**
 ```shell
+sudo apt update
 sudo apt install zsh vim curl git sqlite3 python3 python3-pip
 ```
 
 **Fedora and derivatives**
 ```shell
+sudo dnf update
 sudo dnf install zsh vim curl git sqlite python3 python3-pip
 ```
 
-2 - Switch from **Bash** to **Zsh** and export PATH's:
+2 - Adding user's bin path to PATH:
+
+```shell
+export PATH="$PATH:$HOME/.local/bin"
+```
+
+2.1 - Switch from **Bash** to **Zsh** and export PATH's (**Optional**):
 
 ```shell
 chsh -s /bin/zsh $(whoami)
 exec zsh
 export PATH="$PATH:$HOME/.local/bin"
 ```
+> Note: By default, `ZSHPower` already performs this step at configuration time.
 
 ## Installing
 
