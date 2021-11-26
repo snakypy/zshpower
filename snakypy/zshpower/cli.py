@@ -2,7 +2,7 @@
 from snakypy.zshpower.commands.cron import Cron
 
 try:
-    from snakypy.helpers.decorators import only_linux, silent_errors
+    from snakypy.helpers.decorators import only_linux
 except KeyboardInterrupt:
     pass
 from snakypy.zshpower import HOME
