@@ -30,7 +30,10 @@ def change_shell(logfile) -> bool:
     """
     if shell() != "zsh":
         try:
-            printer("[ Changing the shell from Bash to ZSH (Press Ctrl+C to cancel) ]", foreground=FG().QUESTION)
+            printer(
+                "[ Changing the shell from Bash to ZSH (Press Ctrl+C to cancel) ]",
+                foreground=FG().QUESTION,
+            )
             subprocess_call(f"chsh -s $(which zsh) {whoami()}", shell=True)
             return True
         except KeyboardInterrupt:
