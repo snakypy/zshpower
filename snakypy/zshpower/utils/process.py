@@ -1,7 +1,6 @@
 import os
 from shutil import which
 from subprocess import call
-from subprocess import call as subprocess_call
 from time import sleep
 
 from snakypy.helpers import FG, printer
@@ -21,28 +20,34 @@ def reload_zsh(sleep_timer=None, message=False) -> None:
         printer("Restarting terminal, wait...", foreground=FG().WARNING)
     if sleep_timer:
         sleep(sleep_timer)
-    subprocess_call("exec zsh", shell=True)
+    call("exec zsh", shell=True)
 
 
 def change_shell(logfile) -> bool:
     """
     Function that checks if the shell is not ZSH and requests changes to it.
     """
-    if shell() != "zsh":
-        try:
-            printer(
-                "[ Changing the shell from Bash to ZSH (Press Ctrl+C to cancel) ]",
-                foreground=FG().QUESTION,
-            )
-            subprocess_call(f"chsh -s $(which zsh) {whoami()}", shell=True)
-            return True
-        except KeyboardInterrupt:
-            Log(filename=logfile).record(
-                f"Shell change canceled by user ({whoami()})",
-                colorize=True,
-                level="warning",
-            )
-            printer("Canceled by user.", foreground=FG().WARNING)
+
+    try:
+        printer(
+            "Changing the shell from Bash to ZSH (Root password required). [Press Ctrl+C to cancel]",
+            foreground=FG().QUESTION,
+        )
+        if shell() != "zsh" and which("chsh"):
+            call(f"chsh -s $(which zsh) {whoami()}", shell=True)
+        elif shell() != "zsh" and which("usermod"):
+            printer('Using "usermod" to change shell.', foreground=FG().QUESTION)
+            call(f'su -c "usermod -s $(which zsh) {whoami()}"', shell=True)
+        else:
+            return False
+        return True
+    except KeyboardInterrupt:
+        Log(filename=logfile).record(
+            f"Shell change canceled by user ({whoami()})",
+            colorize=True,
+            level="warning",
+        )
+        printer("Canceled by user.", foreground=FG().WARNING)
     return False
 
 
