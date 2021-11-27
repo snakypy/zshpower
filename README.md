@@ -139,13 +139,13 @@ sudo pacman -S zsh vim curl git sqlite python python-pip
 **Debian and derivatives**
 ```shell
 sudo apt update
-sudo apt install zsh vim curl git sqlite3 python3 python3-pip
+sudo apt install zsh vim curl git sqlite3 python3 python3-pip python3-venv
 ```
 
 **Fedora and derivatives**
 ```shell
 sudo dnf update
-sudo dnf install zsh vim curl git sqlite python3 python3-pip
+sudo dnf install zsh vim curl git sqlite python3 python3-pip util-linux-user
 ```
 
 2 - Adding user's bin path to PATH:
@@ -157,7 +157,7 @@ export PATH="$PATH:$HOME/.local/bin"
 2.1 - Switch from **Bash** to **Zsh** and export PATH's (**Optional**):
 
 ```shell
-chsh -s /bin/zsh $(whoami)
+chsh -s /usr/bin/zsh $(whoami)
 exec zsh
 export PATH="$PATH:$HOME/.local/bin"
 ```
