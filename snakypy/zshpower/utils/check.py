@@ -1,4 +1,4 @@
-from os.path import exists, join
+from os.path import exists, getsize, isfile, join
 from shutil import which
 from sys import exit
 
@@ -9,10 +9,18 @@ from snakypy.helpers.logging import Log
 from snakypy.zshpower import __info__
 
 
+def is_blank_file(filepath):
+    """
+    Checks if a file is blank, that is, it does not contain lines.
+    """
+    return isfile(filepath) and getsize(filepath) == 0
+
+
 @only_linux
 def tools_requirements(*args) -> bool:
     """
-    Function that looks for the necessary tools, if it doesn't find them, it triggers a message and closes the program.
+    Function that looks for the necessary tools, if it doesn't find them,
+    it triggers a message and closes the program.
     """
     for tool in args:
         if which(tool) is None:
