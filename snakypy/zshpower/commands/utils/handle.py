@@ -1,5 +1,7 @@
 from concurrent.futures import ThreadPoolExecutor
 
+from snakypy.helpers.console import loading
+
 from snakypy.zshpower.prompt.sections.cmake import CMake
 from snakypy.zshpower.prompt.sections.crystal import Crystal
 from snakypy.zshpower.prompt.sections.dart import Dart
@@ -26,8 +28,15 @@ from snakypy.zshpower.prompt.sections.vagrant import Vagrant
 from snakypy.zshpower.prompt.sections.zig import Zig
 
 
-def records(action) -> None:
+def records(action, header, foreground, timer=0.090):
     with ThreadPoolExecutor(max_workers=10) as executor:
+        executor.submit(
+            loading,
+            set_time=timer,
+            bar=False,
+            header=header,
+            foreground=foreground,
+        )
         executor.submit(Dart().set_version, action=action)
         executor.submit(Docker().set_version, action=action)
         executor.submit(Dotnet().set_version, action=action)
