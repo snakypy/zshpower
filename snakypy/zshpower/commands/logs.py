@@ -6,7 +6,7 @@ from snakypy.helpers.files import create_file, read_file
 from snakypy.helpers.os.removals import remove_objects
 
 from snakypy.zshpower.config.base import Base
-from snakypy.zshpower.utils.check import checking_init
+from snakypy.zshpower.utils.check import checking_init, is_blank_file
 
 
 class LogsCommand(Base):
@@ -22,6 +22,12 @@ class LogsCommand(Base):
             except FileNotFoundError:
                 printer("Log files not found:", foreground=FG().WARNING)
         elif arguments["--clean"]:
-            remove_objects(objects=(self.logfile,))
-            create_file("", self.logfile, force=True)
-            printer("Logs have been cleaned up.", foreground=FG().FINISH)
+            if is_blank_file(self.logfile):
+                printer(
+                    "The logs have already been cleared. Nothing to do.",
+                    foreground=FG().WARNING,
+                )
+            else:
+                remove_objects(objects=(self.logfile,))
+                create_file("", self.logfile, force=True)
+                printer("Logs have been cleaned up.", foreground=FG().FINISH)

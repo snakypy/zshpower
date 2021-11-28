@@ -8,7 +8,7 @@ license = "MIT"
 name = "zshpower"
 readme = "README.rst"
 repository = "https://github.com/snakypy/zshpower"
-version = "0.11.2"
+version = "0.11.3"
 
 classifiers = [
   "Intended Audience :: Developers",

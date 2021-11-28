@@ -17,7 +17,7 @@ def reload_zsh(sleep_timer=None, message=False) -> None:
     Reload ZSH
     """
     if message:
-        printer("Restarting terminal, wait...", foreground=FG().WARNING)
+        printer("Restarting terminal, wait...", foreground=FG().QUESTION)
     if sleep_timer:
         sleep(sleep_timer)
     call("exec zsh", shell=True)
@@ -29,18 +29,19 @@ def change_shell(logfile) -> bool:
     """
 
     try:
-        printer(
-            "Changing the shell from Bash to ZSH (Root password required). [Press Ctrl+C to cancel]",
-            foreground=FG().QUESTION,
-        )
-        if shell() != "zsh" and which("chsh"):
-            call(f"chsh -s $(which zsh) {whoami()}", shell=True)
-        elif shell() != "zsh" and which("usermod"):
-            printer('Using "usermod" to change shell.', foreground=FG().QUESTION)
-            call(f'su -c "usermod -s $(which zsh) {whoami()}"', shell=True)
-        else:
-            return False
-        return True
+        if shell() != "zsh":
+            printer(
+                "Changing the shell from Bash to ZSH (Root password required). [Press Ctrl+C to cancel]",
+                foreground=FG().QUESTION,
+            )
+            if which("chsh"):
+                call(f"chsh -s $(which zsh) {whoami()}", shell=True)
+            elif which("usermod"):
+                call(f'su -c "usermod -s $(which zsh) {whoami()}"', shell=True)
+            else:
+                return False
+            return True
+        return False
     except KeyboardInterrupt:
         Log(filename=logfile).record(
             f"Shell change canceled by user ({whoami()})",
@@ -60,7 +61,7 @@ def open_file_with_editor(toml_file, file_common=None, superuser: bool = False) 
         if which(editor):
             get_editor = os.environ.get("EDITOR", editor)
             with open(config) as f:
-                # TODO: It is not accepting the "command_superuser" function. Solve.
+                # TODO: It is not accepting the "command_root" function. Solve.
                 if get_superuser:
                     try:
                         cmd = f"""su -c '{get_editor} {f.name}';"""
@@ -96,4 +97,7 @@ def open_file_with_editor(toml_file, file_common=None, superuser: bool = False) 
                     condition(edt)
                     break
     except FileNotFoundError:
-        raise FileNotFoundError("File not found.")
+        printer(
+            'ZSHPower task file does not exist in Cron. Use: "zshpower cron --create"',
+            foreground=FG().WARNING,
+        )

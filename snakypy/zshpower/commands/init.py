@@ -58,7 +58,7 @@ class InitCommand(Base):
             )
         else:
             printer(
-                "Wait a moment, creating initial settings...", foreground=FG().WARNING
+                "Wait a moment, creating initial settings...", foreground=FG().QUESTION
             )
             create_path(
                 self.config_root, self.database_root, self.cache_root, self.lib_root
@@ -86,11 +86,11 @@ class InitCommand(Base):
             change_shell(self.logfile)
             printer("Settings finished!", foreground=FG().FINISH)
 
-            printer("Generating database, wait...", foreground=FG().WARNING)
+            # printer("Generating database, wait...", foreground=FG().QUESTION)
             # Create table in database if not exists
             DAO().create_table(self.tbl_main)
             # Insert registers in database
-            records("insert")
+            records("insert", "Generating database, wait ...", FG().QUESTION)
             printer("Database generated!", foreground=FG().FINISH)
 
             # Register logs

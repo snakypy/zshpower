@@ -42,9 +42,7 @@ def create_zshrc(content, zshrc_path, logfile):
         create_file(content, zshrc_path)
 
 
-def command_superuser(
-    cmd, logfile=None, msg_header="Enter the machine superuser password"
-):
+def command_root(cmd, logfile=None, msg_header="Enter the machine root password"):
     check = False
     printer(f"[ {msg_header} ]", foreground=FG().WARNING)
     try:
