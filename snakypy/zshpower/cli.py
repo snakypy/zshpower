@@ -1,4 +1,8 @@
 """CLI - Command Line Interface"""
+from sys import exit
+
+from snakypy.helpers import FG, printer
+
 from snakypy.zshpower.commands.cron import Cron
 
 try:
@@ -75,13 +79,17 @@ def run_credits() -> None:
 # @silent_errors
 @only_linux
 def main() -> None:
-    run_init()
-    run_config()
-    run_activate()
-    run_deactivate()
-    run_reset()
-    run_uninstall()
-    run_sync()
-    run_cron()
-    run_logs()
-    run_credits()
+    try:
+        run_init()
+        run_config()
+        run_activate()
+        run_deactivate()
+        run_reset()
+        run_uninstall()
+        run_sync()
+        run_cron()
+        run_logs()
+        run_credits()
+    except KeyboardInterrupt:
+        printer("Aborted by user.", foreground=FG().WARNING)
+        exit(0)
