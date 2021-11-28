@@ -1,5 +1,6 @@
 from snakypy.helpers import pick, printer
 from snakypy.helpers.ansi import FG
+from snakypy.helpers.decorators import silent_errors
 from snakypy.helpers.files import backup_file, create_file
 from snakypy.helpers.os import remove_objects
 
@@ -93,6 +94,7 @@ class UninstallCommand(Base):
         reload_zsh(reload_zsh(sleep_timer=2, message=True))
         return "ZSHPower removed!"
 
+    @silent_errors
     def run(self) -> str:
         if self.using_omz():
             return self.zshpower_with_omz()
