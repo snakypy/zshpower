@@ -1,10 +1,9 @@
 import sys
-from concurrent.futures import ThreadPoolExecutor
 from sqlite3 import OperationalError
 
 from snakypy.helpers import FG
 from snakypy.helpers.catches.generic import whoami
-from snakypy.helpers.console import loading, printer
+from snakypy.helpers.console import printer
 
 from snakypy.zshpower.commands.utils.handle import records
 from snakypy.zshpower.config.base import Base
@@ -18,15 +17,7 @@ class Sync(Base):
     def run(self) -> None:
         try:
             checking_init(self.HOME, self.logfile)
-            with ThreadPoolExecutor(max_workers=2) as executor:
-                executor.submit(
-                    loading,
-                    set_time=0.030,
-                    bar=False,
-                    header="Synchronizing versions with database ...",
-                    foreground=FG().QUESTION,
-                )
-                executor.submit(records, action="update")
+            records("update", "Synchronizing versions with database ...", FG().QUESTION)
             self.log.record(
                 f"User ({whoami()}) updated the database.",
                 colorize=True,
