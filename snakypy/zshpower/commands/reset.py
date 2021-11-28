@@ -1,9 +1,6 @@
-from concurrent.futures import ThreadPoolExecutor
-
 from snakypy.helpers import printer
 from snakypy.helpers.ansi import FG
 from snakypy.helpers.catches.generic import whoami
-from snakypy.helpers.console import loading
 
 from snakypy.zshpower.commands.utils.handle import records
 from snakypy.zshpower.config.base import Base
@@ -29,15 +26,7 @@ class ResetCommand(Base):
             reload_zsh()
         elif arguments["--db"]:
             DAO().create_table(self.tbl_main)
-            with ThreadPoolExecutor(max_workers=2) as executor:
-                executor.submit(
-                    loading,
-                    set_time=0.030,
-                    bar=False,
-                    header="ZSHPower Restoring the database ...",
-                    foreground=FG().QUESTION,
-                )
-                executor.submit(records, action="insert")
+            records("insert", "ZSHPower Restoring the database ...", FG().QUESTION)
             printer("Done!", foreground=FG().FINISH)
             self.log.record(
                 f"User ({whoami()}) reset database.", colorize=True, level="info"
