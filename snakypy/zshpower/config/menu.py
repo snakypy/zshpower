@@ -22,7 +22,7 @@ Usage:
     {__info__['executable']} --version
     {__info__['executable']} --credits
 
-Positional:
+Positional arguments:
     {FG().CYAN}init{NONE} ---------- Installs the {__info__["name"]} settings.
     {FG().CYAN}sync{NONE} ---------- Synchronizes the machine's data with the {__info__["name"]} database.
     {FG().CYAN}cron{NONE} ---------- Manage {__info__["name"]} Tasks in Cron.
