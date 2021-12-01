@@ -166,6 +166,13 @@ class Helm(Base):
         return super().__str__(get_version=self.get_version())
 
 
+class Ruby(Base):
+    # ruby -e 'puts Gem::Specification::load("example.gemspec").version'
+    def __init__(self, config):
+        Base.__init__(self, config)
+        self.extensions = (".gemspec",)
+
+
 class Package:
     def __init__(self, config):
         self.config = config
