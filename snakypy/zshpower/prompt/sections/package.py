@@ -168,7 +168,6 @@ class Helm(Base):
 
 
 class Ruby(Base):
-    # ruby -e 'puts Gem::Specification::load("example.gemspec").version'
     def __init__(self, config):
         Base.__init__(self, config)
         self.extensions = (".gemspec",)
