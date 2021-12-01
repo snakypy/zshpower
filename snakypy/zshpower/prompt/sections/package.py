@@ -1,8 +1,9 @@
 import re
 from contextlib import suppress
-from os import getcwd
+from os import getcwd, listdir
 from os.path import exists, isfile, join
-
+from subprocess import run
+from shutil import which
 from snakypy.helpers.files import read_json
 from snakypy.helpers.files.generic import read_file
 
@@ -172,6 +173,29 @@ class Ruby(Base):
         Base.__init__(self, config)
         self.extensions = (".gemspec",)
 
+    def search_file(self, directory):
+        for file in listdir(directory):
+            if file.endswith(self.extensions[0]):
+                return file
+        return False
+
+    def get_version(self, space_elem=" "):
+        file = self.search_file(getcwd())
+        if file is not False and which("ruby"):
+            command = run(
+                f"""ruby -e 'puts Gem::Specification::load("{file}").version'""",
+                shell=True,
+                text=True,
+                capture_output=True
+            )
+            if command.returncode == 0:
+                version = command.stdout.strip().replace("\n", "")
+                return f"{version}{space_elem}"
+        return ""
+
+    def __str__(self, get_version=""):
+        return super().__str__(get_version=self.get_version())
+
 
 class Package:
     def __init__(self, config):
@@ -183,6 +207,7 @@ class Package:
         if listing:
 
             pyproject_toml = join(getcwd(), Python(self.config).files[0])
+            gemspec = Ruby(self.config).search_file(getcwd())
             package_json = join(getcwd(), NodeJS(self.config).files[0])
             cargo_toml = join(getcwd(), Rust(self.config).files[0])
             build_sbt = join(getcwd(), Scala(self.config).files[0])
@@ -191,6 +216,8 @@ class Package:
 
             if exists(pyproject_toml) and "python" in listing:
                 return str(Python(self.config))
+            elif exists(gemspec) and "ruby" in listing:
+                return str(Ruby(self.config))
             elif exists(package_json) and ("node" in listing or "nodejs" in listing):
                 return str(NodeJS(self.config))
             elif exists(cargo_toml) and "rust" in listing:
