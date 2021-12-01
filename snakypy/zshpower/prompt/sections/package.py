@@ -2,8 +2,9 @@ import re
 from contextlib import suppress
 from os import getcwd, listdir
 from os.path import exists, isfile, join
-from subprocess import run
 from shutil import which
+from subprocess import run
+
 from snakypy.helpers.files import read_json
 from snakypy.helpers.files.generic import read_file
 
@@ -185,7 +186,7 @@ class Ruby(Base):
                 f"""ruby -e 'puts Gem::Specification::load("{file}").version'""",
                 shell=True,
                 text=True,
-                capture_output=True
+                capture_output=True,
             )
             if command.returncode == 0:
                 version = command.stdout.strip().replace("\n", "")
