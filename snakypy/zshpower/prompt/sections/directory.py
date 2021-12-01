@@ -49,9 +49,6 @@ class Directory:
             self.username_enable,
             self.hostname_enable,
             self.truncate_value,
-            self.symbol,
-            self.prefix_color,
-            self.prefix_text,
         ):
             return ""
 
