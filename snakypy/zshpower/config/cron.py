@@ -27,6 +27,8 @@ sync_content: str = f"""
 PATH=\"{HOME}/.local/bin:/bin:/usr/local/bin:\\$PATH\"
 export PATH
 
-zshpower sync
+if [[ -f $(which zshpower) ]]; then
+  zshpower sync
+fi
 
 """
