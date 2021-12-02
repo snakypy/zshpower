@@ -7,9 +7,9 @@ from .utils import Color, element_spacing, symbol_ssh
 
 
 class Hostname:
-    def __init__(self, config):
+    def __init__(self, config: dict):
 
-        self.config = config
+        self.config: dict = config
         self.symbol = symbol_ssh(get_key(config, "hostname", "symbol"), "")
         self.hostname_enable = get_key(config, "hostname", "enable")
         self.hostname_color = get_key(config, "hostname", "color")
@@ -18,7 +18,7 @@ class Hostname:
             get_key(config, "hostname", "prefix", "text")
         )
 
-    def __str__(self, prefix="", space_elem=" "):
+    def __str__(self, prefix: str = "", space_elem: str = " ") -> str:
         if (
             get_key(self.config, "hostname", "enable") is True
             or "SSH_CONNECTION" in os_environ

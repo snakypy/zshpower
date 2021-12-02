@@ -16,10 +16,10 @@ from snakypy.zshpower.utils.process import open_file_with_editor
 
 
 class Cron(Base):
-    def __init__(self, home):
+    def __init__(self, home: str):
         Base.__init__(self, home)
 
-    def manager(self, action=None) -> bool:
+    def manager(self, action: str = "") -> bool:
 
         if not isdir(self.cron_d_path):
             printer(
@@ -110,7 +110,7 @@ class Cron(Base):
                 err,
             )
 
-    def run(self, arguments):
+    def run(self, arguments: dict):
         checking_init(self.HOME, self.logfile)
         if arguments["--create"]:
             self.manager(action="create")
@@ -128,6 +128,11 @@ class Cron(Base):
             except FileNotFoundError:
                 printer(
                     f'ZSHPower task file does not exist in Cron. Use: "{__info__["executable"]} cron --create"',
+                    foreground=FG().WARNING,
+                )
+            except PermissionError:
+                printer(
+                    "You do not have the necessary permission to view this file.",
                     foreground=FG().WARNING,
                 )
             return False

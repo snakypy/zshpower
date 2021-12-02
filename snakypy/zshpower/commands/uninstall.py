@@ -13,16 +13,16 @@ from snakypy.zshpower.utils.process import reload_zsh
 
 
 class UninstallCommand(Base):
-    def __init__(self, home):
+    def __init__(self, home: str):
         Base.__init__(self, home)
 
-    def using_omz(self):
+    def using_omz(self) -> bool:
         check = get_zsh_theme(self.zsh_rc, self.logfile)
         if check:
             return True
         return False
 
-    def zshpower_with_omz(self):
+    def zshpower_with_omz(self) -> str:
         title = "What did you want to uninstall?"
         options = [
             f"{__info__['name']}",
@@ -65,7 +65,7 @@ class UninstallCommand(Base):
             )
             create_file(zshrc_sample, self.zsh_rc, force=True)
         printer("Uninstallation completed!", foreground=FG().FINISH)
-        reload_zsh(reload_zsh(sleep_timer=2, message=True))
+        reload_zsh(sleep_timer=2, message=True)
         return "ZSHPower removed!"
 
     def orphan_zshpower(self):
@@ -91,7 +91,7 @@ class UninstallCommand(Base):
                 'eval "\\$\\(zshpower init --path\\)"',
             ),
         )
-        reload_zsh(reload_zsh(sleep_timer=2, message=True))
+        reload_zsh(sleep_timer=2, message=True)
         return "ZSHPower removed!"
 
     @silent_errors

@@ -4,7 +4,7 @@ from functools import reduce
 from os.path import exists, isdir
 from re import M
 from re import search as re_search
-from typing import Union
+from typing import Any, Union
 
 from docopt import docopt
 from snakypy.helpers.ansi import FG, NONE
@@ -14,24 +14,24 @@ from snakypy.zshpower import __info__
 from snakypy.zshpower.config import menu
 
 
-def get_key(d, *keys) -> Union[str, bool]:
+def get_key(dictionary: dict, *keys) -> Union[str, bool, dict]:
     """
     Function to get keys from a dictionary recursively without errors.
     If the key does not exist it returns an empty dictionary.
 
     Args:
-        d ([dict]): Receive a dictionary
+        dictionary ([dict]): Receive a dictionary
 
     Returns:
         [str, bool]: Returning a str or a boolean if the object is True or False.
     """
-    data = reduce(lambda c, k: c.get(k, {}), keys, d)
+    data = reduce(lambda c, k: c.get(k, {}), keys, dictionary)
     if data == {}:
         return ""
     return data
 
 
-def read_file_log(file, logfile) -> str:
+def read_file_log(file: str, logfile: str) -> str:
     """
     Read a file with log creation option if it does not exist
     """
@@ -45,7 +45,7 @@ def read_file_log(file, logfile) -> str:
         raise FileNotFoundError(f"The {file} file was not found.", err)
 
 
-def arguments(argv=None) -> dict:
+def arguments(argv: Any = None) -> dict:
     formatted_version = (
         f"{__info__['name']} version: {FG().CYAN}{__info__['version']}{NONE}"
     )
@@ -53,7 +53,7 @@ def arguments(argv=None) -> dict:
     return data
 
 
-def get_zsh_theme(file, logfile) -> Union[tuple, bool]:
+def get_zsh_theme(file: str, logfile: str) -> Union[tuple, bool]:
     """
     Get the current theme contained in the .zshrc file if using Oh My ZSH
     """
@@ -67,7 +67,7 @@ def get_zsh_theme(file, logfile) -> Union[tuple, bool]:
     return False
 
 
-def current_plugins(file, logfile) -> list:
+def current_plugins(file: str, logfile: str) -> list:
     """
     Get current plugins from .zshrc file if using Oh My ZSH
     """
@@ -81,7 +81,7 @@ def current_plugins(file, logfile) -> list:
     return []
 
 
-def get_line(file, line, logfile) -> Union[str, bool]:
+def get_line(file: str, line: str, logfile: str) -> Union[str, bool]:
     """
     Get a given line from a given file
     """
@@ -92,7 +92,9 @@ def get_line(file, line, logfile) -> Union[str, bool]:
     return False
 
 
-def verify_objects(directory, /, files=(), folders=(), extension=()) -> bool:
+def verify_objects(
+    directory: str, /, files: tuple = (), folders: tuple = (), extension: tuple = ()
+) -> bool:
     """
     Checks whether there are objects from a particular directory.
     These can be folders, files and file extensions.

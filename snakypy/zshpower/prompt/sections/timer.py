@@ -5,7 +5,7 @@ from snakypy.zshpower.utils.catch import get_key
 
 
 class Timer:
-    def __init__(self, config):
+    def __init__(self, config: dict):
         self.enable = get_key(config, "timer", "enable")
         self.symbol = symbol_ssh(get_key(config, "timer", "symbol"), "T:")
         self.color = (

@@ -7,16 +7,16 @@ from snakypy.zshpower.utils.catch import get_key
 class Took:
     def __init__(self, config: dict, took: Any = 0):
         self.enable = get_key(config, "took", "enable")
-        self.symbol = symbol_ssh(get_key(config, "took", "symbol"), "")
-        self.text = get_key(config, "took", "text")
-        self.color = (
+        self.symbol: str = symbol_ssh(get_key(config, "took", "symbol"), "")
+        self.text: str = get_key(config, "took", "text")
+        self.color: str = (
             get_key(config, "took", "color")
             if get_key(config, "general", "color", "enable") is True
             else "negative"
         )
-        self.involved = get_key(config, "took", "involved")
-        self.show_greater_than = get_key(config, "took", "show_greater_than")
-        self.took = str(took)
+        self.involved: str = get_key(config, "took", "involved")
+        self.show_greater_than: str = get_key(config, "took", "show_greater_than")
+        self.took: str = str(took)
 
     def format_took(self) -> str:
         if self.took and len(self.took) == 7:

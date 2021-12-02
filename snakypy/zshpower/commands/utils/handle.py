@@ -28,7 +28,7 @@ from snakypy.zshpower.prompt.sections.vagrant import Vagrant
 from snakypy.zshpower.prompt.sections.zig import Zig
 
 
-def records(action, header, foreground, timer=0.090):
+def records(action: str, header: str, foreground: str, timer: float = 0.090):
     with ThreadPoolExecutor(max_workers=10) as executor:
         executor.submit(
             loading,

@@ -11,7 +11,7 @@ from snakypy.zshpower.utils.check import checking_init
 
 
 class Sync(Base):
-    def __init__(self, home):
+    def __init__(self, home: str):
         Base.__init__(self, home)
 
     def run(self) -> None:

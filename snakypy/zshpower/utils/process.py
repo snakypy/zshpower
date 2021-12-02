@@ -12,7 +12,7 @@ from tomlkit import parse as toml_parse
 from snakypy.zshpower.utils.catch import get_key
 
 
-def reload_zsh(sleep_timer=None, message=False) -> None:
+def reload_zsh(sleep_timer: int = 0, message: bool = False) -> None:
     """
     Reload ZSH
     """
@@ -23,7 +23,7 @@ def reload_zsh(sleep_timer=None, message=False) -> None:
     call("exec zsh", shell=True)
 
 
-def change_shell(logfile) -> bool:
+def change_shell(logfile: str) -> bool:
     """
     Function that checks if the shell is not ZSH and requests changes to it.
     """
@@ -52,12 +52,14 @@ def change_shell(logfile) -> bool:
     return False
 
 
-def open_file_with_editor(toml_file, file_common=None, superuser: bool = False) -> None:
+def open_file_with_editor(
+    toml_file: str, file_common: str = "", superuser: bool = False
+) -> None:
     """
     Opens file with a certain editor according to what is informed in the ZSHPower configuration file
     """
 
-    def editor_run(editor, config, get_superuser=superuser) -> bool:
+    def editor_run(editor: str, config: str, get_superuser: bool = superuser) -> bool:
         if which(editor):
             get_editor = os.environ.get("EDITOR", editor)
             with open(config) as f:
@@ -79,7 +81,7 @@ def open_file_with_editor(toml_file, file_common=None, superuser: bool = False) 
                     return True
         return False
 
-    def condition(editor):
+    def condition(editor: str):
         if file_common:
             return editor_run(editor, file_common, get_superuser=superuser)
         return editor_run(editor, toml_file, get_superuser=superuser)
@@ -91,7 +93,7 @@ def open_file_with_editor(toml_file, file_common=None, superuser: bool = False) 
         if get_editor_name and get_editor_name != {}:
             condition(get_editor_name)
         else:
-            editors = ("vim", "nano", "emacs", "micro", "vi")
+            editors: tuple = ("vim", "nano", "emacs", "micro", "vi")
             for edt in editors:
                 if is_tool(edt):
                     condition(edt)

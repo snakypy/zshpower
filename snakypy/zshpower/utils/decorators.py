@@ -1,8 +1,7 @@
 from functools import wraps
-from typing import Any
 
 
-def assign_cli(arguments: dict, command: str) -> Any:
+def assign_cli(arguments: dict, command: str):
     """
     Decorator that takes several parameters to assign to the ZSHPower CLI commands.
     """
