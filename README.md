@@ -433,7 +433,7 @@ The **ZSHPower** configuration file is very intuitive, and just a glance gives y
                           > NOTE: It must be a value in seconds.
 
 
-## Syncronize
+## Synchronize
 
 `ZSHPower` stores some information in a database (SQLite 3) to obtain better performance and speed in the display of data. This data is currently the versions of the applications that `ZSHPower` shows on the console. Before, `ZSHPower` showed this information in real time, but it compromised performance and display time.
 
