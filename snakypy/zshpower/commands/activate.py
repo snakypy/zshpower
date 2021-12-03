@@ -10,7 +10,7 @@ from snakypy.zshpower.utils.process import reload_zsh
 
 
 class ActivateCommand(Base):
-    def __init__(self, home):
+    def __init__(self, home: str):
         Base.__init__(self, home)
 
     def run(self) -> bool:

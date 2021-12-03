@@ -157,7 +157,7 @@ export PATH="$PATH:$HOME/.local/bin"
 2.1 - Switch from **Bash** to **Zsh** and export PATH's (**Optional**):
 
 ```shell
-chsh -s /usr/bin/zsh $(whoami)
+sudo chsh -s /usr/bin/zsh $(whoami)
 exec zsh
 export PATH="$PATH:$HOME/.local/bin"
 ```
@@ -168,19 +168,6 @@ export PATH="$PATH:$HOME/.local/bin"
 **1** - It's time to install `ZSHPower` manager. To do this, do:
 
 > NOTE: Global installation is not recommended. The easiest and most convenient way to use **ZSHPower** is to install for each different user on the machine, including for the super user (root)
-
-Globally:
-
-```shell
-# python -m pip install zshpower
-```
-or
-
-```shell
-$ sudo python -m pip install zshpower
-```
-
-For the user:
 
 ```shell
 $ python -m pip install zshpower --user -U
@@ -446,7 +433,7 @@ The **ZSHPower** configuration file is very intuitive, and just a glance gives y
                           > NOTE: It must be a value in seconds.
 
 
-## Syncronize
+## Synchronize
 
 `ZSHPower` stores some information in a database (SQLite 3) to obtain better performance and speed in the display of data. This data is currently the versions of the applications that `ZSHPower` shows on the console. Before, `ZSHPower` showed this information in real time, but it compromised performance and display time.
 
@@ -478,7 +465,7 @@ $ sudo dnf update && zshpower sync
 zshpower cron --create
 ```
 
-With this command, a `ZSHPower` task will be created in **Cron**, however you need to have **Cron** installed and have superuser permission to perform the task creation, otherwise, nothing will happen.
+With this command, a `ZSHPower` task will be created in **Cron**, however you need to have **Cron** installed and have superuser (root) permission to perform the task creation, otherwise, nothing will happen.
 
 By default, the task is created with comment, and you will have to set the values. For this, **ZSHPower** provides a command to open the **Cron** task file, with the command:
 
@@ -501,41 +488,26 @@ $ man crontab
 ```
 **An example using the [Cronie](https://github.com/cronie-crond/cronie) scheduling synchronization every 2 hours:**
 
-Create or changing a file  (with superuser)`/etc/cron.d/zshpower_sync.sh` and put the following line
+Create or changing a file  (with superuser)`/etc/cron.d/zshpower` and put the following line
 
 ```shell
-0 */2 * * * <USER> zshpower sync >/dev/null 2>&1
+# ZSHPower Task - BEGIN
+SHELL=/bin/zsh
+PATH=/home/<USER>/.local/bin:/bin:/usr/local/bin:$PATH
+export PATH
+# Every 2 hours
+0 */2 * * * <USER> zshpower sync
+# ZSHPower Task - END
 ```
 
-> In `<USER>` put the logged in user on the machine.
-
-Run command:
-
-```shell
-sudo chmod +x /usr/local/bin/zshpower_sync.sh
-```
+> In <USER> put the logged in user on the machine.
 
 ## Upgrading
 
 If `ZSHPower` has any new features, please update the command line below:
 
-Globally:
-
 ```shell
-# python -m pip install zshpower -U
-$ zshpower init [--omz]
-```
-
-or
-
-```shell
-$ sudo python -m pip install zshpower -U
-$ zshpower init [--omz]
-```
-For the user:
-
-```shell
-$ python -m pip install zshpower -U --user
+$ python -m pip install zshpower --user -U
 $ zshpower init [--omz]
 ```
 

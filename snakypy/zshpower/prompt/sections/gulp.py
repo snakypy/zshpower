@@ -16,21 +16,27 @@ from snakypy.zshpower.utils.catch import get_key, verify_objects
 
 
 class Gulp(Version, Base):
-    def __init__(self):
+    def __init__(self, *args):
         super(Gulp, self).__init__()
+        self.args: tuple = args
         self.files = ("gulpfile.js", "gulpfile.babel.js")
         self.folders = ("node_modules",)
+        self.key = "gulp"
+        self.app_executable = "gulp"
+        self.shorten = "gulp-"
 
-    def get_version(
-        self, config, reg_version, key="gulp", ext="gulp-", space_elem=" "
-    ) -> str:
+    def get_version(self, space_elem: str = " ") -> str:
+        # args[0]: dict = config file (toml)
+        # args[1]: dict = database registers
         version_local = "node_modules/gulp/package.json"
-        enable = get_key(config, key, "version", "enable")
-        symbol = symbol_ssh(get_key(config, key, "symbol"), ext)
-        color = get_key(config, key, "color")
-        prefix_color = get_key(config, key, "prefix", "color")
-        prefix_text = element_spacing(get_key(config, key, "prefix", "text"))
-        micro_version_enable = get_key(config, key, "version", "micro", "enable")
+        enable = get_key(self.args[0], self.key, "version", "enable")
+        symbol = symbol_ssh(get_key(self.args[0], self.key, "symbol"), self.shorten)
+        color = get_key(self.args[0], self.key, "color")
+        prefix_color = get_key(self.args[0], self.key, "prefix", "color")
+        prefix_text = element_spacing(get_key(self.args[0], self.key, "prefix", "text"))
+        micro_version_enable = get_key(
+            self.args[0], self.key, "version", "micro", "enable"
+        )
 
         if enable and verify_objects(
             getcwd(),
@@ -53,18 +59,25 @@ class Gulp(Version, Base):
 
                     return str(
                         (
-                            f"{separator(config)}{prefix}"
+                            f"{separator(self.args[0])}{prefix}"
                             f"{Color(color)}{symbol}"
                             f"Local {version_format}{Color().NONE}"
                         )
                     )
             else:
                 return super().get(
-                    config, reg_version, key=key, ext=ext, space_elem=space_elem
+                    self.args[0],
+                    self.args[1],
+                    self.key,
+                    self.shorten,
+                    space_elem=space_elem,
                 )
         return ""
 
-    def set_version(self, exec_="gulp", key="gulp", action=None) -> bool:
+    def set_version(self, action: str = "") -> bool:
         command = run("gulp --version", capture_output=True, shell=True, text=True)
         version = command.stdout.split()[2]
-        return super().set(command, version, exec_, key, action)
+        return super().set(command, version, self.app_executable, self.key, action)
+
+    def __str__(self):
+        return self.get_version()

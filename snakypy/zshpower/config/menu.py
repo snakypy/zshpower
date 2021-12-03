@@ -22,7 +22,7 @@ Usage:
     {__info__['executable']} --version
     {__info__['executable']} --credits
 
-Arguments:
+Positional arguments:
     {FG().CYAN}init{NONE} ---------- Installs the {__info__["name"]} settings.
     {FG().CYAN}sync{NONE} ---------- Synchronizes the machine's data with the {__info__["name"]} database.
     {FG().CYAN}cron{NONE} ---------- Manage {__info__["name"]} Tasks in Cron.
@@ -32,9 +32,11 @@ Arguments:
     {FG().CYAN}uninstall{NONE} ----- Uninstall the package {__info__["name"]}.
     {FG().CYAN}config{NONE} -------- The easiest way to edit and view the settings is through this option.
     {FG().CYAN}logs{NONE} ---------- Shows {__info__["name"]} activity logs.
+    {FG().CYAN}--version{NONE} ------ Show version.
+    {FG().CYAN}--credits{NONE} ------ Show credits.
+    {FG().CYAN}--help{NONE} --------- Show this screen.
 
 Options:
-    {FG().CYAN}--help{NONE} --------- Show this screen.
     {FG().CYAN}--omz{NONE} ---------- Use this option if you want to use {__info__["name"]} with Oh My ZSH.
     {FG().CYAN}--open{NONE} --------- Open the configuration file in edit mode and perform the automatic update
                      when you exit.
@@ -45,6 +47,4 @@ Options:
     {FG().CYAN}--remove{NONE} ------- Remove an object on the machine or some configuration.
     {FG().CYAN}--db{NONE} ----------- Apply actions to the database.
     {FG().CYAN}--theme=<name>{NONE} - Get the name of a theme available on Oh My ZSH [Default: {dt_omz}].
-    {FG().CYAN}--version{NONE} ------ Show version.
-    {FG().CYAN}--credits{NONE} ------ Show credits.
 """

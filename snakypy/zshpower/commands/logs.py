@@ -10,10 +10,10 @@ from snakypy.zshpower.utils.check import checking_init, is_blank_file
 
 
 class LogsCommand(Base):
-    def __init__(self, home):
+    def __init__(self, home: str):
         Base.__init__(self, home)
 
-    def run(self, arguments) -> None:
+    def run(self, arguments: dict) -> None:
         checking_init(self.HOME, self.logfile)
         if arguments["--view"]:
             try:

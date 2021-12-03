@@ -1,5 +1,5 @@
 from os import environ, getcwd
-from subprocess import check_output
+from subprocess import CompletedProcess, check_output
 from typing import List, Union
 
 from snakypy.helpers.catches.finders import is_tool
@@ -8,7 +8,7 @@ from snakypy.zshpower.database.dao import DAO
 from snakypy.zshpower.utils.catch import get_key, verify_objects
 
 
-def symbol_ssh(symbol1, symbol2, spacing=" ") -> str:
+def symbol_ssh(symbol1: str, symbol2: str, spacing: str = " ") -> str:
     if symbol1 != {}:
         if symbol1 != "":
             symbol1 += spacing
@@ -18,7 +18,9 @@ def symbol_ssh(symbol1, symbol2, spacing=" ") -> str:
     return ""
 
 
-def git_status(*, porcelain=False, branch=False) -> Union[str, List[str]]:
+def git_status(
+    *, porcelain: bool = False, branch: bool = False
+) -> Union[str, List[str]]:
     porcelain_set = "--porcelain" if porcelain else ""
     branch_set = "--branch" if branch else ""
 
@@ -43,7 +45,7 @@ def git_status(*, porcelain=False, branch=False) -> Union[str, List[str]]:
     return status
 
 
-def separator(config, spacing=" ") -> str:
+def separator(config: dict, spacing: str = " ") -> str:
 
     sep = get_key(config, "general", "separator", "element")
     if sep is not dict:
@@ -55,7 +57,7 @@ def separator(config, spacing=" ") -> str:
     return ""
 
 
-def element_spacing(element, spacing=" "):
+def element_spacing(element: str, spacing: str = " "):
     if element != {}:
         if element != "":
             element += spacing
@@ -68,7 +70,7 @@ class Color:
 
     NONE = "%f"
 
-    def __init__(self, set_color=""):
+    def __init__(self, set_color: str = ""):
         self.color = f"%F{{{set_color}}}"
         if set_color == "negative":
             self.color = ""
@@ -87,14 +89,14 @@ class Version(DAO):
 
     def get(
         self,
-        config,
-        reg_version: dict,
-        key="",
-        ext="",
-        space_elem="",
+        config: dict,
+        database: dict,
+        key: str = "",
+        shorten: str = "",
+        space_elem: str = "",
     ) -> str:
         enable = get_key(config, key, "version", "enable")
-        symbol = symbol_ssh(get_key(config, key, "symbol"), ext)
+        symbol = symbol_ssh(get_key(config, key, "symbol"), shorten)
         color = (
             get_key(config, key, "color")
             if get_key(config, "general", "color", "enable") is True
@@ -105,7 +107,7 @@ class Version(DAO):
         micro_version_enable = get_key(config, key, "version", "micro", "enable")
 
         if enable is True:
-            if reg_version[key] and verify_objects(
+            if database[key] and verify_objects(
                 self.verify_objects_dir,
                 files=self.files,
                 folders=self.folders,
@@ -114,9 +116,9 @@ class Version(DAO):
                 prefix = f"{Color(prefix_color)}{prefix_text}{Color().NONE}"
 
                 if micro_version_enable is True:
-                    version_format = f"{'{0[0]}.{0[1]}.{0[2]}'.format(reg_version[key].split('.'))}{space_elem}"
+                    version_format = f"{'{0[0]}.{0[1]}.{0[2]}'.format(database[key].split('.'))}{space_elem}"
                 else:
-                    version_format = f"{'{0[0]}.{0[1]}'.format(reg_version[key].split('.'))}{space_elem}"
+                    version_format = f"{'{0[0]}.{0[1]}'.format(database[key].split('.'))}{space_elem}"
 
                 return str(
                     (
@@ -127,8 +129,15 @@ class Version(DAO):
                 )
         return ""
 
-    def set(self, command, version, exec_="", key="", action=None) -> bool:
-        if is_tool(exec_) and action:
+    def set(
+        self,
+        command: Union[CompletedProcess, CompletedProcess[str]],
+        version: str,
+        app_executable: str,
+        key: str,
+        action: str = "",
+    ) -> bool:
+        if is_tool(app_executable) and action:
             # Conditions to save in database
             if action == "insert":
                 query = DAO().select_where(

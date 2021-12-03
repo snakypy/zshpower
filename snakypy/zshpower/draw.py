@@ -6,7 +6,7 @@ from sys import stdout
 from typing import Any
 
 from snakypy.helpers import FG, printer
-from snakypy.helpers.decorators import only_linux, silent_errors
+from snakypy.helpers.decorators import only_linux
 from snakypy.helpers.files import read_file
 from snakypy.helpers.path import create as create_path
 from tomlkit import parse as toml_parse
@@ -59,10 +59,13 @@ from snakypy.zshpower.utils.modifiers import create_toml
 class Draw(DAO):
     def __init__(self):
         DAO.__init__(self)
-        self.config = self.get_config()
-        self.register = self.get_register()
+        self.config: dict = self.get_config()
+        self.database = self.get_database()
 
     def get_config(self) -> dict:
+        """
+        Takes data from the TOML configuration file and serializes it to a dictionary.
+        """
         try:
             parsed = dict(toml_parse(read_file(self.config_file)))
             return parsed
@@ -78,9 +81,12 @@ class Draw(DAO):
             )
             return parsed
 
-    def get_register(self):
+    def get_database(self) -> dict:
+        """
+        Takes data from the database and serializes it to a dictionary.
+        """
         try:
-            data = self.select_columns(
+            data: dict = self.select_columns(
                 columns=("name", "version"),
                 table=self.tbl_main,
             )
@@ -93,80 +99,72 @@ class Draw(DAO):
             )
             printer(
                 f'{__info__["name"]} Error: Database corrupted. Run command: '
-                f'"zshpower reset --db" to restore.\n>> ',
+                f'"{__info__["executable"]} reset --db" to restore.\n>> ',
                 foreground=FG().ERROR,
             )
+            exit(1)
 
-    def version(self, instance, key) -> str:
+    def dynamic_sections(self) -> list:
+        versions = {
+            "virtualenv": Virtualenv,
+            "python": Python,
+            "package": Package,
+            "nodejs": NodeJs,
+            "rust": Rust,
+            "golang": Golang,
+            "ruby": Ruby,
+            "dart": Dart,
+            "php": Php,
+            "java": Java,
+            "julia": Julia,
+            "dotnet": Dotnet,
+            "elixir": Elixir,
+            "scala": Scala,
+            "perl": Perl,
+            "cmake": CMake,
+            "crystal": Crystal,
+            "deno": Deno,
+            "erlang": Erlang,
+            "helm": Helm,
+            "kotlin": Kotlin,
+            "nim": Nim,
+            "ocaml": Ocaml,
+            "vagrant": Vagrant,
+            "zig": Zig,
+            "gulp": Gulp,
+            "docker": Docker,
+            "git": Git,
+        }
         with ThreadPoolExecutor() as executor:
-            if key in self.register:
-                future = executor.submit(
-                    instance().get_version, self.config, self.register
-                )
-                return_value = future.result()
-                return return_value
-            return ""
-
-    @staticmethod
-    def get_keys(dict_: dict, key: Any) -> str:
-        return dict_[key]
+            sections = []
+            if not str_empty_in(get_key(self.config, "general", "position")):
+                for pos_key in get_key(self.config, "general", "position"):
+                    for key in versions.keys():
+                        if key == pos_key:
+                            future = executor.submit(
+                                versions[key], self.config, self.database
+                            )
+                            if future.result() and future.result() is not None:
+                                v = future.result()
+                                sections.append(v)
+        return sections
 
     # @runtime
     def prompt(self, took: Any = 0) -> str:
         with suppress(KeyboardInterrupt):
-            jump_line = JumpLine(self.config)
-            username = Username(self.config)
-            hostname = Hostname(self.config)
-            directory = Directory(self.config)
-            dinamic_section = {
-                "virtualenv": Virtualenv(self.config),
-                "python": Python(self.config),
-                "package": Package(self.config),
-                "nodejs": self.version(NodeJs, "nodejs"),
-                "rust": self.version(Rust, "rust"),
-                "golang": self.version(Golang, "golang"),
-                "ruby": self.version(Ruby, "ruby"),
-                "dart": self.version(Dart, "dart"),
-                "php": self.version(Php, "php"),
-                "java": self.version(Java, "java"),
-                "julia": self.version(Julia, "julia"),
-                "dotnet": self.version(Dotnet, "dotnet"),
-                "elixir": self.version(Elixir, "elixir"),
-                "scala": self.version(Scala, "scala"),
-                "perl": self.version(Perl, "perl"),
-                "cmake": self.version(CMake, "cmake"),
-                "crystal": self.version(Crystal, "crystal"),
-                "deno": self.version(Deno, "deno"),
-                "erlang": self.version(Erlang, "erlang"),
-                "helm": self.version(Helm, "helm"),
-                "kotlin": self.version(Kotlin, "kotlin"),
-                "nim": self.version(Nim, "nim"),
-                "ocaml": self.version(Ocaml, "ocaml"),
-                "vagrant": self.version(Vagrant, "vagrant"),
-                "zig": self.version(Zig, "zig"),
-                "gulp": self.version(Gulp, "gulp"),
-                "docker": self.version(Docker, "docker"),
-                "git": Git(self.config),
-            }
-
+            dynamic_sections = self.dynamic_sections()
+            if not dynamic_sections:
+                return ">>> "
+            static_section = (
+                f"{JumpLine(self.config)}"
+                f"{Username(self.config)}"
+                f"{Hostname(self.config)}"
+                f"{Directory(self.config)}"
+            )
             cmd = Command(self.config)
             took_ = Took(self.config, took)
-            static_section = f"{jump_line}{username}{hostname}{directory}"
-
-            # Using ThreadPoolExecutor, not Generators
-            with ThreadPoolExecutor() as executor:
-                ordered_section = []
-                if not str_empty_in(get_key(self.config, "general", "position")):
-                    for elem in get_key(self.config, "general", "position"):
-                        for item in dinamic_section.keys():
-                            if item == elem:
-                                future = executor.submit(
-                                    self.get_keys, dinamic_section, item
-                                )
-                                ordered_section.append(future.result())
-
-                    sections = "{}{}{}" + "{}" * len(dinamic_section)
-                    return sections.format(static_section, *ordered_section, took_, cmd)
+            sections = "{}{}{}" + "{}" * len(dynamic_sections)
+            return sections.format(static_section, *dynamic_sections, took_, cmd)
         return ">>> "
 
     def rprompt(self) -> str:
@@ -174,7 +172,7 @@ class Draw(DAO):
         return f"{timer}"
 
 
-@silent_errors
+# @silent_errors
 @only_linux
 def main() -> None:
     if len(sys_argv) < 2:

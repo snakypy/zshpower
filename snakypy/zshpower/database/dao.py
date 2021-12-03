@@ -44,7 +44,7 @@ class DAO(Base):
     def commit(self):
         self.connection.commit()
 
-    def execute(self, sql_, params=None):
+    def execute(self, sql_: str, params=None):
         self.cursor.execute(sql_, params or ())
 
     def fetchall(self) -> list:
@@ -53,15 +53,15 @@ class DAO(Base):
     def fetchone(self) -> Any:
         return self.cursor.fetchone()
 
-    def query(self, sql_, params=None) -> list:
+    def query(self, sql_: str, params=None) -> list:
         self.cursor.execute(sql_, params or ())
         return self.fetchall()
 
-    def query_one(self, sql_, params=None) -> Any:
+    def query_one(self, sql_: str, params=None) -> Any:
         self.cursor.execute(sql_, params or ())
         return self.fetchone()
 
-    def create_table(self, tbl_name) -> bool:
+    def create_table(self, tbl_name: str) -> bool:
         try:
             self.execute(sql()[tbl_name])
             self.commit()
@@ -70,21 +70,23 @@ class DAO(Base):
         except (sqlite3.DatabaseError, sqlite3.DataError):
             return False
 
-    def select_columns(self, /, columns=(), table=None) -> dict:
+    def select_columns(self, /, columns: tuple = (), table: str = "") -> dict:
         sql_ = f"SELECT {','.join(columns)} FROM {table};"
         query = self.query(sql_)
         data = {key: value for (key, value) in query}
         self.connection.close()
         return data
 
-    def select_where(self, table, value, where, select=()) -> list:
+    def select_where(
+        self, table: str, value: str, where: str, select: tuple = ()
+    ) -> list:
         sql_ = f"SELECT {','.join(select)} FROM {table} WHERE {where} = '{value}';"
         data = self.query(sql_)
         self.commit()
         self.connection.close()
         return data
 
-    def insert(self, table, /, columns=(), values=()) -> bool:
+    def insert(self, table: str, /, columns: tuple = (), values: tuple = ()) -> bool:
         sql_ = f"INSERT INTO {table} {columns} VALUES {values};"
         try:
             self.execute(sql_)
@@ -94,7 +96,9 @@ class DAO(Base):
         except Exception:
             raise Exception("Error insert database.")
 
-    def update(self, table, set_, version, where, value) -> bool:
+    def update(
+        self, table: str, set_: str, version: str, where: str, value: str
+    ) -> bool:
         sql_ = f"UPDATE {table} SET {set_} = '{version}' WHERE {where} = '{value}';"
         try:
             self.execute(sql_)

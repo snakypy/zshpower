@@ -32,7 +32,7 @@ from snakypy.zshpower.utils.process import change_shell, reload_zsh
 
 
 class InitCommand(Base):
-    def __init__(self, home):
+    def __init__(self, home: str):
         Base.__init__(self, home)
         self.instruction_not_omz = f"""{FG().YELLOW}
             **************************** WARNING *******************************
@@ -44,7 +44,7 @@ class InitCommand(Base):
             ********************************************************************{NONE}
         """
 
-    def run(self, arguments, *, reload=False) -> None:
+    def run(self, arguments: dict, *, reload: bool = False) -> None:
         tools_requirements("bash", "zsh", "vim", "git", "cut", "grep", "whoami", "pwd")
 
         # If there is, an exception will not pop.

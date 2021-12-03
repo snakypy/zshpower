@@ -29,7 +29,8 @@ def shorten_path(file_path, length) -> Path:
 
 
 class Directory:
-    def __init__(self, config):
+    def __init__(self, config: dict, *args):
+        self.args = args
         self.username_enable = get_key(config, "username", "enable")
         self.hostname_enable = get_key(config, "hostname", "enable")
         self.truncate_value = get_key(config, "directory", "truncation_length")
@@ -44,14 +45,11 @@ class Directory:
             get_key(config, "directory", "prefix", "text")
         )
 
-    def __str__(self, prefix="", space_elem=" "):
+    def __str__(self, prefix: str = "", space_elem: str = " ") -> str:
         if str_empty_in(
             self.username_enable,
             self.hostname_enable,
             self.truncate_value,
-            self.symbol,
-            self.prefix_color,
-            self.prefix_text,
         ):
             return ""
 

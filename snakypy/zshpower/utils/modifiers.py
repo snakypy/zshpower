@@ -5,6 +5,7 @@ from re import M, sub
 from shutil import which
 from subprocess import PIPE, Popen, check_output
 from sys import exit, platform
+from typing import Iterable
 from zipfile import ZipFile
 
 from snakypy.helpers import FG, printer
@@ -18,7 +19,7 @@ from tomlkit import parse as toml_parse
 from snakypy.zshpower.utils.catch import current_plugins, get_zsh_theme, read_file_log
 
 
-def create_toml(content, file, *, force=False) -> bool:
+def create_toml(content: str, file: str, *, force=False) -> bool:
     """
     Create the ZSHPower configuration file. A TOML file.
     """
@@ -30,7 +31,7 @@ def create_toml(content, file, *, force=False) -> bool:
     return False
 
 
-def create_zshrc(content, zshrc_path, logfile):
+def create_zshrc(content: str, zshrc_path: str, logfile: str) -> None:
     """
     Create a .zshrc file if there is no one compatible with Oh MyZSH.
     """
@@ -42,7 +43,9 @@ def create_zshrc(content, zshrc_path, logfile):
         create_file(content, zshrc_path)
 
 
-def command_root(cmd, logfile=None, msg_header="Enter the machine root password"):
+def command_root(
+    cmd: str, logfile: str = "", msg_header: str = "Enter the machine root password"
+) -> bool:
     check = False
     printer(f"[ {msg_header} ]", foreground=FG().WARNING)
     try:
@@ -73,7 +76,7 @@ def command_root(cmd, logfile=None, msg_header="Enter the machine root password"
         raise PermissionError("No permission to write to directory")
 
 
-def change_theme(file, theme_name, logfile) -> bool:
+def change_theme(file: str, theme_name: str, logfile: str) -> bool:
     """
     Change Oh My ZSH Theme
     """
@@ -87,7 +90,7 @@ def change_theme(file, theme_name, logfile) -> bool:
     return False
 
 
-def omz_install(omz_root, logfile):
+def omz_install(omz_root: str, logfile: str) -> bool:
     """
     Install Oh My ZSH
     """
@@ -101,7 +104,8 @@ def omz_install(omz_root, logfile):
                 "Oh My ZSH installation process finished.",
                 foreground=FG().FINISH,
             )
-
+            return True
+        return False
     except Exception:
         Log(filename=logfile).record(
             "Error downloading Oh My ZSH. Aborted!", colorize=True, level="error"
@@ -109,7 +113,7 @@ def omz_install(omz_root, logfile):
         raise Exception("Error downloading Oh My ZSH. Aborted!")
 
 
-def install_plugins(omz_root, plugins, logfile):
+def install_plugins(omz_root: str, plugins: Iterable[tuple], logfile: str):
     """
     Install plugins on Oh My ZSH
     """
@@ -129,7 +133,7 @@ def install_plugins(omz_root, plugins, logfile):
         raise Exception("There was an error installing the plugin")
 
 
-def install_fonts(home, logfile, *, force=False) -> bool:
+def install_fonts(home: str, logfile: str, *, force: bool = False) -> bool:
     """
     Install the Nerd Fonts font in the $HOME/.fonts folder
     """
@@ -194,7 +198,7 @@ def add_plugins(zshrc, logfile):
     return ""
 
 
-def remove_lines(file, logfile, lines=()) -> None:
+def remove_lines(file: str, logfile: str, lines: tuple = ()) -> None:
     """
     Remove certain lines from a file
     """
@@ -205,7 +209,7 @@ def remove_lines(file, logfile, lines=()) -> None:
     create_file(content, file, force=True)
 
 
-def pip_uninstall(*, packages=()) -> tuple:
+def pip_uninstall(*, packages: tuple = ()) -> tuple:
     """
     Install Python packages for active user using Pip
     """

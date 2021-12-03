@@ -4,8 +4,9 @@ from .utils import Color, symbol_ssh
 
 
 class Command:
-    def __init__(self, config):
-        self.config = config
+    def __init__(self, config: dict, *args):
+        self.config: dict = config
+        self.args = args
         self.symbol = symbol_ssh(get_key(config, "command", "symbol"), "> ")
         self.error_symbol = symbol_ssh(
             get_key(config, "command", "error", "symbol"), "x "
@@ -18,7 +19,7 @@ class Command:
         )
         self.new_line = get_key(config, "command", "new_line", "enable")
 
-    def __str__(self, jump_line="\n"):
+    def __str__(self, jump_line: str = "\n"):
         if not self.new_line:
             jump_line = ""
         return (

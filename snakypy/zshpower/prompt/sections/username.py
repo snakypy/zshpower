@@ -9,14 +9,14 @@ from .utils import Color, symbol_ssh
 
 
 class Username:
-    def __init__(self, config):
+    def __init__(self, config: dict):
         self.symbol = symbol_ssh(get_key(config, "username", "symbol"), "")
         self.enable = get_key(config, "username", "enable")
         self.color = get_key(config, "username", "color")
         if geteuid() == 0:
             self.color = "red"
 
-    def __str__(self, space_elem=" "):
+    def __str__(self, space_elem: str = " "):
         if self.enable is True or "SSH_CONNECTION" in os_environ or geteuid() == 0:
             return (
                 f"{Color(self.color)}{self.symbol}{whoami()}{space_elem}{Color().NONE}"

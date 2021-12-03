@@ -15,18 +15,21 @@ from snakypy.zshpower.prompt.sections.utils import (
 from snakypy.zshpower.utils.catch import get_key, verify_objects
 
 
-def definitive_version(micro_version_enable, python_version, space_elem):
+def definitive_version(
+    micro_version_enable: bool, python_version: list, space_elem: str
+):
     if not micro_version_enable:
         return f"{'{0[0]}.{0[1]}'.format(python_version)}{space_elem}"
     return f"{'{0[0]}.{0[1]}.{0[2]}'.format(python_version)}{space_elem}"
 
 
 class Python:
-    def __init__(self, config):
+    def __init__(self, config: dict, *args):
 
-        self.config = config
-        self.enable = get_key(config, "python", "version", "enable")
-        self.files = (
+        self.config: dict = config
+        self.args: tuple = args
+        self.enable: bool = get_key(config, "python", "version", "enable")
+        self.files: tuple = (
             "__pycache__",
             "manage.py",
             "setup.py",
@@ -45,11 +48,11 @@ class Python:
         )
         self.prefix_color = get_key(config, "python", "prefix", "color")
         self.prefix_text = element_spacing(get_key(config, "python", "prefix", "text"))
-        self.micro_version_enable = get_key(
+        self.micro_version_enable: bool = get_key(
             config, "python", "version", "micro", "enable"
         )
 
-    def get_version(self, space_elem=" ") -> str:
+    def get_version(self, space_elem: str = " ") -> str:
 
         # Checking if you use Python through pyenv or the system.
         if isdir(join(HOME, ".pyenv")):
@@ -105,10 +108,11 @@ class Python:
 
 
 class Virtualenv:
-    def __init__(self, config):
-        self.config = config
-        self.enable = get_key(config, "python", "virtualenv", "enable")
-        self.hash_enable = get_key(
+    def __init__(self, config: dict, *args):
+        self.config: dict = config
+        self.args = args
+        self.enable: bool = get_key(config, "python", "virtualenv", "enable")
+        self.hash_enable: bool = get_key(
             config, "python", "virtualenv", "poetry", "hash", "enable"
         )
         self.py_enable = get_key(
@@ -149,7 +153,7 @@ class Virtualenv:
             return venv_path.split("/")[-1]
         return ""
 
-    def __str__(self, space_elem=" "):
+    def __str__(self, space_elem: str = " "):
         involved_prefix = ""
         involved_suffix = ""
 

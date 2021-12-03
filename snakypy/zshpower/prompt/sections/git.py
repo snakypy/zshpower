@@ -12,9 +12,11 @@ from snakypy.zshpower.utils.catch import get_key
 
 
 class Git:
-    def __init__(self, config, icon_space=" "):
+    def __init__(self, config: dict, *args):
 
-        self.config = config
+        self.config: dict = config
+        self.database = args[0]
+        self.icon_space: str = " "
         try:
             self.symbol = symbol_ssh(get_key(config, "git", "symbol"), "git:")
         except KeyError:
@@ -44,91 +46,91 @@ class Git:
                 f"{symbol_ssh(get_key(config, 'git', 'status', 'symbol', 'added'), '')}"
                 f"{Color().NONE}",
                 f"{Color('green') if self.gcolor_enable is True else Color('negative')}+"
-                f"{icon_space}{Color().NONE}",
+                f"{self.icon_space}{Color().NONE}",
             ],
             # "AM": [
             #     f"{Color('white') if get_key(config, 'general', 'color', 'enable') is True else Color('negative')}"
             #     f"{symbol_ssh(get_key(config, 'git', 'status', 'symbol', 'changed'), '')}"
             #     f"{Color().NONE}",
             #     f"{Color('white') if self.gcolor_enable is True else Color('negative')}#
-            #     {icon_space}{Color().NONE}",
+            #     {self.icon_space}{Color().NONE}",
             # ],
             "M": [
                 f"{Color('blue') if self.gcolor_enable is True else Color('negative')}"
                 f"{symbol_ssh(get_key(config, 'git', 'status', 'symbol', 'modified'), '')}"
                 f"{Color().NONE}",
                 f"{Color('blue') if self.gcolor_enable is True else Color('negative')}#"
-                f"{icon_space}{Color().NONE}",
+                f"{self.icon_space}{Color().NONE}",
             ],
             "D": [
                 f"{Color('red') if self.gcolor_enable is True else Color('negative')}"
                 f"{symbol_ssh(get_key(config, 'git', 'status', 'symbol', 'deleted'), '')}"
                 f"{Color().NONE}",
                 f"{Color('red') if self.gcolor_enable is True else Color('negative')}x"
-                f"{icon_space}{Color().NONE}",
+                f"{self.icon_space}{Color().NONE}",
             ],
             "??": [
                 f"{Color('yellow') if self.gcolor_enable is True else Color('negative')}"
                 f"{symbol_ssh(get_key(config, 'git', 'status', 'symbol', 'untracked'), '')}"
                 f"{Color().NONE}",
                 f"{Color('yellow') if self.gcolor_enable is True else Color('negative')}?"
-                f"{icon_space}{Color().NONE}",
+                f"{self.icon_space}{Color().NONE}",
             ],
             "R": [
                 f"{Color('magenta') if self.gcolor_enable is True else Color('negative')}"
                 f"{symbol_ssh(get_key(config, 'git', 'status', 'symbol', 'renamed'), '')}"
                 f"{Color().NONE}",
                 f"{Color('magenta') if self.gcolor_enable is True else Color('negative')}->"
-                f"{icon_space}{Color().NONE}",
+                f"{self.icon_space}{Color().NONE}",
             ],
             "UU": [
                 f"{Color('red') if self.gcolor_enable is True else Color('negative')}"
                 f"{symbol_ssh(get_key(config, 'git', 'status', 'symbol', 'conflicts'), '')}"
                 f"{Color().NONE}",
                 f"{Color('red') if self.gcolor_enable is True else Color('negative')}!="
-                f"{icon_space}{Color().NONE}",
+                f"{self.icon_space}{Color().NONE}",
             ],
             "AH": [
                 f"{Color('blue') if self.gcolor_enable is True else Color('negative')}"
                 f"{symbol_ssh(get_key(config, 'git', 'status', 'symbol', 'ahead'), '')}"
                 f"{Color().NONE}",
                 f"{Color('blue') if self.gcolor_enable is True else Color('negative')}^"
-                f"{icon_space}{Color().NONE}",
+                f"{self.icon_space}{Color().NONE}",
             ],
             "BH": [
                 f"{Color('magenta') if self.gcolor_enable is True else Color('negative')}"
                 f"{symbol_ssh(get_key(config, 'git', 'status', 'symbol', 'behind'), '')}"
                 f"{Color().NONE}",
                 f"{Color('magenta') if self.gcolor_enable is True else Color('negative')}_"
-                f"{icon_space}{Color().NONE}",
+                f"{self.icon_space}{Color().NONE}",
             ],
             "DG": [
                 f"{Color('yellow') if self.gcolor_enable is True else Color('negative')}"
                 f"{symbol_ssh(get_key(config, 'git', 'status', 'symbol', 'diverged'), '')}"
                 f"{Color().NONE}",
                 f"{Color('yellow') if self.gcolor_enable is True else Color('negative')}<->"
-                f"{icon_space}{Color().NONE}",
+                f"{self.icon_space}{Color().NONE}",
             ],
             "C": [
                 f"{Color('yellow') if self.gcolor_enable is True else Color('negative')}"
                 f"{symbol_ssh(get_key(config, 'git', 'status', 'symbol', 'copied'), '')}"
                 f"{Color().NONE}",
                 f"{Color('yellow') if self.gcolor_enable is True else Color('negative')}**"
-                f"{icon_space}{Color().NONE}",
+                f"{self.icon_space}{Color().NONE}",
             ],
             "U": [
                 f"{Color('magenta') if self.gcolor_enable is True else Color('negative')}"
                 f"{symbol_ssh(get_key(config, 'git', 'status', 'symbol', 'unmerged'), '')}"
                 f"{Color().NONE}",
                 f"{Color('magenta') if self.gcolor_enable is True else Color('negative')}="
-                f"{icon_space}{Color().NONE}",
+                f"{self.icon_space}{Color().NONE}",
             ],
             "CL": [
                 f"{Color('green') if self.gcolor_enable is True else Color('negative')}"
                 f"{symbol_ssh(get_key(config, 'git', 'status', 'symbol', 'clean'), '')}"
                 f"{Color().NONE}",
                 f"{Color('green') if self.gcolor_enable is True else Color('negative')}~"
-                f"{icon_space}{Color().NONE}",
+                f"{self.icon_space}{Color().NONE}",
             ],
         }
         self.icons["UD"] = self.icons["UU"]

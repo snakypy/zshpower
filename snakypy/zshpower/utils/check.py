@@ -9,7 +9,7 @@ from snakypy.helpers.logging import Log
 from snakypy.zshpower import __info__
 
 
-def is_blank_file(filepath):
+def is_blank_file(filepath: str) -> bool:
     """
     Checks if a file is blank, that is, it does not contain lines.
     """
@@ -32,7 +32,7 @@ def tools_requirements(*args) -> bool:
     return True
 
 
-def checking_init(home, logfile) -> bool:
+def checking_init(home: str, logfile: str) -> bool:
     """
     Function that ends commands that depend on the created repository, but
     the repository was not created.
@@ -50,7 +50,7 @@ def checking_init(home, logfile) -> bool:
     return True
 
 
-def str_empty_in(*args):
+def str_empty_in(*args) -> bool:
     """
     Function that checks whether an object is an empty string.
 

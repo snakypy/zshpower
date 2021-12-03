@@ -4,7 +4,8 @@ from snakypy.helpers.decorators import silent_errors
 from snakypy.helpers.files import backup_file, create_file
 from snakypy.helpers.os import remove_objects
 
-from snakypy.zshpower import __info__
+from snakypy.zshpower import HOME, __info__
+from snakypy.zshpower.commands.cron import Cron
 from snakypy.zshpower.config.base import Base
 from snakypy.zshpower.config.zshrc import zshrc_sample
 from snakypy.zshpower.utils.catch import get_zsh_theme
@@ -13,16 +14,16 @@ from snakypy.zshpower.utils.process import reload_zsh
 
 
 class UninstallCommand(Base):
-    def __init__(self, home):
+    def __init__(self, home: str):
         Base.__init__(self, home)
 
-    def using_omz(self):
+    def using_omz(self) -> bool:
         check = get_zsh_theme(self.zsh_rc, self.logfile)
         if check:
             return True
         return False
 
-    def zshpower_with_omz(self):
+    def zshpower_with_omz(self) -> str:
         title = "What did you want to uninstall?"
         options = [
             f"{__info__['name']}",
@@ -44,14 +45,12 @@ class UninstallCommand(Base):
                 self.theme_symlink,
             )
         )
+        Cron(HOME).manager(action="remove")
         pip_uninstall(packages=(__info__["name"],))
         remove_lines(
             self.zsh_rc,
             self.logfile,
-            lines=(
-                # '\\[\\[ -d "\\$HOME/.zshpower/lib" \\]\\] && eval "\\$\\(zshpower init --path\\)"',
-                'eval "\\$\\(zshpower init --path\\)"',
-            ),
+            lines=('eval "\\$\\(zshpower init --path\\)"',),
         )
         change_theme(self.zsh_rc, "robbyrussell", self.logfile)
         # ZSHPower and Oh My ZSH
@@ -65,7 +64,7 @@ class UninstallCommand(Base):
             )
             create_file(zshrc_sample, self.zsh_rc, force=True)
         printer("Uninstallation completed!", foreground=FG().FINISH)
-        reload_zsh(reload_zsh(sleep_timer=2, message=True))
+        reload_zsh(sleep_timer=2, message=True)
         return "ZSHPower removed!"
 
     def orphan_zshpower(self):
@@ -82,6 +81,7 @@ class UninstallCommand(Base):
                 self.lib_root,
             )
         )
+        Cron(HOME).manager(action="remove")
         pip_uninstall(packages=(__info__["name"],))
         remove_lines(
             self.zsh_rc,
@@ -91,7 +91,7 @@ class UninstallCommand(Base):
                 'eval "\\$\\(zshpower init --path\\)"',
             ),
         )
-        reload_zsh(reload_zsh(sleep_timer=2, message=True))
+        reload_zsh(sleep_timer=2, message=True)
         return "ZSHPower removed!"
 
     @silent_errors

@@ -10,10 +10,10 @@ from snakypy.zshpower.utils.process import reload_zsh
 
 
 class DeactivateCommand(Base):
-    def __init__(self, home):
+    def __init__(self, home: str):
         Base.__init__(self, home)
 
-    def run(self, arguments, *, theme_name="robbyrussell") -> bool:
+    def run(self, arguments: dict, *, theme_name: str = "robbyrussell") -> bool:
 
         checking_init(self.HOME, self.logfile)
 
