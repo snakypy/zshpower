@@ -2,6 +2,7 @@ from os.path import exists, isdir
 from pydoc import pager
 
 from snakypy.helpers import FG, pick
+from snakypy.helpers.catches import whoami
 from snakypy.helpers.catches.finders import find_objects
 from snakypy.helpers.console import printer
 from snakypy.helpers.files import read_file
@@ -64,7 +65,7 @@ class Cron(Base):
 
             elif action == "remove":
                 cron_file = find_objects(
-                    self.cron_d_path, files=(f"{__info__['pkg_name']}",)
+                    self.cron_d_path, files=(f"{__info__['pkg_name']}__{whoami()}",)
                 )
 
                 if not cron_file["files"]:
