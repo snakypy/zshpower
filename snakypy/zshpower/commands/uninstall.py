@@ -50,9 +50,7 @@ class UninstallCommand(Base):
         remove_lines(
             self.zsh_rc,
             self.logfile,
-            lines=(
-                'eval "\\$\\(zshpower init --path\\)"',
-            ),
+            lines=('eval "\\$\\(zshpower init --path\\)"',),
         )
         change_theme(self.zsh_rc, "robbyrussell", self.logfile)
         # ZSHPower and Oh My ZSH

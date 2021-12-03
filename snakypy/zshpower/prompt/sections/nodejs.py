@@ -1,4 +1,3 @@
-import concurrent.futures
 from subprocess import run
 
 from snakypy.zshpower.config.base import Base

@@ -1,5 +1,4 @@
 from subprocess import run
-from typing import Any
 
 from snakypy.zshpower.config.base import Base
 from snakypy.zshpower.prompt.sections.utils import Version
