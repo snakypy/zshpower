@@ -19,9 +19,9 @@ class Base:
         self.cache_root = join(self.zshpower_home, ".cache")
         self.logfile = join(self.zshpower_home, ".cache", "zshpower.log")
         self.database_path = join(self.database_root, "zshpower.sqlite3")
-        self.sync_path = f"/usr/local/bin/{__info__['pkg_name']}_sync.sh"
+        # self.sync_path = f"/usr/local/bin/{__info__['pkg_name']}_sync.zsh"
         self.cron_d_path = "/etc/cron.d/"
-        self.cron_path = join(self.cron_d_path, f"{__info__['pkg_name']}_task.sh")
+        self.cron_path = join(self.cron_d_path, f"{__info__['pkg_name']}")
         self.lib_main = join(self.lib_root, "main.lib")
         self.zsh_rc = join(self.HOME, ".zshrc")
         self.omz_root = join(self.HOME, ".oh-my-zsh")

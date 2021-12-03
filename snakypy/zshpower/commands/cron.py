@@ -9,7 +9,7 @@ from snakypy.helpers.logging import Log
 
 from snakypy.zshpower import __info__
 from snakypy.zshpower.config.base import Base
-from snakypy.zshpower.config.cron import cron_content, sync_content
+from snakypy.zshpower.config.cron import cron_content
 from snakypy.zshpower.utils.check import checking_init
 from snakypy.zshpower.utils.modifiers import command_root
 from snakypy.zshpower.utils.process import open_file_with_editor
@@ -32,7 +32,7 @@ class Cron(Base):
         try:
             if action == "create":
 
-                if exists(self.sync_path) or exists(self.cron_path):
+                if exists(self.cron_path):
                     printer(
                         f"There is already a task in Cron for {__info__['name']}. Aborted!",
                         foreground=FG().WARNING,
@@ -43,12 +43,8 @@ class Cron(Base):
                     f"Creating {__info__['name']} Task in Cron.",
                     foreground=FG().QUESTION,
                 )
-
-                cmd = f"""su -c 'echo "{sync_content}" > {self.sync_path}; chmod a+x {self.sync_path};
-                                echo "{cron_content}" > {self.cron_path}; chmod a+x {self.cron_path}'
-                                """
+                cmd = f"""su -c 'echo "{cron_content}" > {self.cron_path}; chmod 644 {self.cron_path}'"""
                 command_root(cmd, logfile=self.logfile)
-
                 printer(
                     f"{__info__['name']} Cron task created!", foreground=FG().FINISH
                 )
@@ -68,24 +64,21 @@ class Cron(Base):
 
             elif action == "remove":
                 cron_file = find_objects(
-                    self.cron_d_path, files=(f"{__info__['pkg_name']}_task.sh",)
-                )
-                task_run = find_objects(
-                    "/etc/local/bin/", files=(f"{__info__['pkg_name']}_sync.sh",)
+                    self.cron_d_path, files=(f"{__info__['pkg_name']}",)
                 )
 
-                if not cron_file["files"] and not task_run["files"]:
+                if not cron_file["files"]:
                     printer(
                         f'There is no {__info__["name"]} task file in Cron to remove. Aborted!',
                         foreground=FG().WARNING,
                     )
                     return False
 
-                if cron_file["files"] or task_run["files"]:
+                if cron_file["files"]:
                     title = f"Really want to remove {__info__['name']} task from Cron?"
                     options = ["Yes", "No"]
                     reply = pick(title, options, colorful=True, index=True)
-                    cmd = f"""su -c 'rm -f {self.sync_path} {self.cron_path}';"""
+                    cmd = f"""su -c 'rm -f {self.cron_path}';"""
 
                     if reply is None or reply[0] == 1:
                         printer("Canceled by user.", foreground=FG().WARNING)

@@ -4,7 +4,8 @@ from snakypy.helpers.decorators import silent_errors
 from snakypy.helpers.files import backup_file, create_file
 from snakypy.helpers.os import remove_objects
 
-from snakypy.zshpower import __info__
+from snakypy.zshpower import HOME, __info__
+from snakypy.zshpower.commands.cron import Cron
 from snakypy.zshpower.config.base import Base
 from snakypy.zshpower.config.zshrc import zshrc_sample
 from snakypy.zshpower.utils.catch import get_zsh_theme
@@ -44,12 +45,12 @@ class UninstallCommand(Base):
                 self.theme_symlink,
             )
         )
+        Cron(HOME).manager(action="remove")
         pip_uninstall(packages=(__info__["name"],))
         remove_lines(
             self.zsh_rc,
             self.logfile,
             lines=(
-                # '\\[\\[ -d "\\$HOME/.zshpower/lib" \\]\\] && eval "\\$\\(zshpower init --path\\)"',
                 'eval "\\$\\(zshpower init --path\\)"',
             ),
         )
@@ -82,6 +83,7 @@ class UninstallCommand(Base):
                 self.lib_root,
             )
         )
+        Cron(HOME).manager(action="remove")
         pip_uninstall(packages=(__info__["name"],))
         remove_lines(
             self.zsh_rc,
