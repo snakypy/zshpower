@@ -200,7 +200,7 @@ class Ruby(Base):
         return super().__str__(get_version=self.get_version())
 
 
-class Vlang(Base):
+class V(Base):
     def __init__(self, config):
         Base.__init__(self, config)
         self.files = ("vpkg.json",)
@@ -229,14 +229,14 @@ class Package:
             build_sbt = join(getcwd(), Scala(self.config).files[0])
             shard_yaml = join(getcwd(), Crystal(self.config).files[0])
             chart_yaml = join(getcwd(), Helm(self.config).files[0])
-            vpkg_json = join(getcwd(), Vlang(self.config).files[0])
+            vpkg_json = join(getcwd(), V(self.config).files[0])
 
             if exists(pyproject_toml) and "python" in listing:
                 return str(Python(self.config))
-            elif exists(gemspec) and "ruby" in listing:
-                return str(Ruby(self.config))
             elif exists(package_json) and ("node" in listing or "nodejs" in listing):
                 return str(NodeJS(self.config))
+            elif exists(gemspec) and "ruby" in listing:
+                return str(Ruby(self.config))
             elif exists(cargo_toml) and "rust" in listing:
                 return str(Rust(self.config))
             elif exists(build_sbt) and "scala" in listing:
@@ -244,7 +244,7 @@ class Package:
             elif exists(chart_yaml) and "helm" in listing:
                 return str(Helm(self.config))
             elif exists(vpkg_json) and "vlang" in listing:
-                return str(Vlang(self.config))
+                return str(V(self.config))
             elif exists(shard_yaml) and "crystal" in listing:
                 return str(Crystal(self.config))
             elif exists(chart_yaml) and "helm" in listing:
