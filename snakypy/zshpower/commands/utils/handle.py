@@ -2,7 +2,9 @@ from concurrent.futures import ThreadPoolExecutor
 
 from snakypy.helpers.console import loading
 
+from snakypy.zshpower.prompt.sections.c import C
 from snakypy.zshpower.prompt.sections.cmake import CMake
+from snakypy.zshpower.prompt.sections.cplusplus import CPlusPlus
 from snakypy.zshpower.prompt.sections.crystal import Crystal
 from snakypy.zshpower.prompt.sections.dart import Dart
 from snakypy.zshpower.prompt.sections.deno import Deno
@@ -16,6 +18,7 @@ from snakypy.zshpower.prompt.sections.helm import Helm
 from snakypy.zshpower.prompt.sections.java import Java
 from snakypy.zshpower.prompt.sections.julia import Julia
 from snakypy.zshpower.prompt.sections.kotlin import Kotlin
+from snakypy.zshpower.prompt.sections.lua import Lua
 from snakypy.zshpower.prompt.sections.nim import Nim
 from snakypy.zshpower.prompt.sections.nodejs import NodeJs
 from snakypy.zshpower.prompt.sections.ocaml import Ocaml
@@ -25,11 +28,12 @@ from snakypy.zshpower.prompt.sections.ruby import Ruby
 from snakypy.zshpower.prompt.sections.rust import Rust
 from snakypy.zshpower.prompt.sections.scala import Scala
 from snakypy.zshpower.prompt.sections.vagrant import Vagrant
+from snakypy.zshpower.prompt.sections.vlang import Vlang
 from snakypy.zshpower.prompt.sections.zig import Zig
 
 
 def records(action: str, header: str, foreground: str, timer: float = 0.090):
-    with ThreadPoolExecutor(max_workers=10) as executor:
+    with ThreadPoolExecutor() as executor:
         executor.submit(
             loading,
             set_time=timer,
@@ -37,6 +41,8 @@ def records(action: str, header: str, foreground: str, timer: float = 0.090):
             header=header,
             foreground=foreground,
         )
+        executor.submit(C().set_version, action=action)
+        executor.submit(CPlusPlus().set_version, action=action)
         executor.submit(Dart().set_version, action=action)
         executor.submit(Docker().set_version, action=action)
         executor.submit(Dotnet().set_version, action=action)
@@ -57,7 +63,9 @@ def records(action: str, header: str, foreground: str, timer: float = 0.090):
         executor.submit(Erlang().set_version, action=action)
         executor.submit(Helm().set_version, action=action)
         executor.submit(Kotlin().set_version, action=action)
+        executor.submit(Lua().set_version, action=action)
         executor.submit(Nim().set_version, action=action)
         executor.submit(Ocaml().set_version, action=action)
         executor.submit(Vagrant().set_version, action=action)
+        executor.submit(Vlang().set_version, action=action)
         executor.submit(Zig().set_version, action=action)
