@@ -21,7 +21,7 @@ from snakypy.zshpower.prompt.sections.kotlin import Kotlin
 from snakypy.zshpower.prompt.sections.lua import Lua
 from snakypy.zshpower.prompt.sections.nim import Nim
 from snakypy.zshpower.prompt.sections.nodejs import NodeJs
-from snakypy.zshpower.prompt.sections.ocaml import Ocaml
+from snakypy.zshpower.prompt.sections.ocaml import OCaml
 from snakypy.zshpower.prompt.sections.perl import Perl
 from snakypy.zshpower.prompt.sections.php import Php
 from snakypy.zshpower.prompt.sections.ruby import Ruby
@@ -65,7 +65,7 @@ def records(action: str, header: str, foreground: str, timer: float = 0.090):
         executor.submit(Kotlin().set_version, action=action)
         executor.submit(Lua().set_version, action=action)
         executor.submit(Nim().set_version, action=action)
-        executor.submit(Ocaml().set_version, action=action)
+        executor.submit(OCaml().set_version, action=action)
         executor.submit(Vagrant().set_version, action=action)
         executor.submit(V().set_version, action=action)
         executor.submit(Zig().set_version, action=action)

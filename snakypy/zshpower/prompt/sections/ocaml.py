@@ -4,9 +4,9 @@ from snakypy.zshpower.config.base import Base
 from snakypy.zshpower.prompt.sections.utils import Version
 
 
-class Ocaml(Version, Base):
+class OCaml(Version, Base):
     def __init__(self, *args):
-        super(Ocaml, self).__init__()
+        super(OCaml, self).__init__()
         self.args: tuple = args
         self.key = "ocaml"
         self.app_executable = "ocaml"

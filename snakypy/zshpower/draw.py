@@ -38,7 +38,7 @@ from snakypy.zshpower.prompt.sections.kotlin import Kotlin
 from snakypy.zshpower.prompt.sections.lua import Lua
 from snakypy.zshpower.prompt.sections.nim import Nim
 from snakypy.zshpower.prompt.sections.nodejs import NodeJs
-from snakypy.zshpower.prompt.sections.ocaml import Ocaml
+from snakypy.zshpower.prompt.sections.ocaml import OCaml
 from snakypy.zshpower.prompt.sections.package import Package
 from snakypy.zshpower.prompt.sections.perl import Perl
 from snakypy.zshpower.prompt.sections.php import Php
@@ -135,7 +135,7 @@ class Draw(DAO):
             "kotlin": Kotlin,
             "lua": Lua,
             "nim": Nim,
-            "ocaml": Ocaml,
+            "ocaml": OCaml,
             "vagrant": Vagrant,
             "zig": Zig,
             "gulp": Gulp,
