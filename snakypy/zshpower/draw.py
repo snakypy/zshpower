@@ -14,6 +14,8 @@ from tomlkit import parse as toml_parse
 from snakypy.zshpower import __info__
 from snakypy.zshpower.config.config import config_content
 from snakypy.zshpower.database.dao import DAO
+from snakypy.zshpower.prompt.sections.c import C
+from snakypy.zshpower.prompt.sections.cplusplus import CPlusPlus
 from snakypy.zshpower.prompt.sections.cmake import CMake
 from snakypy.zshpower.prompt.sections.command import Command
 from snakypy.zshpower.prompt.sections.crystal import Crystal
@@ -33,6 +35,7 @@ from snakypy.zshpower.prompt.sections.java import Java
 from snakypy.zshpower.prompt.sections.julia import Julia
 from snakypy.zshpower.prompt.sections.jump_line import JumpLine
 from snakypy.zshpower.prompt.sections.kotlin import Kotlin
+from snakypy.zshpower.prompt.sections.lua import Lua
 from snakypy.zshpower.prompt.sections.nim import Nim
 from snakypy.zshpower.prompt.sections.nodejs import NodeJs
 from snakypy.zshpower.prompt.sections.ocaml import Ocaml
@@ -47,6 +50,7 @@ from snakypy.zshpower.prompt.sections.timer import Timer
 from snakypy.zshpower.prompt.sections.took import Took
 from snakypy.zshpower.prompt.sections.username import Username
 from snakypy.zshpower.prompt.sections.vagrant import Vagrant
+from snakypy.zshpower.prompt.sections.vlang import Vlang
 from snakypy.zshpower.prompt.sections.zig import Zig
 from snakypy.zshpower.utils.catch import get_key
 from snakypy.zshpower.utils.check import str_empty_in
@@ -110,6 +114,8 @@ class Draw(DAO):
             "python": Python,
             "package": Package,
             "nodejs": NodeJs,
+            "c": C,
+            "cplusplus": CPlusPlus,
             "rust": Rust,
             "golang": Golang,
             "ruby": Ruby,
@@ -127,12 +133,14 @@ class Draw(DAO):
             "erlang": Erlang,
             "helm": Helm,
             "kotlin": Kotlin,
+            "lua": Lua,
             "nim": Nim,
             "ocaml": Ocaml,
             "vagrant": Vagrant,
             "zig": Zig,
             "gulp": Gulp,
             "docker": Docker,
+            "vlang": Vlang,
             "git": Git,
         }
         with ThreadPoolExecutor() as executor:
