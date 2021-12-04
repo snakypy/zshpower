@@ -14,7 +14,7 @@ from snakypy.zshpower import __info__
 from snakypy.zshpower.config import menu
 
 
-def get_key(dictionary: dict, *keys) -> Union[str, bool, dict]:
+def get_key(dictionary: dict, *args) -> Union[str, bool, dict]:
     """
     Function to get keys from a dictionary recursively without errors.
     If the key does not exist it returns an empty dictionary.
@@ -25,7 +25,7 @@ def get_key(dictionary: dict, *keys) -> Union[str, bool, dict]:
     Returns:
         [str, bool]: Returning a str or a boolean if the object is True or False.
     """
-    data = reduce(lambda c, k: c.get(k, {}), keys, dictionary)
+    data = reduce(lambda c, k: c.get(k, {}), args, dictionary)
     if data == {}:
         return ""
     return data
