@@ -40,7 +40,7 @@ _________________
     :alt: GitHub issues
 
 .. image:: https://img.shields.io/github/license/snakypy/zshpower
-    :target: https://github.com/snakypy/zshpower/blob/master/LICENSE
+    :target: https://github.com/snakypy/zshpower/blob/main/LICENSE
     :alt: GitHub license
 
 _________________
@@ -99,20 +99,11 @@ Features
 Installing
 ----------
 
-Globally:
-
 .. code-block:: shell
 
-    $ sudo python -m pip install zshpower
+    $ python3 -m pip install zshpower --user
 
-NOTE: It is not recommended to install globally.
-
-For the user:
-
-.. code-block:: shell
-
-    $ python -m pip install zshpower --user
-
+NOTE: It is recommended that you install for user rather than global.
 
 Using
 -----
@@ -142,10 +133,10 @@ Donation
 
 Click on the image below to be redirected the donation forms:
 
-.. image:: https://raw.githubusercontent.com/snakypy/donations/master/svg/donate/donate-hand.svg
+.. image:: https://raw.githubusercontent.com/snakypy/donations/main/svg/donate/donate-hand.svg
     :width: 160 px
     :height: 100px
-    :target: https://github.com/snakypy/donations/blob/master/README.md
+    :target: https://github.com/snakypy/donations/blob/main/README.md
 
 
 License
@@ -162,11 +153,11 @@ Links
 -----
 
 * Code: https://github.com/snakypy/zshpower
-* Documentation: https://github.com/snakypy/zshpower/blob/master/README.md
+* Documentation: https://github.com/snakypy/zshpower/blob/main/README.md
 * Releases: https://pypi.org/project/zshpower/#history
 * Issue tracker: https://github.com/snakypy/zshpower/issues
 
-.. _AUTHORS: https://github.com/snakypy/zshpower/blob/master/AUTHORS.rst
+.. _AUTHORS: https://github.com/snakypy/zshpower/blob/main/AUTHORS.rst
 .. _Oh My Zsh: https://ohmyz.sh
 .. _zsh-autosuggestions: https://github.com/zsh-users/zsh-autosuggestions
 .. _zsh-syntax-highlighting: https://github.com/zsh-users/zsh-syntax-highlighting
@@ -177,7 +168,7 @@ Links
 .. _sqlite3: https://www.sqlite.org
 .. _pip: https://pip.pypa.io/en/stable/quickstart/
 .. _nerd fonts: https://www.nerdfonts.com/font-downloads
-.. _MIT License: https://github.com/snakypy/zshpower/blob/master/LICENSE
+.. _MIT License: https://github.com/snakypy/zshpower/blob/main/LICENSE
 .. _William Canin: http://williamcanin.github.io
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`williamcanin/pypkg-cookiecutter`: https://github.com/williamcanin/pypkg-cookiecutter

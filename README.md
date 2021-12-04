@@ -102,9 +102,9 @@ Here is an example of the installed **ZSHPower**:
 
 - Application versions shown with [icons](https://www.nerdfonts.com), they are:
 
-  > CMake, Crystal, Dart, Deno, Docker, Docker, Dotnet, Elixir, Erlang, Go, Gulp, Helm, Java, Julia, Kotlin,
+  > C, C++, CMake, Crystal, Dart, Deno, Docker, Docker, Dotnet, Elixir, Erlang, Go, Gulp, Helm, Java, Julia, Kotlin,
   >
-  > Nim, NodeJS, Ocaml, Perl, Php, Python, Ruby, Rust, Scala, Vagrant, Zig
+  > Lua, Nim, NodeJS, OCaml, Perl, Php, Python, Ruby, Rust, Scala, V, Vagrant, Zig
 
 - Package versions such as Crystal, Helm, NodeJS, Python, Rust shown;
 
@@ -170,7 +170,7 @@ export PATH="$PATH:$HOME/.local/bin"
 > NOTE: Global installation is not recommended. The easiest and most convenient way to use **ZSHPower** is to install for each different user on the machine, including for the super user (root)
 
 ```shell
-$ python -m pip install zshpower --user -U
+$ python3 -m pip install zshpower --user -U
 ```
 
 > NOTE: If you are installing to the user's local environment, be sure to add the environment variables to the `zshrc` file.
@@ -262,17 +262,11 @@ The **symbol** keys, receive icons or their values in `Unicode`. By default, the
 
 ### Configuration file
 
-The configuration file is found in **$HOME/.zshpower/VERSION/config.toml**, where in **VERSION** is the current version of **ZSHPower**.
-
-```shell
-$ zshpower --version
-```
+The configuration file is found in **$HOME/.zshpower/config/zshpower.toml**.
 
 By default, most settings are set to **false**.
 
-The **ZSHPower** configuration file is very intuitive, and just a glance gives you an idea of what each option does. However, even so we will understand some of them below:
-
-**Settings file keys and their functions:**:
+The **ZSHPower** configuration file is very intuitive, and just a glance gives you an idea of what each option does. But even so, note some of the main keys:
 
 * **color.enable** - If `true`, enable the colors, otherwise `false` enters negative mode. `Default:` *true*
 
@@ -334,7 +328,7 @@ The **ZSHPower** configuration file is very intuitive, and just a glance gives y
 
 `ZSHPower` stores some information in a database (SQLite 3) to obtain better performance and speed in the display of data. This data is currently the versions of the applications that `ZSHPower` shows on the console. Before, `ZSHPower` showed this information in real time, but it compromised performance and display time.
 
-With that, every time you update the program you work on, you need to synchronize. To synchronize you have two options, the first is manual and the other automatically using a task scheduler, such as [Cronie](https://github.com/cronie-crond/cronie/).
+With that, every time you update the program you work on (or even the entire system), you need to synchronize. To synchronize you have two options, the first is manual and the other automatically using a task scheduler, such as [Cronie](https://github.com/cronie-crond/cronie/).
 
 ### Sync manually:
 
@@ -355,6 +349,8 @@ $ sudo dnf update && zshpower sync
 ```
 
 ### Automatically sync:
+
+> IMPORTANT: Only if you have root permission.
 
 `ZSHPower` has an option to create the task for database synchronization. This option is via the command:
 
@@ -404,7 +400,7 @@ export PATH
 If `ZSHPower` has any new features, please update the command line below:
 
 ```shell
-$ python -m pip install zshpower --user -U
+$ python3 -m pip install zshpower --user -U
 $ zshpower init [--omz]
 ```
 
@@ -472,15 +468,15 @@ $ zshpower --help
 Click on the image below to be redirected the donation forms:
 
 <div class="donate">
-  <a href="https://github.com/snakypy/donations/blob/master/README.md">
-    <img width="160" height="100" src="https://raw.githubusercontent.com/snakypy/donations/master/svg/donate/donate-hand.svg" alt="Donations"
+  <a href="https://github.com/snakypy/donations/blob/main/README.md">
+    <img width="160" height="100" src="https://raw.githubusercontent.com/snakypy/donations/main/svg/donate/donate-hand.svg" alt="Donations">
   </a>
 </div>
 
 ## License
 
-The project is available as open source under the terms of the [MIT License](https://github.com/snakypy/zshpower/blob/master/LICENSE) ©
+The project is available as open source under the terms of the [MIT License](https://github.com/snakypy/zshpower/blob/main/LICENSE) ©
 
 ## Credits
 
-See, [AUTHORS](https://github.com/snakypy/zshpower/blob/master/AUTHORS.rst).
+See, [AUTHORS](https://github.com/snakypy/zshpower/blob/main/AUTHORS.rst).
