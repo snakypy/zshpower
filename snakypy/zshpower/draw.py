@@ -15,9 +15,9 @@ from snakypy.zshpower import __info__
 from snakypy.zshpower.config.config import config_content
 from snakypy.zshpower.database.dao import DAO
 from snakypy.zshpower.prompt.sections.c import C
-from snakypy.zshpower.prompt.sections.cplusplus import CPlusPlus
 from snakypy.zshpower.prompt.sections.cmake import CMake
 from snakypy.zshpower.prompt.sections.command import Command
+from snakypy.zshpower.prompt.sections.cplusplus import CPlusPlus
 from snakypy.zshpower.prompt.sections.crystal import Crystal
 from snakypy.zshpower.prompt.sections.dart import Dart
 from snakypy.zshpower.prompt.sections.deno import Deno
