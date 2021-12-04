@@ -71,19 +71,19 @@ class Draw(DAO):
         Takes data from the TOML configuration file and serializes it to a dictionary.
         """
         try:
-            parsed = dict(toml_parse(read_file(self.config_file)))
-            return parsed
+            config = dict(toml_parse(read_file(self.config_file)))
+            return config
 
         except FileNotFoundError:
             create_path(self.zshpower_home)
             create_toml(config_content, self.config_file)
-            parsed = dict(toml_parse(read_file(self.config_file)))
+            config = dict(toml_parse(read_file(self.config_file)))
             self.log.record(
                 "Configuration files does not exist, however it was created.",
                 colorize=True,
                 level="critical",
             )
-            return parsed
+            return config
 
     def get_database(self) -> dict:
         """
@@ -109,7 +109,7 @@ class Draw(DAO):
             exit(1)
 
     def dynamic_sections(self) -> list:
-        versions = {
+        sections = {
             "virtualenv": Virtualenv,
             "python": Python,
             "package": Package,
@@ -144,18 +144,17 @@ class Draw(DAO):
             "git": Git,
         }
         with ThreadPoolExecutor() as executor:
-            sections = []
+            sections_ = []
             if not str_empty_in(get_key(self.config, "general", "position")):
                 for pos_key in get_key(self.config, "general", "position"):
-                    for key in versions.keys():
+                    for key in sections.keys():
                         if key == pos_key:
                             future = executor.submit(
-                                versions[key], self.config, self.database
+                                sections[key], self.config, self.database
                             )
                             if future.result() and future.result() is not None:
-                                v = future.result()
-                                sections.append(v)
-        return sections
+                                sections_.append(future.result())
+        return sections_
 
     # @runtime
     def prompt(self, took: Any = 0) -> str:
@@ -171,8 +170,8 @@ class Draw(DAO):
             )
             cmd = Command(self.config)
             took_ = Took(self.config, took)
-            sections = "{}{}{}" + "{}" * len(dynamic_sections)
-            return sections.format(static_section, *dynamic_sections, took_, cmd)
+            structure = "{}{}{}" + "{}" * len(dynamic_sections)
+            return structure.format(static_section, *dynamic_sections, took_, cmd)
         return ">>> "
 
     def rprompt(self) -> str:
