@@ -343,7 +343,7 @@ symbol = "\\ufbab"
 text = "took"
 color = "yellow"
 involved = "[]"
-show_greater_than = 1
+show_greater_than = 2.5
 
 [username]
 enable = false
