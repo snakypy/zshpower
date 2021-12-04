@@ -261,7 +261,7 @@ display = [
     "scala",
     "crystal",
     "helm",
-    "vlang"
+    "v"
 ]
 color = "red"
 prefix.color = "negative"

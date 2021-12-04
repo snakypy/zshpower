@@ -243,7 +243,7 @@ class Package:
                 return str(Scala(self.config))
             elif exists(chart_yaml) and "helm" in listing:
                 return str(Helm(self.config))
-            elif exists(vpkg_json) and "vlang" in listing:
+            elif exists(vpkg_json) and "v" in listing:
                 return str(V(self.config))
             elif exists(shard_yaml) and "crystal" in listing:
                 return str(Crystal(self.config))
