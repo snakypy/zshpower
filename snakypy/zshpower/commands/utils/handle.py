@@ -4,7 +4,7 @@ from snakypy.helpers.console import loading
 
 from snakypy.zshpower.prompt.sections.c import C
 from snakypy.zshpower.prompt.sections.cmake import CMake
-from snakypy.zshpower.prompt.sections.cplusplus import CPlusPlus
+from snakypy.zshpower.prompt.sections.cpp import Cpp
 from snakypy.zshpower.prompt.sections.crystal import Crystal
 from snakypy.zshpower.prompt.sections.dart import Dart
 from snakypy.zshpower.prompt.sections.deno import Deno
@@ -28,7 +28,7 @@ from snakypy.zshpower.prompt.sections.ruby import Ruby
 from snakypy.zshpower.prompt.sections.rust import Rust
 from snakypy.zshpower.prompt.sections.scala import Scala
 from snakypy.zshpower.prompt.sections.vagrant import Vagrant
-from snakypy.zshpower.prompt.sections.vlang import Vlang
+from snakypy.zshpower.prompt.sections.v import V
 from snakypy.zshpower.prompt.sections.zig import Zig
 
 
@@ -42,7 +42,7 @@ def records(action: str, header: str, foreground: str, timer: float = 0.090):
             foreground=foreground,
         )
         executor.submit(C().set_version, action=action)
-        executor.submit(CPlusPlus().set_version, action=action)
+        executor.submit(Cpp().set_version, action=action)
         executor.submit(Dart().set_version, action=action)
         executor.submit(Docker().set_version, action=action)
         executor.submit(Dotnet().set_version, action=action)
@@ -67,5 +67,5 @@ def records(action: str, header: str, foreground: str, timer: float = 0.090):
         executor.submit(Nim().set_version, action=action)
         executor.submit(Ocaml().set_version, action=action)
         executor.submit(Vagrant().set_version, action=action)
-        executor.submit(Vlang().set_version, action=action)
+        executor.submit(V().set_version, action=action)
         executor.submit(Zig().set_version, action=action)

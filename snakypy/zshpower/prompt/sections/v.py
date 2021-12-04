@@ -4,11 +4,11 @@ from snakypy.zshpower.config.base import Base
 from snakypy.zshpower.prompt.sections.utils import Version
 
 
-class Vlang(Version, Base):
+class V(Version, Base):
     def __init__(self, *args):
-        super(Vlang, self).__init__()
+        super(V, self).__init__()
         self.args: tuple = args
-        self.key = "vlang"
+        self.key = "v"
         self.app_executable = "v"
         self.shorten = "v-"
         self.extensions = (".v",)

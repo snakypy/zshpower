@@ -17,7 +17,7 @@ position = [
     "package",
     "nodejs",
     "c",
-    "cplusplus",
+    "cpp",
     "rust",
     "golang",
     "java",
@@ -40,7 +40,7 @@ position = [
     "nim",
     "ocaml",
     "vagrant",
-    "vlang",
+    "v",
     "zig",
     "gulp",
     "git",
@@ -61,7 +61,7 @@ prefix.text = "via"
 version.enable = false
 version.micro.enable = true
 
-[cplusplus]
+[cpp]
 symbol = "\\ue61d"
 color = "red"
 prefix.color = "negative"
@@ -358,7 +358,7 @@ prefix.text = "via"
 version.enable = false
 version.micro.enable = true
 
-[vlang]
+[v]
 symbol = "V"
 color = "blue"
 prefix.color = "negative"

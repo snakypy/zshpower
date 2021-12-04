@@ -4,13 +4,13 @@ from snakypy.zshpower.config.base import Base
 from snakypy.zshpower.prompt.sections.utils import Version
 
 
-class CPlusPlus(Version, Base):
+class Cpp(Version, Base):
     def __init__(self, *args):
-        super(CPlusPlus, self).__init__()
+        super(Cpp, self).__init__()
         self.args: tuple = args
-        self.key = "cplusplus"
+        self.key = "cpp"
         self.app_executable = "g++"
-        self.shorten = "c++-"
+        self.shorten = "cpp-"
         self.extensions = (".cpp",)
 
     def get_version(self, space_elem: str = " ") -> str:

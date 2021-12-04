@@ -17,7 +17,7 @@ from snakypy.zshpower.database.dao import DAO
 from snakypy.zshpower.prompt.sections.c import C
 from snakypy.zshpower.prompt.sections.cmake import CMake
 from snakypy.zshpower.prompt.sections.command import Command
-from snakypy.zshpower.prompt.sections.cplusplus import CPlusPlus
+from snakypy.zshpower.prompt.sections.cpp import Cpp
 from snakypy.zshpower.prompt.sections.crystal import Crystal
 from snakypy.zshpower.prompt.sections.dart import Dart
 from snakypy.zshpower.prompt.sections.deno import Deno
@@ -50,7 +50,7 @@ from snakypy.zshpower.prompt.sections.timer import Timer
 from snakypy.zshpower.prompt.sections.took import Took
 from snakypy.zshpower.prompt.sections.username import Username
 from snakypy.zshpower.prompt.sections.vagrant import Vagrant
-from snakypy.zshpower.prompt.sections.vlang import Vlang
+from snakypy.zshpower.prompt.sections.v import V
 from snakypy.zshpower.prompt.sections.zig import Zig
 from snakypy.zshpower.utils.catch import get_key
 from snakypy.zshpower.utils.check import str_empty_in
@@ -115,7 +115,7 @@ class Draw(DAO):
             "package": Package,
             "nodejs": NodeJs,
             "c": C,
-            "cplusplus": CPlusPlus,
+            "cpp": Cpp,
             "rust": Rust,
             "golang": Golang,
             "ruby": Ruby,
@@ -140,7 +140,7 @@ class Draw(DAO):
             "zig": Zig,
             "gulp": Gulp,
             "docker": Docker,
-            "vlang": Vlang,
+            "v": V,
             "git": Git,
         }
         with ThreadPoolExecutor() as executor:
