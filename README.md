@@ -272,7 +272,7 @@ By default, most settings are set to **false**.
 
 The **ZSHPower** configuration file is very intuitive, and just a glance gives you an idea of what each option does. However, even so we will understand some of them below:
 
-**General**:
+**Settings file keys and their functions:**:
 
 * **color.enable** - If `true`, enable the colors, otherwise `false` enters negative mode. `Default:` *true*
 
@@ -286,148 +286,45 @@ The **ZSHPower** configuration file is very intuitive, and just a glance gives y
 
 * **position** -  This option changes the position of certain sections. To show the information for a given tool, it must be listed in **position**.
 
+* **enable** - If it is "true", it will activate the functionality where the "enable" key is.
 
-**Username**:
+* **symbol** - Must receive an icon, whether in unicode or not.
 
-* **enable** - If it is active, it will show the username of the machine. When using SSH, even with the value `false` the username will be shown. `Default:` *false*
+* **color** - Change the color of a particular block. Supported colors are: `black|white|blue|red|cyan|magenta|green|yellow`
 
-* **symbol** - Must receive an icon, whether in unicode or not. `Default:` \uf007
+* **color.symbol** - Option to change the color of the informed symbol.
 
-* **color** - Changes the color of the username. `Default:` *cyan*
+* **prefix.color** - Changes the prefix color before the object shown.
 
-**Hostname**:
-
-* **enable** -  If it is active, it will show the hostname of the machine. When using SSH, even with the value `false` the hostname will be shown.  `Default:` *false*
-
-* **symbol** - Must receive an icon, whether in unicode or not. `Default:` \ue0a2
-
-* **color** - Changes the color of the username.   `Default:` *magenta*
-
-* **prefix.color** - Changes the color of the hostname prefix.  `Default:` *negative*
-
-* **prefix.text** - Before showing the hostname of the machine, it will have a prefix text. In this option you can change the text you want. `Default:` *at*
-
-**Directory:**
+* **prefix.text** - Before showing the object, show a prefix. You can put any text you like.
 
 * **truncation_length** - This option receives an integer from 0 to 4. You will be responsible for truncating the path levels of the directory. `Default:` *1* (Note: Value 0 (zero), show all path.)
 
-* **symbol** - Must receive an icon, whether in unicode or not. `Default:` \ufc6e
-
-* **color** - Changes the color of the path.  `Default:` cyan
-
-* **prefix.color** - Changes the color of the path prefix.   `Default:` *negative*
-
-* **prefix.text** - Before showing the current path (or folder), it will have prefixed text. In this option you can change the text you want. `Default:` *in*
-
-
-**Git:**
-
-* **enable** -  If it is `true`, it will show git information if it is in a directory started with git. `Default:` *true*
-
-* **symbol** - Must receive an icon, whether in unicode or not. `Default:` \uf418
-
-* **color.symbol** - Option to change the color of the informed symbol. `Default:` *negative*
-
-* **branch.color** - Option to change the color of the informed branch. `Default:` *cyan*
-
-* **prefix.color** - Changes the color of the prefix.   `Default:` *negative*
-
-* **prefix.text** - Before showing the git information, it will have prefixed text. In this option you can change the text you want. `Default:` *on*
-
-
-**Git Status:**
+* **branch.color** - Option to change the color of the informed branch.
 
 * **symbols.enable** -  Receives `true` or `false`. If `true`, shows the git status icons through each defined value. Remember that these icons will not be shown if you are via SSH. `Default:` *true*
 
-**Command**:
-
 * **new_line.enable** - Receive `true` or` false`. If `true`, skip a line in the command entry. `Default:` *true*
-
-* **symbol** - This option loads the arrow icon into the input. The input is where the commands in the terminal will be informed. You can use Unicode or the symbol.
-
-  To find out which symbols and arrow unicode are supported by **ZSHPower**, visit [Nerd Font Cheat Sheet](https://www.nerdfonts.com/cheat-sheet) and search for `arrow` . `Default:` *\uf553*
-
-* **color** - Changes the color of the input. `Default:` *green*
 
 * **error.symbol** - Shows a symbol if the command output is false. `Default:` *\uf553*
 
 * **error.color** - Error exit symbol color. `Default:` *red*
 
-
-**Package:**
-
-* **enable** - If the option is `true`, it will show the version information (with icon) of the Python project if it contains the file **pyproject.toml**, **Cargo.toml**, and **package.json** in the directory.  `Default:` *false*
-
-* **symbol** - Must receive an icon, whether in unicode or not. `Default:` \uf8d6
-
-* **color** - Changes the color of the package. `Default:` red
-
 * **display** - A list of programming languages that support packaging. If you don't want the version of a package for a specific programming language to appear, just remove it from this list. `Default:` ["python", "node", "rust", "scala", "crystal", "helm"]
 
-* **prefix.color** - Changes the color of the prefix.   `Default:` *negative*
+* **version.enable** - If `true`, show version information for a particular tool.  `Default:` *false*
 
-* **prefix.text** - Before showing the package information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *is*
+* **version.micro.enable** - If `true`, show the micro version information of a given tool. Note: The `version.enable` key must be` true`. `Default:` *true*
 
-**Python:**
-
-* **symbol** - Must receive an icon, whether in unicode or not. `Default:` \uf81f
-
-* **color** - Changes the color of the Python version information. `Default:` *yellow*
-
-* **prefix.color** - Changes the color of the prefix.   `Default:` *negative*
-
-* **prefix.text** - Before showing the Python version information, it will have a prefixed text. In this option, you can change the text you want. `Default:` *via*
-
-* **version.enable** - If it is `true`, it shows the version information of the Python currently used. Compatible with *Pyenv*.  `Default:` *false*
-
-* **version.micro.enable** - If `true`, it will show the *MICRO* version of Python. Note: The `version.enable` key must be` true`. `Default:` *true*
-
-> NOTE: The other tools have these same settings, so there's no need to repeat each one again, is there ?! :)
-
-**Python Virtualenv:**
-
-* **enable** - If `true` displays the virtual machine information. `Default:` *false*
-
-* **symbol** - Must receive an icon, whether in unicode or not. `Default:` \uf7c9
-
-* **involved** - Element that will involve the name of the virtual environment. By default, you should receive two single elements. `Default:` ()
-
-* **color** - Changes the color of the virtual machine information. `Default:` yellow
-
-* **prefix.color** - Changes the color of the prefix.   `Default:` *negative*
-
-* **prefix.text** - Before showing the virtual machine information, it will have a prefixed text. In this option, you can change the text you want. `Default:` `via`
+* **involved** - Element that will enclose the name of an object. By default you should be given two unique elements. `Default:` []
 
 * **normal.enable** - If the option is `true`, it will show the real name of the virtual machine. If the option is `false`, the user has the possibility to enter text. `Default:` true
-
-* **text** - Displays custom text in the name of the virtual machine. This option will only take effect if the `normal.enable` option has a value of  `false`. `Default:` *venv*
 
 * **py.enable** - Shows the version of python on behalf of the virtual machine. `Default:` *true*
 
 * **hash.enable** - Displays the hash of the virtual machine name if it was created using [Poetry](https://python-poetry.org/). `Default:` *true*
 
-**Timer**
-
-* **enable** - Receive `true` or` false`. If it has `true`, it shows a digital clock on the console.  `Default:` *false*
-
-* **symbol** - Must receive an icon, whether in unicode or not. `Default:` \uf43a
-
-* **color** - Changes the color of the clock.  `Default:` blue
-
 * **seconds.enable** - Receive `true` or` false`. If it has `true`, show the seconds of the clock. `Default:` false
-
-
-**Took**
-
-* **enable** - Get 'true' or 'false'. If it has `true`, it shows the time count of the executed command. `Default:` *false*
-
-* **symbol** - Must receive an icon, whether in unicode or not. `Default:` "\ufbab"
-
-* **text** - Shows a pre-text ahead of time. `Default:` "took"
-
-* **color** - Changes the color of the took.  `Default:` yellow
-
-* **involved** -  You will have the option of wrapping the result in the middle of two elements.  `Default:` "[]"
 
 * **show_greater_than** - It will only be shown if the return time of the command if it is greater than the value of this option.  `Default:` 1
                           > NOTE: It must be a value in seconds.
