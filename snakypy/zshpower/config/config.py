@@ -16,6 +16,8 @@ position = [
     "python",
     "package",
     "nodejs",
+    "c",
+    "cplusplus",
     "rust",
     "golang",
     "java",
@@ -34,9 +36,11 @@ position = [
     "erlang",
     "helm",
     "kotlin",
+    "lua",
     "nim",
     "ocaml",
     "vagrant",
+    "vlang",
     "zig",
     "gulp",
     "git",
@@ -48,6 +52,22 @@ symbol = "\\u276f"
 color = "green"
 error.symbol = "\\u276f"
 error.color = "red"
+
+[c]
+symbol = "\\ue61e"
+color = "red"
+prefix.color = "negative"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+
+[cplusplus]
+symbol = "\\ue61d"
+color = "red"
+prefix.color = "negative"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
 
 [cmake]
 symbol = "\\ufa35"
@@ -198,6 +218,14 @@ prefix.text = "via"
 version.enable = false
 version.micro.enable = true
 
+[lua]
+symbol = "\\ue620"
+color = "blue"
+prefix.color = "negative"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+
 [nim]
 symbol = "\\uf6a4"
 color = "yellow"
@@ -225,7 +253,16 @@ version.micro.enable = true
 [package]
 enable = false
 symbol = "\\uf8d6"
-display = ["python", "ruby", "node", "rust", "scala", "crystal", "helm"]
+display = [
+    "python",
+    "ruby",
+    "node",
+    "rust",
+    "scala",
+    "crystal",
+    "helm",
+    "vlang"
+]
 color = "red"
 prefix.color = "negative"
 prefix.text = "is"
@@ -316,6 +353,14 @@ color = "cyan"
 [vagrant]
 symbol = "\\ue62b"
 color = "yellow"
+prefix.color = "negative"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+
+[vlang]
+symbol = "V"
+color = "blue"
 prefix.color = "negative"
 prefix.text = "via"
 version.enable = false
