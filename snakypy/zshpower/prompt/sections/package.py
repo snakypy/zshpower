@@ -58,6 +58,14 @@ class Base:
         except (IndexError, FileNotFoundError):
             return ""
 
+    def get_version_json(self, filename, space_elem=""):
+        if self.enable and isfile(join(getcwd(), filename)):
+            with suppress(Exception):
+                parsed = read_json(join(getcwd(), filename))
+                if "version" in parsed:
+                    return f"{parsed['version']}{space_elem}"
+        return ""
+
     def __str__(self, get_version=""):
         if self.enable:
             package_version = get_version
@@ -103,12 +111,7 @@ class NodeJS(Base):
         self.folders = ("node_modules",)
 
     def get_version(self, space_elem=" "):
-        if self.enable and isfile(join(getcwd(), self.files[0])):
-            with suppress(Exception):
-                parsed = read_json(join(getcwd(), self.files[0]))
-                if "version" in parsed:
-                    return f"{parsed['version']}{space_elem}"
-        return ""
+        return super().get_version_json(self.files[0], space_elem=space_elem)
 
     def __str__(self, get_version=""):
         return super().__str__(get_version=self.get_version())
@@ -197,6 +200,18 @@ class Ruby(Base):
         return super().__str__(get_version=self.get_version())
 
 
+class V(Base):
+    def __init__(self, config):
+        Base.__init__(self, config)
+        self.files = ("vpkg.json",)
+
+    def get_version(self, space_elem=" "):
+        return super().get_version_yaml(space_elem=space_elem)
+
+    def __str__(self, get_version=""):
+        return super().__str__(get_version=self.get_version())
+
+
 class Package:
     def __init__(self, config: dict, *args):
         self.config: dict = config
@@ -214,17 +229,22 @@ class Package:
             build_sbt = join(getcwd(), Scala(self.config).files[0])
             shard_yaml = join(getcwd(), Crystal(self.config).files[0])
             chart_yaml = join(getcwd(), Helm(self.config).files[0])
+            vpkg_json = join(getcwd(), V(self.config).files[0])
 
             if exists(pyproject_toml) and "python" in listing:
                 return str(Python(self.config))
-            elif exists(gemspec) and "ruby" in listing:
-                return str(Ruby(self.config))
             elif exists(package_json) and ("node" in listing or "nodejs" in listing):
                 return str(NodeJS(self.config))
+            elif exists(gemspec) and "ruby" in listing:
+                return str(Ruby(self.config))
             elif exists(cargo_toml) and "rust" in listing:
                 return str(Rust(self.config))
             elif exists(build_sbt) and "scala" in listing:
                 return str(Scala(self.config))
+            elif exists(chart_yaml) and "helm" in listing:
+                return str(Helm(self.config))
+            elif exists(vpkg_json) and "v" in listing:
+                return str(V(self.config))
             elif exists(shard_yaml) and "crystal" in listing:
                 return str(Crystal(self.config))
             elif exists(chart_yaml) and "helm" in listing:

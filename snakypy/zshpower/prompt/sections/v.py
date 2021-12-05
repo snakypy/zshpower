@@ -4,16 +4,15 @@ from snakypy.zshpower.config.base import Base
 from snakypy.zshpower.prompt.sections.utils import Version
 
 
-class NodeJs(Version, Base):
+class V(Version, Base):
     def __init__(self, *args):
-        super(NodeJs, self).__init__()
+        super(V, self).__init__()
         self.args: tuple = args
-        self.key = "nodejs"
-        self.app_executable = "node"
-        self.shorten = "node-"
-        self.files = ("package.json",)
-        self.extensions = (".js",)
-        self.folders = ("node_modules",)
+        self.key = "v"
+        self.app_executable = "v"
+        self.shorten = "v-"
+        self.extensions = (".v",)
+        self.files = ("v.mod", "vpkg.json", ".vpkg-lock.json")
 
     def get_version(self, space_elem: str = " ") -> str:
         # args[0]: dict = config file (toml)
@@ -23,18 +22,13 @@ class NodeJs(Version, Base):
         )
 
     def set_version(self, action: str = "") -> bool:
-        command = run("node -v", capture_output=True, shell=True, text=True)
-        version = command.stdout.replace("\n", "").split("v")[1]
+        command = run(
+            f"{self.app_executable} -v", capture_output=True, shell=True, text=True
+        )
+        version = command.stdout.split()[1]
         return super().set(
             command, version, self.app_executable, self.key, action=action
         )
 
     def __str__(self):
         return self.get_version()
-
-
-# def _nodejs(config, key):
-#     with concurrent.futures.ThreadPoolExecutor() as executor:
-#         future = executor.submit(NodeJs().get_version, config, key)
-#         return_value = future.result()
-#         return return_value

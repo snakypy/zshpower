@@ -16,6 +16,8 @@ position = [
     "python",
     "package",
     "nodejs",
+    "c",
+    "cpp",
     "rust",
     "golang",
     "java",
@@ -34,9 +36,11 @@ position = [
     "erlang",
     "helm",
     "kotlin",
+    "lua",
     "nim",
     "ocaml",
     "vagrant",
+    "v",
     "zig",
     "gulp",
     "git",
@@ -48,6 +52,22 @@ symbol = "\\u276f"
 color = "green"
 error.symbol = "\\u276f"
 error.color = "red"
+
+[c]
+symbol = "\\ue61e"
+color = "red"
+prefix.color = "negative"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+
+[cpp]
+symbol = "\\ue61d"
+color = "red"
+prefix.color = "negative"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
 
 [cmake]
 symbol = "\\ufa35"
@@ -198,6 +218,14 @@ prefix.text = "via"
 version.enable = false
 version.micro.enable = true
 
+[lua]
+symbol = "\\ue620"
+color = "blue"
+prefix.color = "negative"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+
 [nim]
 symbol = "\\uf6a4"
 color = "yellow"
@@ -225,7 +253,16 @@ version.micro.enable = true
 [package]
 enable = false
 symbol = "\\uf8d6"
-display = ["python", "ruby", "node", "rust", "scala", "crystal", "helm"]
+display = [
+    "python",
+    "ruby",
+    "node",
+    "rust",
+    "scala",
+    "crystal",
+    "helm",
+    "v"
+]
 color = "red"
 prefix.color = "negative"
 prefix.text = "is"
@@ -306,7 +343,7 @@ symbol = "\\ufbab"
 text = "took"
 color = "yellow"
 involved = "[]"
-show_greater_than = 1
+show_greater_than = 2.5
 
 [username]
 enable = false
@@ -316,6 +353,14 @@ color = "cyan"
 [vagrant]
 symbol = "\\ue62b"
 color = "yellow"
+prefix.color = "negative"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+
+[v]
+symbol = "V"
+color = "blue"
 prefix.color = "negative"
 prefix.text = "via"
 version.enable = false

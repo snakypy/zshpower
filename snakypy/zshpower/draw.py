@@ -14,8 +14,10 @@ from tomlkit import parse as toml_parse
 from snakypy.zshpower import __info__
 from snakypy.zshpower.config.config import config_content
 from snakypy.zshpower.database.dao import DAO
+from snakypy.zshpower.prompt.sections.c import C
 from snakypy.zshpower.prompt.sections.cmake import CMake
 from snakypy.zshpower.prompt.sections.command import Command
+from snakypy.zshpower.prompt.sections.cpp import Cpp
 from snakypy.zshpower.prompt.sections.crystal import Crystal
 from snakypy.zshpower.prompt.sections.dart import Dart
 from snakypy.zshpower.prompt.sections.deno import Deno
@@ -33,9 +35,10 @@ from snakypy.zshpower.prompt.sections.java import Java
 from snakypy.zshpower.prompt.sections.julia import Julia
 from snakypy.zshpower.prompt.sections.jump_line import JumpLine
 from snakypy.zshpower.prompt.sections.kotlin import Kotlin
+from snakypy.zshpower.prompt.sections.lua import Lua
 from snakypy.zshpower.prompt.sections.nim import Nim
 from snakypy.zshpower.prompt.sections.nodejs import NodeJs
-from snakypy.zshpower.prompt.sections.ocaml import Ocaml
+from snakypy.zshpower.prompt.sections.ocaml import OCaml
 from snakypy.zshpower.prompt.sections.package import Package
 from snakypy.zshpower.prompt.sections.perl import Perl
 from snakypy.zshpower.prompt.sections.php import Php
@@ -46,6 +49,7 @@ from snakypy.zshpower.prompt.sections.scala import Scala
 from snakypy.zshpower.prompt.sections.timer import Timer
 from snakypy.zshpower.prompt.sections.took import Took
 from snakypy.zshpower.prompt.sections.username import Username
+from snakypy.zshpower.prompt.sections.v import V
 from snakypy.zshpower.prompt.sections.vagrant import Vagrant
 from snakypy.zshpower.prompt.sections.zig import Zig
 from snakypy.zshpower.utils.catch import get_key
@@ -67,19 +71,19 @@ class Draw(DAO):
         Takes data from the TOML configuration file and serializes it to a dictionary.
         """
         try:
-            parsed = dict(toml_parse(read_file(self.config_file)))
-            return parsed
+            config = dict(toml_parse(read_file(self.config_file)))
+            return config
 
         except FileNotFoundError:
             create_path(self.zshpower_home)
             create_toml(config_content, self.config_file)
-            parsed = dict(toml_parse(read_file(self.config_file)))
+            config = dict(toml_parse(read_file(self.config_file)))
             self.log.record(
                 "Configuration files does not exist, however it was created.",
                 colorize=True,
                 level="critical",
             )
-            return parsed
+            return config
 
     def get_database(self) -> dict:
         """
@@ -105,11 +109,13 @@ class Draw(DAO):
             exit(1)
 
     def dynamic_sections(self) -> list:
-        versions = {
+        sections = {
             "virtualenv": Virtualenv,
             "python": Python,
             "package": Package,
             "nodejs": NodeJs,
+            "c": C,
+            "cpp": Cpp,
             "rust": Rust,
             "golang": Golang,
             "ruby": Ruby,
@@ -127,27 +133,28 @@ class Draw(DAO):
             "erlang": Erlang,
             "helm": Helm,
             "kotlin": Kotlin,
+            "lua": Lua,
             "nim": Nim,
-            "ocaml": Ocaml,
+            "ocaml": OCaml,
             "vagrant": Vagrant,
             "zig": Zig,
             "gulp": Gulp,
             "docker": Docker,
+            "v": V,
             "git": Git,
         }
         with ThreadPoolExecutor() as executor:
-            sections = []
+            sections_ = []
             if not str_empty_in(get_key(self.config, "general", "position")):
                 for pos_key in get_key(self.config, "general", "position"):
-                    for key in versions.keys():
+                    for key in sections.keys():
                         if key == pos_key:
                             future = executor.submit(
-                                versions[key], self.config, self.database
+                                sections[key], self.config, self.database
                             )
                             if future.result() and future.result() is not None:
-                                v = future.result()
-                                sections.append(v)
-        return sections
+                                sections_.append(future.result())
+        return sections_
 
     # @runtime
     def prompt(self, took: Any = 0) -> str:
@@ -163,8 +170,8 @@ class Draw(DAO):
             )
             cmd = Command(self.config)
             took_ = Took(self.config, took)
-            sections = "{}{}{}" + "{}" * len(dynamic_sections)
-            return sections.format(static_section, *dynamic_sections, took_, cmd)
+            structure = "{}{}{}" + "{}" * len(dynamic_sections)
+            return structure.format(static_section, *dynamic_sections, took_, cmd)
         return ">>> "
 
     def rprompt(self) -> str:

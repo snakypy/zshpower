@@ -94,6 +94,7 @@ class Version(DAO):
         key: str = "",
         shorten: str = "",
         space_elem: str = "",
+        not_split: bool = False,
     ) -> str:
         enable = get_key(config, key, "version", "enable")
         symbol = symbol_ssh(get_key(config, key, "symbol"), shorten)
@@ -107,7 +108,7 @@ class Version(DAO):
         micro_version_enable = get_key(config, key, "version", "micro", "enable")
 
         if enable is True:
-            if database[key] and verify_objects(
+            if get_key(database, key) and verify_objects(
                 self.verify_objects_dir,
                 files=self.files,
                 folders=self.folders,
@@ -115,16 +116,25 @@ class Version(DAO):
             ):
                 prefix = f"{Color(prefix_color)}{prefix_text}{Color().NONE}"
 
+                if not_split:
+                    return str(
+                        (
+                            f"{separator(config)}{prefix}"
+                            f"{Color(color)}{symbol}"
+                            f"{get_key(database, key)}{space_elem}{Color().NONE}"
+                        )
+                    )
+
                 if micro_version_enable is True:
-                    version_format = f"{'{0[0]}.{0[1]}.{0[2]}'.format(database[key].split('.'))}{space_elem}"
+                    version = f"{'{0[0]}.{0[1]}.{0[2]}'.format(get_key(database, key).split('.'))}{space_elem}"
                 else:
-                    version_format = f"{'{0[0]}.{0[1]}'.format(database[key].split('.'))}{space_elem}"
+                    version = f"{'{0[0]}.{0[1]}'.format(get_key(database, key).split('.'))}{space_elem}"
 
                 return str(
                     (
                         f"{separator(config)}{prefix}"
                         f"{Color(color)}{symbol}"
-                        f"{version_format}{Color().NONE}"
+                        f"{version}{Color().NONE}"
                     )
                 )
         return ""
