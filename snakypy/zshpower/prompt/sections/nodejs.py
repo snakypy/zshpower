@@ -12,6 +12,7 @@ class NodeJs(Version, Base):
         self.app_executable = "node"
         self.shorten = "node-"
         self.files = ("package.json",)
+        self.extensions = (".js",)
         self.folders = ("node_modules",)
 
     def get_version(self, space_elem: str = " ") -> str:
