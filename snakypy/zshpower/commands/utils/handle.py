@@ -27,8 +27,8 @@ from snakypy.zshpower.prompt.sections.php import Php
 from snakypy.zshpower.prompt.sections.ruby import Ruby
 from snakypy.zshpower.prompt.sections.rust import Rust
 from snakypy.zshpower.prompt.sections.scala import Scala
-from snakypy.zshpower.prompt.sections.vagrant import Vagrant
 from snakypy.zshpower.prompt.sections.v import V
+from snakypy.zshpower.prompt.sections.vagrant import Vagrant
 from snakypy.zshpower.prompt.sections.zig import Zig
 
 

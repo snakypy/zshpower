@@ -49,8 +49,8 @@ from snakypy.zshpower.prompt.sections.scala import Scala
 from snakypy.zshpower.prompt.sections.timer import Timer
 from snakypy.zshpower.prompt.sections.took import Took
 from snakypy.zshpower.prompt.sections.username import Username
-from snakypy.zshpower.prompt.sections.vagrant import Vagrant
 from snakypy.zshpower.prompt.sections.v import V
+from snakypy.zshpower.prompt.sections.vagrant import Vagrant
 from snakypy.zshpower.prompt.sections.zig import Zig
 from snakypy.zshpower.utils.catch import get_key
 from snakypy.zshpower.utils.check import str_empty_in
