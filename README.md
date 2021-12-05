@@ -104,7 +104,7 @@ Here is an example of the installed **ZSHPower**:
 
   > C, C++, CMake, Crystal, Dart, Deno, Docker, Dotnet, Elixir, Erlang, Go, Gulp, Helm, Java, Julia, Kotlin,
   >
-  > Lua, Nim, NodeJS, OCaml, Perl, Php, Python, Ruby, Rust, Scala, V, Vagrant, Zig
+  > Lua, Nim, NodeJS (Javascript), OCaml, Perl, Php, Python, Ruby, Rust, Scala, V, Vagrant, Zig
 
 - Package versions such as Crystal, Helm, NodeJS, Python, Rust shown;
 
