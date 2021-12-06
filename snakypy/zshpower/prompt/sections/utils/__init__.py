@@ -82,7 +82,7 @@ class Color:
 class Version(DAO):
     def __init__(self):
         DAO.__init__(self)
-        self.strictly = False
+        self.finder_path = getcwd()
         self.finder = {"extensions": [], "folders": [], "files": []}
 
     def get(
@@ -107,8 +107,7 @@ class Version(DAO):
 
         if (
             enable is True
-            and verify_objects(getcwd(), data=self.finder, strictly=self.strictly)
-            is True
+            and verify_objects(self.finder_path, data=self.finder) is True
         ):
             if get_key(database, key):
                 prefix = f"{Color(prefix_color)}{prefix_text}{Color().NONE}"
