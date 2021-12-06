@@ -102,7 +102,7 @@ Here is an example of the installed **ZSHPower**:
 
 - Application versions shown with [icons](https://www.nerdfonts.com), they are:
 
-  > C, C++, CMake, Crystal, Dart, Deno, Docker, .NET, Elixir, Erlang, Go, Gulp, Helm, Java, Julia, Kotlin,
+  > .NET, C, C++, CMake, Crystal, Dart, Deno, Docker, Elixir, Ember, Erlang, Go, Gulp, Helm, Java, Julia, Kotlin,
   >
   > Lua, Nim, NodeJS (Javascript), OCaml, Perl, Php, Python, Ruby, Rust, Scala, V, Vagrant, Zig
 
