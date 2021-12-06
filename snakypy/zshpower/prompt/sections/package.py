@@ -42,7 +42,7 @@ class Base:
         try:
             regex = r"version:.*"
             get_line = self.finder_version(self.finder["files"][0], regex)
-            version = get_line.split('"')[1]
+            version = get_line.split(":")[1].strip()
             return f"{version}{space_elem}"
         except (IndexError, FileNotFoundError):
             return ""
@@ -150,7 +150,7 @@ class Scala(Base):
 class Crystal(Base):
     def __init__(self, config):
         Base.__init__(self, config)
-        self.finder = {"extensions": [], "folders": [], "files": ["shard.yml"]}
+        self.finder = {"extensions": [], "folders": [], "files": ("shard.yml",)}
 
     def get_version(self, space_elem=" "):
         return super().get_version_yaml(space_elem=space_elem)
@@ -235,7 +235,7 @@ class Package:
                 return str(Python(self.config))
             elif exists(package_json) and ("node" in listing or "nodejs" in listing):
                 return str(NodeJS(self.config))
-            elif exists(gemspec) and "ruby" in listing:
+            elif gemspec is not False and "ruby" in listing:
                 return str(Ruby(self.config))
             elif exists(cargo_toml) and "rust" in listing:
                 return str(Rust(self.config))
