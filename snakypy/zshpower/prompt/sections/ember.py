@@ -45,37 +45,37 @@ class Ember(Version, Base):
         )
 
         if enable is True and verify_objects(getcwd(), data=self.finder) is True:
-            # with suppress(FileNotFoundError):
-            parsed = read_json(self.finder["files"][0])
-            if "version" not in parsed:
-                return ""
-            version = f"{parsed['version']}{space_elem}"
+            with suppress(FileNotFoundError):
+                parsed = read_json(self.finder["files"][0])
+                if "version" not in parsed:
+                    return ""
+                version = f"{parsed['version']}{space_elem}"
 
-            # # Using subprocess
-            # command = run(
-            #     f"""grep '"version":' {self.files[1]} | cut -d\\" -f4""",
-            #     capture_output=True,
-            #     shell=True,
-            #     text=True,
-            # )
-            # version = command.stdout.replace("\n", "").strip()
+                # # Using subprocess
+                # command = run(
+                #     f"""grep '"version":' {self.files[1]} | cut -d\\" -f4""",
+                #     capture_output=True,
+                #     shell=True,
+                #     text=True,
+                # )
+                # version = command.stdout.replace("\n", "").strip()
 
-            version = version.replace("\n", "").strip()
+                version = version.replace("\n", "").strip()
 
-            prefix = f"{Color(prefix_color)}{prefix_text}{Color().NONE}"
+                prefix = f"{Color(prefix_color)}{prefix_text}{Color().NONE}"
 
-            if micro_version_enable is True:
-                version = f"{'{0[0]}.{0[1]}.{0[2]}'.format(version.split('.'))}"
-            else:
-                version = f"{'{0[0]}.{0[1]}'.format(version.split('.'))}"
+                if micro_version_enable is True:
+                    version = f"{'{0[0]}.{0[1]}.{0[2]}'.format(version.split('.'))}"
+                else:
+                    version = f"{'{0[0]}.{0[1]}'.format(version.split('.'))}"
 
-            return str(
-                (
-                    f"{separator(self.args[0])}{prefix}"
-                    f"{Color(color)}{symbol}"
-                    f"{version}{space_elem}{Color().NONE}"
+                return str(
+                    (
+                        f"{separator(self.args[0])}{prefix}"
+                        f"{Color(color)}{symbol}"
+                        f"{version}{space_elem}{Color().NONE}"
+                    )
                 )
-            )
         return ""
 
     def __str__(self):
