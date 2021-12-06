@@ -11,7 +11,11 @@ class Deno(Version, Base):
         self.key = "deno"
         self.app_executable = "deno"
         self.shorten = "deno-"
-        self.files = ("mod.ts", "deps.ts", "mod.js", "deps.js")
+        self.finder = {
+            "extensions": [".dart"],
+            "folders": [],
+            "files": ["mod.ts", "deps.ts", "mod.js", "deps.js"],
+        }
 
     def get_version(self, space_elem: str = " ") -> str:
         return super().get(
