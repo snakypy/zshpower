@@ -82,10 +82,8 @@ class Color:
 class Version(DAO):
     def __init__(self):
         DAO.__init__(self)
-        self.extensions = ()
-        self.files = ()
-        self.folders = ()
-        self.verify_objects_dir = getcwd()
+        self.strictly = False
+        self.finder = {"extensions": [], "folders": [], "files": []}
 
     def get(
         self,
@@ -107,13 +105,12 @@ class Version(DAO):
         prefix_text = element_spacing(get_key(config, key, "prefix", "text"))
         micro_version_enable = get_key(config, key, "version", "micro", "enable")
 
-        if enable is True:
-            if get_key(database, key) and verify_objects(
-                self.verify_objects_dir,
-                files=self.files,
-                folders=self.folders,
-                extension=self.extensions,
-            ):
+        if (
+            enable is True
+            and verify_objects(getcwd(), data=self.finder, strictly=self.strictly)
+            is True
+        ):
+            if get_key(database, key):
                 prefix = f"{Color(prefix_color)}{prefix_text}{Color().NONE}"
 
                 if not_split:

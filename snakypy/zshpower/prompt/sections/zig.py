@@ -11,7 +11,7 @@ class Zig(Version, Base):
         self.key = "zig"
         self.app_executable = "zig"
         self.shorten = "zig-"
-        self.extensions = (".zig",)
+        self.finder = {"extensions": [".zig"], "folders": [], "files": []}
 
     def get_version(self, space_elem: str = " ") -> str:
         # args[0]: dict = config file (toml)

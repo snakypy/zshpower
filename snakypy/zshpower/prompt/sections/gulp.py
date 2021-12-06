@@ -19,8 +19,11 @@ class Gulp(Version, Base):
     def __init__(self, *args):
         super(Gulp, self).__init__()
         self.args: tuple = args
-        self.files = ("gulpfile.js", "gulpfile.babel.js")
-        self.folders = ("node_modules",)
+        self.finder = {
+            "extensions": [],
+            "folders": [],
+            "files": ["gulpfile.js", "gulpfile.babel.js"],
+        }
         self.key = "gulp"
         self.app_executable = "gulp"
         self.shorten = "gulp-"
@@ -38,12 +41,7 @@ class Gulp(Version, Base):
             self.args[0], self.key, "version", "micro", "enable"
         )
 
-        if enable and verify_objects(
-            getcwd(),
-            files=self.files,
-            folders=self.folders,
-            extension=self.extensions,
-        ):
+        if enable and verify_objects(getcwd(), data=self.finder) is True:
             prefix = f"{Color(prefix_color)}{prefix_text}{Color().NONE}"
             if isfile(join(getcwd(), version_local)):
                 parsed = read_json(join(getcwd(), version_local))

@@ -11,8 +11,7 @@ class Rust(Version, Base):
         self.key = "rust"
         self.app_executable = "rustc"
         self.shorten = "rs-"
-        self.files = ("Cargo.toml",)
-        self.extensions = (".rs",)
+        self.finder = {"extensions": [".rs"], "folders": [], "files": ["Cargo.toml"]}
 
     def get_version(self, space_elem: str = " ") -> str:
         # args[0]: dict = config file (toml)

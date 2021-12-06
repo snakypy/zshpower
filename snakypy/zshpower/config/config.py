@@ -24,6 +24,7 @@ position = [
     "php",
     "ruby",
     "elixir",
+    "ember",
     "julia",
     "dart",
     "dotnet",
@@ -131,6 +132,14 @@ prefix.color = "negative"
 prefix.text = "via"
 version.enable = false
 version.micro.enable = true
+
+[ember]
+symbol = "\\ue71b"
+color = "red"
+prefix.color = "negative"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = false
 
 [erlang]
 symbol = "\\ue7b1"

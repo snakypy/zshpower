@@ -11,8 +11,7 @@ class Lua(Version, Base):
         self.key = "lua"
         self.app_executable = "lua"
         self.shorten = "lua-"
-        self.extensions = (".lua",)
-        self.files = (".lua-version",)
+        self.finder = {"extensions": [".lua"], "folders": [], "files": [".lua-version"]}
 
     def get_version(self, space_elem: str = " ") -> str:
         # args[0]: dict = config file (toml)

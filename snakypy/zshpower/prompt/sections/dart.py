@@ -11,12 +11,11 @@ class Dart(Version, Base):
         self.key = "dart"
         self.app_executable = "dart"
         self.shorten = "dt-"
-        self.extensions = (".dart",)
-        self.files = (
-            "pubspec.yaml",
-            "config.src.yaml",
-            "analysis_options.yaml",
-        )
+        self.finder = {
+            "extensions": [".dart"],
+            "folders": [],
+            "files": ["pubspec.yaml", "config.src.yaml", "analysis_options.yaml"],
+        }
 
     def get_version(self, space_elem: str = " ") -> str:
         return super().get(

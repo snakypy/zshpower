@@ -11,8 +11,11 @@ class Dotnet(Version, Base):
         self.key = "dotnet"
         self.app_executable = "dotnet"
         self.shorten = ".net-"
-        self.files = ("project.json", "global.json", "paket.dependencies")
-        self.extensions = (".csproj", ".fsproj", ".xproj", ".sln")
+        self.finder = {
+            "extensions": [".csproj", ".fsproj", ".xproj", ".sln"],
+            "folders": [],
+            "files": ["project.json", "global.json", "paket.dependencies"],
+        }
 
     def get_version(self, space_elem: str = " ") -> str:
         # args[0]: dict = config file (toml)

@@ -11,7 +11,7 @@ class Kotlin(Version, Base):
         self.key = "kotlin"
         self.app_executable = "kotlin"
         self.shorten = "kt-"
-        self.extensions = (".kt", ".kts")
+        self.finder = {"extensions": [".kt", ".kts"], "folders": [], "files": []}
 
     def get_version(self, space_elem: str = " ") -> str:
         # args[0]: dict = config file (toml)

@@ -11,7 +11,11 @@ class Docker(Version, Base):
         self.key = "docker"
         self.app_executable = "docker"
         self.shorten = "dkr-"
-        self.files = ("Dockerfile", "docker-compose.yml")
+        self.finder = {
+            "extensions": [],
+            "folders": [],
+            "files": ["Dockerfile", "docker-compose.yml"],
+        }
 
     def get_version(self, space_elem: str = " ") -> str:
         return super().get(

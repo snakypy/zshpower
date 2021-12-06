@@ -11,8 +11,11 @@ class Php(Version, Base):
         self.key = "php"
         self.app_executable = "php"
         self.shorten = "php-"
-        self.files = ("composer.json",)
-        self.extensions = (".php",)
+        self.finder = {
+            "extensions": [".php"],
+            "folders": [],
+            "files": ["composer.json"],
+        }
 
     def get_version(self, space_elem: str = " ") -> str:
         return super().get(

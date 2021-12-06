@@ -11,7 +11,7 @@ class Vagrant(Version, Base):
         self.key = "vagrant"
         self.app_executable = "vagrant"
         self.shorten = "vag-"
-        self.files = ("Vagrantfile",)
+        self.finder = {"extensions": [], "folders": [], "files": ["Vagrantfile"]}
 
     def get_version(self, space_elem: str = " ") -> str:
         # args[0]: dict = config file (toml)

@@ -16,9 +16,7 @@ from .utils import Color, element_spacing, separator, symbol_ssh
 class Base:
     def __init__(self, config: dict):
         self.config: dict = config
-        self.files = ()
-        self.folders = ()
-        self.extensions = ()
+        self.finder: dict = {"extensions": [], "folders": [], "files": []}
         self.symbol = symbol_ssh(get_key(config, "package", "symbol"), "pkg-")
         self.enable = get_key(config, "package", "enable")
         self.color = (
@@ -43,7 +41,7 @@ class Base:
     def get_version_yaml(self, space_elem=""):
         try:
             regex = r"version:.*"
-            get_line = self.finder_version(self.files[0], regex)
+            get_line = self.finder_version(self.finder["files"][0], regex)
             version = get_line.split('"')[1]
             return f"{version}{space_elem}"
         except (IndexError, FileNotFoundError):
@@ -52,7 +50,7 @@ class Base:
     def get_version_toml(self, space_elem=""):
         try:
             regex = r"version = \".*"
-            get_line = self.finder_version(self.files[0], regex)
+            get_line = self.finder_version(self.finder["files"][0], regex)
             version = get_line.split("=")[1].replace('"', "").strip()
             return f"{version}{space_elem}"
         except (IndexError, FileNotFoundError):
@@ -69,12 +67,7 @@ class Base:
     def __str__(self, get_version=""):
         if self.enable:
             package_version = get_version
-            if package_version and verify_objects(
-                getcwd(),
-                files=self.files,
-                folders=self.folders,
-                extension=self.extensions,
-            ):
+            if package_version and verify_objects(getcwd(), data=self.finder) is True:
                 prefix = (
                     f"{Color(self.prefix_color)}" f"{self.prefix_text}{Color().NONE}"
                 )
@@ -89,13 +82,17 @@ class Base:
 class Python(Base):
     def __init__(self, config):
         Base.__init__(self, config)
-        self.files = (
-            "pyproject.toml",
-            "manage.py",
-            "requirements.txt",
-            "setup.py",
-            "__init__.py",
-        )
+        self.finder = {
+            "extensions": [],
+            "folders": [],
+            "files": [
+                "pyproject.toml",
+                "manage.py",
+                "requirements.txt",
+                "setup.py",
+                "__init__.py",
+            ],
+        }
 
     def get_version(self, space_elem=" "):
         return super().get_version_toml(space_elem=space_elem)
@@ -107,11 +104,14 @@ class Python(Base):
 class NodeJS(Base):
     def __init__(self, config):
         Base.__init__(self, config)
-        self.files = ("package.json",)
-        self.folders = ("node_modules",)
+        self.finder = {
+            "extensions": [],
+            "folders": ["node_modules"],
+            "files": ["package.json"],
+        }
 
     def get_version(self, space_elem=" "):
-        return super().get_version_json(self.files[0], space_elem=space_elem)
+        return super().get_version_json(self.finder["files"][0], space_elem=space_elem)
 
     def __str__(self, get_version=""):
         return super().__str__(get_version=self.get_version())
@@ -120,7 +120,7 @@ class NodeJS(Base):
 class Rust(Base):
     def __init__(self, config):
         Base.__init__(self, config)
-        self.files = ("Cargo.toml",)
+        self.finder = {"extensions": [], "folders": [], "files": ["Cargo.toml"]}
 
     def get_version(self, space_elem=" "):
         return super().get_version_toml(space_elem=space_elem)
@@ -132,12 +132,12 @@ class Rust(Base):
 class Scala(Base):
     def __init__(self, config):
         Base.__init__(self, config)
-        self.files = ("build.sbt",)
+        self.finder = {"extensions": [], "folders": [], "files": ["build.sbt"]}
 
     def get_version(self, space_elem=" "):
         try:
             regex = r"version := .*"
-            get_line = super().finder_version(self.files[0], regex)
+            get_line = super().finder_version(self.finder["files"][0], regex)
             version = get_line.split('"')[1]
             return f"{version}{space_elem}"
         except (IndexError, FileNotFoundError):
@@ -150,7 +150,7 @@ class Scala(Base):
 class Crystal(Base):
     def __init__(self, config):
         Base.__init__(self, config)
-        self.files = ("shard.yml",)
+        self.finder = {"extensions": [], "folders": [], "files": ["shard.yml"]}
 
     def get_version(self, space_elem=" "):
         return super().get_version_yaml(space_elem=space_elem)
@@ -162,7 +162,7 @@ class Crystal(Base):
 class Helm(Base):
     def __init__(self, config):
         Base.__init__(self, config)
-        self.files = ("Chart.yaml",)
+        self.finder = {"extensions": [], "folders": [], "files": ["Chart.yaml"]}
 
     def get_version(self, space_elem=" "):
         return super().get_version_yaml(space_elem=space_elem)
@@ -174,11 +174,11 @@ class Helm(Base):
 class Ruby(Base):
     def __init__(self, config):
         Base.__init__(self, config)
-        self.extensions = (".gemspec",)
+        self.finder = {"extensions": [".gemspec"], "folders": [], "files": []}
 
     def search_gemspec(self, directory):
         for file in listdir(directory):
-            if file.endswith(self.extensions[0]):
+            if file.endswith(self.finder["extensions"][0]):
                 return file
         return False
 
@@ -203,7 +203,7 @@ class Ruby(Base):
 class V(Base):
     def __init__(self, config):
         Base.__init__(self, config)
-        self.files = ("vpkg.json",)
+        self.finder = {"extensions": [], "folders": [], "files": ["vpkg.json"]}
 
     def get_version(self, space_elem=" "):
         return super().get_version_yaml(space_elem=space_elem)
@@ -222,14 +222,14 @@ class Package:
 
         if listing:
 
-            pyproject_toml = join(getcwd(), Python(self.config).files[0])
+            pyproject_toml = join(getcwd(), Python(self.config).finder["files"][0])
             gemspec = Ruby(self.config).search_gemspec(getcwd())
-            package_json = join(getcwd(), NodeJS(self.config).files[0])
-            cargo_toml = join(getcwd(), Rust(self.config).files[0])
-            build_sbt = join(getcwd(), Scala(self.config).files[0])
-            shard_yaml = join(getcwd(), Crystal(self.config).files[0])
-            chart_yaml = join(getcwd(), Helm(self.config).files[0])
-            vpkg_json = join(getcwd(), V(self.config).files[0])
+            package_json = join(getcwd(), NodeJS(self.config).finder["files"][0])
+            cargo_toml = join(getcwd(), Rust(self.config).finder["files"][0])
+            build_sbt = join(getcwd(), Scala(self.config).finder["files"][0])
+            shard_yaml = join(getcwd(), Crystal(self.config).finder["files"][0])
+            chart_yaml = join(getcwd(), Helm(self.config).finder["files"][0])
+            vpkg_json = join(getcwd(), V(self.config).finder["files"][0])
 
             if exists(pyproject_toml) and "python" in listing:
                 return str(Python(self.config))

@@ -11,7 +11,7 @@ class Perl(Version, Base):
         self.key = "perl"
         self.app_executable = "perl"
         self.shorten = "pl-"
-        self.extensions = (".pl",)
+        self.finder = {"extensions": [".pl"], "folders": [], "files": []}
 
     def get_version(self, space_elem: str = " ") -> str:
         return super().get(

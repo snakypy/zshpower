@@ -11,9 +11,11 @@ class NodeJs(Version, Base):
         self.key = "nodejs"
         self.app_executable = "node"
         self.shorten = "node-"
-        self.files = ("package.json",)
-        self.extensions = (".js",)
-        self.folders = ("node_modules",)
+        self.finder = {
+            "extensions": [".js"],
+            "folders": ["node_modules"],
+            "files": ["package.json"],
+        }
 
     def get_version(self, space_elem: str = " ") -> str:
         # args[0]: dict = config file (toml)

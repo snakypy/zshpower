@@ -11,7 +11,7 @@ class C(Version, Base):
         self.key = "c"
         self.app_executable = "gcc"
         self.shorten = "c-"
-        self.extensions = (".c",)
+        self.finder = {"extensions": [".c"], "folders": [], "files": []}
 
     def get_version(self, space_elem: str = " ") -> str:
         # args[0]: dict = config file (toml)

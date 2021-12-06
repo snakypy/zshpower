@@ -11,7 +11,11 @@ class CMake(Version, Base):
         self.key = "cmake"
         self.app_executable = "cmake"
         self.shorten = "cm-"
-        self.files = ("CMakeLists.txt", "CMakeCache.txt")
+        self.finder = {
+            "extensions": [],
+            "folders": [],
+            "files": ["CMakeLists.txt", "CMakeCache.txt"],
+        }
 
     def get_version(self, space_elem: str = " ") -> str:
         # args[0]: dict = config file (toml)

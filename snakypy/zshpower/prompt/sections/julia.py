@@ -11,7 +11,7 @@ class Julia(Version, Base):
         self.key = "julia"
         self.app_executable = "julia"
         self.shorten = "jl-"
-        self.extensions = (".jl",)
+        self.finder = {"extensions": [".jl"], "folders": [], "files": []}
 
     def get_version(self, space_elem: str = " ") -> str:
         # args[0]: dict = config file (toml)

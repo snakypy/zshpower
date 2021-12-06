@@ -11,8 +11,7 @@ class Crystal(Version, Base):
         self.key = "crystal"
         self.app_executable = "crystal"
         self.shorten = "cr-"
-        self.extensions = (".cr",)
-        self.files = ("shard.yml",)
+        self.finder = {"extensions": [".cr"], "folders": [], "files": ["shard.yml"]}
 
     def get_version(self, space_elem: str = " ") -> str:
         # args[0]: dict = config file (toml)

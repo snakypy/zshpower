@@ -11,8 +11,11 @@ class Nim(Version, Base):
         self.key = "nim"
         self.app_executable = "nim"
         self.shorten = "nim-"
-        self.extensions = (".nim", ".nims", ".nimble")
-        self.files = ("nim.cfg",)
+        self.finder = {
+            "extensions": [".nim", ".nims", ".nimble"],
+            "folders": [],
+            "files": ["nim.cfg"],
+        }
 
     def get_version(self, space_elem: str = " ") -> str:
         # args[0]: dict = config file (toml)

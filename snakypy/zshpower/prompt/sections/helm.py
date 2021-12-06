@@ -11,7 +11,11 @@ class Helm(Version, Base):
         self.key = "helm"
         self.app_executable = "helm"
         self.shorten = "helm-"
-        self.files = ("helmfile.yaml", "Chart.yaml")
+        self.finder = {
+            "extensions": [],
+            "folders": [],
+            "files": ["helmfile.yaml", "Chart.yaml"],
+        }
 
     def get_version(self, space_elem: str = " ") -> str:
         # args[0]: dict = config file (toml)

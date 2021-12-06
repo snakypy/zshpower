@@ -11,15 +11,11 @@ class OCaml(Version, Base):
         self.key = "ocaml"
         self.app_executable = "ocaml"
         self.shorten = "opam-"
-        self.extensions = (".opam", ".ml", ".mli", ".re", ".rei")
-        self.files = (
-            "dune",
-            "dune-project",
-            "jbuild",
-            "jbuild-ignore",
-            ".merlin",
-        )
-        self.folders = ("_opam", "esy.lock")
+        self.finder = {
+            "extensions": [".opam", ".ml", ".mli", ".re", ".rei"],
+            "folders": ["_opam", "esy.lock"],
+            "files": ["dune", "dune-project", "jbuild", "jbuild-ignore", ".merlin"],
+        }
 
     def get_version(self, space_elem: str = " ") -> str:
         # args[0]: dict = config file (toml)

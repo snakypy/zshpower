@@ -11,7 +11,7 @@ class Cpp(Version, Base):
         self.key = "cpp"
         self.app_executable = "g++"
         self.shorten = "cpp-"
-        self.extensions = (".cpp",)
+        self.finder = {"extensions": [".cpp"], "folders": [], "files": []}
 
     def get_version(self, space_elem: str = " ") -> str:
         # args[0]: dict = config file (toml)

@@ -11,8 +11,7 @@ class Elixir(Version, Base):
         self.key = "elixir"
         self.app_executable = "elixir"
         self.shorten = "ex-"
-        self.files = ("mix.exs",)
-        self.extensions = (".ex",)
+        self.finder = {"extensions": [".ex"], "folders": [], "files": ["mix.exs"]}
 
     def get_version(self, space_elem: str = " ") -> str:
         # args[0]: dict = config file (toml)

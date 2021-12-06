@@ -11,7 +11,11 @@ class Erlang(Version, Base):
         self.key = "erlang"
         self.app_executable = "erl"
         self.shorten = "dkr-"
-        self.files = ("rebar.config", "erlang.mk")
+        self.finder = {
+            "extensions": [".erl"],
+            "folders": [],
+            "files": ["rebar.config", "erlang.mk"],
+        }
 
     def get_version(self, space_elem: str = " ") -> str:
         return super().get(

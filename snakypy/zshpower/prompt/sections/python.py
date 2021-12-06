@@ -29,17 +29,19 @@ class Python:
         self.config: dict = config
         self.args: tuple = args
         self.enable: bool = get_key(config, "python", "version", "enable")
-        self.files: tuple = (
-            "__pycache__",
-            "manage.py",
-            "setup.py",
-            "__init__.py",
-            ".python-version",
-            "requirements.txt",
-            "pyproject.toml",
-        )
-        self.folders = ("__pycache__",)
-        self.extensions = (".py",)
+        self.finder = {
+            "extensions": [".py"],
+            "folders": ["__pycache__"],
+            "files": [
+                "manage.py",
+                "setup.py",
+                "__init__.py",
+                ".python-version",
+                "requirements.txt",
+                "pyproject.toml",
+            ],
+        }
+
         self.symbol = symbol_ssh(get_key(config, "python", "symbol"), "py-")
         self.color = (
             get_key(config, "python", "color")
@@ -57,7 +59,7 @@ class Python:
         # Checking if you use Python through pyenv or the system.
         if isdir(join(HOME, ".pyenv")):
 
-            pyenv_file_local = join(getcwd(), self.files[4])
+            pyenv_file_local = join(getcwd(), self.finder["files"][3])
             pyenv_file_global = join(HOME, ".pyenv/version")
 
             if exists(pyenv_file_local):
@@ -87,12 +89,7 @@ class Python:
         if self.enable:
             if is_tool("python") or is_tool("python3"):
                 if (
-                    verify_objects(
-                        getcwd(),
-                        files=self.files,
-                        folders=self.folders,
-                        extension=self.extensions,
-                    )
+                    verify_objects(getcwd(), data=self.finder) is True
                     or "VIRTUAL_ENV" in environ
                 ):
                     prefix = (

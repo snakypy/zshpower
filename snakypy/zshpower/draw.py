@@ -25,6 +25,7 @@ from snakypy.zshpower.prompt.sections.directory import Directory
 from snakypy.zshpower.prompt.sections.docker import Docker
 from snakypy.zshpower.prompt.sections.dotnet import Dotnet
 from snakypy.zshpower.prompt.sections.elixir import Elixir
+from snakypy.zshpower.prompt.sections.ember import Ember
 from snakypy.zshpower.prompt.sections.erlang import Erlang
 from snakypy.zshpower.prompt.sections.git import Git
 from snakypy.zshpower.prompt.sections.golang import Golang
@@ -118,6 +119,7 @@ class Draw(DAO):
             "cpp": Cpp,
             "rust": Rust,
             "golang": Golang,
+            "ember": Ember,
             "ruby": Ruby,
             "dart": Dart,
             "php": Php,
@@ -144,7 +146,7 @@ class Draw(DAO):
             "git": Git,
         }
         with ThreadPoolExecutor() as executor:
-            sections_ = []
+            sections_order = []
             if not str_empty_in(get_key(self.config, "general", "position")):
                 for pos_key in get_key(self.config, "general", "position"):
                     for key in sections.keys():
@@ -153,8 +155,8 @@ class Draw(DAO):
                                 sections[key], self.config, self.database
                             )
                             if future.result() and future.result() is not None:
-                                sections_.append(future.result())
-        return sections_
+                                sections_order.append(future.result())
+        return sections_order
 
     # @runtime
     def prompt(self, took: Any = 0) -> str:

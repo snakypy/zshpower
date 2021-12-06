@@ -11,7 +11,7 @@ class Java(Version, Base):
         self.key = "java"
         self.app_executable = "java"
         self.shorten = "java-"
-        self.extensions = (".java",)
+        self.finder = {"extensions": [".java"], "folders": [], "files": []}
 
     def get_version(self, space_elem: str = " ") -> str:
         # args[0]: dict = config file (toml)

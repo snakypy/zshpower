@@ -11,9 +11,11 @@ class Golang(Version, Base):
         self.key = "golang"
         self.app_executable = "go"
         self.shorten = "go-"
-        self.extensions = (".go",)
-        self.files = ("go.mod", "glide.yaml")
-        self.folders = ("Godeps",)
+        self.finder = {
+            "extensions": [".go"],
+            "folders": ["Godeps"],
+            "files": ["go.mod", "glide.yaml"],
+        }
 
     def get_version(self, space_elem: str = " ") -> str:
         # args[0]: dict = config file (toml)

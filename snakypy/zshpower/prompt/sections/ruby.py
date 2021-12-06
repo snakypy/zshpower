@@ -11,8 +11,11 @@ class Ruby(Version, Base):
         self.key = "ruby"
         self.app_executable = "ruby"
         self.shorten = "rb-"
-        self.files = ("Gemfile", "Rakefile")
-        self.extensions = (".rb",)
+        self.finder = {
+            "extensions": [".rb"],
+            "folders": [],
+            "files": ["Gemfile", "Rakefile"],
+        }
 
     def get_version(self, space_elem: str = " ") -> str:
         # args[0]: dict = config file (toml)

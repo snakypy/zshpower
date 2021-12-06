@@ -11,8 +11,11 @@ class V(Version, Base):
         self.key = "v"
         self.app_executable = "v"
         self.shorten = "v-"
-        self.extensions = (".v",)
-        self.files = ("v.mod", "vpkg.json", ".vpkg-lock.json")
+        self.finder = {
+            "extensions": [".v"],
+            "folders": [],
+            "files": ["v.mod", "vpkg.json", ".vpkg-lock.json"],
+        }
 
     def get_version(self, space_elem: str = " ") -> str:
         # args[0]: dict = config file (toml)

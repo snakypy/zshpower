@@ -11,8 +11,11 @@ class Scala(Version, Base):
         self.key = "scala"
         self.app_executable = "scala"
         self.shorten = "sc-"
-        self.extensions = (".scala", ".sc")
-        self.files = ("build.sbt",)
+        self.finder = {
+            "extensions": [".scala", ".sc"],
+            "folders": [],
+            "files": ["build.sbt"],
+        }
 
     def get_version(self, space_elem: str = " ") -> str:
         return super().get(
