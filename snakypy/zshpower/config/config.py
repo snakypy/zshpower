@@ -252,7 +252,7 @@ version.enable = false
 version.micro.enable = true
 
 [ocaml]
-symbol = "?"
+symbol = "ocaml"
 color = "yellow"
 prefix.color = "negative"
 prefix.text = "via"
