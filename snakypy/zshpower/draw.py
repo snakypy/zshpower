@@ -44,6 +44,7 @@ from snakypy.zshpower.prompt.sections.package import Package
 from snakypy.zshpower.prompt.sections.perl import Perl
 from snakypy.zshpower.prompt.sections.php import Php
 from snakypy.zshpower.prompt.sections.python import Python, Virtualenv
+from snakypy.zshpower.prompt.sections.r import R
 from snakypy.zshpower.prompt.sections.ruby import Ruby
 from snakypy.zshpower.prompt.sections.rust import Rust
 from snakypy.zshpower.prompt.sections.scala import Scala
@@ -138,6 +139,7 @@ class Draw(DAO):
             "lua": Lua,
             "nim": Nim,
             "ocaml": OCaml,
+            "r": R,
             "vagrant": Vagrant,
             "zig": Zig,
             "gulp": Gulp,
