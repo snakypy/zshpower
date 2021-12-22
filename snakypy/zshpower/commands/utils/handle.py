@@ -24,6 +24,7 @@ from snakypy.zshpower.prompt.sections.nodejs import NodeJs
 from snakypy.zshpower.prompt.sections.ocaml import OCaml
 from snakypy.zshpower.prompt.sections.perl import Perl
 from snakypy.zshpower.prompt.sections.php import Php
+from snakypy.zshpower.prompt.sections.r import R
 from snakypy.zshpower.prompt.sections.ruby import Ruby
 from snakypy.zshpower.prompt.sections.rust import Rust
 from snakypy.zshpower.prompt.sections.scala import Scala
@@ -41,6 +42,7 @@ def records(action: str, header: str, foreground: str, timer: float = 0.090):
             header=header,
             foreground=foreground,
         )
+        executor.submit(R().set_version, action=action)
         executor.submit(C().set_version, action=action)
         executor.submit(Cpp().set_version, action=action)
         executor.submit(Dart().set_version, action=action)

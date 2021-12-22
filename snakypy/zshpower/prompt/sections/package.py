@@ -49,9 +49,9 @@ class Base:
 
     def get_version_toml(self, space_elem=""):
         try:
-            regex = r"version = \".*"
+            regex = r"version =.*"
             get_line = self.finder_version(self.finder["files"][0], regex)
-            version = get_line.split("=")[1].replace('"', "").strip()
+            version = get_line.split("=")[1].replace('"', "").replace("'", "").strip()
             return f"{version}{space_elem}"
         except (IndexError, FileNotFoundError):
             return ""

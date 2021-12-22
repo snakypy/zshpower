@@ -332,6 +332,14 @@ prefix.text = "via"
 version.enable = false
 version.micro.enable = true
 
+[r]
+symbol = "R"
+color = "blue"
+prefix.color = "negative"
+prefix.text = "via"
+version.enable = false
+version.micro.enable = true
+
 [scala]
 symbol = "\\ue737"
 color = "red"
