@@ -32,8 +32,9 @@ class Base:
             if self.enable:
                 file_content = read_file(file)
                 re_search = re.search(regex, file_content)
-                version = re_search.group(0)
-                return version
+                if re_search:
+                    version = re_search.group(0)
+                    return version
             return ""
         except (IndexError, FileNotFoundError):
             return ""
