@@ -91,54 +91,6 @@ def get_line(file: str, line: str, logfile: str) -> Union[str, bool]:
     return False
 
 
-# TODO: DEPRECATED
-# def verify_objects(directory: str, /, data: dict, strictly: bool = False) -> bool:
-#     """
-#     Checks whether there are objects from a particular directory.
-#     These can be folders, files and file extensions.
-#     """
-#     if type(data) is not dict:
-#         raise TypeError("Data parameter must be a dictionary.")
-#
-#     if "files" not in data or "folders" not in data or "extensions" not in data:
-#         raise TypeError(
-#             "The dictionary does not contain one of the following keys: 'files', 'folders', 'extensions'."
-#         )
-#
-#     def finder_files_folders():
-#         if data["files"] or data["folders"]:
-#             files_folders = data["files"] + data["folders"]
-#             for obj in listdir(directory):
-#                 if strictly is False:
-#                     if obj in files_folders:
-#                         return True
-#                 else:
-#                     if obj not in files_folders:
-#                         return False
-#
-#         return False
-#
-#     def finder_extensions():
-#         if data["extensions"]:
-#             lst = []
-#             for ext in data["extensions"]:
-#                 for file in listdir(directory):
-#                     if file.endswith(ext):
-#                         lst.append(join(directory, file))
-#
-#             e = [splitext(f)[-1] for f in lst]
-#             for ext in data["extensions"]:
-#                 if ext in e:
-#                     return True
-#         return False
-#
-#     if finder_files_folders() is False and finder_extensions() is False:
-#         return False
-#
-#     return True
-#
-
-
 def verify_objects(directory: str, /, data: dict) -> bool:
     """
     Checks whether there are objects from a particular directory.
