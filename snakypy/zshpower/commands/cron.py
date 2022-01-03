@@ -1,9 +1,10 @@
+import platform
 from os.path import exists, isdir
 from pydoc import pager
 
 from snakypy.helpers import FG, pick
-from snakypy.helpers.catches import whoami
 from snakypy.helpers.catches.finders import find_objects
+from snakypy.helpers.checking import whoami
 from snakypy.helpers.console import printer
 from snakypy.helpers.files import read_file
 from snakypy.helpers.logging import Log
@@ -21,6 +22,9 @@ class Cron(Base):
         Base.__init__(self, home)
 
     def manager(self, action: str = "") -> bool:
+
+        if platform.system() != "Linux":
+            return False
 
         if not isdir(self.cron_d_path):
             printer(
@@ -105,6 +109,12 @@ class Cron(Base):
             )
 
     def run(self, arguments: dict):
+        if platform.system() != "Linux":
+            printer(
+                "This option is for Linux systems only. Aborted!",
+                foreground=FG().WARNING,
+            )
+            return False
         checking_init(self.HOME, self.logfile)
         if arguments["--create"]:
             self.manager(action="create")
