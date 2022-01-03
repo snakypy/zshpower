@@ -8,12 +8,13 @@ license = "MIT"
 name = "zshpower"
 readme = "README.rst"
 repository = "https://github.com/snakypy/zshpower"
-version = "0.11.8"
+version = "0.12.0"
 
 classifiers = [
   "Intended Audience :: Developers",
   "License :: OSI Approved :: MIT License",
   "Operating System :: POSIX :: Linux",
+  "Operating System :: MacOS",
   "Operating System :: Unix",
   "Programming Language :: Python :: 3",
 ]
@@ -32,13 +33,13 @@ zshpower-draw = "snakypy.zshpower.draw:main"
 [tool.poetry.dependencies]
 docopt = "^0.6.2"
 python = "^3.9"
-snakypy-helpers = "^0.2.2"
+snakypy-helpers = "^0.3.0"
 tomlkit = "^0.7.1"
 
 [tool.poetry.dev-dependencies]
 black = "^21.6b0"
 flake8 = "^3.9.1"
-imake = "^0.1.2"
+imake = "^0.3.0"
 ipython = "^7.25.0"
 isort = "^5.9.1"
 mypy = "^0.910"
