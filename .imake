@@ -1,93 +1,111 @@
 [build]
 description = "Compile the project for publication and installation."
-header = "Build project ..."
-commands = ["python -m snakypy.zshpower", "poetry build"]
-footer = "Compilation command terminated!"
+initial_message = "Build project ..."
+commands = ["imake binary", "python -m snakypy.zshpower", "poetry build"]
+final_message = "Build project terminated!"
 
 [install]
 description = "Performs the installation of project dependencies and installs the same."
-header = "Installing package and dependencies ..."
+initial_message = "Installing package and dependencies ..."
 commands = ["poetry install"]
-footer = "Installation command terminated!"
+final_message = "Installation command terminated!"
 
 [tests]
 description = "Perform tests using the Pytest library"
-header = "Starting tests with Pytest ..."
+initial_message = "Starting tests with Pytest ..."
 commands = ["poetry run pytest"]
-footer = "Test command terminated!"
+final_message = "Test command terminated!"
 
 [tox]
 description = "Tests using the Tox library."
-header = "Starting tests with Tox ..."
+initial_message = "Starting tests with Tox ..."
 commands = ["poetry run tox"]
-footer = "Test command terminated!"
+final_message = "Test command terminated!"
+
+[binary]
+description = "Generate binary"
+initial_message = "Generate binary..."
+commands = [
+"""
+pyinstaller binary.spec
+python -c '
+import platform
+import shutil
+if platform.system() == "Linux":
+    shutil.move("./dist/zshpower", "./binary/linux/zshpower")
+elif platform.system() == "Darwin":
+    shutil.move("./dist/zshpower", "./binary/macos/zshpower")
+'
+"""
+]
+final_message = "Generate binary terminated!"
 
 [linters]
 description = "Checks if the project structure is in accordance with certain linters."
-header = "Checking project structure with linters ..."
+initial_message = "Checking project structure with linters ..."
 commands = [
-    """
-            poetry run flake8 snakypy/ tests/;
-            poetry run mypy snakypy/ tests/;
-            poetry run isort --profile black snakypy/ tests/ --check-only;
-            poetry run black snakypy/ tests/ --check;
+"""
+poetry run flake8 snakypy/ tests/;
+poetry run mypy snakypy/ tests/;
+poetry run isort --profile black snakypy/ tests/ --check-only;
+poetry run black snakypy/ tests/ --check;
 """
 ]
-footer = "Linter command terminated!"
+final_message = "Linter command terminated!"
 
 [fixup]
 description = "Corrects the project structure with certain tools."
-header = "Correcting the project structure ..."
+initial_message = "Correcting the project structure ..."
 commands = [
-    """
-            poetry run isort --profile black snakypy/ tests/;
-            poetry run black snakypy/ tests/;
+"""
+poetry run isort --profile black snakypy/ tests/;
+poetry run black snakypy/ tests/;
 """
 ]
-footer = "Command to correct structure finished!"
+final_message = "Command to correct structure finished!"
 
 [clean]
 description = "Removes insignificant objects."
-header = "Starting object cleanup ..."
+initial_message = "Starting object cleanup ..."
 commands = [
-    """
-            rm -rf dist;
-            rm -rf .pytest_cache;
-            rm -rf .tox;
-            rm -rf .mypy_cache;
-            rm -rf docs/_build;
+"""
+rm -rf dist;
+rm -rf .pytest_cache;
+rm -rf .tox;
+rm -rf .mypy_cache;
+rm -rf docs/_build;
 """
 ]
-footer = "Cleaning command finished!"
+final_message = "Cleaning command finished!"
 
 [pypi]
 #
 # Add configuration: poetry config repositories.pypi https://upload.pypi.org/legacy/
 #
 description = "Publish this project to the Pypi repository."
-header = "Publishing package to the Pypi repository ..."
+initial_message = "Publishing package to the Pypi repository ..."
 commands = [
-    """
-            rm -f dist/*;
-            python -m snakypy.zshpower;
-            poetry build;
-            poetry publish -r pypi -u williamcanin;
+"""
+rm -f dist/*;
+python -m snakypy.zshpower;
+poetry build;
+poetry publish -r pypi -u williamcanin;
 """
 ]
-footer = "Publishing command terminated!"
+final_message = "Publishing command terminated!"
 
 [testpypi]
 #
 # Add configuration: poetry config repositories.testpypi https://test.pypi.org/legacy/
 #
 description = "Publish this project to the TestPypi repository."
-header = "Publishing package to the TestPypi repository ..."
+initial_message = "Publishing package to the TestPypi repository ..."
 commands = [
-    """
-            rm -f dist/*;
-            python -m snakypy.zshpower;
-            poetry build;
-            poetry publish -r testpypi -u williamcanin;
+"""
+rm -f dist/*;
+python -m snakypy.zshpower;
+poetry build;
+poetry publish -r testpypi -u williamcanin;
 """
 ]
-footer = "Publishing command terminated!"
+final_message = "Publishing command terminated!"
