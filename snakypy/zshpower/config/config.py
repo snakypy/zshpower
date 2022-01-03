@@ -49,9 +49,9 @@ position = [
 
 [command]
 new_line.enable = true
-symbol = "\\u276f"
+symbol = "\\uf553"
 color = "green"
-error.symbol = "\\u276f"
+error.symbol = "\\uf553"
 error.color = "red"
 
 [c]
@@ -244,7 +244,7 @@ version.enable = false
 version.micro.enable = true
 
 [nodejs]
-symbol = "\\uf898"
+symbol = "\\ue718"
 color = "green"
 prefix.color = "negative"
 prefix.text = "via"
@@ -261,7 +261,7 @@ version.micro.enable = true
 
 [package]
 enable = false
-symbol = "\\uf8d6"
+symbol = "\\uf487"
 display = [
     "python",
     "ruby",
