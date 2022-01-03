@@ -4,7 +4,8 @@ from subprocess import call
 from time import sleep
 
 from snakypy.helpers import FG, printer
-from snakypy.helpers.catches import is_tool, shell, whoami
+from snakypy.helpers.catches import is_tool
+from snakypy.helpers.checking import shell, whoami
 from snakypy.helpers.files import read_file
 from snakypy.helpers.logging import Log
 from tomlkit import parse as toml_parse

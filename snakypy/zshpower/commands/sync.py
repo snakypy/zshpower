@@ -2,7 +2,7 @@ import sys
 from sqlite3 import OperationalError
 
 from snakypy.helpers import FG
-from snakypy.helpers.catches.generic import whoami
+from snakypy.helpers.checking import whoami
 from snakypy.helpers.console import printer
 
 from snakypy.zshpower.commands.utils.handle import records

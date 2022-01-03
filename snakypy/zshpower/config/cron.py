@@ -1,4 +1,4 @@
-from snakypy.helpers.catches import whoami
+from snakypy.helpers.checking import whoami
 
 from snakypy.zshpower import HOME
 

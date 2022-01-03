@@ -3,7 +3,6 @@ from shutil import which
 from sys import exit
 
 from snakypy.helpers import FG, printer
-from snakypy.helpers.decorators import only_linux
 from snakypy.helpers.logging import Log
 
 from snakypy.zshpower import __info__
@@ -16,7 +15,6 @@ def is_blank_file(filepath: str) -> bool:
     return isfile(filepath) and getsize(filepath) == 0
 
 
-@only_linux
 def tools_requirements(*args) -> bool:
     """
     Function that looks for the necessary tools, if it doesn't find them,

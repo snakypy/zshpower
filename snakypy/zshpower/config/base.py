@@ -1,6 +1,6 @@
 from os.path import join
 
-from snakypy.helpers.catches import whoami
+from snakypy.helpers.checking import whoami
 from snakypy.helpers.logging import Log
 from snakypy.helpers.path import create as create_path
 
