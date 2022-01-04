@@ -146,6 +146,7 @@ docs/zshpower*.rst
 # Ignore folder temporary.
 tmp/
 temp/
+binary/
 
 # Ignore Poetry lock
 poetry.lock
