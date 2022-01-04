@@ -193,3 +193,7 @@ def main() -> None:
         stdout.write(Draw().prompt())
     elif len(sys_argv) == 2 and sys_argv[1] == "rprompt":
         stdout.write(Draw().rprompt())
+
+
+if __name__ == "__main__":
+    main()
