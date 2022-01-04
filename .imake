@@ -27,7 +27,8 @@ description = "Generate binary"
 initial_message = "Generate binary..."
 commands = [
 """
-pyinstaller binary.spec
+pyinstaller binary-command.spec
+pyinstaller binary-draw.spec
 python -c '
 import platform
 import shutil
@@ -37,8 +38,10 @@ Path(join("binary", "linux")).mkdir(parents=True, exist_ok=True)
 Path(join("binary", "macos")).mkdir(parents=True, exist_ok=True)
 if platform.system() == "Linux":
     shutil.move(join("dist", "zshpower"), join("binary", "linux", "zshpower"))
+    shutil.move(join("dist", "zshpower-draw"), join("binary", "linux", "zshpower-draw"))
 elif platform.system() == "Darwin":
     shutil.move(join("dist", "zshpower"), join("binary", "macos", "zshpower"))
+    shutil.move(join("dist", "zshpower-draw"), join("binary", "macos", "zshpower-draw"))
 '
 """
 ]
