@@ -1,6 +1,7 @@
 from os import environ, geteuid
 from pathlib import Path
 from subprocess import run
+from os import access, W_OK
 
 from snakypy.zshpower.utils.catch import get_key
 from snakypy.zshpower.utils.check import str_empty_in
@@ -72,8 +73,13 @@ class Directory:
 
         if dir_truncate.split("/")[-1:] == str(Path.home()).split("/")[-1:]:
             dir_truncate = "~"
+
+        if not access(get_pwd(), W_OK):
+            lock_symbol = f"{Color('red')}{self.lock_symbol}{Color().NONE}"
+        else:
+            lock_symbol = ""
         return (
             f"{prefix}{Color(self.color)}{self.symbol}"
             f"{dir_truncate}{space_elem}{Color().NONE}"
-            f"{Color('red')}{self.lock_symbol}{Color().NONE}"
+            f"{lock_symbol}"
         )
