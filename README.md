@@ -290,6 +290,8 @@ The **ZSHPower** configuration file is very intuitive, and just a glance gives y
 * **enable** - If it is "true", it will activate the functionality where the "enable" key is.
 
 * **symbol** - Must receive an icon, whether in unicode or not.
+*
+* **lock.symbol** - It will appear when there is a directory without certain permissions.
 
 * **color** - Change the color of a particular block. Supported colors are: `black|white|blue|red|cyan|magenta|green|yellow`
 
