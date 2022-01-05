@@ -103,7 +103,12 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
 # PATH local user
-PATH="$HOME/.local/bin:$PATH"
+if [ $(uname -s) == "Darwin") ]; then
+  py_version=$(python3 -c 'import sys; sys.stdout.write(f"{{sys.version_info[0]}}.{{sys.version_info[1]}}")')
+  export PATH=$PATH:$HOME/Library/Python/${{py_version}}/bin
+else
+  PATH="$HOME/.local/bin:$PATH"
+fi
 export PATH
     """
 
