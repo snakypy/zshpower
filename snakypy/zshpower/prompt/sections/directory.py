@@ -35,6 +35,7 @@ class Directory:
         self.hostname_enable = get_key(config, "hostname", "enable")
         self.truncate_value = get_key(config, "directory", "truncation_length")
         self.symbol = symbol_ssh(get_key(config, "directory", "symbol"), "")
+        self.lock_symbol = symbol_ssh(get_key(config, "directory", "lock", "symbol"), "")
         self.color = (
             get_key(config, "directory", "color")
             if get_key(config, "general", "color", "enable") is True
@@ -74,4 +75,5 @@ class Directory:
         return (
             f"{prefix}{Color(self.color)}{self.symbol}"
             f"{dir_truncate}{space_elem}{Color().NONE}"
+            f"{Color('red')}{self.lock_symbol}{Color().NONE}"
         )

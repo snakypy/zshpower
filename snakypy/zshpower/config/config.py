@@ -105,6 +105,7 @@ version.micro.enable = true
 [directory]
 truncation_length = 1
 symbol = "\\ue5fe"
+lock.symbol = "\\uf023"
 color = "cyan"
 prefix.color = "negative"
 prefix.text = "in"
