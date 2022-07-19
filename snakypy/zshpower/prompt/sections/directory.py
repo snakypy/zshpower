@@ -1,7 +1,6 @@
-from os import environ, geteuid
+from os import W_OK, access, environ, geteuid
 from pathlib import Path
 from subprocess import run
-from os import access, W_OK
 
 from snakypy.zshpower.utils.catch import get_key
 from snakypy.zshpower.utils.check import str_empty_in
@@ -36,7 +35,9 @@ class Directory:
         self.hostname_enable = get_key(config, "hostname", "enable")
         self.truncate_value = get_key(config, "directory", "truncation_length")
         self.symbol = symbol_ssh(get_key(config, "directory", "symbol"), "")
-        self.lock_symbol = symbol_ssh(get_key(config, "directory", "lock", "symbol"), "")
+        self.lock_symbol = symbol_ssh(
+            get_key(config, "directory", "lock", "symbol"), ""
+        )
         self.color = (
             get_key(config, "directory", "color")
             if get_key(config, "general", "color", "enable") is True
