@@ -1,5 +1,6 @@
 from os import environ, getcwd
 from os.path import exists, getsize, isdir, isfile, join
+from shutil import which
 from sys import version_info
 
 from snakypy.helpers.catches import is_tool
@@ -60,7 +61,7 @@ class Python:
     def get_version(self, space_elem: str = " ") -> str:
 
         # Checking if you use Python through pyenv or the system.
-        if isdir(join(HOME, ".pyenv")):
+        if isdir(join(HOME, ".pyenv")) or which("pyenv"):
 
             pyenv_file_local = join(getcwd(), self.finder["files"][3])
             pyenv_file_global = join(HOME, ".pyenv/version")

@@ -1,6 +1,6 @@
 from functools import reduce
 from os import listdir
-from os.path import join, splitext
+from os.path import splitext
 from re import M
 from re import search as re_search
 from typing import Any, Union
@@ -96,6 +96,7 @@ def verify_objects(directory: str, /, data: dict) -> bool:
     Checks whether there are objects from a particular directory.
     These can be folders, files and file extensions.
     """
+
     if type(data) is not dict:
         raise TypeError("Data parameter must be a dictionary.")
 
@@ -104,52 +105,84 @@ def verify_objects(directory: str, /, data: dict) -> bool:
             "The dictionary does not contain one of the following keys: 'files', 'folders', 'extensions'."
         )
 
-    objects_in_directory = listdir(directory)
+    objects = listdir(directory)
 
-    def files_folders(key):
+    for folder in data["folders"]:
+        if folder in objects:
+            return True
 
-        # The "strictly" key will check whether the dictionary keys (files and folders) are tuples or lists.
-        # If you use tuples, it means that the search must be rigorous, that is, if there is no such object,
-        # the return will always be False.
+    for file in data["files"]:
+        if file in objects:
+            return True
 
-        # If you use list in "files" or "folders", the search is tolerant, that is, if it finds a single object,
-        # the return will always be True.
+    for o in objects:
+        ext = splitext(o)[-1]
+        if ext and ext in data["extensions"]:
+            return True
 
-        strictly = False
+    return False
 
-        if data[key]:
-            if type(data[key]) is tuple:
-                strictly = True
-            for item in data[key]:
-                if strictly is False:
-                    if item in objects_in_directory:
-                        return True
-                    return False
-                else:
-                    if item not in objects_in_directory:
-                        return False
-                    return True
-        return False
 
-    def finder_extensions():
-        if data["extensions"]:
-            lst = []
-            for ext in data["extensions"]:
-                for file in objects_in_directory:
-                    if file.endswith(ext):
-                        lst.append(join(directory, file))
+# # DEPRECATED
+# def verify_objects(directory: str, /, data: dict) -> bool:
+#     """
+#     Checks whether there are objects from a particular directory.
+#     These can be folders, files and file extensions.
+#     """
+#     if type(data) is not dict:
+#         raise TypeError("Data parameter must be a dictionary.")
 
-            e = [splitext(f)[-1] for f in lst]
-            for ext in data["extensions"]:
-                if ext in e:
-                    return True
-        return False
+#     if "files" not in data or "folders" not in data or "extensions" not in data:
+#         raise TypeError(
+#             "The dictionary does not contain one of the following keys: 'files', 'folders', 'extensions'."
+#         )
 
-    files = files_folders("files")
-    folders = files_folders("folders")
-    extensions = finder_extensions()
+#     objects_in_directory = listdir(directory)
 
-    if (files is False and folders is False) and extensions is False:
-        return False
+#     def files_folders(key):
 
-    return True
+#         # The "strictly" key will check whether the dictionary keys (files and folders) are tuples or lists.
+#         # If you use tuples, it means that the search must be rigorous, that is, if there is no such object,
+#         # the return will always be False.
+
+#         # If you use list in "files" or "folders", the search is tolerant, that is, if it finds a single object,
+#         # the return will always be True.
+
+#         strictly = False
+
+#         if data[key]:
+#             if type(data[key]) is tuple:
+#                 strictly = True
+#             for item in data[key]:
+#                 if strictly is False:
+#                     if item in objects_in_directory:
+#                         return True
+#                     return False
+#                 else:
+#                     if item not in objects_in_directory:
+#                         return False
+#                     return True
+#         return False
+
+#     def finder_extensions():
+#         if data["extensions"]:
+#             lst = []
+#             for ext in data["extensions"]:
+#                 for file in objects_in_directory:
+#                     if file.endswith(ext):
+#                         lst.append(join(directory, file))
+
+#             e = [splitext(f)[-1] for f in lst]
+#             for ext in data["extensions"]:
+#                 if ext in e:
+#                     return True
+#         return False
+
+#     files = files_folders("files")
+#     folders = files_folders("folders")
+#     extensions = finder_extensions()
+
+#     if (files is False and folders is False) and extensions is False:
+#         return False
+
+#     return True
