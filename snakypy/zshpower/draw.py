@@ -60,6 +60,9 @@ from snakypy.zshpower.utils.modifiers import create_toml
 # ## Test timer ## #
 # from snakypy.helpers.decorators import runtime
 
+# # Silent errors
+# from snakypy.helpers.decorators import silent_errors
+
 
 class Draw(DAO):
     def __init__(self):
