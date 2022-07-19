@@ -95,6 +95,7 @@ class Python:
     def __str__(self):
         if self.enable:
             if is_tool("python") or is_tool("python3"):
+                # TODO: Não está mostrando versão pyenv com aquivo .python-version no diretorio
                 if (
                     verify_objects(getcwd(), data=self.finder) is True
                     or "VIRTUAL_ENV" in environ
