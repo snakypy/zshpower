@@ -141,10 +141,12 @@ def install_fonts(home: str, logfile: str, *, force: bool = False) -> bool:
     base_url = "raw/main/zshpower/fonts/terminal/fonts.zip"
     font_name = "DejaVu Sans Mono Nerd Font"
     fonts_dir = join(home, ".fonts")
+    if platform.startswith("darwin"):
+        fonts_dir = join(home, "Library", "Fonts")
     create_path(fonts_dir)
     curl_output = join(home, "zshpower__font.zip")
 
-    if platform.startswith("linux"):
+    if platform.startswith("linux") or platform.startswith("darwin"):
         try:
             if (
                 not isfile(join(fonts_dir, "DejaVu Sans Mono Nerd Font Complete.ttf"))
@@ -216,7 +218,7 @@ def pip_uninstall(*, packages: tuple = ()) -> tuple:
     if which("pip") is not None:
         for pkg in packages:
             check_output(
-                f"pip uninstall {pkg} -y",
+                f"pip3 uninstall {pkg} -y",
                 shell=True,
                 universal_newlines=True,
             )

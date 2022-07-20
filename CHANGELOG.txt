@@ -1,0 +1,3 @@
+0.12.0
+  * Updating project dependency libraries.
+  * Fixing bug when showing Python version.

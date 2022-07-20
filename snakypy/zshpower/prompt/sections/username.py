@@ -1,7 +1,7 @@
 from os import environ as os_environ
 from os import geteuid
 
-from snakypy.helpers.catches import whoami
+from snakypy.helpers.checking import whoami
 
 from snakypy.zshpower.utils.catch import get_key
 

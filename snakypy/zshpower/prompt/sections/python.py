@@ -1,5 +1,6 @@
 from os import environ, getcwd
-from os.path import exists, isdir, isfile, join
+from os.path import exists, getsize, isdir, isfile, join
+from shutil import which
 from sys import version_info
 
 from snakypy.helpers.catches import is_tool
@@ -18,9 +19,12 @@ from snakypy.zshpower.utils.catch import get_key, verify_objects
 def definitive_version(
     micro_version_enable: bool, python_version: list, space_elem: str
 ):
-    if not micro_version_enable:
-        return f"{'{0[0]}.{0[1]}'.format(python_version)}{space_elem}"
-    return f"{'{0[0]}.{0[1]}.{0[2]}'.format(python_version)}{space_elem}"
+    try:
+        if not micro_version_enable:
+            return f"{'{0[0]}.{0[1]}'.format(python_version)}{space_elem}"
+        return f"{'{0[0]}.{0[1]}.{0[2]}'.format(python_version)}{space_elem}"
+    except IndexError:
+        return f"error{space_elem}"
 
 
 class Python:
@@ -57,12 +61,14 @@ class Python:
     def get_version(self, space_elem: str = " ") -> str:
 
         # Checking if you use Python through pyenv or the system.
-        if isdir(join(HOME, ".pyenv")):
+        if isdir(join(HOME, ".pyenv")) or which("pyenv"):
 
             pyenv_file_local = join(getcwd(), self.finder["files"][3])
             pyenv_file_global = join(HOME, ".pyenv/version")
 
             if exists(pyenv_file_local):
+                if getsize(pyenv_file_local) == 0:
+                    return f"undefined{space_elem}"
                 if read_file(pyenv_file_local).strip() == "system":
                     python_version = (
                         f"{'{0[0]}.{0[1]}.{0[2]}'.format(version_info)}".split(".")
@@ -70,6 +76,8 @@ class Python:
                 else:
                     python_version = read_file(pyenv_file_local).strip().split(".")
             elif exists(pyenv_file_global):
+                if getsize(pyenv_file_global) == 0:
+                    return f"undefined{space_elem}"
                 if read_file(pyenv_file_global).strip() == "system":
                     python_version = (
                         f"{'{0[0]}.{0[1]}.{0[2]}'.format(version_info)}".split(".")

@@ -48,7 +48,7 @@
 <br>
 <br>
 
-**ZSHPower** is a theme for [ZSH](https://www.zsh.org/); especially for the developer of various programming languages and [Linux](https://www.kernel.org/) users. Pleasant to look at, the **ZSHPower** comforts you with its vibrant colors and icons.
+**ZSHPower** is a theme for [ZSH](https://www.zsh.org/); especially for the developer of various programming languages and users [Linux](https://www.kernel.org/) and [macOS](https://www.apple.com/macos/). Pleasant to look at, the **ZSHPower** comforts you with its vibrant colors and icons.
 
 Installing **ZSHPower** is the easiest thing you will see in any existing theme for **ZSH**, because there is a manager.
 
@@ -150,8 +150,15 @@ sudo dnf install zsh vim curl git sqlite python3 python3-pip util-linux-user
 
 2 - Adding user's bin path to PATH:
 
+Linux:
 ```shell
-export PATH="$PATH:$HOME/.local/bin"
+export PATH=$PATH:$HOME/.local/bin
+```
+
+macOS:
+```shell
+py_version=$(python3 -c 'import sys; sys.stdout.write(f"{sys.version_info[0]}.{sys.version_info[1]}")')
+export PATH=$PATH:$HOME/Library/Python/${py_version}/bin
 ```
 
 2.1 - Switch from **Bash** to **Zsh** and export PATH's (**Optional**):
@@ -283,6 +290,8 @@ The **ZSHPower** configuration file is very intuitive, and just a glance gives y
 * **enable** - If it is "true", it will activate the functionality where the "enable" key is.
 
 * **symbol** - Must receive an icon, whether in unicode or not.
+*
+* **lock.symbol** - It will appear when there is a directory without certain permissions.
 
 * **color** - Change the color of a particular block. Supported colors are: `black|white|blue|red|cyan|magenta|green|yellow`
 

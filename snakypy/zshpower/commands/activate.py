@@ -1,6 +1,6 @@
 from snakypy.helpers import printer
 from snakypy.helpers.ansi import FG
-from snakypy.helpers.catches.generic import whoami
+from snakypy.helpers.checking import whoami
 
 from snakypy.zshpower.config.base import Base
 from snakypy.zshpower.utils.catch import get_zsh_theme

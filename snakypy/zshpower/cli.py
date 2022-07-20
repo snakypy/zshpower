@@ -2,17 +2,13 @@
 from sys import exit
 
 from snakypy.helpers import FG, printer
+from snakypy.helpers.decorators import denying_os
 
-from snakypy.zshpower.commands.cron import Cron
-
-try:
-    from snakypy.helpers.decorators import only_linux
-except KeyboardInterrupt:
-    pass
 from snakypy.zshpower import HOME
 from snakypy.zshpower.commands.activate import ActivateCommand
 from snakypy.zshpower.commands.config import ConfigCommand
 from snakypy.zshpower.commands.credits import CreditsCommand
+from snakypy.zshpower.commands.cron import Cron
 from snakypy.zshpower.commands.deactivate import DeactivateCommand
 from snakypy.zshpower.commands.init import InitCommand
 from snakypy.zshpower.commands.logs import LogsCommand
@@ -77,7 +73,7 @@ def run_credits() -> None:
 
 
 # @silent_errors
-@only_linux
+@denying_os("Windows")
 def main() -> None:
     try:
         run_init()
@@ -93,3 +89,7 @@ def main() -> None:
     except KeyboardInterrupt:
         printer("Aborted by user.", foreground=FG().WARNING)
         exit(0)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,6 +1,6 @@
 from os.path import join
 
-from snakypy.helpers.catches import whoami
+from snakypy.helpers.checking import whoami
 from snakypy.helpers.logging import Log
 from snakypy.helpers.path import create as create_path
 
@@ -20,17 +20,16 @@ class Base:
         self.cache_root = join(self.zshpower_home, ".cache")
         self.logfile = join(self.zshpower_home, ".cache", "zshpower.log")
         self.database_path = join(self.database_root, "zshpower.sqlite3")
-        # self.sync_path = f"/usr/local/bin/{__info__['pkg_name']}_sync.zsh"
         self.cron_d_path = "/etc/cron.d/"
         self.cron_path = join(self.cron_d_path, f"{__info__['pkg_name']}__{whoami()}")
-        self.lib_main = join(self.lib_root, "main.lib")
+        self.lib_main = join(self.lib_root, "bootstrap.lib")
         self.zsh_rc = join(self.HOME, ".zshrc")
         self.omz_root = join(self.HOME, ".oh-my-zsh")
         self.themes_folder = join(self.omz_root, "custom/themes")
         self.theme_symlink = join(
             self.themes_folder, f"{__info__['pkg_name']}.zsh-theme"
         )
-        self.source_code = f".{__info__['pkg_name']}/lib/main.lib"
+        self.source_code = f".{__info__['pkg_name']}/lib/bootstrap.lib"
         self.plugins = ("zsh-syntax-highlighting", "zsh-autosuggestions")
         create_path(self.cache_root)
         self.log = Log(self.logfile)

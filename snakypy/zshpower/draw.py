@@ -3,10 +3,9 @@ from contextlib import suppress
 from sqlite3 import OperationalError
 from sys import argv as sys_argv
 from sys import stdout
-from typing import Any
 
 from snakypy.helpers import FG, printer
-from snakypy.helpers.decorators import only_linux
+from snakypy.helpers.decorators import denying_os
 from snakypy.helpers.files import read_file
 from snakypy.helpers.path import create as create_path
 from tomlkit import parse as toml_parse
@@ -60,6 +59,9 @@ from snakypy.zshpower.utils.modifiers import create_toml
 
 # ## Test timer ## #
 # from snakypy.helpers.decorators import runtime
+
+# # Silent errors
+# from snakypy.helpers.decorators import silent_errors
 
 
 class Draw(DAO):
@@ -161,7 +163,7 @@ class Draw(DAO):
         return sections_order
 
     # @runtime
-    def prompt(self, took: Any = 0) -> str:
+    def prompt(self, elapsed: float = 0.0) -> str:
         with suppress(KeyboardInterrupt):
             dynamic_sections = self.dynamic_sections()
             if not dynamic_sections:
@@ -173,7 +175,7 @@ class Draw(DAO):
                 f"{Directory(self.config)}"
             )
             cmd = Command(self.config)
-            took_ = Took(self.config, took)
+            took_ = Took(self.config, elapsed)
             structure = "{}{}{}" + "{}" * len(dynamic_sections)
             return structure.format(static_section, *dynamic_sections, took_, cmd)
         return ">>> "
@@ -184,13 +186,17 @@ class Draw(DAO):
 
 
 # @silent_errors
-@only_linux
+@denying_os("Windows")
 def main() -> None:
     if len(sys_argv) < 2:
         raise TypeError("missing 1 required positional argument")
     if len(sys_argv) == 3 and sys_argv[1] == "prompt" and sys_argv[2]:
-        stdout.write(Draw().prompt(took=sys_argv[2]))
+        stdout.write(Draw().prompt(elapsed=float(sys_argv[2])))
     elif len(sys_argv) == 2 and sys_argv[1] == "prompt":
         stdout.write(Draw().prompt())
     elif len(sys_argv) == 2 and sys_argv[1] == "rprompt":
         stdout.write(Draw().rprompt())
+
+
+if __name__ == "__main__":
+    main()
