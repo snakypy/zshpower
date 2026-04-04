@@ -477,8 +477,8 @@ $ zshpower --help
 Click on the image below to be redirected the donation forms:
 
 <div class="donate">
-  <a href="https://github.com/snakypy/donations/blob/main/README.md">
-    <img width="160" height="100" src="https://raw.githubusercontent.com/snakypy/donations/main/svg/donate/donate-hand.svg" alt="Donations">
+  <a href="https://williamcanin.github.io/donate/">
+    <img width="160" height="100" src="https://raw.githubusercontent.com/snakypy/assets/refs/heads/main/snakypy/images/donate.svg" alt="Donations">
   </a>
 </div>
 
