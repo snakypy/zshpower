@@ -48,5 +48,5 @@ tomlkit==0.7.2; (python_version >= "2.7" and python_full_version < "3.0.0") or (
 tox==3.24.5; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.5.0")
 traitlets==5.1.1; python_version >= "3.7"
 typing-extensions==4.0.1
-virtualenv==20.12.1; python_full_version >= "3.6.1"
+virtualenv==21.6.1; python_full_version >= "3.6.1"
 wcwidth==0.2.5; python_full_version >= "3.6.2" and python_version >= "3.7"
