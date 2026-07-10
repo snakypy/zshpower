@@ -1,6 +1,6 @@
 appnope==0.1.2; sys_platform == "darwin" and python_version >= "3.7"
 atomicwrites==1.4.0; python_version >= "3.6" and python_full_version < "3.0.0" and sys_platform == "win32" or sys_platform == "win32" and python_version >= "3.6" and python_full_version >= "3.4.0"
-attrs==21.4.0; python_version >= "3.6" and python_full_version < "3.0.0" or python_full_version >= "3.5.0" and python_version >= "3.6"
+attrs==26.1.0; python_version >= "3.6" and python_full_version < "3.0.0" or python_full_version >= "3.5.0" and python_version >= "3.6"
 backcall==0.2.0; python_version >= "3.7"
 black==21.12b0; python_full_version >= "3.6.2"
 cfgv==3.3.1; python_full_version >= "3.6.1"
