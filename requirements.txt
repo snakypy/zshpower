@@ -45,7 +45,7 @@ snakypy-helpers==0.3.0; python_version >= "3.9" and python_version < "4.0"
 toml==0.10.2; python_full_version >= "3.6.1" and python_version >= "3.5" and (python_version >= "3.6" and python_full_version < "3.0.0" or python_full_version >= "3.3.0" and python_version >= "3.6") and (python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0")
 tomli==1.2.3; python_version >= "3.6" and python_full_version >= "3.6.2"
 tomlkit==0.7.2; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.5.0")
-tox==3.24.5; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.5.0")
+tox==4.56.4; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.5.0")
 traitlets==5.1.1; python_version >= "3.7"
 typing-extensions==4.0.1
 virtualenv==20.12.1; python_full_version >= "3.6.1"
